@@ -5,8 +5,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from logger import log_trade
 from paper_trader import enter_paper_trade, update_paper_trades, load_portfolio
 
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN") or os.getenv("BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("CHAT_ID")
 IST = pytz.timezone("Asia/Kolkata")
 
 # ===== FULL MARKET TICKERS - 262 STOCKS =====
