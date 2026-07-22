@@ -1,3 +1,4 @@
+
 import os, json, pandas as pd
 from datetime import datetime
 import pytz
@@ -9,14 +10,6 @@ CAPITAL = 100000
 RISK_PER_TRADE = 0.01
 
 COLUMNS = ["Date","Time_IST","Mode","Ticker","Entry_Price","Qty","SL","Target","Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"]
-
-def round_price(price):
-    if price >= 1000: return round(price, 2)
-    if price >= 100: return round(price, 2)
-    if price >= 1: return round(price, 2)
-    if price >= 0.1: return round(price, 4)
-    if price >= 0.01: return round(price, 6)
-    return round(price, 8)
 
 def load_portfolio():
     if os.path.exists(PORTFOLIO_FILE):
@@ -35,11 +28,8 @@ def save_portfolio(port):
 def calculate_qty(entry, sl, capital):
     risk_amt = capital * RISK_PER_TRADE
     risk_per_share = abs(entry - sl)
-    if risk_per_share == 0 or risk_per_share < 1e-9: 
-        return 0
+    if risk_per_share == 0: return 0
     qty = int(risk_amt / risk_per_share)
-    if entry < 1 and qty > 10000:
-        qty = int(10000)
     return max(1, qty)
 
 def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
@@ -51,16 +41,13 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     for pos in portfolio["open_positions"]:
         if pos["Ticker"] == ticker and pos["Status"] == "OPEN":
             print(f"[Paper] Duplicate blocked {ticker}"); return None
-    sl = round_price(entry_price * 0.98)
-    target = round_price(entry_price * 1.04)
-    entry = round_price(entry_price)
-    if sl == 0:
-        sl = round_price(entry * 0.98)
-    qty = calculate_qty(entry, sl, portfolio["capital"])
+    sl = round(entry_price * 0.98, 2)
+    target = round(entry_price * 1.04, 2)
+    qty = calculate_qty(entry_price, sl, portfolio["capital"])
     if qty == 0: return None
     trade = {
         "Date": date_str, "Time_IST": time_str, "Mode": mode, "Ticker": ticker,
-        "Entry_Price": entry, "Qty": qty, "SL": sl, "Target": target,
+        "Entry_Price": entry_price, "Qty": qty, "SL": sl, "Target": target,
         "Exit_Price": "", "Exit_Time": "", "P&L": "", "P&L_%": "", "Status": "OPEN", "Reason": reason
     }
     df_new = pd.DataFrame([trade])[COLUMNS]
@@ -72,7 +59,7 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     df_comb.to_csv(PAPER_FILE, index=False)
     portfolio["open_positions"].append(trade)
     save_portfolio(portfolio)
-    print(f"[Paper] ENTER {ticker} @ {entry} Qty {qty} SL {sl} TGT {target}")
+    print(f"[Paper] ENTER {ticker} @ {entry_price} Qty {qty} SL {sl} TGT {target}")
     return trade
 
 def update_paper_trades(current_prices_dict):
