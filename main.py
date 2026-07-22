@@ -243,7 +243,12 @@ if __name__ == "__main__":
             if gems:
                 lines.append(f"*{mkt} GEMS ({len(gems)}):*")
                 for g in gems[:7]:
-                    lines.append(f"• {g['ticker']} @ {fmt_price(g['close'])} | Score {g['score']} | {', '.join(g['sigs'][:2])} | RVOL {g['rvol']:.1f}x")
+                    sig_text = ", ".join(g['sigs'][:2])
+                    # Avoid duplicate RVOL
+                    if "RVOL" in sig_text:
+                        lines.append(f"• {g['ticker']} @ {fmt_price(g['close'])} | Score {g['score']} | {sig_text}")
+                    else:
+                        lines.append(f"• {g['ticker']} @ {fmt_price(g['close'])} | Score {g['score']} | {sig_text} | RVOL {g['rvol']:.1f}x")
                 lines.append("")
         if decay_gems:
             lines.append(f"*DECAY:* {decay_gems[0]['ticker']} | {decay_gems[0]['sigs'][0]}")
