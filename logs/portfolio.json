@@ -1,0 +1,21 @@
+{
+  "capital": 100000,
+  "open_positions": [
+    {
+      "Date": "2026-07-23",
+      "Time_IST": "00:01:28 IST",
+      "Mode": "CRYPTO",
+      "Ticker": "ARB-USD",
+      "Entry_Price": 0.0007570616435259581,
+      "Qty": 1320896,
+      "SL": 0.0,
+      "Target": 0.0,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Reason": "RVOL 20.0x, 20D Break 0>0 Score:6 RVOL:20.0x"
+    }
+  ]
+}

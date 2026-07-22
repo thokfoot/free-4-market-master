@@ -1,0 +1,2 @@
+Date,Time_IST,Mode,Ticker,Entry_Price,Qty,SL,Target,Exit_Price,Exit_Time,P&L,P&L_%,Status,Reason
+2026-07-23,00:01:28 IST,CRYPTO,ARB-USD,0.0007570616435259581,1320896,0.0,0.0,,,,,OPEN,"RVOL 20.0x, 20D Break 0>0 Score:6 RVOL:20.0x"
