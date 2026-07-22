@@ -1,4 +1,3 @@
-
 import os, pytz, requests, yfinance as yf, pandas as pd, json
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -20,76 +19,125 @@ def fmt_price(p):
         return f"{p:.8f}"
     except: return str(p)
 
-# ===== FULL MARKET TICKERS - 262 STOCKS =====
+# ===== TICKERS - FIXED ORDER, NO RANDOM SET SLICE =====
 def get_indian_tickers():
     nifty50 = ["RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS","SBIN.NS","BHARTIARTL.NS","ITC.NS","LT.NS","KOTAKBANK.NS","BAJFINANCE.NS","HINDUNILVR.NS","ASIANPAINT.NS","AXISBANK.NS","MARUTI.NS","TITAN.NS","SUNPHARMA.NS","ULTRACEMCO.NS","WIPRO.NS","NTPC.NS","HCLTECH.NS","POWERGRID.NS","ONGC.NS","M&M.NS","BAJAJFINSV.NS","ADANIENT.NS","ADANIPORTS.NS","COALINDIA.NS","HDFCLIFE.NS","SBILIFE.NS","TATASTEEL.NS","JSWSTEEL.NS","HINDALCO.NS","GRASIM.NS","CIPLA.NS","DRREDDY.NS","DIVISLAB.NS","EICHERMOT.NS","BAJAJ-AUTO.NS","HEROMOTOCO.NS","BRITANNIA.NS","NESTLEIND.NS","TATACONSUM.NS","APOLLOHOSP.NS","BPCL.NS","UPL.NS","TECHM.NS","INDUSINDBK.NS","TATAMOTORS.NS"]
     next50 = ["VEDL.NS","SAIL.NS","NMDC.NS","BANKBARODA.NS","PNB.NS","CANBK.NS","IDFCFIRSTB.NS","FEDERALBNK.NS","AUBANK.NS","BANDHANBNK.NS","INDIGO.NS","ZOMATO.NS","PAYTM.NS","NYKAA.NS","DMART.NS","TRENT.NS","ABFRL.NS","PIDILITIND.NS","BERGEPAINT.NS","CUMMINSIND.NS","ASHOKLEY.NS","MOTHERSON.NS","TVSMOTOR.NS","BAJAJHLDNG.NS","CHOLAFIN.NS","MUTHOOTFIN.NS","PFC.NS","RECLTD.NS","IRCTC.NS","IRFC.NS","HAL.NS","BEL.NS","BDL.NS","MAZDOCK.NS","COCHINSHIP.NS","RVNL.NS","IDEA.NS","TATAPOWER.NS","ADANIGREEN.NS","ADANIENSOL.NS","SUZLON.NS","KPITTECH.NS","PERSISTENT.NS","COFORGE.NS","MPHASIS.NS","LTTS.NS","TATAELXSI.NS","OFSS.NS","LTIM.NS","POLYCAB.NS","KEI.NS"]
-    return list(set(nifty50 + next50))
+    # Preserve order, remove duplicates (FIX: set() makes random order)
+    return list(dict.fromkeys(nifty50 + next50))
 
 def get_us_tickers():
     nasdaq100 = ["AAPL","MSFT","NVDA","AMZN","META","GOOGL","GOOG","TSLA","AVGO","COST","PEP","ADBE","CSCO","NFLX","AMD","INTC","QCOM","TXN","AMGN","INTU","ISRG","BKNG","GILD","REGN","VRTX","MDLZ","ADI","LRCX","KLAC","PANW","SNPS","CDNS","MAR","ORLY","MELI","ADSK","CTAS","CHTR","NXPI","PCAR","WDAY","ABNB","MNST","KDP","KHC","AEP","MRVL","CSX","FTNT","DASH","ODFL","FAST","PAYX","VRSK","CTSH","CPRT","ROST","BKR","EA","EXC","IDXX","GFS","TTD","DDOG","ZS","TEAM","ANSS","XEL","BIIB","WBA","ILMN","SIRI","SPLK","ALGN","LCID","RIVN","COIN","HOOD","PLTR","SMCI","ARM","MSTR","APP","SHOP","SQ","CRWD","NET","NOW","UBER","DKNG","RBLX"]
     sp_gems = ["JPM","BAC","WFC","GS","MS","BRK.B","JNJ","PFE","MRK","ABBV","UNH","CVX","XOM","COP","SLB","BA","CAT","DE","HON","LMT","RTX","NOC","FDX","UPS","NKE","SBUX","MCD","DIS","CMCSA","VZ","T","SPG","PLD","AMT","CCI","WMT","TGT","HD","LOW","PG","KO","CL"]
-    return list(set(nasdaq100 + sp_gems))[:110]
+    # FIX: No random set slice, preserve order
+    combined = list(dict.fromkeys(nasdaq100 + sp_gems))
+    return combined[:110]
 
 def get_crypto_tickers():
-    return ["BTC-USD","ETH-USD","BNB-USD","SOL-USD","XRP-USD","ADA-USD","DOGE-USD","AVAX-USD","DOT-USD","LINK-USD","TRX-USD","MATIC-USD","LTC-USD","BCH-USD","UNI-USD","ATOM-USD","ETC-USD","XLM-USD","FIL-USD","HBAR-USD","APT-USD","ARB-USD","OP-USD","NEAR-USD","VET-USD","ICP-USD","STX-USD","IMX-USD","TAO-USD","RENDER-USD","INJ-USD","SUI-USD","SEI-USD","PEPE-USD","BONK-USD","WIF-USD","FLOKI-USD","SHIB-USD","FET-USD","AGIX-USD","RNDR-USD","GRT-USD","AAVE-USD","MKR-USD","SNX-USD","COMP-USD","LDO-USD","RUNE-USD","KAS-USD","KCS-USD"]
+    # FIX: MATIC-USD -> POL-USD (Polygon rebrand), remove duplicate RNDR
+    return ["BTC-USD","ETH-USD","BNB-USD","SOL-USD","XRP-USD","ADA-USD","DOGE-USD","AVAX-USD","DOT-USD","LINK-USD","TRX-USD","POL-USD","LTC-USD","BCH-USD","UNI-USD","ATOM-USD","ETC-USD","XLM-USD","FIL-USD","HBAR-USD","APT-USD","ARB-USD","OP-USD","NEAR-USD","VET-USD","ICP-USD","STX-USD","IMX-USD","TAO-USD","RENDER-USD","INJ-USD","SUI-USD","SEI-USD","PEPE-USD","BONK-USD","WIF-USD","FLOKI-USD","SHIB-USD","FET-USD","GRT-USD","AAVE-USD","MKR-USD","SNX-USD","COMP-USD","LDO-USD","RUNE-USD","KAS-USD","KCS-USD"]
 
-# ===== GEM STRATEGIES - 5 FILTERS =====
+def calc_rsi(close, period=14):
+    try:
+        delta = close.diff()
+        gain = delta.where(delta>0, 0).rolling(period).mean()
+        loss = (-delta.where(delta<0, 0)).rolling(period).mean()
+        rs = gain / loss
+        rsi = 100 - (100 / (1 + rs))
+        return rsi
+    except: return pd.Series([50]*len(close), index=close.index)
+
+# ===== GEM STRATEGIES - 7 FILTERS (5 old + 2 new) =====
 def analyze_stock(df):
-    if len(df) < 30:
+    if len(df) < 50:  # Need 50 for SMA50
         return 0, []
     try:
         if isinstance(df.columns, pd.MultiIndex):
             df.columns = df.columns.get_level_values(0)
-        close = df["Close"]; vol = df["Volume"]; high = df["High"]; low = df["Low"]
+        close = df["Close"]; vol = df["Volume"]; high = df["High"]; low = df["Low"]; op = df["Open"]
         vol_avg_20 = vol.rolling(20).mean()
         last = df.iloc[-1]; prev = df.iloc[-2]
-        rvol = float(last["Volume"] / vol_avg_20.iloc[-1]) if vol_avg_20.iloc[-1] > 0 else 0
+        
+        # RVOL with safety
+        vol_avg_last = float(vol_avg_20.iloc[-1]) if not pd.isna(vol_avg_20.iloc[-1]) else 0
+        rvol = float(last["Volume"] / vol_avg_last) if vol_avg_last > 0 else 0
+        # Cap unrealistic RVOL > 15 (data glitch like ARB 20x)
+        rvol_capped = min(rvol, 15.0)
+
         sma20 = close.rolling(20).mean().iloc[-1]
         sma50 = close.rolling(50).mean().iloc[-1]
+        ema9 = close.ewm(span=9).mean().iloc[-1]
+        ema21 = close.ewm(span=21).mean().iloc[-1]
+        rsi = calc_rsi(close).iloc[-1]
+
         typical = (high + low + close) / 3
         vwap = (typical * vol).rolling(20).sum() / vol.rolling(20).sum()
-        vwap_last = float(vwap.iloc[-1]); vwap_prev = float(vwap.iloc[-2])
-        high_20 = float(high.rolling(20).max().iloc[-2])
-        low_5 = float(low.rolling(5).min().iloc[-2])
+        vwap_last = float(vwap.iloc[-1]) if not pd.isna(vwap.iloc[-1]) else 0
+        vwap_prev = float(vwap.iloc[-2]) if not pd.isna(vwap.iloc[-2]) else 0
+        high_20 = float(high.rolling(20).max().iloc[-2]) if not pd.isna(high.rolling(20).max().iloc[-2]) else 0
+        low_5 = float(low.rolling(5).min().iloc[-2]) if not pd.isna(low.rolling(5).min().iloc[-2]) else 0
+
+        if pd.isna(sma20) or pd.isna(sma50): return 0, []
+
         signals = []; score = 0
-        # 1 RVOL GEM
+
+        # 1 RVOL GEM - Core
         if rvol >= 2.0 and float(last["Close"]) > float(prev["Close"]):
-            signals.append(f"RVOL {rvol:.1f}x"); score += 2
+            signals.append(f"RVOL {rvol_capped:.1f}x"); score += 2
             if rvol >= 3.0: score += 1
-        # 2 Breakout
-        if float(last["Close"]) > high_20 and float(last["Volume"]) > float(vol_avg_20.iloc[-1])*1.5:
+
+        # 2 Breakout - 20D high + volume
+        if float(last["Close"]) > high_20 and float(last["Volume"]) > vol_avg_last*1.5 and high_20>0:
             if float(last["Close"]) >= 1:
-                signals.append(f"20D Break {float(last['Close']):.1f}>{high_20:.1f}")
+                signals.append(f"20D Break {fmt_price(float(last['Close']))}>{fmt_price(high_20)}")
             else:
                 signals.append(f"20D Breakout")
             score += 2
+
         # 3 VWAP Reclaim
-        if float(prev["Close"]) < vwap_prev and float(last["Close"]) > vwap_last and rvol > 1.3:
+        if float(prev["Close"]) < vwap_prev and float(last["Close"]) > vwap_last and rvol > 1.3 and vwap_last>0:
             signals.append("VWAP Reclaim"); score += 1
-        # 4 Liquidity Sweep
-        if float(last["Low"]) < low_5 * 0.998 and float(last["Close"]) > low_5 and float(last["Close"]) > float(prev["Open"]):
+
+        # 4 Liquidity Sweep - Stop hunt reversal
+        if low_5>0 and float(last["Low"]) < low_5 * 0.998 and float(last["Close"]) > low_5 and float(last["Close"]) > float(prev["Open"]):
             if rvol > 1.2:
                 signals.append("Liq Sweep"); score += 2
-        # 5 Trend Pullback
+
+        # 5 Trend Pullback - Uptrend buy dip
         if float(last["Close"]) > sma20 > sma50 and float(prev["Low"]) <= sma20:
             signals.append("Trend Pullback"); score += 1
+
+        # 6 NEW: RSI Momentum - Avoid overbought >75, need momentum >55
+        if 55 <= rsi <= 75:
+            signals.append(f"RSI {rsi:.0f}"); score += 1
+
+        # 7 NEW: EMA Trend - EMA9 > EMA21 = uptrend
+        if ema9 > ema21 and float(last["Close"]) > ema9:
+            signals.append("EMA Bull"); score += 1
+
         return score, signals
     except Exception as e:
+        # print(f"[Analyze Error] {e}")
         return 0, []
 
 def scan_ticker(t):
     try:
         df = yf.download(t, period="3mo", interval="1d", progress=False, auto_adjust=True)
-        if len(df) < 30: return None
+        if len(df) < 50: return None
         score, sigs = analyze_stock(df)
-        if score >= 2:
-            rvol = float(df.iloc[-1]["Volume"] / df["Volume"].rolling(20).mean().iloc[-1])
+        if score >= 2:  # Threshold
+            # RVOL calc with safety
+            vol_avg = float(df["Volume"].rolling(20).mean().iloc[-1])
+            last_vol = float(df.iloc[-1]["Volume"])
+            rvol = last_vol / vol_avg if vol_avg>0 else 0
+            rvol = min(rvol, 15.0)
             return {"ticker": t, "score": score, "close": float(df.iloc[-1]["Close"]), "sigs": sigs, "rvol": rvol}
-    except: return None
+    except Exception as e:
+        # print(f"[Scan Error {t}] {e}")
+        return None
     return None
 
-def scan_market(tickers, market_name, max_workers=20):
+def scan_market(tickers, market_name, max_workers=12):  # Reduced from 20 to avoid rate limit
     print(f"[{market_name}] Scanning {len(tickers)} stocks for GEMS...")
     gems = []
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -117,14 +165,14 @@ def send_telegram(msg):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     try:
         r = requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}, timeout=15)
-        print(f"[TG] {r.status_code}"); return r.status_code
+        print(f"[TG] {r.status_code} - {r.text[:100]}"); return r.status_code
     except Exception as e:
         print(f"[TG Error] {e}"); return None
 
 def scan_decay():
     now_ist = datetime.now(IST)
     signals = []
-    if now_ist.weekday() == 3:
+    if now_ist.weekday() == 3:  # Thursday
         try:
             df = yf.download("^NSEBANK", period="5d", interval="1d", progress=False)
             spot = float(df.iloc[-1]["Close"]) if len(df)>0 else 56000
@@ -139,7 +187,7 @@ if __name__ == "__main__":
     mode = get_mode()
     date_str = now_ist.strftime("%Y-%m-%d")
     time_str = now_ist.strftime("%H:%M:%S IST")
-    print(f"[BOT] v4 ULTIMATE GEM+PAPER {mode} - {date_str} {time_str}")
+    print(f"[BOT] v4.1 ULTIMATE 7-STRATEGY {mode} - {date_str} {time_str}")
 
     all_gems = {"INDIAN": [], "US": [], "CRYPTO": []}
     decay_gems = []
@@ -167,7 +215,7 @@ if __name__ == "__main__":
 
     closed_msgs = update_paper_trades(current_prices)
 
-    # Enter new - TOP GEMS ONLY to avoid overtrading
+    # Enter new - TOP GEMS ONLY
     to_enter = []
     if mode == "INDIAN":
         to_enter = all_gems["INDIAN"][:5] + decay_gems
@@ -190,7 +238,7 @@ if __name__ == "__main__":
         tg_code = send_telegram(msg)
         tg_status = f"Sent - {tg_code}"
     else:
-        lines = [f"💎 *v4 ULTIMATE {mode}* {date_str} {time_str}", f"Scanned 262 stocks | Cap: Rs {capital:.0f} | Open: {open_count}", ""]
+        lines = [f"💎 *v4.1 7-STRAT {mode}* {date_str} {time_str}", f"Scanned 262 stocks | Cap: Rs {capital:.0f} | Open: {open_count}", ""]
         for mkt, gems in all_gems.items():
             if gems:
                 lines.append(f"*{mkt} GEMS ({len(gems)}):*")
