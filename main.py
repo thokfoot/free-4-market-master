@@ -3,7 +3,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from logger import log_trade
 from paper_trader import enter_paper_trade, update_paper_trades, load_portfolio
-from config import MIN_SCORE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
+from config import MARKET_PARAMS, DEFAULT_SL_PCT, DEFAULT_TP_PCT, DEFAULT_HOLD_DAYS, DEFAULT_MIN_SCORE, DEFAULT_MAX_CONCURRENT, INITIAL_CAPITAL, ENABLE_EXPIRY_SCAN
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN") or os.getenv("BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("CHAT_ID")
@@ -89,7 +89,7 @@ def analyze_stock(df):
     except:
         return 0, []
 
-def scan_ticker(t):
+def scan_ticker(t, min_score=DEFAULT_MIN_SCORE):
     for attempt in range(3):
         try:
             df = yf.download(t, period="3mo", interval="1d", progress=False, auto_adjust=True)
@@ -99,7 +99,7 @@ def scan_ticker(t):
                     continue
                 return None
             score, sigs = analyze_stock(df)
-            if score >= MIN_SCORE:
+            if score >= min_score:
                 vol_avg = float(df["Volume"].rolling(20).mean().iloc[-1])
                 last_vol = float(df.iloc[-1]["Volume"])
                 rvol = last_vol / vol_avg if vol_avg>0 else 0
@@ -113,11 +113,11 @@ def scan_ticker(t):
             return None
     return None
 
-def scan_market(tickers, market_name, max_workers=8):
+def scan_market(tickers, market_name, max_workers=8, min_score=DEFAULT_MIN_SCORE):
     gems = []
     workers = 8 if market_name == "INDIAN" else 12
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        future_to_ticker = {executor.submit(scan_ticker, t): t for t in tickers}
+        future_to_ticker = {executor.submit(scan_ticker, t, min_score): t for t in tickers}
         for future in as_completed(future_to_ticker):
             try:
                 res = future.result()
@@ -198,18 +198,26 @@ if __name__ == "__main__":
         date_str = now_ist.strftime("%Y-%m-%d")
         time_str = now_ist.strftime("%H:%M:%S IST")
         print(f"[BOT] v4.2 NO-MISS 7-STRATEGY {mode} - {date_str} {time_str}")
-        print(f"[BOT] Config: Score>={MIN_SCORE} SL={SL_PCT*100:.0f}% TP={TP_PCT*100:.0f}% Hold={MAX_HOLD_DAYS}d Con={MAX_CONCURRENT}")
+        # Get market-specific params
+        mp = MARKET_PARAMS.get(mode, {
+            "SL_PCT": DEFAULT_SL_PCT, "TP_PCT": DEFAULT_TP_PCT,
+            "MAX_HOLD_DAYS": DEFAULT_HOLD_DAYS, "MIN_SCORE": DEFAULT_MIN_SCORE,
+            "MAX_CONCURRENT": DEFAULT_MAX_CONCURRENT,
+        })
+        sl_pct = mp["SL_PCT"]; tp_pct = mp["TP_PCT"]
+        hold_days = mp["MAX_HOLD_DAYS"]; min_score = mp["MIN_SCORE"]; max_con = mp["MAX_CONCURRENT"]
+        print(f"[BOT] {mode} Params: SL={sl_pct*100:.0f}% TP={tp_pct*100:.0f}% Hold={hold_days}d Score>={min_score} Con={max_con}")
         all_gems = {"INDIAN": [], "US": [], "CRYPTO": []}
         decay_gems = []
         if mode == "INDIAN":
-            all_gems["INDIAN"] = scan_market(get_indian_tickers(), "INDIAN")
-            all_gems["CRYPTO"] = scan_market(get_crypto_tickers()[:20], "CRYPTO-SMALL")
-            decay_gems = scan_decay()
+            all_gems["INDIAN"] = scan_market(get_indian_tickers(), "INDIAN", min_score=min_score)
+            all_gems["CRYPTO"] = scan_market(get_crypto_tickers()[:20], "CRYPTO-SMALL", min_score=min_score)
+            decay_gems = scan_decay() if ENABLE_EXPIRY_SCAN else []
         elif mode == "US":
-            all_gems["US"] = scan_market(get_us_tickers(), "US")
-            all_gems["CRYPTO"] = scan_market(get_crypto_tickers()[:20], "CRYPTO-SMALL")
+            all_gems["US"] = scan_market(get_us_tickers(), "US", min_score=min_score)
+            all_gems["CRYPTO"] = scan_market(get_crypto_tickers()[:20], "CRYPTO-SMALL", min_score=min_score)
         else:
-            all_gems["CRYPTO"] = scan_market(get_crypto_tickers(), "CRYPTO")
+            all_gems["CRYPTO"] = scan_market(get_crypto_tickers(), "CRYPTO", min_score=min_score)
         total_gems = sum(len(v) for v in all_gems.values()) + len(decay_gems)
         current_prices = {}
         for gems in all_gems.values():

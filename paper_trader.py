@@ -7,11 +7,10 @@ PAPER_FILE = "logs/paper_trades.csv"
 PORTFOLIO_FILE = "logs/portfolio.json"
 CAPITAL = 100000
 RISK_PER_TRADE = 0.01
-from config import SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, INITIAL_CAPITAL as CONFIG_CAPITAL
-MAX_OPEN = MAX_CONCURRENT
+from config import MARKET_PARAMS, DEFAULT_SL_PCT, DEFAULT_TP_PCT, DEFAULT_HOLD_DAYS, DEFAULT_MAX_CONCURRENT, INITIAL_CAPITAL as CONFIG_CAPITAL
 CAPITAL = CONFIG_CAPITAL
 
-COLUMNS = ["Date","Time_IST","Mode","Ticker","Entry_Price","Qty","SL","Target","Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"]
+COLUMNS = ["Date","Time_IST","Mode","Ticker","Entry_Price","Qty","SL","Target","MaxHold","Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"]
 
 def round_price(price):
     if price >= 1000: return round(price, 2)
@@ -55,17 +54,27 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()
-    if len(portfolio["open_positions"]) >= MAX_OPEN:
-        print(f"[Paper] MAX OPEN {MAX_OPEN} reached, skip {ticker}")
-        return None
+
     for pos in portfolio["open_positions"]:
         if pos["Ticker"] == ticker and pos["Status"] == "OPEN":
             print(f"[Paper] Duplicate blocked {ticker}"); return None
     if "BANKNIFTY" in ticker:
         print(f"[Paper] BANKNIFTY signal only, skip {ticker}")
         return None
-    sl = round_price(entry_price * (1 - SL_PCT))
-    target = round_price(entry_price * (1 + TP_PCT))
+    # Use market-specific params
+    mp = MARKET_PARAMS.get(mode, {})
+    sl_pct = mp.get("SL_PCT", DEFAULT_SL_PCT)
+    tp_pct = mp.get("TP_PCT", DEFAULT_TP_PCT)
+    max_hold = mp.get("MAX_HOLD_DAYS", DEFAULT_HOLD_DAYS)
+    max_conc = mp.get("MAX_CONCURRENT", DEFAULT_MAX_CONCURRENT)
+    
+    # Check market-specific max concurrent
+    if len(portfolio["open_positions"]) >= max_conc:
+        print(f"[Paper] MAX OPEN {max_conc} for {mode}, skip {ticker}")
+        return None
+    
+    sl = round_price(entry_price * (1 - sl_pct))
+    target = round_price(entry_price * (1 + tp_pct))
     entry = round_price(entry_price)
     if sl == 0:
         sl = round_price(entry * 0.98)
@@ -73,7 +82,7 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     if qty == 0: return None
     trade = {
         "Date": date_str, "Time_IST": time_str, "Mode": mode, "Ticker": ticker,
-        "Entry_Price": entry, "Qty": qty, "SL": sl, "Target": target,
+        "Entry_Price": entry, "Qty": qty, "SL": sl, "Target": target, "MaxHold": max_hold,
         "Exit_Price": "", "Exit_Time": "", "P&L": "", "P&L_%": "", "Status": "OPEN", "Reason": reason
     }
     df_new = pd.DataFrame([trade])[COLUMNS]
@@ -105,7 +114,10 @@ def update_paper_trades(current_prices_dict):
         # Check max hold days expiry
         entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
         days_held = (now - entry_date).days
-        if days_held >= MAX_HOLD_DAYS:
+        # Use trade-specific max hold (stored at entry). Handle NaN for old CSV rows.
+        mh = row.get("MaxHold")
+        trade_max_hold = int(mh) if pd.notna(mh) else DEFAULT_HOLD_DAYS
+        if days_held >= trade_max_hold:
             exit_price = cmp
             exit_reason = f"Expiry {days_held}d"
         elif cmp <= row["SL"]:
