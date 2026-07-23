@@ -7,21 +7,17 @@ PAPER_FILE = "logs/paper_trades.csv"
 PORTFOLIO_FILE = "logs/portfolio.json"
 CAPITAL = 100000
 RISK_PER_TRADE = 0.01
-MAX_CAPITAL_PER_TRADE = 0.20  # Max 20% capital per trade to avoid huge qty
+MAX_OPEN = 10  # LIVE SAFETY: max 10 open positions
 
 COLUMNS = ["Date","Time_IST","Mode","Ticker","Entry_Price","Qty","SL","Target","Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"]
 
 def round_price(price):
-    try:
-        p = float(price)
-        if p >= 1000: return round(p, 2)
-        if p >= 100: return round(p, 2)
-        if p >= 10: return round(p, 2)
-        if p >= 1: return round(p, 2)
-        if p >= 0.1: return round(p, 4)
-        if p >= 0.01: return round(p, 6)
-        return round(p, 8)
-    except: return price
+    if price >= 1000: return round(price, 2)
+    if price >= 100: return round(price, 2)
+    if price >= 1: return round(price, 2)
+    if price >= 0.1: return round(price, 4)
+    if price >= 0.01: return round(price, 6)
+    return round(price, 8)
 
 def load_portfolio():
     if os.path.exists(PORTFOLIO_FILE):
@@ -43,18 +39,13 @@ def calculate_qty(entry, sl, capital):
     if risk_per_share == 0 or risk_per_share < 1e-9: 
         return 0
     qty = int(risk_amt / risk_per_share)
-    
-    # FIX 1: Max capital per trade cap (20%)
-    max_notional = capital * MAX_CAPITAL_PER_TRADE
-    max_qty_by_capital = int(max_notional / entry) if entry>0 else qty
-    qty = min(qty, max_qty_by_capital)
-    
-    # FIX 2: Crypto low price cap
-    if entry < 1:
-        qty = min(qty, 10000)
-    if entry < 0.1:
+    # LIVE SAFETY CAPS
+    if entry < 1 and qty > 10000:
+        qty = 10000
+    if entry < 0.1 and qty > 50000:
+        qty = 50000
+    if qty > 5000 and entry > 100:  # Indian high price safety
         qty = min(qty, 5000)
-    
     return max(1, qty)
 
 def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
@@ -64,22 +55,26 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()
     
-    # Avoid duplicate open
+    # SAFETY 1: Max open limit
+    if len(portfolio["open_positions"]) >= MAX_OPEN:
+        print(f"[Paper] MAX OPEN {MAX_OPEN} reached, skip {ticker}")
+        return None
+    
+    # SAFETY 2: Duplicate block
     for pos in portfolio["open_positions"]:
         if pos["Ticker"] == ticker and pos["Status"] == "OPEN":
             print(f"[Paper] Duplicate blocked {ticker}"); return None
     
-    # Max 10 open positions
-    if len(portfolio["open_positions"]) >= 10:
-        print(f"[Paper] Max 10 positions reached, skip {ticker}"); return None
-
+    # SAFETY 3: BANKNIFTY decay is signal only, not paper trade (would never close)
+    if "BANKNIFTY" in ticker:
+        print(f"[Paper] BANKNIFTY signal only, skip paper entry {ticker}")
+        return None
+    
+    sl = round_price(entry_price * 0.98)
+    target = round_price(entry_price * 1.04)
     entry = round_price(entry_price)
-    sl = round_price(entry * 0.98)
-    target = round_price(entry * 1.04)
-    
-    if sl == 0 or sl == entry:
+    if sl == 0:
         sl = round_price(entry * 0.98)
-    
     qty = calculate_qty(entry, sl, portfolio["capital"])
     if qty == 0: return None
     
@@ -97,7 +92,7 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     df_comb.to_csv(PAPER_FILE, index=False)
     portfolio["open_positions"].append(trade)
     save_portfolio(portfolio)
-    print(f"[Paper] ENTER {ticker} @ {entry} Qty {qty} SL {sl} TGT {target} (Cap Rs {entry*qty:.0f})")
+    print(f"[Paper] ENTER {ticker} @ {entry} Qty {qty} SL {sl} TGT {target}")
     return trade
 
 def update_paper_trades(current_prices_dict):
