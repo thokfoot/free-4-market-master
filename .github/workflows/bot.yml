@@ -2,7 +2,7 @@ name: FREE-4-Market v4.2 ULTIMATE GEM+PAPER NO-MISS
 
 on:
   schedule:
-    - cron: '0,30 * * * *'  # Every 30 min - IST 5:30,6:00,6:30,7:00... covers 9:00,9:30,10:00 Indian market, prevents GitHub skip
+    - cron: '0,30 * * * *'  # Every 30 min - fixes Indian miss
   workflow_dispatch:
 
 permissions:
@@ -33,14 +33,14 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Bot v4.2 NO-MISS 7-STRAT
+      - name: Run Bot v4.2 NO-MISS
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python main.py
 
-      - name: Commit logs with rebase (no-miss)
+      - name: Commit logs
         run: |
           git config --local user.email "bot@v4.com"
           git config --local user.name "v4-bot"
