@@ -85,7 +85,7 @@ def analyze_stock(df):
         if ema9 > ema21 and float(last["Close"]) > ema9:
             signals.append("EMA Bull"); score += 1
         return score, signals
-    except Exception as e:
+    except:
         return 0, []
 
 def scan_ticker(t):
@@ -105,7 +105,7 @@ def scan_ticker(t):
                 rvol = min(rvol, 15.0)
                 return {"ticker": t, "score": score, "close": float(df.iloc[-1]["Close"]), "sigs": sigs, "rvol": rvol}
             return None
-        except Exception as e:
+        except:
             if attempt < 2:
                 time.sleep(1 + attempt)
                 continue
@@ -113,7 +113,6 @@ def scan_ticker(t):
     return None
 
 def scan_market(tickers, market_name, max_workers=8):
-    print(f"[{market_name}] Scanning {len(tickers)} stocks for GEMS...")
     gems = []
     workers = 8 if market_name == "INDIAN" else 12
     with ThreadPoolExecutor(max_workers=workers) as executor:
@@ -124,9 +123,6 @@ def scan_market(tickers, market_name, max_workers=8):
                 if res: gems.append(res)
             except: continue
     gems = sorted(gems, key=lambda x: (x["score"], x["rvol"]), reverse=True)
-    print(f"[{market_name}] Found {len(gems)} GEMS out of {len(tickers)}")
-    for g in gems[:5]:
-        print(f"  GEM {g['ticker']} Score:{g['score']} RVOL:{g['rvol']:.1f} - {', '.join(g['sigs'])}")
     return gems
 
 def get_mode():
@@ -139,17 +135,15 @@ def get_mode():
 
 def send_telegram(msg):
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
-        print(f"[TG] Missing token"); return None
+        return None
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     for attempt in range(3):
         try:
             r = requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}, timeout=15)
-            print(f"[TG] {r.status_code} - {r.text[:100]}")
             if r.status_code == 200:
                 return r.status_code
             time.sleep(2)
-        except Exception as e:
-            print(f"[TG Error attempt {attempt+1}] {e}")
+        except:
             time.sleep(2)
     return None
 
@@ -201,7 +195,6 @@ if __name__ == "__main__":
         else:
             all_gems["CRYPTO"] = scan_market(get_crypto_tickers(), "CRYPTO")
         total_gems = sum(len(v) for v in all_gems.values()) + len(decay_gems)
-        print(f"[Executor] Total {total_gems} GEMS found")
         current_prices = {}
         for gems in all_gems.values():
             for g in gems:
@@ -227,8 +220,7 @@ if __name__ == "__main__":
         open_count = len(portfolio["open_positions"])
         if total_gems == 0 and not closed_msgs:
             msg = f"Bot Alive - {mode} - {time_str}\nFull Scan 262 stocks: 0 GEMS - Market flat | Open: {open_count} Cap: Rs {capital:.0f} | Next scan in 30 min"
-            tg_code = send_telegram(msg)
-            tg_status = f"Sent - {tg_code}"
+            send_telegram(msg)
         else:
             lines = [f"\U0001f48e *v4.2 7-STRAT NO-MISS {mode}* {date_str} {time_str}", f"Scanned 262 stocks | Cap: Rs {capital:.0f} | Open: {open_count}", ""]
             for mkt, gems in all_gems.items():
@@ -236,10 +228,7 @@ if __name__ == "__main__":
                     lines.append(f"*{mkt} GEMS ({len(gems)}):*")
                     for g in gems[:7]:
                         sig_text = ", ".join(g['sigs'][:2])
-                        if "RVOL" in sig_text:
-                            lines.append(f"• {g['ticker']} @ {fmt_price(g['close'])} | Score {g['score']} | {sig_text}")
-                        else:
-                            lines.append(f"• {g['ticker']} @ {fmt_price(g['close'])} | Score {g['score']} | {sig_text} | RVOL {g['rvol']:.1f}x")
+                        lines.append(f"• {g['ticker']} @ {fmt_price(g['close'])} | Score {g['score']} | {sig_text} | RVOL {g['rvol']:.1f}x")
                     lines.append("")
             if decay_gems:
                 lines.append(f"*DECAY:* {decay_gems[0]['ticker']} | {decay_gems[0]['sigs'][0]}")
@@ -254,21 +243,17 @@ if __name__ == "__main__":
                 lines.extend([f"• {c}" for c in closed_msgs])
             msg = "\n".join(lines)
             if len(msg) > 4000: msg = msg[:4000]
-            tg_code = send_telegram(msg)
-            tg_status = f"Sent {total_gems} GEMS - {tg_code}"
+            send_telegram(msg)
         log_trade({
             "Date": date_str, "Time_IST": time_str, "Mode": mode,
             "Indian_Count": len(all_gems["INDIAN"]), "US_Count": len(all_gems["US"]),
             "Crypto_Count": len(all_gems["CRYPTO"]), "Decay_Count": len(decay_gems),
             "Total_Found": total_gems, "Filtered_Sent_Count": len(to_enter),
-            "Telegram_Status": tg_status,
+            "Telegram_Status": "Sent",
             "Skip_Reason": "None" if total_gems else "No gems",
             "Signals_Detail": " | ".join([f"{g['ticker']}:{g['score']}" for gems in all_gems.values() for g in gems[:5]]),
             "Weekday": now_ist.strftime("%A")
         })
     except Exception as e:
         print(f"[FATAL ERROR] {e}")
-        try:
-            send_telegram(f"\u26a0\ufe0f Bot Error {datetime.now(IST).strftime('%H:%M IST')}: {str(e)[:200]}")
-        except: pass
         raise
