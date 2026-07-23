@@ -1,16 +1,21 @@
-name: FREE-4-Market v4 ULTIMATE GEM+PAPER
+name: FREE-4-Market v4 ULTIMATE GEM+PAPER - NO MISS
 
 on:
   schedule:
-    - cron: '0 * * * *'  # every hour
+    - cron: '0,30 * * * *'  # Every 30 min - IST: 5:30,6:00,6:30... covers 9:00,9:30,10:00 Indian market, prevents GitHub skip
   workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: free4market-v4
+  cancel-in-progress: false
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -24,20 +29,23 @@ jobs:
           python-version: '3.10'
 
       - name: Install deps
-        run: pip install -r requirements.txt
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run Bot v4
+      - name: Run Bot v4 - 7 Strategies
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python main.py
 
-      - name: Commit logs
+      - name: Commit logs with rebase
         run: |
           git config --local user.email "bot@v4.com"
           git config --local user.name "v4-bot"
+          git pull --rebase --autostash || true
           git add logs/ || true
           git diff --staged --quiet && echo "no changes to commit" && exit 0
-          git commit -m "v4 logs $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          git commit -m "v4 logs $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
+          git push || (git pull --rebase && git push)
