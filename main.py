@@ -3,6 +3,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from logger import log_trade
 from paper_trader import enter_paper_trade, update_paper_trades, load_portfolio
+from config import MIN_SCORE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN") or os.getenv("TELEGRAM_BOT_TOKEN") or os.getenv("BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("CHAT_ID")
@@ -98,7 +99,7 @@ def scan_ticker(t):
                     continue
                 return None
             score, sigs = analyze_stock(df)
-            if score >= 2:
+            if score >= MIN_SCORE:
                 vol_avg = float(df["Volume"].rolling(20).mean().iloc[-1])
                 last_vol = float(df.iloc[-1]["Volume"])
                 rvol = last_vol / vol_avg if vol_avg>0 else 0
@@ -135,17 +136,31 @@ def get_mode():
 
 def send_telegram(msg):
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
-        return None
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+        print(f"[TG] MISSING TOKEN or CHAT_ID")
+        return "NoToken"
+    api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    print(f"[TG] Sending to chat {TELEGRAM_CHAT_ID[:4]}... (len={len(msg)} chars)")
     for attempt in range(3):
         try:
-            r = requests.post(url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}, timeout=15)
-            if r.status_code == 200:
-                return r.status_code
+            r = requests.post(api_url, data={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}, timeout=15)
+            j = {}
+            try:
+                j = r.json()
+                ok = j.get("ok", False)
+            except:
+                ok = False
+            if r.status_code == 200 and ok:
+                print(f"[TG] Sent OK (chat={TELEGRAM_CHAT_ID[:4]}...)")
+                return "Sent"
+            else:
+                err_desc = j.get("description", r.text[:200]) if j else r.text[:200]
+                print(f"[TG] Attempt {attempt+1} FAILED: {r.status_code} {err_desc}")
+                time.sleep(2)
+        except Exception as e:
+            print(f"[TG] Attempt {attempt+1} EXCEPTION: {e}")
             time.sleep(2)
-        except:
-            time.sleep(2)
-    return None
+    print(f"[TG] All 3 attempts FAILED")
+    return "Failed"
 
 def scan_decay():
     now_ist = datetime.now(IST)
@@ -183,6 +198,7 @@ if __name__ == "__main__":
         date_str = now_ist.strftime("%Y-%m-%d")
         time_str = now_ist.strftime("%H:%M:%S IST")
         print(f"[BOT] v4.2 NO-MISS 7-STRATEGY {mode} - {date_str} {time_str}")
+        print(f"[BOT] Config: Score>={MIN_SCORE} SL={SL_PCT*100:.0f}% TP={TP_PCT*100:.0f}% Hold={MAX_HOLD_DAYS}d Con={MAX_CONCURRENT}")
         all_gems = {"INDIAN": [], "US": [], "CRYPTO": []}
         decay_gems = []
         if mode == "INDIAN":
@@ -220,7 +236,7 @@ if __name__ == "__main__":
         open_count = len(portfolio["open_positions"])
         if total_gems == 0 and not closed_msgs:
             msg = f"Bot Alive - {mode} - {time_str}\nFull Scan 262 stocks: 0 GEMS - Market flat | Open: {open_count} Cap: Rs {capital:.0f} | Next scan in 30 min"
-            send_telegram(msg)
+            tg_status = send_telegram(msg)
         else:
             lines = [f"\U0001f48e *v4.2 7-STRAT NO-MISS {mode}* {date_str} {time_str}", f"Scanned 262 stocks | Cap: Rs {capital:.0f} | Open: {open_count}", ""]
             for mkt, gems in all_gems.items():
@@ -243,13 +259,13 @@ if __name__ == "__main__":
                 lines.extend([f"• {c}" for c in closed_msgs])
             msg = "\n".join(lines)
             if len(msg) > 4000: msg = msg[:4000]
-            send_telegram(msg)
+            tg_status = send_telegram(msg)
         log_trade({
             "Date": date_str, "Time_IST": time_str, "Mode": mode,
             "Indian_Count": len(all_gems["INDIAN"]), "US_Count": len(all_gems["US"]),
             "Crypto_Count": len(all_gems["CRYPTO"]), "Decay_Count": len(decay_gems),
             "Total_Found": total_gems, "Filtered_Sent_Count": len(to_enter),
-            "Telegram_Status": "Sent",
+            "Telegram_Status": tg_status if tg_status else "None",
             "Skip_Reason": "None" if total_gems else "No gems",
             "Signals_Detail": " | ".join([f"{g['ticker']}:{g['score']}" for gems in all_gems.values() for g in gems[:5]]),
             "Weekday": now_ist.strftime("%A")

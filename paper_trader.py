@@ -7,7 +7,9 @@ PAPER_FILE = "logs/paper_trades.csv"
 PORTFOLIO_FILE = "logs/portfolio.json"
 CAPITAL = 100000
 RISK_PER_TRADE = 0.01
-MAX_OPEN = 10
+from config import SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, INITIAL_CAPITAL as CONFIG_CAPITAL
+MAX_OPEN = MAX_CONCURRENT
+CAPITAL = CONFIG_CAPITAL
 
 COLUMNS = ["Date","Time_IST","Mode","Ticker","Entry_Price","Qty","SL","Target","Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"]
 
@@ -62,8 +64,8 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     if "BANKNIFTY" in ticker:
         print(f"[Paper] BANKNIFTY signal only, skip {ticker}")
         return None
-    sl = round_price(entry_price * 0.98)
-    target = round_price(entry_price * 1.04)
+    sl = round_price(entry_price * (1 - SL_PCT))
+    target = round_price(entry_price * (1 + TP_PCT))
     entry = round_price(entry_price)
     if sl == 0:
         sl = round_price(entry * 0.98)
@@ -100,7 +102,13 @@ def update_paper_trades(current_prices_dict):
         if ticker not in current_prices_dict: continue
         cmp = current_prices_dict[ticker]
         exit_price = None; exit_reason = None
-        if cmp <= row["SL"]:
+        # Check max hold days expiry
+        entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
+        days_held = (now - entry_date).days
+        if days_held >= MAX_HOLD_DAYS:
+            exit_price = cmp
+            exit_reason = f"Expiry {days_held}d"
+        elif cmp <= row["SL"]:
             exit_price = row["SL"]; exit_reason = "SL Hit"
         elif cmp >= row["Target"]:
             exit_price = row["Target"]; exit_reason = "Target Hit"
@@ -116,7 +124,7 @@ def update_paper_trades(current_prices_dict):
             portfolio["capital"] += pnl
             closed_msgs.append(f"{ticker} {exit_reason} P&L {pnl:.2f} ({pnl_pct:.1f}%)")
             updated = True
-            print(f"[Paper] EXIT {ticker} @ {exit_price} P&L {pnl}")
+            print(f"[Paper] EXIT {ticker} @ {exit_price} | P&L {pnl:+.2f} | {exit_reason}")
     if updated:
         df.to_csv(PAPER_FILE, index=False)
         open_df = df[df["Status"]=="OPEN"]
