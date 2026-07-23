@@ -7,7 +7,7 @@ PAPER_FILE = "logs/paper_trades.csv"
 PORTFOLIO_FILE = "logs/portfolio.json"
 CAPITAL = 100000
 RISK_PER_TRADE = 0.01
-MAX_OPEN = 10  # LIVE SAFETY: max 10 open positions
+MAX_OPEN = 10
 
 COLUMNS = ["Date","Time_IST","Mode","Ticker","Entry_Price","Qty","SL","Target","Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"]
 
@@ -39,12 +39,11 @@ def calculate_qty(entry, sl, capital):
     if risk_per_share == 0 or risk_per_share < 1e-9: 
         return 0
     qty = int(risk_amt / risk_per_share)
-    # LIVE SAFETY CAPS
     if entry < 1 and qty > 10000:
         qty = 10000
     if entry < 0.1 and qty > 50000:
         qty = 50000
-    if qty > 5000 and entry > 100:  # Indian high price safety
+    if qty > 5000 and entry > 100:
         qty = min(qty, 5000)
     return max(1, qty)
 
@@ -54,22 +53,15 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()
-    
-    # SAFETY 1: Max open limit
     if len(portfolio["open_positions"]) >= MAX_OPEN:
         print(f"[Paper] MAX OPEN {MAX_OPEN} reached, skip {ticker}")
         return None
-    
-    # SAFETY 2: Duplicate block
     for pos in portfolio["open_positions"]:
         if pos["Ticker"] == ticker and pos["Status"] == "OPEN":
             print(f"[Paper] Duplicate blocked {ticker}"); return None
-    
-    # SAFETY 3: BANKNIFTY decay is signal only, not paper trade (would never close)
     if "BANKNIFTY" in ticker:
-        print(f"[Paper] BANKNIFTY signal only, skip paper entry {ticker}")
+        print(f"[Paper] BANKNIFTY signal only, skip {ticker}")
         return None
-    
     sl = round_price(entry_price * 0.98)
     target = round_price(entry_price * 1.04)
     entry = round_price(entry_price)
@@ -77,7 +69,6 @@ def enter_paper_trade(mode, ticker, entry_price, reason="Vol Breakout"):
         sl = round_price(entry * 0.98)
     qty = calculate_qty(entry, sl, portfolio["capital"])
     if qty == 0: return None
-    
     trade = {
         "Date": date_str, "Time_IST": time_str, "Mode": mode, "Ticker": ticker,
         "Entry_Price": entry, "Qty": qty, "SL": sl, "Target": target,
