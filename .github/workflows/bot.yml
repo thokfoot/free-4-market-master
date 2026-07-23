@@ -2,7 +2,7 @@ name: FREE-4-Market v4.2 ULTIMATE GEM+PAPER NO-MISS
 
 on:
   schedule:
-    - cron: '0,30 * * * *'  # Every 30 min - fixes Indian miss
+    - cron: '0,30 * * * *'
   workflow_dispatch:
 
 permissions:
