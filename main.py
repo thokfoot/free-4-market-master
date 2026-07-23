@@ -19,7 +19,6 @@ def fmt_price(p):
         return f"{p:.8f}"
     except: return str(p)
 
-# ===== TICKERS - FIXED ORDER =====
 def get_indian_tickers():
     nifty50 = ["RELIANCE.NS","TCS.NS","INFY.NS","HDFCBANK.NS","ICICIBANK.NS","SBIN.NS","BHARTIARTL.NS","ITC.NS","LT.NS","KOTAKBANK.NS","BAJFINANCE.NS","HINDUNILVR.NS","ASIANPAINT.NS","AXISBANK.NS","MARUTI.NS","TITAN.NS","SUNPHARMA.NS","ULTRACEMCO.NS","WIPRO.NS","NTPC.NS","HCLTECH.NS","POWERGRID.NS","ONGC.NS","M&M.NS","BAJAJFINSV.NS","ADANIENT.NS","ADANIPORTS.NS","COALINDIA.NS","HDFCLIFE.NS","SBILIFE.NS","TATASTEEL.NS","JSWSTEEL.NS","HINDALCO.NS","GRASIM.NS","CIPLA.NS","DRREDDY.NS","DIVISLAB.NS","EICHERMOT.NS","BAJAJ-AUTO.NS","HEROMOTOCO.NS","BRITANNIA.NS","NESTLEIND.NS","TATACONSUM.NS","APOLLOHOSP.NS","BPCL.NS","UPL.NS","TECHM.NS","INDUSINDBK.NS","TATAMOTORS.NS"]
     next50 = ["VEDL.NS","SAIL.NS","NMDC.NS","BANKBARODA.NS","PNB.NS","CANBK.NS","IDFCFIRSTB.NS","FEDERALBNK.NS","AUBANK.NS","BANDHANBNK.NS","INDIGO.NS","ZOMATO.NS","PAYTM.NS","NYKAA.NS","DMART.NS","TRENT.NS","ABFRL.NS","PIDILITIND.NS","BERGEPAINT.NS","CUMMINSIND.NS","ASHOKLEY.NS","MOTHERSON.NS","TVSMOTOR.NS","BAJAJHLDNG.NS","CHOLAFIN.NS","MUTHOOTFIN.NS","PFC.NS","RECLTD.NS","IRCTC.NS","IRFC.NS","HAL.NS","BEL.NS","BDL.NS","MAZDOCK.NS","COCHINSHIP.NS","RVNL.NS","IDEA.NS","TATAPOWER.NS","ADANIGREEN.NS","ADANIENSOL.NS","SUZLON.NS","KPITTECH.NS","PERSISTENT.NS","COFORGE.NS","MPHASIS.NS","LTTS.NS","TATAELXSI.NS","OFSS.NS","LTIM.NS","POLYCAB.NS","KEI.NS"]
@@ -44,7 +43,6 @@ def calc_rsi(close, period=14):
         return rsi
     except: return pd.Series([50]*len(close), index=close.index)
 
-# ===== 7 GEM STRATEGIES =====
 def analyze_stock(df):
     if len(df) < 50:
         return 0, []
@@ -54,64 +52,43 @@ def analyze_stock(df):
         close = df["Close"]; vol = df["Volume"]; high = df["High"]; low = df["Low"]; op = df["Open"]
         vol_avg_20 = vol.rolling(20).mean()
         last = df.iloc[-1]; prev = df.iloc[-2]
-        
         vol_avg_last = float(vol_avg_20.iloc[-1]) if not pd.isna(vol_avg_20.iloc[-1]) else 0
         rvol = float(last["Volume"] / vol_avg_last) if vol_avg_last > 0 else 0
         rvol_capped = min(rvol, 15.0)
-
         sma20 = close.rolling(20).mean().iloc[-1]
         sma50 = close.rolling(50).mean().iloc[-1]
         ema9 = close.ewm(span=9).mean().iloc[-1]
         ema21 = close.ewm(span=21).mean().iloc[-1]
         rsi = calc_rsi(close).iloc[-1]
-
         typical = (high + low + close) / 3
         vwap = (typical * vol).rolling(20).sum() / vol.rolling(20).sum()
         vwap_last = float(vwap.iloc[-1]) if not pd.isna(vwap.iloc[-1]) else 0
         vwap_prev = float(vwap.iloc[-2]) if not pd.isna(vwap.iloc[-2]) else 0
         high_20 = float(high.rolling(20).max().iloc[-2]) if not pd.isna(high.rolling(20).max().iloc[-2]) else 0
         low_5 = float(low.rolling(5).min().iloc[-2]) if not pd.isna(low.rolling(5).min().iloc[-2]) else 0
-
         if pd.isna(sma20) or pd.isna(sma50): return 0, []
-
         signals = []; score = 0
-
-        # 1 RVOL GEM - Volume 2x + price up (Core)
         if rvol >= 2.0 and float(last["Close"]) > float(prev["Close"]):
             signals.append(f"RVOL {rvol_capped:.1f}x"); score += 2
             if rvol >= 3.0: score += 1
-
-        # 2 Breakout - 20D high + volume 1.5x
         if float(last["Close"]) > high_20 and float(last["Volume"]) > vol_avg_last*1.5 and high_20>0:
             signals.append(f"20D Breakout"); score += 2
-
-        # 3 VWAP Reclaim - Cross above VWAP
         if float(prev["Close"]) < vwap_prev and float(last["Close"]) > vwap_last and rvol > 1.3 and vwap_last>0:
             signals.append("VWAP Reclaim"); score += 1
-
-        # 4 Liquidity Sweep - Stop hunt reversal
         if low_5>0 and float(last["Low"]) < low_5 * 0.998 and float(last["Close"]) > low_5 and float(last["Close"]) > float(prev["Open"]):
             if rvol > 1.2:
                 signals.append("Liq Sweep"); score += 2
-
-        # 5 Trend Pullback - Uptrend dip to SMA20
         if float(last["Close"]) > sma20 > sma50 and float(prev["Low"]) <= sma20:
             signals.append("Trend Pullback"); score += 1
-
-        # 6 RSI Momentum - 55-75 healthy
         if 55 <= rsi <= 75:
             signals.append(f"RSI {rsi:.0f}"); score += 1
-
-        # 7 EMA Bull Trend - EMA9 > EMA21
         if ema9 > ema21 and float(last["Close"]) > ema9:
             signals.append("EMA Bull"); score += 1
-
         return score, signals
     except Exception as e:
         return 0, []
 
 def scan_ticker(t):
-    # Retry 3 times to avoid miss due to yfinance rate limit
     for attempt in range(3):
         try:
             df = yf.download(t, period="3mo", interval="1d", progress=False, auto_adjust=True)
@@ -138,7 +115,6 @@ def scan_ticker(t):
 def scan_market(tickers, market_name, max_workers=8):
     print(f"[{market_name}] Scanning {len(tickers)} stocks for GEMS...")
     gems = []
-    # Use 8 workers for INDIAN to avoid rate limit, 12 for others
     workers = 8 if market_name == "INDIAN" else 12
     with ThreadPoolExecutor(max_workers=workers) as executor:
         future_to_ticker = {executor.submit(scan_ticker, t): t for t in tickers}
@@ -180,7 +156,7 @@ def send_telegram(msg):
 def scan_decay():
     now_ist = datetime.now(IST)
     signals = []
-    if now_ist.weekday() == 3:  # Thursday
+    if now_ist.weekday() == 3:
         try:
             df = yf.download("^NSEBANK", period="5d", interval="1d", progress=False)
             spot = float(df.iloc[-1]["Close"]) if len(df)>0 else 56000
@@ -191,14 +167,12 @@ def scan_decay():
     return signals
 
 def get_prices_for_open_positions():
-    # CRITICAL FIX: Fetch live prices for ALL open positions so SL/Target never miss even if mode is different
     try:
         portfolio = load_portfolio()
         open_tickers = [p["Ticker"] for p in portfolio.get("open_positions", []) if p.get("Status") == "OPEN"]
         prices = {}
         for ticker in open_tickers:
             try:
-                # Skip BANKNIFTY text tickers
                 if "BANKNIFTY" in ticker:
                     continue
                 df = yf.download(ticker, period="5d", interval="1d", progress=False, auto_adjust=True)
@@ -215,10 +189,8 @@ if __name__ == "__main__":
         date_str = now_ist.strftime("%Y-%m-%d")
         time_str = now_ist.strftime("%H:%M:%S IST")
         print(f"[BOT] v4.2 NO-MISS 7-STRATEGY {mode} - {date_str} {time_str}")
-
         all_gems = {"INDIAN": [], "US": [], "CRYPTO": []}
         decay_gems = []
-
         if mode == "INDIAN":
             all_gems["INDIAN"] = scan_market(get_indian_tickers(), "INDIAN")
             all_gems["CRYPTO"] = scan_market(get_crypto_tickers()[:20], "CRYPTO-SMALL")
@@ -228,42 +200,31 @@ if __name__ == "__main__":
             all_gems["CRYPTO"] = scan_market(get_crypto_tickers()[:20], "CRYPTO-SMALL")
         else:
             all_gems["CRYPTO"] = scan_market(get_crypto_tickers(), "CRYPTO")
-
         total_gems = sum(len(v) for v in all_gems.values()) + len(decay_gems)
         print(f"[Executor] Total {total_gems} GEMS found")
-
-        # Build current prices from GEMS + ALL OPEN POSITIONS (no miss for SL/TP)
         current_prices = {}
         for gems in all_gems.values():
             for g in gems:
                 current_prices[g["ticker"]] = g["close"]
         for g in decay_gems:
             current_prices[g["ticker"]] = g["close"]
-        
-        # FIX: Add open positions prices so closes never miss
         open_prices = get_prices_for_open_positions()
         current_prices.update(open_prices)
-
         closed_msgs = update_paper_trades(current_prices)
-
-        # Enter new - TOP GEMS ONLY (Owner safety: BANKNIFTY signal only, not auto trade)
         to_enter = []
         if mode == "INDIAN":
-            to_enter = all_gems["INDIAN"][:5]  # decay_gems is signal only
+            to_enter = all_gems["INDIAN"][:5]
         elif mode == "US":
             to_enter = all_gems["US"][:5]
         else:
             to_enter = all_gems["CRYPTO"][:5]
-
         entered = []
         for g in to_enter:
             tr = enter_paper_trade(mode, g["ticker"], g["close"], ", ".join(g["sigs"][:2]) + f" Score:{g['score']} RVOL:{g['rvol']:.1f}x")
             if tr: entered.append(tr)
-
         portfolio = load_portfolio()
         capital = portfolio["capital"]
         open_count = len(portfolio["open_positions"])
-
         if total_gems == 0 and not closed_msgs:
             msg = f"Bot Alive - {mode} - {time_str}\nFull Scan 262 stocks: 0 GEMS - Market flat | Open: {open_count} Cap: Rs {capital:.0f} | Next scan in 30 min"
             tg_code = send_telegram(msg)
@@ -291,12 +252,10 @@ if __name__ == "__main__":
             if closed_msgs:
                 lines.append("*CLOSED:*")
                 lines.extend([f"• {c}" for c in closed_msgs])
-
             msg = "\n".join(lines)
             if len(msg) > 4000: msg = msg[:4000]
             tg_code = send_telegram(msg)
             tg_status = f"Sent {total_gems} GEMS - {tg_code}"
-
         log_trade({
             "Date": date_str, "Time_IST": time_str, "Mode": mode,
             "Indian_Count": len(all_gems["INDIAN"]), "US_Count": len(all_gems["US"]),
