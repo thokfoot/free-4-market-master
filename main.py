@@ -246,10 +246,10 @@ if __name__ == "__main__":
 
         closed_msgs = update_paper_trades(current_prices)
 
-        # Enter new - TOP GEMS ONLY
+        # Enter new - TOP GEMS ONLY (Owner safety: BANKNIFTY signal only, not auto trade)
         to_enter = []
         if mode == "INDIAN":
-            to_enter = all_gems["INDIAN"][:5] + decay_gems
+            to_enter = all_gems["INDIAN"][:5]  # decay_gems is signal only
         elif mode == "US":
             to_enter = all_gems["US"][:5]
         else:
