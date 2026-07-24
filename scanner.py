@@ -15,7 +15,7 @@ def load_strategies() -> pd.DataFrame:
     """Load the 50 strategies from CSV."""
     if not os.path.exists(STRATEGY_FILE):
         raise FileNotFoundError(f"Strategy file not found: {STRATEGY_FILE}")
-    df = pd.read_csv(STRATEGY_FILE, on_bad_lines='skip')
+    df = pd.read_csv(STRATEGY_FILE, on_bad_lines='warn')
     # Ensure required columns
     required = ["Final_Rank", "Market", "Region", "Factors", "Direction", "AvgWin%", "Trades"]
     for col in required:

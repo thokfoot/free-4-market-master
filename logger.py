@@ -83,7 +83,7 @@ def log_trade_run(row_dict: dict):
     try:
         df_new = pd.DataFrame([row_dict])
         if os.path.exists(TRADE_LOG):
-            df_old = pd.read_csv(TRADE_LOG, on_bad_lines='skip')
+            df_old = pd.read_csv(TRADE_LOG, on_bad_lines='warn')
             df_combined = pd.concat([df_old, df_new], ignore_index=True)
         else:
             df_combined = df_new
@@ -120,7 +120,7 @@ def log_portfolio(capital: float, open_positions: list, closed_count: int,
         
         df_new = pd.DataFrame([row])
         if os.path.exists(PORTFOLIO_LOG):
-            df_old = pd.read_csv(PORTFOLIO_LOG, on_bad_lines='skip')
+            df_old = pd.read_csv(PORTFOLIO_LOG, on_bad_lines='warn')
             df_combined = pd.concat([df_old, df_new], ignore_index=True)
         else:
             df_combined = df_new
