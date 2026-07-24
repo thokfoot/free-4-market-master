@@ -1,8 +1,8 @@
 {
   "capital_by_market": {
-    "INDIAN": 33333.33,
-    "US": 33333.33,
-    "CRYPTO": 33333.33
+    "INDIAN": 33333.33333333333,
+    "US": 33333.33333333333,
+    "CRYPTO": 33333.33333333333
   },
   "open_positions": [],
   "closed_count": 0,

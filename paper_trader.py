@@ -8,7 +8,7 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 import os, json, pandas as pd
 from datetime import datetime
 import pytz
-from config import CAPITAL, CAPITAL_BY_MARKET, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
+from config import CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
 
 IST = pytz.timezone("Asia/Kolkata")
 LOG_DIR = "logs"
