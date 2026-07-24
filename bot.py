@@ -22,28 +22,40 @@ from config import (
     YF_PERIOD, YF_INTERVAL, get_region,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
-from paper_trader import enter_trade, update_trades, load_portfolio, round_price
+from paper_trader import enter_trade, update_trades, load_portfolio, round_price, generate_portfolio_report
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
 
-def send_telegram(msg: str) -> str:
-    """Send Telegram message. Returns status string."""
+# GitHub raw URL for portfolio report button
+GITHUB_REPO = "thokfoot/free-4-market-master"
+GITHUB_BRANCH = "main"
+PORTFOLIO_REPORT_URL = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}/logs/portfolio_report.csv"
+
+
+def send_telegram(msg: str, button_url: str = None) -> str:
+    """Send Telegram message with optional inline keyboard button."""
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
         print("[TG] Missing TELEGRAM_TOKEN or TELEGRAM_CHAT_ID")
         return "NoToken"
     
     api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     
+    data = {"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}
+    
+    # Add inline keyboard with Download button if URL provided
+    if button_url:
+        data["reply_markup"] = json.dumps({
+            "inline_keyboard": [[
+                {"text": "📥 Download Full Portfolio", "url": button_url}
+            ]]
+        })
+    
     for attempt in range(3):
         try:
-            r = requests.post(
-                api_url,
-                data={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"},
-                timeout=15,
-            )
+            r = requests.post(api_url, data=data, timeout=15)
             resp = r.json() if r.text else {}
             if r.status_code == 200 and resp.get("ok"):
-                print(f"[TG] Sent OK ({len(msg)} chars)")
+                print(f"[TG] Sent OK ({len(msg)} chars, button={'YES' if button_url else 'NO'})")
                 return "Sent"
             else:
                 err = resp.get("description", r.text[:200])
@@ -237,15 +249,18 @@ def main():
     wins = portfolio.get("total_wins", 0)
     losses = portfolio.get("total_losses", 0)
     
-    # ===== 10. Send Telegram =====
+    # ===== 10. Generate portfolio report =====
+    generate_portfolio_report()
+    
+    # ===== 11. Send Telegram =====
     tg_msg = build_telegram_msg(
         date_str, time_str, entries, closed_msgs,
         cape, len(open_positions), total_pnl,
         wins, losses, closed_cnt,
     )
-    tg_status = send_telegram(tg_msg)
+    tg_status = send_telegram(tg_msg, button_url=PORTFOLIO_REPORT_URL)
     
-    # ===== 11. Log Daily Scan =====
+    # ===== 12. Log Daily Scan =====
     scan_data = {
         "date": date_str,
         "time": time_str,
@@ -273,7 +288,7 @@ def main():
     }
     log_scan(scan_data)
     
-    # ===== 12. Log trade run summary =====
+    # ===== 13. Log trade run summary =====
     log_trade_run({
         "Date": date_str,
         "Time": time_str,
@@ -289,7 +304,7 @@ def main():
         "Telegram": tg_status,
     })
     
-    # ===== 13. Log portfolio snapshot =====
+    # ===== 14. Log portfolio snapshot =====
     log_portfolio(cape, open_positions, closed_cnt, wins, losses, total_pnl)
     
     elapsed = time.time() - start_time

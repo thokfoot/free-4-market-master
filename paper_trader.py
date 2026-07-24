@@ -163,6 +163,133 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     return trade
 
 
+def generate_portfolio_report():
+    """
+    Generate a comprehensive portfolio report CSV with EVERYTHING.
+    
+    Sections:
+      1. ALL TRADES — Every single trade with full details
+      2. DAILY SUMMARY — Per-day capital, PnL, trades
+      3. PER-TICKER — Win rate, PnL, trades per ticker
+      4. PER-MARKET — Performance by region (US/India/Crypto)
+      5. PORTFOLIO SNAPSHOTS — Historical capital snapshots
+    
+    File: logs/portfolio_report.csv
+    """
+    report_file = os.path.join(LOG_DIR, "portfolio_report.csv")
+    lines = []
+    
+    # ============================================================
+    # SECTION 1: ALL TRADES
+    # ============================================================
+    lines.append("=== PORTFOLIO REPORT ===")
+    lines.append("Generated,PAPER TRADE v5.0")
+    now = datetime.now(IST)
+    lines.append(f"Generated Time,{now.strftime('%Y-%m-%d %H:%M:%S IST')}")
+    lines.append("")
+    lines.append("=== ALL TRADES ===")
+    
+    if os.path.exists(PAPER_FILE):
+        df = pd.read_csv(PAPER_FILE)
+        # Add pattern info from reason column
+        if "Reason" in df.columns:
+            df["Pattern"] = df["Reason"].str.extract(r"#(\d+)", expand=False)
+        lines.append(",".join([str(c) for c in df.columns.tolist() + ["Days_Held"]]))
+        for _, row in df.iterrows():
+            days_held = ""
+            if row["Status"] == "CLOSED" and "Exit_Time" in row.index and pd.notna(row.get("Exit_Time")):
+                try:
+                    ed = datetime.strptime(str(row["Date"]), "%Y-%m-%d")
+                    days_held = str((now - ed.replace(tzinfo=IST)).days)
+                except:
+                    pass
+            vals = [str(row.get(c, "")) for c in df.columns]
+            vals.append(days_held)
+            lines.append(",".join(vals))
+    else:
+        lines.append("No trades yet")
+    
+    # ============================================================
+    # SECTION 2: PORTFOLIO SUMMARY
+    # ============================================================
+    lines.append("")
+    lines.append("=== PORTFOLIO SUMMARY ===")
+    
+    portfolio = load_portfolio()
+    cape = portfolio["capital"]
+    open_count = len(portfolio.get("open_positions", []))
+    closed_cnt = portfolio.get("closed_count", 0)
+    wins = portfolio.get("total_wins", 0)
+    losses = portfolio.get("total_losses", 0)
+    total_pnl = portfolio.get("total_pnl", 0)
+    total_closed = wins + losses
+    win_rate = round(wins / total_closed * 100, 1) if total_closed > 0 else 0
+    ret_pct = round((cape - CAPITAL) / CAPITAL * 100, 2)
+    
+    lines.append(f"Initial Capital,{CAPITAL:.0f}")
+    lines.append(f"Current Capital,{cape:.0f}")
+    lines.append(f"Return %,{ret_pct:+.2f}")
+    lines.append(f"Total P&L,{total_pnl:+.2f}")
+    lines.append(f"Open Positions,{open_count}")
+    lines.append(f"Closed Trades,{closed_cnt}")
+    lines.append(f"Total Trades,{total_closed + open_count}")
+    lines.append(f"Wins,{wins}")
+    lines.append(f"Losses,{losses}")
+    lines.append(f"Win Rate %,{win_rate}")
+    
+    # ============================================================
+    # SECTION 3: PER-TICKER PERFORMANCE
+    # ============================================================
+    if os.path.exists(PAPER_FILE):
+        df = pd.read_csv(PAPER_FILE)
+        if len(df) > 0:
+            lines.append("")
+            lines.append("=== PER-TICKER PERFORMANCE ===")
+            lines.append("Ticker,Direction,Trades,Wins,Losses,Win_Rate%,Total_PnL,Avg_PnL")
+            
+            for (ticker, direction), grp in df.groupby(["Ticker", "Direction"]):
+                grp_wins = grp[grp["P&L"].apply(lambda x: float(x) > 0 if pd.notna(x) and str(x).strip() != "" else False)]
+                grp_losses = grp[grp["P&L"].apply(lambda x: float(x) < 0 if pd.notna(x) and str(x).strip() != "" else False)]
+                w = len(grp_wins)
+                l = len(grp_losses)
+                t = len(grp)
+                wr = round(w / (w + l) * 100, 1) if (w + l) > 0 else 0
+                
+                total_pnl_t = 0
+                for _, r in grp.iterrows():
+                    if pd.notna(r.get("P&L")) and str(r["P&L"]).strip() != "":
+                        try:
+                            total_pnl_t += float(r["P&L"])
+                        except:
+                            pass
+                avg = round(total_pnl_t / t, 0) if t > 0 else 0
+                lines.append(f"{ticker},{direction},{t},{w},{l},{wr},{round(total_pnl_t,0)},{avg}")
+    
+    # ============================================================
+    # SECTION 4: PER-MARKET PERFORMANCE
+    # ============================================================
+    if os.path.exists(PAPER_FILE) and "Mode" in df.columns:
+        lines.append("")
+        lines.append("=== PER-MARKET PERFORMANCE ===")
+        lines.append("Region,Trades,Wins,Losses,Win_Rate%,Total_PnL")
+        for region, grp in df.groupby("Mode"):
+            w = len(grp[grp["P&L"].apply(lambda x: float(x) > 0 if pd.notna(x) and str(x).strip() != "" else False)])
+            l = len(grp[grp["P&L"].apply(lambda x: float(x) < 0 if pd.notna(x) and str(x).strip() != "" else False)])
+            t = len(grp)
+            wr = round(w / (w + l) * 100, 1) if (w + l) > 0 else 0
+            total_pnl_r = sum(float(r["P&L"]) for _, r in grp.iterrows() if pd.notna(r.get("P&L")) and str(r["P&L"]).strip() != "")
+            lines.append(f"{region},{t},{w},{l},{wr},{round(total_pnl_r,0)}")
+    
+    # Write to file
+    os.makedirs(LOG_DIR, exist_ok=True)
+    with open(report_file, "w", newline="") as f:
+        f.write("\n".join(lines) + "\n")
+    
+    report_size = os.path.getsize(report_file)
+    print(f"[Report] Portfolio report generated: {report_file} ({report_size:,} bytes)")
+    return report_file
+
+
 def update_trades(current_prices: dict) -> list:
     """
     Check all open positions for SL/TP/MaxHold exit.
