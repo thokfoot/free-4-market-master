@@ -1,0 +1,27 @@
+{
+  "capital": 100000.0,
+  "open_positions": [
+    {
+      "Date": "2026-07-25",
+      "Time_IST": "01:21:41 IST",
+      "Mode": "Crypto",
+      "Ticker": "ADA-USD",
+      "Direction": "SHORT",
+      "Entry_Price": 0.1635,
+      "Qty": 10000,
+      "SL": 0.1668,
+      "Target": 0.157,
+      "MaxHold": 5,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Reason": "#3 Price<SMA50+EMA9>EMA20+EMA20<EMA50"
+    }
+  ],
+  "closed_count": 0,
+  "total_wins": 0,
+  "total_losses": 0,
+  "total_pnl": 0
+}

@@ -1,0 +1,2 @@
+Date,Time_IST,Mode,Ticker,Direction,Entry_Price,Qty,SL,Target,MaxHold,Exit_Price,Exit_Time,P&L,P&L_%,Status,Reason
+2026-07-25,01:21:41 IST,Crypto,ADA-USD,SHORT,0.1635,10000,0.1668,0.157,5,,,,,OPEN,#3 Price<SMA50+EMA9>EMA20+EMA20<EMA50
