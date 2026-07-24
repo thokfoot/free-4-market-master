@@ -1,14 +1,14 @@
 {
   "capital_by_market": {
-    "INDIAN": 33333.33333333333,
-    "US": 33333.33333333333,
-    "CRYPTO": 33333.33333333333
+    "INDIAN": 100000.0,
+    "US": 100000.0,
+    "CRYPTO": 100000.0
   },
   "open_positions": [],
   "closed_count": 0,
   "total_wins": 0,
   "total_losses": 0,
-  "total_pnl": 0,
+  "total_pnl": 0.0,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 0.0,
