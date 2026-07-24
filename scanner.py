@@ -57,9 +57,17 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     if df is None or len(df) < 60:
         return df
     
+    # Work on a copy to avoid SettingWithCopyWarning
+    df = df.copy()
+    
     # Handle multi-index columns from yfinance
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = df.columns.get_level_values(0)
+    
+    # Drop rows where Close is NaN (happens for Indian indices on latest day)
+    df = df.dropna(subset=["Close"])
+    if len(df) < 60:
+        return df
     
     close = df["Close"]
     high = df["High"]
@@ -88,8 +96,8 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     # Range
     df["Range"] = (high - low) / close
     
-    # Returns
-    df["Ret"] = close.pct_change()
+    # Returns (explicit fill_method=None to suppress FutureWarning)
+    df["Ret"] = close.pct_change(fill_method=None)
     
     # 2Red: 2 consecutive red days
     df["2Red"] = (df["Ret"] < 0) & (df["Ret"].shift(1) < 0)

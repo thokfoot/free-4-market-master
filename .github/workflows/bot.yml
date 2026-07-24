@@ -5,7 +5,7 @@ on:
     # Run at 12:30 UTC = 6:00 PM IST (after India market close)
     - cron: '30 12 * * 1-5'
     # Also run at 1:00 UTC = 6:30 AM IST (after US market close)
-    - cron: '0 1 * * 2-6'
+    - cron: "0 1 * * 1-5"
   workflow_dispatch:
 
 permissions:
