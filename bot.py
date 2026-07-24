@@ -29,7 +29,7 @@ from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 # GitHub raw URL for portfolio report button
 GITHUB_REPO = "thokfoot/free-4-market-master"
 GITHUB_BRANCH = "main"
-PORTFOLIO_REPORT_URL = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}/logs/portfolio_report.csv"
+PORTFOLIO_REPORT_URL = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}/logs/portfolio_report.html"
 
 
 def send_telegram(msg: str, button_url: str = None) -> str:

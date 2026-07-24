@@ -163,57 +163,45 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     return trade
 
 
+def _html_escape(text):
+    """Escape text for safe HTML embedding."""
+    if text is None:
+        return ""
+    s = str(text)
+    return (s.replace("&", "&amp;")
+             .replace("<", "&lt;")
+             .replace(">", "&gt;")
+             .replace('"', "&quot;")
+             .replace("\n", " "))
+
+
+def _pnl_class(val):
+    """Return CSS class for P&L value."""
+    try:
+        v = float(val)
+        if v > 0: return "profit"
+        if v < 0: return "loss"
+    except:
+        pass
+    return ""
+
+
 def generate_portfolio_report():
     """
-    Generate a comprehensive portfolio report CSV with EVERYTHING.
+    Generate a professional HTML portfolio report with EVERYTHING.
     
     Sections:
-      1. ALL TRADES — Every single trade with full details
-      2. DAILY SUMMARY — Per-day capital, PnL, trades
-      3. PER-TICKER — Win rate, PnL, trades per ticker
-      4. PER-MARKET — Performance by region (US/India/Crypto)
-      5. PORTFOLIO SNAPSHOTS — Historical capital snapshots
+      1. Summary Cards — Capital, Return, Win Rate, Trades
+      2. All Trades Table — Full audit trail
+      3. Per-Ticker — Win rate, PnL per ticker
+      4. Per-Market — Performance by region
+      5. Portfolio History — Capital snapshots
     
-    File: logs/portfolio_report.csv
+    File: logs/portfolio_report.html (viewable in browser)
     """
-    report_file = os.path.join(LOG_DIR, "portfolio_report.csv")
-    lines = []
-    
-    # ============================================================
-    # SECTION 1: ALL TRADES
-    # ============================================================
-    lines.append("=== PORTFOLIO REPORT ===")
-    lines.append("Generated,PAPER TRADE v5.0")
     now = datetime.now(IST)
-    lines.append(f"Generated Time,{now.strftime('%Y-%m-%d %H:%M:%S IST')}")
-    lines.append("")
-    lines.append("=== ALL TRADES ===")
-    
-    if os.path.exists(PAPER_FILE):
-        df = pd.read_csv(PAPER_FILE)
-        # Add pattern info from reason column
-        if "Reason" in df.columns:
-            df["Pattern"] = df["Reason"].str.extract(r"#(\d+)", expand=False)
-        lines.append(",".join([str(c) for c in df.columns.tolist() + ["Days_Held"]]))
-        for _, row in df.iterrows():
-            days_held = ""
-            if row["Status"] == "CLOSED" and "Exit_Time" in row.index and pd.notna(row.get("Exit_Time")):
-                try:
-                    ed = datetime.strptime(str(row["Date"]), "%Y-%m-%d")
-                    days_held = str((now - ed.replace(tzinfo=IST)).days)
-                except:
-                    pass
-            vals = [str(row.get(c, "")) for c in df.columns]
-            vals.append(days_held)
-            lines.append(",".join(vals))
-    else:
-        lines.append("No trades yet")
-    
-    # ============================================================
-    # SECTION 2: PORTFOLIO SUMMARY
-    # ============================================================
-    lines.append("")
-    lines.append("=== PORTFOLIO SUMMARY ===")
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
     
     portfolio = load_portfolio()
     cape = portfolio["capital"]
@@ -225,65 +213,245 @@ def generate_portfolio_report():
     total_closed = wins + losses
     win_rate = round(wins / total_closed * 100, 1) if total_closed > 0 else 0
     ret_pct = round((cape - CAPITAL) / CAPITAL * 100, 2)
+    total_trades = total_closed + open_count
     
-    lines.append(f"Initial Capital,{CAPITAL:.0f}")
-    lines.append(f"Current Capital,{cape:.0f}")
-    lines.append(f"Return %,{ret_pct:+.2f}")
-    lines.append(f"Total P&L,{total_pnl:+.2f}")
-    lines.append(f"Open Positions,{open_count}")
-    lines.append(f"Closed Trades,{closed_cnt}")
-    lines.append(f"Total Trades,{total_closed + open_count}")
-    lines.append(f"Wins,{wins}")
-    lines.append(f"Losses,{losses}")
-    lines.append(f"Win Rate %,{win_rate}")
+    # Profit/loss direction for icons
+    pnl_direction = "▲" if ret_pct > 0 else ("▼" if ret_pct < 0 else "◆")
+    pnl_color = "#00c853" if ret_pct > 0 else ("#ff5252" if ret_pct < 0 else "#888")
+    
+    # Collect HTML parts
+    parts = []
+    
+    parts.append(f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Report — {_html_escape(date_str)}</title>
+<style>
+  *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #0d1117; color: #e6edf3; padding: 24px; line-height: 1.6;
+  }}
+  .container {{ max-width: 1100px; margin: 0 auto; }}
+  h1 {{ font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }}
+  h2 {{ font-size: 1.1rem; font-weight: 600; margin: 28px 0 14px; color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 6px; }}
+  .subtitle {{ color: #8b949e; font-size: 0.85rem; margin-bottom: 20px; }}
+  .cards {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }}
+  .card {{
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
+    padding: 16px; text-align: center; transition: border-color .2s;
+  }}
+  .card:hover {{ border-color: #58a6ff; }}
+  .card .value {{ font-size: 1.5rem; font-weight: 700; margin: 4px 0 2px; }}
+  .card .label {{ font-size: 0.75rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }}
+  .card .change {{ font-size: 0.85rem; }}
+  table {{
+    width: 100%; border-collapse: collapse; font-size: 0.82rem;
+    background: #161b22; border: 1px solid #30363d; border-radius: 8px; overflow: hidden;
+  }}
+  th, td {{ padding: 8px 10px; text-align: left; border-bottom: 1px solid #21262d; }}
+  th {{ background: #21262d; color: #8b949e; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.5px; }}
+  tr:hover {{ background: #1c2128; }}
+  .profit {{ color: #00c853 !important; font-weight: 600; }}
+  .loss {{ color: #ff5252 !important; font-weight: 600; }}
+  .badge {{
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+  }}
+  .badge-long {{ background: #003d1a; color: #00c853; }}
+  .badge-short {{ background: #3d0000; color: #ff5252; }}
+  .badge-open {{ background: #003055; color: #58a6ff; }}
+  .badge-closed {{ background: #21262d; color: #8b949e; }}
+  .badge-win {{ background: #003d1a; color: #00c853; }}
+  .badge-loss {{ background: #3d0000; color: #ff5252; }}
+  .badge-sl {{ background: #3d0000; color: #ff5252; }}
+  .badge-target {{ background: #003d1a; color: #00c853; }}
+  .badge-expiry {{ background: #3d2e00; color: #ffc107; }}
+  .section-summary {{ color: #8b949e; font-size: 0.82rem; margin-top: 6px; }}
+  .footer {{ margin-top: 30px; padding-top: 16px; border-top: 1px solid #30363d; text-align: center; color: #484f58; font-size: 0.75rem; }}
+  .scroll {{ overflow-x: auto; }}
+  @media (max-width: 600px) {{
+    body {{ padding: 12px; }}
+    .cards {{ grid-template-columns: repeat(2, 1fr); gap: 8px; }}
+    .card .value {{ font-size: 1.2rem; }}
+  }}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📊 Portfolio Report — v5.0</h1>
+  <div class="subtitle">{_html_escape(date_str)} {_html_escape(time_str)} • Generated by FREE 4-Market Paper Trade Bot • <a href="https://github.com/thokfoot/free-4-market-master" style="color:#58a6ff">thokfoot/free-4-market-master</a></div>
+  
+  <div class="cards">
+    <div class="card"><div class="label">Capital</div><div class="value" style="color:{pnl_color}">₹{cape:,.0f}</div><div class="change" style="color:{pnl_color}">{pnl_direction} {ret_pct:+.2f}%</div></div>
+    <div class="card"><div class="label">Total P&amp;L</div><div class="value" style="color:{"#00c853" if total_pnl>0 else "#ff5252" if total_pnl<0 else "#888"}">₹{total_pnl:+,.0f}</div><div class="change">{total_trades} trades</div></div>
+    <div class="card"><div class="label">Win Rate</div><div class="value">{win_rate}%</div><div class="change">{wins}W / {losses}L</div></div>
+    <div class="card"><div class="label">Open / Closed</div><div class="value">{open_count} / {closed_cnt}</div><div class="change">{total_closed + open_count} total</div></div>
+  </div>''')
+    
+    # ============================================================
+    # SECTION 2: ALL TRADES
+    # ============================================================
+    parts.append('<h2>📋 All Trades</h2>')
+    
+    if os.path.exists(PAPER_FILE):
+        df = pd.read_csv(PAPER_FILE)
+        if len(df) > 0:
+            parts.append('<div class="scroll"><table>')
+            cols = ["Date", "Ticker", "Direction", "Entry_Price", "Qty", "SL", "Target", 
+                    "Exit_Price", "P&L", "P&L_%", "Status", "Reason"]
+            cols = [c for c in cols if c in df.columns]
+            
+            parts.append("<tr>" + "".join(f"<th>{c.replace('_', ' ')}</th>" for c in cols) + "</tr>")
+            
+            for _, row in df.iterrows():
+                direction = str(row.get("Direction", ""))
+                status = str(row.get("Status", ""))
+                pnl = row.get("P&L", "")
+                pnl_pct = row.get("P&L_%", "")
+                
+                badge_dir = f'<span class="badge badge-{"long" if direction=="LONG" else "short"}">{_html_escape(direction)}</span>'
+                badge_status = f'<span class="badge badge-{"open" if status=="OPEN" else "closed"}">{_html_escape(status)}</span>'
+                
+                pnl_display = _html_escape(pnl)
+                pnl_class = _pnl_class(pnl)
+                pnl_pct_display = _html_escape(pnl_pct)
+                pnl_pct_class = _pnl_class(pnl_pct)
+                
+                exit_price = row.get("Exit_Price", "")
+                exit_display = _html_escape(exit_price) if pd.notna(exit_price) and str(exit_price).strip() != "" else "—"
+                
+                reason = str(row.get("Reason", ""))
+                reason_short = reason[:50] + ("..." if len(reason) > 50 else "")
+                
+                parts.append(f"<tr><td>{_html_escape(row.get('Date',''))}</td>")
+                parts.append(f"<td><b>{_html_escape(row.get('Ticker',''))}</b></td>")
+                parts.append(f"<td>{badge_dir}</td>")
+                parts.append(f"<td>{_html_escape(row.get('Entry_Price',''))}</td>")
+                parts.append(f"<td>{_html_escape(row.get('Qty',''))}</td>")
+                parts.append(f"<td>{_html_escape(row.get('SL',''))}</td>")
+                parts.append(f"<td>{_html_escape(row.get('Target',''))}</td>")
+                parts.append(f"<td>{exit_display}</td>")
+                parts.append(f'<td class="{pnl_class}">{pnl_display}</td>')
+                parts.append(f'<td class="{pnl_pct_class}">{pnl_pct_display}</td>')
+                parts.append(f"<td>{badge_status}</td>")
+                parts.append(f"<td style=\"font-size:0.75rem;color:#8b949e\">{_html_escape(reason_short)}</td>")
+                parts.append("</tr>")
+            parts.append('</table></div>')
+            parts.append(f'<div class="section-summary">Showing {len(df)} trade(s)</div>')
+        else:
+            parts.append('<div style="color:#8b949e;padding:20px;text-align:center">No trades recorded yet.</div>')
+    else:
+        parts.append('<div style="color:#8b949e;padding:20px;text-align:center">No trades recorded yet.</div>')
     
     # ============================================================
     # SECTION 3: PER-TICKER PERFORMANCE
     # ============================================================
     if os.path.exists(PAPER_FILE):
-        df = pd.read_csv(PAPER_FILE)
-        if len(df) > 0:
-            lines.append("")
-            lines.append("=== PER-TICKER PERFORMANCE ===")
-            lines.append("Ticker,Direction,Trades,Wins,Losses,Win_Rate%,Total_PnL,Avg_PnL")
+        df_trades = pd.read_csv(PAPER_FILE)
+        if len(df_trades) > 0:
+            parts.append('<h2>📈 Per-Ticker Performance</h2>')
+            parts.append('<div class="scroll"><table>')
+            parts.append("<tr><th>Ticker</th><th>Direction</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Win Rate</th><th>Total P&amp;L</th></tr>")
             
-            for (ticker, direction), grp in df.groupby(["Ticker", "Direction"]):
-                grp_wins = grp[grp["P&L"].apply(lambda x: float(x) > 0 if pd.notna(x) and str(x).strip() != "" else False)]
-                grp_losses = grp[grp["P&L"].apply(lambda x: float(x) < 0 if pd.notna(x) and str(x).strip() != "" else False)]
-                w = len(grp_wins)
-                l = len(grp_losses)
-                t = len(grp)
-                wr = round(w / (w + l) * 100, 1) if (w + l) > 0 else 0
-                
-                total_pnl_t = 0
+            for (ticker, direction), grp in df_trades.groupby(["Ticker", "Direction"]):
+                pnl_vals = []
                 for _, r in grp.iterrows():
-                    if pd.notna(r.get("P&L")) and str(r["P&L"]).strip() != "":
+                    v = r.get("P&L")
+                    if pd.notna(v) and str(v).strip() != "":
                         try:
-                            total_pnl_t += float(r["P&L"])
+                            pnl_vals.append(float(v))
                         except:
                             pass
-                avg = round(total_pnl_t / t, 0) if t > 0 else 0
-                lines.append(f"{ticker},{direction},{t},{w},{l},{wr},{round(total_pnl_t,0)},{avg}")
+                w = sum(1 for v in pnl_vals if v > 0)
+                l = sum(1 for v in pnl_vals if v < 0)
+                t = len(grp)
+                wr = round(w / (w + l) * 100, 1) if (w + l) > 0 else 0
+                total_pnl_t = round(sum(pnl_vals), 0)
+                pnl_c = "profit" if total_pnl_t > 0 else ("loss" if total_pnl_t < 0 else "")
+                badge_d = f'<span class="badge badge-{"long" if direction=="LONG" else "short"}">{_html_escape(direction)}</span>'
+                
+                parts.append(f"<tr><td><b>{_html_escape(ticker)}</b></td><td>{badge_d}</td>")
+                parts.append(f"<td>{t}</td><td>{w}</td><td>{l}</td><td>{wr}%</td>")
+                parts.append(f'<td class="{pnl_c}">₹{total_pnl_t:+,.0f}</td></tr>')
+            parts.append('</table></div>')
     
     # ============================================================
     # SECTION 4: PER-MARKET PERFORMANCE
     # ============================================================
-    if os.path.exists(PAPER_FILE) and "Mode" in df.columns:
-        lines.append("")
-        lines.append("=== PER-MARKET PERFORMANCE ===")
-        lines.append("Region,Trades,Wins,Losses,Win_Rate%,Total_PnL")
-        for region, grp in df.groupby("Mode"):
-            w = len(grp[grp["P&L"].apply(lambda x: float(x) > 0 if pd.notna(x) and str(x).strip() != "" else False)])
-            l = len(grp[grp["P&L"].apply(lambda x: float(x) < 0 if pd.notna(x) and str(x).strip() != "" else False)])
-            t = len(grp)
-            wr = round(w / (w + l) * 100, 1) if (w + l) > 0 else 0
-            total_pnl_r = sum(float(r["P&L"]) for _, r in grp.iterrows() if pd.notna(r.get("P&L")) and str(r["P&L"]).strip() != "")
-            lines.append(f"{region},{t},{w},{l},{wr},{round(total_pnl_r,0)}")
+    if os.path.exists(PAPER_FILE):
+        df_trades = pd.read_csv(PAPER_FILE)
+        if len(df_trades) > 0 and "Mode" in df_trades.columns:
+            parts.append('<h2>🌍 Per-Market Performance</h2>')
+            parts.append('<div class="scroll"><table>')
+            parts.append("<tr><th>Region</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Win Rate</th><th>Total P&amp;L</th></tr>")
+            
+            for region, grp in df_trades.groupby("Mode"):
+                pnl_vals = []
+                for _, r in grp.iterrows():
+                    v = r.get("P&L")
+                    if pd.notna(v) and str(v).strip() != "":
+                        try:
+                            pnl_vals.append(float(v))
+                        except:
+                            pass
+                w = sum(1 for v in pnl_vals if v > 0)
+                l = sum(1 for v in pnl_vals if v < 0)
+                t = len(grp)
+                wr = round(w / (w + l) * 100, 1) if (w + l) > 0 else 0
+                total_pnl_r = round(sum(pnl_vals), 0)
+                pnl_c = "profit" if total_pnl_r > 0 else ("loss" if total_pnl_r < 0 else "")
+                
+                parts.append(f"<tr><td><b>{_html_escape(region)}</b></td><td>{t}</td><td>{w}</td><td>{l}</td><td>{wr}%</td>")
+                parts.append(f'<td class="{pnl_c}">₹{total_pnl_r:+,.0f}</td></tr>')
+            parts.append('</table></div>')
     
-    # Write to file
+    # ============================================================
+    # SECTION 5: PORTFOLIO HISTORY (from snapshots CSV)
+    # ============================================================
+    PORTFOLIO_LOG = os.path.join(LOG_DIR, "portfolio_snapshots.csv")
+    if os.path.exists(PORTFOLIO_LOG):
+        df_snap = pd.read_csv(PORTFOLIO_LOG)
+        if len(df_snap) > 0:
+            parts.append('<h2>📅 Portfolio History</h2>')
+            parts.append('<div class="scroll"><table>')
+            cols = ["Date", "Time", "Capital", "Return_Pct", "Open", "Win_Rate", "Total_PnL"]
+            cols = [c for c in cols if c in df_snap.columns]
+            parts.append("<tr>" + "".join(f"<th>{c.replace('_', ' ')}</th>" for c in cols) + "</tr>")
+            for _, row in df_snap.tail(20).iterrows():
+                parts.append("<tr>")
+                for c in cols:
+                    val = row.get(c, "")
+                    if c in ("Capital", "Total_PnL") and pd.notna(val):
+                        try:
+                            val = f"₹{float(val):,.0f}"
+                        except:
+                            pass
+                    if c == "Return_Pct" and pd.notna(val):
+                        cls = "profit" if float(val) > 0 else ("loss" if float(val) < 0 else "")
+                        val = f'<span class="{cls}">{_html_escape(val)}%</span>'
+                    parts.append(f"<td>{val}</td>")
+                parts.append("</tr>")
+            parts.append('</table></div>')
+    
+    # Footer
+    parts.append(f'''
+  <div class="footer">
+    FREE 4-Market v5.0 Paper Trade Bot &bull;
+    Generated {_html_escape(date_str)} {_html_escape(time_str)} &bull;
+    <a href="https://github.com/thokfoot/free-4-market-master" style="color:#484f58">GitHub</a>
+  </div>
+</div>
+</body>
+</html>''')
+    
+    # Write
+    report_file = os.path.join(LOG_DIR, "portfolio_report.html")
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(report_file, "w", newline="") as f:
-        f.write("\n".join(lines) + "\n")
+    with open(report_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(parts))
     
     report_size = os.path.getsize(report_file)
     print(f"[Report] Portfolio report generated: {report_file} ({report_size:,} bytes)")
