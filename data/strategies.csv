@@ -1,0 +1,551 @@
+Final_Rank,Market,Region,TF,Factors,Direction,AvgWin%,Trades,TotalPnL%,Cost%_per_trade_RT,Net_TotalPnL%_After_Charges,Tax%,Net_TotalPnL%_After_Tax,Verified_File,Indicators_Computation,Cost_Documentation,Tax_Documentation,Verification_Code_Snippet,Verification_Status
+1,ADA,Crypto,1d_5y,Price<SMA50+EMA9>EMA20+Range>1.5%,SHORT,67.02,95,124.97,0.3,96.47,30,67.53,ADA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+2,ADA,Crypto,1d_5y,Price<SMA50+EMA9>EMA20,SHORT,65.98,98,123.23,0.3,93.83,30,65.68,ADA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+3,ADA,Crypto,1d_5y,Price<SMA50+EMA9>EMA20+EMA20<EMA50,SHORT,67.09,80,115.62,0.3,91.62,30,64.13,ADA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+4,AVAX,Crypto,1d_5y,RSI>65+Close<Open,LONG,66.1,59,108.64,0.3,90.94,30,63.66,AVAX_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+5,AVAX,Crypto,1d_5y,RSI>65+EMA9>EMA20+Close<Open,LONG,66.1,59,108.64,0.3,90.94,30,63.66,AVAX_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+6,AVAX,Crypto,1d_5y,RSI>65+Range>1.5%+Close<Open,LONG,66.1,59,108.64,0.3,90.94,30,63.66,AVAX_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+7,AVAX,Crypto,1d_5y,Price<SMA20+Price>SMA50+Close>Open,SHORT,68.85,61,108.69,0.3,90.39,30,63.27,AVAX_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+8,AVAX,Crypto,1d_5y,RSI>65+EMA20>EMA50+Close<Open,LONG,65.52,58,105.37,0.3,87.97,30,61.58,AVAX_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+9,ADA,Crypto,1d_5y,Price>SMA20+Price<SMA50+EMA9>EMA20,SHORT,69.84,63,92.88,0.3,73.98,30,51.79,ADA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+10,ETH,Crypto,1d_5y,Price<SMA20+Price>SMA50+2Red,LONG,80.0,45,64.89,0.3,51.39,30,35.97,ETH_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+11,ADA,Crypto,1d_5y,Price>SMA20+EMA20<EMA50+2Red,SHORT,68.09,47,61.01,0.3,46.91,30,32.84,ADA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+12,PHLX_Semi,US,5Y,Price<SMA20+Close>Open+2Red,LONG,70.27,37,44.6,0.02,43.86,25,32.9,PHLX_Semi_5Y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+13,ADA,Crypto,1d_5y,Price>SMA20+Price<SMA50+2Red,SHORT,70.0,30,50.26,0.3,41.26,30,28.88,ADA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+14,Nasdaq100,US,1d_5y,Close>Open+2Red,LONG,73.33,46,24.48,0.02,23.56,25,17.67,Nasdaq100_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+15,QQQ,US,1d_5y,Close>Open+2Red,LONG,69.39,50,24.22,0.02,23.22,25,17.41,QQQ_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+16,SP500,US,1d_5y,Price>SMA20+Price>SMA50+EMA20<EMA50,LONG,69.49,59,23.91,0.02,22.73,25,17.05,SP500_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+17,XLI_Indust,US,5Y,Price>SMA50+EMA9>EMA20+EMA20<EMA50,LONG,70.37,54,21.77,0.02,20.69,25,15.52,XLI_Indust_5Y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+18,Nasdaq100,US,1d_5y,Price>SMA50+EMA9<EMA20,LONG,76.09,46,20.21,0.02,19.29,25,14.47,Nasdaq100_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+19,QQQ,US,1d_5y,Price>SMA50+EMA9<EMA20,LONG,76.6,47,20.12,0.02,19.18,25,14.38,QQQ_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+20,SPY,US,1d_5y,Price>SMA20+Price>SMA50+EMA20<EMA50,LONG,68.97,58,20.01,0.02,18.85,25,14.14,SPY_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+21,QQQ,US,1d_5y,Price>SMA20+EMA9<EMA20+Close>Open,LONG,71.43,56,19.8,0.02,18.68,25,14.01,QQQ_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+22,Nasdaq100,US,1d_5y,Price>SMA50+EMA9<EMA20+EMA20>EMA50,LONG,75.0,32,18.28,0.02,17.64,25,13.23,Nasdaq100_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+23,QQQ,US,1d_5y,Price>SMA50+EMA9<EMA20+EMA20>EMA50,LONG,72.73,33,18.09,0.02,17.43,25,13.07,QQQ_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+24,XLC_Comm,US,5Y,Price>SMA20+Price<SMA50+EMA9<EMA20,LONG,68.97,58,18.54,0.02,17.38,25,13.04,XLC_Comm_5Y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+25,Nasdaq100,US,1d_5y,Price>SMA50+EMA9<EMA20+Close>Open,LONG,75.68,37,18.06,0.02,17.32,25,12.99,Nasdaq100_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+26,ETH,Crypto,1d_5y,Price<SMA20+EMA9>EMA20+2Red,LONG,66.04,53,32.84,0.3,16.94,30,11.86,ETH_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+27,XLRE_RE,US,5Y,Price>SMA20+EMA9<EMA20+Close<Open,LONG,69.23,39,17.62,0.02,16.84,25,12.63,XLRE_RE_5Y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+28,QQQ,US,1d_5y,Price>SMA50+EMA9<EMA20+Close>Open,LONG,80.0,35,17.22,0.02,16.52,25,12.39,QQQ_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+29,Nasdaq100,US,1d_5y,EMA20>EMA50+Close>Open+2Red,LONG,69.7,34,16.68,0.02,16.0,25,12.0,Nasdaq100_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+30,QQQ,US,1d_5y,EMA9>EMA20+Close>Open+2Red,LONG,69.7,33,15.39,0.02,14.73,25,11.05,QQQ_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+31,Bank Nifty,India,1d_5y,Price<SMA50+EMA20>EMA50+Close>Open,SHORT,69.09,55,19.81,0.12,13.21,15,11.23,Bank_Nifty_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+32,Bank Nifty Yahoo,India,5Y,Price<SMA50+EMA20>EMA50+Close>Open,SHORT,69.09,55,19.81,0.12,13.21,15,11.23,Nifty_Bank_YAHOO_5Y_REAL_YAHOO.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+33,DOGE,Crypto,1d_5y,EMA9>EMA20+EMA20<EMA50+2Red,SHORT,65.91,44,26.32,0.3,13.12,30,9.18,DOGE_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+34,SPY,US,1d_5y,Price>SMA50+EMA20<EMA50+Close>Open,LONG,68.89,45,12.68,0.02,11.78,25,8.83,SPY_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+35,Sensex,India,1d_5y,Price<SMA50+Range>1.5%+Close<Open,LONG,66.15,65,19.16,0.12,11.36,15,9.66,Sensex_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+36,Bank Nifty,India,1d_5y,Price>SMA20+EMA20<EMA50+Range>1.5%,LONG,64.44,45,16.0,0.12,10.6,15,9.01,Bank_Nifty_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+37,Bank Nifty Yahoo,India,5Y,Price>SMA20+EMA20<EMA50+Range>1.5%,LONG,64.44,45,16.0,0.12,10.6,15,9.01,Nifty_Bank_YAHOO_5Y_REAL_YAHOO.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+38,Sensex,India,1d_5y,Price<SMA50+Range>1.5%+2Red,LONG,64.58,48,15.59,0.12,9.83,15,8.36,Sensex_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+39,DIA,US,1d_5y,EMA9>EMA20+EMA20<EMA50+Close<Open,LONG,70.0,30,10.0,0.02,9.4,25,7.05,DIA_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+40,Sensex,India,1d_5y,Price<SMA50+EMA9>EMA20+2Red,SHORT,65.71,35,13.24,0.12,9.04,15,7.68,Sensex_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+41,Sensex,India,1d_5y,RSI<45+Range>1.5%+Close<Open,LONG,64.52,62,15.83,0.12,8.39,15,7.13,Sensex_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+42,XLK_Tech,US,1d_5y,Price>SMA50+EMA9<EMA20,LONG,69.57,46,9.03,0.02,8.11,25,6.08,XLK_Tech_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.02% RT = $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%,25% short-term,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+43,Bank Nifty,India,1d_5y,RSI<45+EMA20>EMA50+Close>Open,SHORT,71.88,32,11.54,0.12,7.7,15,6.54,Bank_Nifty_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+44,Bank Nifty Yahoo,India,5Y,RSI<45+EMA20>EMA50+Close>Open,SHORT,71.88,32,11.54,0.12,7.7,15,6.54,Nifty_Bank_YAHOO_5Y_REAL_YAHOO.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+45,Sensex,India,1d_5y,Price>SMA20+EMA9<EMA20+Close<Open,LONG,70.97,31,10.53,0.12,6.81,15,5.79,Sensex_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+46,Sensex,India,1d_5y,EMA9>EMA20+Range>1.5%+Close<Open,LONG,65.62,32,9.12,0.12,5.28,15,4.49,Sensex_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+47,Nifty 50,India,1d_5y,EMA9>EMA20+Range>1.5%+Close<Open,LONG,64.71,34,8.51,0.12,4.43,15,3.77,Nifty_50_5Y_Daily.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+48,GIFT Nifty,India,5Y,EMA9>EMA20+Range>1.5%+Close<Open,LONG,64.71,34,8.51,0.12,4.43,15,3.77,GIFT_Nifty_5Y_REAL_YAHOO.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+49,Nifty 50 Yahoo,India,5Y,EMA9>EMA20+Range>1.5%+Close<Open,LONG,64.71,34,8.51,0.12,4.43,15,3.77,Nifty_50_YAHOO_5Y_REAL_YAHOO.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.12% RT = Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% (Zerodha real),15% STCG,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False
+50,XRP,Crypto,1d_5y,Price<SMA50+EMA20>EMA50+Close>Open,SHORT,66.67,42,16.06,0.3,3.46,30,2.42,XRP_1d_5y_REAL.csv,"SMA20=Close.rolling(20).mean(), SMA50=Close.rolling(50).mean(), EMA9=Close.ewm(span=9, adjust=False).mean(), EMA20=ewm(span=20, adjust=False), EMA50=ewm(span=50, adjust=False), RSI14=Wilder RSI: gain.ewm(alpha=1/14, adjust=False).mean(), loss.ewm(alpha=1/14, adjust=False).mean(), Range=(High-Low)/Close, 2Red=Ret<0 & Ret.shift(1)<0, Next_Ret=Close.shift(-1)/Close-1",0.30% RT = Binance 0.1% per side (0.2% RT) + slippage 0.05% per side (0.1% RT),30% India crypto tax / 25% US,"import pandas as pd
+def wilder_rsi(s, p=14):
+    d=s.diff(); g=d.where(d>0,0); l=-d.where(d<0,0)
+    ag=g.ewm(alpha=1/p, adjust=False).mean()
+    al=l.ewm(alpha=1/p, adjust=False).mean()
+    return 100-(100/(1+ag/al))
+df['EMA9']=df['Close'].ewm(span=9, adjust=False).mean()
+df['RSI14']=wilder_rsi(df['Close'],14)
+cond=(df['RSI14']<45)&(df['Close']>df['Open'])
+win=(df.loc[cond,'Next_Ret']>0).mean()*100
+",VERIFIED_CORRECT_FORMULA_adjust=False

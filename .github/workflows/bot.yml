@@ -1,15 +1,18 @@
-name: FREE-4-Market v4.2 ULTIMATE GEM+PAPER NO-MISS
+name: FREE-4-Market v5.0 PAPER TRADE DAILY
 
 on:
   schedule:
-    - cron: '0,30 * * * *'
+    # Run at 12:30 UTC = 6:00 PM IST (after India market close)
+    - cron: '30 12 * * 1-5'
+    # Also run at 1:00 UTC = 6:30 AM IST (after US market close)
+    - cron: '0 1 * * 2-6'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: free4market-v4-no-miss
+  group: free4market-v5-paper
   cancel-in-progress: false
 
 jobs:
@@ -24,28 +27,28 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
-      - name: Install deps
+      - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Bot v4.2 NO-MISS
+      - name: Run Paper Trade Bot
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python main.py
+        run: python bot.py
 
-      - name: Commit logs
+      - name: Commit logs & data
         run: |
-          git config --local user.email "bot@v4.com"
-          git config --local user.name "v4-bot"
+          git config --local user.email "bot@paper-trade.com"
+          git config --local user.name "paper-trade-bot"
           git pull --rebase --autostash || true
           git add logs/ || true
-          git diff --staged --quiet && echo "no changes to commit" && exit 0
-          git commit -m "v4.2 NO-MISS logs $(date -u +'%Y-%m-%d %H:%M UTC') [skip ci]"
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "v5.0 paper trade scan $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push || (git pull --rebase && git push)
