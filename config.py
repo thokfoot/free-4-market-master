@@ -11,7 +11,14 @@ Indicators: adjust=False for EMA & Wilder's RSI (TradingView-matched)
 import os
 
 # ===== CAPITAL & RISK =====
-CAPITAL = 100000.0              # ₹1,00,000 initial capital
+# Per-market capital allocation: ₹1,00,000 each → ₹3,00,000 total
+CAPITAL_BY_MARKET = {
+    "INDIAN": 100000.0,
+    "US": 100000.0,
+    "CRYPTO": 100000.0,
+}
+TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values())  # ₹3,00,000
+CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss
 TP_PCT = 0.04                   # 4% take profit

@@ -18,7 +18,7 @@ import requests
 import pytz
 
 from config import (
-    CAPITAL, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
+    CAPITAL, CAPITAL_BY_MARKET, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
     YF_PERIOD, YF_INTERVAL, get_region,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
@@ -72,14 +72,11 @@ def send_telegram(msg: str, button_url: str = None) -> str:
 def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        closed_msgs: list, cape: float, open_count: int,
                        total_pnl: float, wins: int = 0, losses: int = 0,
-                       closed_count: int = 0) -> str:
+                       closed_count: int = 0,
+                       capital_by_market: dict = None) -> str:
     """
-    Professional Telegram message — ALWAYS shows portfolio summary.
-    
-    - Header with date/time
-    - New entries (if any): DIRECTION TICKER Qty @ PRICE SL TGT
-    - Closed trades (if any): PnL with exit reason
-    - Portfolio summary: Capital, Return %, Open/Closed/WinRate, Total PnL
+    Professional Telegram message with per-market portfolio breakdown.
+    Shows total capital, per-market caps, entries, exits, and P&L.
     """
     ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
     total_closed = wins + losses
@@ -118,6 +115,20 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     # Portfolio summary (ALWAYS)
     lines.append("")
     lines.append(f"💰 *Capital:* Rs {cape:,.0f}  {arrow} {ret_pct:+.2f}%")
+    
+    # Per-market breakdown
+    if capital_by_market:
+        mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP"}
+        mkt_parts = []
+        for mkt in ["INDIAN", "US", "CRYPTO"]:
+            mcap = capital_by_market.get(mkt, 100000)
+            minit = CAPITAL_BY_MARKET.get(mkt, 100000)
+            mret = ((mcap - minit) / minit * 100) if minit > 0 else 0
+            mar = "▲" if mret > 0 else ("▼" if mret < 0 else "▶")
+            label = mkt_short.get(mkt, mkt[:4])
+            mkt_parts.append(f"{label} ₹{mcap:,.0f}{mar}{mret:+.1f}%")
+        lines.append("   " + " | ".join(mkt_parts))
+    
     lines.append(f"📊 Open: {open_count} | Closed: {closed_count} | Win: {win_rate}%")
     lines.append(f"💵 *Total P&L:* Rs {total_pnl:+,.0f}")
     
@@ -242,7 +253,8 @@ def main():
     
     # ===== 9. Load portfolio state =====
     portfolio = load_portfolio()
-    cape = portfolio["capital"]
+    cap_by_mkt = portfolio.get("capital_by_market", dict(CAPITAL_BY_MARKET))
+    total_cape = sum(cap_by_mkt.values())
     open_positions = portfolio.get("open_positions", [])
     total_pnl = portfolio.get("total_pnl", 0)
     closed_cnt = portfolio.get("closed_count", 0)
@@ -255,8 +267,9 @@ def main():
     # ===== 11. Send Telegram =====
     tg_msg = build_telegram_msg(
         date_str, time_str, entries, closed_msgs,
-        cape, len(open_positions), total_pnl,
+        total_cape, len(open_positions), total_pnl,
         wins, losses, closed_cnt,
+        capital_by_market=cap_by_mkt,
     )
     tg_status = send_telegram(tg_msg, button_url=PORTFOLIO_REPORT_URL)
     
@@ -279,7 +292,9 @@ def main():
         ],
         "entries": entries,
         "portfolio": {
-            "capital": cape, "open_count": len(open_positions),
+            "capital_by_market": cap_by_mkt,
+            "total_capital": total_cape,
+            "open_count": len(open_positions),
             "total_pnl": total_pnl, "closed_count": closed_cnt,
             "wins": wins, "losses": losses,
         },
@@ -299,13 +314,14 @@ def main():
         "New_Entries": len(entries),
         "Closed_Trades": len(closed_msgs),
         "Open_Positions": len(open_positions),
-        "Capital": round(cape, 0),
+        "Capital": round(total_cape, 0),
         "Total_PnL": round(total_pnl, 0),
         "Telegram": tg_status,
     })
     
     # ===== 14. Log portfolio snapshot =====
-    log_portfolio(cape, open_positions, closed_cnt, wins, losses, total_pnl)
+    log_portfolio(total_cape, open_positions, closed_cnt, wins, losses, total_pnl,
+                  capital_by_market=cap_by_mkt)
     
     elapsed = time.time() - start_time
     print(f"\n{'='*60}")

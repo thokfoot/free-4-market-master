@@ -8,7 +8,7 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 import os, json, pandas as pd
 from datetime import datetime
 import pytz
-from config import CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
+from config import CAPITAL, CAPITAL_BY_MARKET, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
 
 IST = pytz.timezone("Asia/Kolkata")
 LOG_DIR = "logs"
@@ -34,22 +34,53 @@ def round_price(price):
     return round(p, 8)
 
 
-def load_portfolio() -> dict:
-    """Load portfolio from JSON file."""
-    if os.path.exists(PORTFOLIO_FILE):
-        try:
-            with open(PORTFOLIO_FILE, "r") as f:
-                return json.load(f)
-        except:
-            pass
+def _default_portfolio() -> dict:
+    """Return default portfolio with per-market capital."""
     return {
-        "capital": CAPITAL,
+        "capital_by_market": dict(CAPITAL_BY_MARKET),
         "open_positions": [],
         "closed_count": 0,
         "total_wins": 0,
         "total_losses": 0,
         "total_pnl": 0,
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0},
     }
+
+
+def load_portfolio() -> dict:
+    """Load portfolio from JSON file. Migrates old format automatically."""
+    if os.path.exists(PORTFOLIO_FILE):
+        try:
+            with open(PORTFOLIO_FILE, "r") as f:
+                data = json.load(f)
+            # Migrate old format (single capital -> per-market)
+            if "capital" in data and "capital_by_market" not in data:
+                port = _default_portfolio()
+                port["open_positions"] = data.get("open_positions", [])
+                port["closed_count"] = data.get("closed_count", 0)
+                port["total_wins"] = data.get("total_wins", 0)
+                port["total_losses"] = data.get("total_losses", 0)
+                port["total_pnl"] = data.get("total_pnl", 0)
+                # Distribute old capital proportionally (fallback: equal split)
+                old_cap = float(data.get("capital", sum(CAPITAL_BY_MARKET.values())))
+                total_init = sum(CAPITAL_BY_MARKET.values())
+                ratio = old_cap / total_init if total_init > 0 else 1
+                for mkt in port["capital_by_market"]:
+                    port["capital_by_market"][mkt] = CAPITAL_BY_MARKET[mkt] * ratio
+                # Distribute old PnL
+                old_pnl = float(data.get("total_pnl", 0))
+                if old_pnl != 0 and port["open_positions"]:
+                    # Split PnL equally if we don't have per-market records
+                    per_market = old_pnl / 3
+                    for mkt in port["total_pnl_by_market"]:
+                        port["total_pnl_by_market"][mkt] = round(per_market, 2)
+                save_portfolio(port)
+                print(f"[Paper] Migrated portfolio to per-market format")
+                return port
+            return data
+        except Exception as e:
+            print(f"[Paper] Portfolio load error: {e}, using defaults")
+    return _default_portfolio()
 
 
 def save_portfolio(port: dict):
@@ -59,9 +90,11 @@ def save_portfolio(port: dict):
         json.dump(port, f, indent=2)
 
 
-def calculate_qty(entry: float, sl: float) -> int:
-    """Calculate position size based on risk per trade (1% of capital)."""
-    risk_amt = load_portfolio()["capital"] * RISK_PER_TRADE
+def calculate_qty(entry: float, sl: float, market: str = "US") -> int:
+    """Calculate position size based on risk per trade (1% of market capital)."""
+    port = load_portfolio()
+    mkt_cap = port.get("capital_by_market", {}).get(market, CAPITAL_BY_MARKET.get(market, 100000))
+    risk_amt = mkt_cap * RISK_PER_TRADE
     risk_per_share = abs(entry - sl)
     if risk_per_share < 1e-9:
         return 0
@@ -117,7 +150,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         target = round_price(entry_price * (1 - TP_PCT))
     
     entry = round_price(entry_price)
-    qty = calculate_qty(entry, sl)
+    qty = calculate_qty(entry, sl, mode)
     if qty == 0:
         return None
     
@@ -155,7 +188,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         df_comb = df_new
     df_comb.to_csv(PAPER_FILE, index=False)
     
-    # Update portfolio
+    # Update portfolio (market-specific capital remains unchanged at entry)
     portfolio["open_positions"].append(trade)
     save_portfolio(portfolio)
     
@@ -204,7 +237,8 @@ def generate_portfolio_report():
     time_str = now.strftime("%H:%M:%S IST")
     
     portfolio = load_portfolio()
-    cape = portfolio["capital"]
+    cap_by_mkt = portfolio.get("capital_by_market", dict(CAPITAL_BY_MARKET))
+    total_cape = sum(cap_by_mkt.values())
     open_count = len(portfolio.get("open_positions", []))
     closed_cnt = portfolio.get("closed_count", 0)
     wins = portfolio.get("total_wins", 0)
@@ -212,16 +246,14 @@ def generate_portfolio_report():
     total_pnl = portfolio.get("total_pnl", 0)
     total_closed = wins + losses
     win_rate = round(wins / total_closed * 100, 1) if total_closed > 0 else 0
-    ret_pct = round((cape - CAPITAL) / CAPITAL * 100, 2)
+    ret_pct = round((total_cape - TOTAL_CAPITAL) / TOTAL_CAPITAL * 100, 2)
     total_trades = total_closed + open_count
     
-    # Profit/loss direction for icons
+    # Profit/loss direction
     pnl_direction = "▲" if ret_pct > 0 else ("▼" if ret_pct < 0 else "◆")
     pnl_color = "#00c853" if ret_pct > 0 else ("#ff5252" if ret_pct < 0 else "#888")
     
-    # Collect HTML parts
     parts = []
-    
     parts.append(f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -247,6 +279,10 @@ def generate_portfolio_report():
   .card .value {{ font-size: 1.5rem; font-weight: 700; margin: 4px 0 2px; }}
   .card .label {{ font-size: 0.75rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }}
   .card .change {{ font-size: 0.85rem; }}
+  .mkt-row {{ display: flex; justify-content: space-around; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }}
+  .mkt-item {{ background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 10px 16px; text-align: center; min-width: 130px; }}
+  .mkt-item .mkt-label {{ font-size: 0.7rem; color: #8b949e; text-transform: uppercase; }}
+  .mkt-item .mkt-value {{ font-size: 1.1rem; font-weight: 700; }}
   table {{
     width: 100%; border-collapse: collapse; font-size: 0.82rem;
     background: #161b22; border: 1px solid #30363d; border-radius: 8px; overflow: hidden;
@@ -264,8 +300,6 @@ def generate_portfolio_report():
   .badge-short {{ background: #3d0000; color: #ff5252; }}
   .badge-open {{ background: #003055; color: #58a6ff; }}
   .badge-closed {{ background: #21262d; color: #8b949e; }}
-  .badge-win {{ background: #003d1a; color: #00c853; }}
-  .badge-loss {{ background: #3d0000; color: #ff5252; }}
   .badge-sl {{ background: #3d0000; color: #ff5252; }}
   .badge-target {{ background: #003d1a; color: #00c853; }}
   .badge-expiry {{ background: #3d2e00; color: #ffc107; }}
@@ -275,7 +309,8 @@ def generate_portfolio_report():
   @media (max-width: 600px) {{
     body {{ padding: 12px; }}
     .cards {{ grid-template-columns: repeat(2, 1fr); gap: 8px; }}
-    .card .value {{ font-size: 1.2rem; }}
+    .mkt-row {{ gap: 4px; }}
+    .mkt-item {{ min-width: 100px; padding: 8px; }}
   }}
 </style>
 </head>
@@ -285,11 +320,26 @@ def generate_portfolio_report():
   <div class="subtitle">{_html_escape(date_str)} {_html_escape(time_str)} • Generated by FREE 4-Market Paper Trade Bot • <a href="https://github.com/thokfoot/free-4-market-master" style="color:#58a6ff">thokfoot/free-4-market-master</a></div>
   
   <div class="cards">
-    <div class="card"><div class="label">Capital</div><div class="value" style="color:{pnl_color}">₹{cape:,.0f}</div><div class="change" style="color:{pnl_color}">{pnl_direction} {ret_pct:+.2f}%</div></div>
+    <div class="card"><div class="label">Total Capital</div><div class="value" style="color:{pnl_color}">₹{total_cape:,.0f}</div><div class="change" style="color:{pnl_color}">{pnl_direction} {ret_pct:+.2f}%</div></div>
     <div class="card"><div class="label">Total P&amp;L</div><div class="value" style="color:{"#00c853" if total_pnl>0 else "#ff5252" if total_pnl<0 else "#888"}">₹{total_pnl:+,.0f}</div><div class="change">{total_trades} trades</div></div>
     <div class="card"><div class="label">Win Rate</div><div class="value">{win_rate}%</div><div class="change">{wins}W / {losses}L</div></div>
     <div class="card"><div class="label">Open / Closed</div><div class="value">{open_count} / {closed_cnt}</div><div class="change">{total_closed + open_count} total</div></div>
-  </div>''')
+  </div>
+  
+  <div class="mkt-row">
+''')
+    # Per-market cards
+    for mkt in ["INDIAN", "US", "CRYPTO"]:
+        mkt_cap = cap_by_mkt.get(mkt, 100000)
+        mkt_init = CAPITAL_BY_MARKET.get(mkt, 100000)
+        mkt_ret = ((mkt_cap - mkt_init) / mkt_init * 100) if mkt_init > 0 else 0
+        mkt_arrow = "▲" if mkt_ret > 0 else ("▼" if mkt_ret < 0 else "◆")
+        mkt_clr = "#00c853" if mkt_ret > 0 else ("#ff5252" if mkt_ret < 0 else "#888")
+        mkt_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}
+        parts.append(f'    <div class="mkt-item"><div class="mkt-label">{mkt_icon.get(mkt,"")} {mkt}</div>'
+                     f'<div class="mkt-value" style="color:{mkt_clr}">₹{mkt_cap:,.0f}</div>'
+                     f'<div style="font-size:0.75rem;color:{mkt_clr}">{mkt_arrow} {mkt_ret:+.2f}%</div></div>')
+    parts.append('  </div>')
     
     # ============================================================
     # SECTION 2: ALL TRADES
@@ -534,8 +584,14 @@ def update_trades(current_prices: dict) -> list:
             df.at[idx, "Status"] = "CLOSED"
             df.at[idx, "Reason"] = str(row["Reason"]) + f" | {exit_reason}"
             
-            portfolio["capital"] = max(0, portfolio["capital"] + pnl)
+            # Update per-market capital
+            trade_mode = str(row.get("Mode", "US"))
+            mkt_cap = portfolio.setdefault("capital_by_market", dict(CAPITAL_BY_MARKET)).get(trade_mode, 100000)
+            mkt_cap = max(0, mkt_cap + pnl)
+            portfolio["capital_by_market"][trade_mode] = mkt_cap
             portfolio["total_pnl"] += pnl
+            tpnl_by_mkt = portfolio.setdefault("total_pnl_by_market", {"INDIAN":0,"US":0,"CRYPTO":0})
+            tpnl_by_mkt[trade_mode] = tpnl_by_mkt.get(trade_mode, 0) + pnl
             portfolio["closed_count"] += 1
             if pnl > 0:
                 portfolio["total_wins"] += 1
