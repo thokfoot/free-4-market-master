@@ -181,8 +181,9 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     # Append to CSV
     df_new = pd.DataFrame([trade])[COLUMNS]
     os.makedirs(LOG_DIR, exist_ok=True)
+    os.makedirs(LOG_DIR, exist_ok=True)
     if os.path.exists(PAPER_FILE):
-        df_old = pd.read_csv(PAPER_FILE)
+        df_old = pd.read_csv(PAPER_FILE, on_bad_lines='skip')
         df_comb = pd.concat([df_old, df_new], ignore_index=True)
     else:
         df_comb = df_new
@@ -347,7 +348,7 @@ def generate_portfolio_report():
     parts.append('<h2>📋 All Trades</h2>')
     
     if os.path.exists(PAPER_FILE):
-        df = pd.read_csv(PAPER_FILE)
+        df = pd.read_csv(PAPER_FILE, on_bad_lines='skip')
         if len(df) > 0:
             parts.append('<div class="scroll"><table>')
             cols = ["Date", "Ticker", "Direction", "Entry_Price", "Qty", "SL", "Target", 
@@ -400,7 +401,7 @@ def generate_portfolio_report():
     # SECTION 3: PER-TICKER PERFORMANCE
     # ============================================================
     if os.path.exists(PAPER_FILE):
-        df_trades = pd.read_csv(PAPER_FILE)
+        df_trades = pd.read_csv(PAPER_FILE, on_bad_lines='skip')
         if len(df_trades) > 0:
             parts.append('<h2>📈 Per-Ticker Performance</h2>')
             parts.append('<div class="scroll"><table>')
@@ -432,7 +433,7 @@ def generate_portfolio_report():
     # SECTION 4: PER-MARKET PERFORMANCE
     # ============================================================
     if os.path.exists(PAPER_FILE):
-        df_trades = pd.read_csv(PAPER_FILE)
+        df_trades = pd.read_csv(PAPER_FILE, on_bad_lines='skip')
         if len(df_trades) > 0 and "Mode" in df_trades.columns:
             parts.append('<h2>🌍 Per-Market Performance</h2>')
             parts.append('<div class="scroll"><table>')
@@ -463,7 +464,7 @@ def generate_portfolio_report():
     # ============================================================
     PORTFOLIO_LOG = os.path.join(LOG_DIR, "portfolio_snapshots.csv")
     if os.path.exists(PORTFOLIO_LOG):
-        df_snap = pd.read_csv(PORTFOLIO_LOG)
+        df_snap = pd.read_csv(PORTFOLIO_LOG, on_bad_lines='skip')
         if len(df_snap) > 0:
             parts.append('<h2>📅 Portfolio History</h2>')
             parts.append('<div class="scroll"><table>')
@@ -521,7 +522,7 @@ def update_trades(current_prices: dict) -> list:
     if not os.path.exists(PAPER_FILE):
         return []
     
-    df = pd.read_csv(PAPER_FILE)
+    df = pd.read_csv(PAPER_FILE, on_bad_lines='skip')
     portfolio = load_portfolio()
     updated = False
     closed_msgs = []
