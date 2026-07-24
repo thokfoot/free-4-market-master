@@ -328,7 +328,7 @@ def main():
     print(f"  BOT RUN COMPLETE — {elapsed:.1f}s")
     print(f"  Tickers: {len(ticker_data)} | Fired: {len(fired_signals)}")
     print(f"  Entered: {len(entries)} | Closed: {len(closed_msgs)}")
-    print(f"  Capital: Rs {cape:,.0f} | PnL: Rs {total_pnl:+,.0f}")
+    print(f"  Capital: Rs {total_cape:,.0f} (IND:₹{cap_by_mkt.get('INDIAN',0):,.0f} US:₹{cap_by_mkt.get('US',0):,.0f} CRYP:₹{cap_by_mkt.get('CRYPTO',0):,.0f}) | PnL: Rs {total_pnl:+,.0f}")
     print(f"{'='*60}\n")
 
 
