@@ -59,48 +59,47 @@ def send_telegram(msg: str) -> str:
 
 def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        closed_msgs: list, cape: float, open_count: int,
-                       total_pnl: float, all_signals: list) -> str:
-    """Build professional Telegram message."""
+                       total_pnl: float) -> str:
+    """
+    Build concise Telegram message — ONLY useful info, no waste.
+    
+    Sections:
+      1. Header: bot alive + date
+      2. NEW entries with SL/TP (only if >0)
+      3. CLOSED trades with PnL (only if >0)
+      4. Portfolio: capital, return, open positions, win rate
+    """
+    ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
     lines = []
-    lines.append(f"📊 *PAPER TRADE SCAN*")
-    lines.append(f"📅 {date_str}  ⏰ {time_str}")
-    lines.append("")
     
-    # Active signals summary
-    fired_count = sum(1 for s in all_signals if s.get("fired"))
-    if fired_count > 0:
-        lines.append(f"*🔥 SIGNALS FIRED ({fired_count}):*")
-        for s in all_signals:
-            if s.get("fired"):
-                close_str = f"@{round_price(s['close'])}" if s.get("close", 0) > 0 else ""
-                lines.append(
-                    f"• {s['direction']} {s['ticker']} {close_str} "
-                    f"| Win {s['win_rate']:.1f}% n={s['trades_count']}"
-                )
-        lines.append("")
+    # Header
+    lines.append(f"🤖 *v5.0* {date_str} {time_str}")
     
-    # New entries
+    # New entries (actionable)
     if entries:
-        lines.append(f"*📈 NEW ENTERED ({len(entries)}):*")
         for t in entries:
             lines.append(
-                f"• {t['direction']} {t['ticker']} @ {t['close']} "
+                f"📈 {t['direction']} {t['ticker']} "
+                f"{round_price(t['close'])} "
                 f"Qty {t['qty']} SL {t['sl']} TGT {t['target']}"
             )
-        lines.append("")
     
-    # Closed trades
+    # Closed trades (actionable)
     if closed_msgs:
-        lines.append(f"*✅ CLOSED ({len(closed_msgs)}):*")
         for c in closed_msgs:
-            lines.append(f"• {c}")
-        lines.append("")
+            lines.append(f"✅ {c}")
     
-    # Portfolio summary
-    ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
-    lines.append(f"*💰 PORTFOLIO*")
-    lines.append(f"Capital: Rs {cape:,.0f}  |  Return: {ret_pct:+.2f}%")
-    lines.append(f"Open: {open_count}  |  PnL: Rs {total_pnl:+,.0f}")
+    # Portfolio (always show) — one compact line
+    if open_count or closed_msgs:
+        lines.append(
+            f"💰 Rs {cape:,.0f} "
+            f"| {ret_pct:+.2f}% "
+            f"| Open {open_count} "
+            f"| PnL Rs {total_pnl:+,.0f}"
+        )
+    else:
+        # First run, nothing happened yet
+        lines.append(f"💰 Rs {cape:,.0f} | No active trades")
     
     msg = "\n".join(lines)
     if len(msg) > 4000:
@@ -233,7 +232,7 @@ def main():
     # ===== 10. Send Telegram =====
     tg_msg = build_telegram_msg(
         date_str, time_str, entries, closed_msgs,
-        cape, len(open_positions), total_pnl, all_signals,
+        cape, len(open_positions), total_pnl,
     )
     tg_status = send_telegram(tg_msg)
     
