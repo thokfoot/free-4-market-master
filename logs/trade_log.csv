@@ -1,0 +1,3 @@
+Date,Time,Tickers_Scanned,Errors,Patterns_Total,Patterns_Fired,New_Entries,Closed_Trades,Open_Positions,Capital,Total_PnL,Telegram
+2026-07-25,13:06:09 IST,18,0,50,0,0,0,0,300000.0,0.0,Sent
+2026-07-25,17:05:53 IST,18,0,50,0,0,0,0,300000.0,0.0,Sent
