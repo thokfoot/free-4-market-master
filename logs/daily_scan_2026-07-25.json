@@ -2857,24 +2857,40 @@
       "telegram_status": "Sent"
     },
     {
+<<<<<<< Updated upstream
       "time": "19:57:46 IST",
+=======
+      "time": "20:15:55 IST",
+>>>>>>> Stashed changes
       "tickers_scanned": [
         {
           "ticker": "ADA-USD",
           "region": "CRYPTO",
+<<<<<<< Updated upstream
           "close": 0.1632000058889389,
+=======
+          "close": 0.16380000114440918,
+>>>>>>> Stashed changes
           "data_ok": true
         },
         {
           "ticker": "AVAX-USD",
           "region": "CRYPTO",
+<<<<<<< Updated upstream
           "close": 6.480000019073486,
+=======
+          "close": 6.550000190734863,
+>>>>>>> Stashed changes
           "data_ok": true
         },
         {
           "ticker": "BNB-USD",
           "region": "CRYPTO",
+<<<<<<< Updated upstream
           "close": 566.3200073242188,
+=======
+          "close": 566.27001953125,
+>>>>>>> Stashed changes
           "data_ok": true
         },
         {
@@ -2886,13 +2902,21 @@
         {
           "ticker": "DOGE-USD",
           "region": "CRYPTO",
+<<<<<<< Updated upstream
           "close": 0.07000000029802322,
+=======
+          "close": 0.07013999670743942,
+>>>>>>> Stashed changes
           "data_ok": true
         },
         {
           "ticker": "ETH-USD",
           "region": "CRYPTO",
+<<<<<<< Updated upstream
           "close": 1864.1500244140625,
+=======
+          "close": 1866.1199951171875,
+>>>>>>> Stashed changes
           "data_ok": true
         },
         {
@@ -2940,7 +2964,11 @@
         {
           "ticker": "XRP-USD",
           "region": "CRYPTO",
+<<<<<<< Updated upstream
           "close": 1.090499997138977,
+=======
+          "close": 1.0914000272750854,
+>>>>>>> Stashed changes
           "data_ok": true
         },
         {
@@ -3017,9 +3045,15 @@
           "ticker": "ADA-USD",
           "direction": "SHORT",
           "factors": "Price<SMA50+EMA9>EMA20+Range>1.5%",
+<<<<<<< Updated upstream
           "fired": false,
           "win_rate": 67.02,
           "reason": ""
+=======
+          "fired": true,
+          "win_rate": 67.02,
+          "reason": "All factors met"
+>>>>>>> Stashed changes
         },
         {
           "rank": 5,
@@ -3027,9 +3061,15 @@
           "ticker": "ADA-USD",
           "direction": "SHORT",
           "factors": "Price<SMA50+EMA9>EMA20",
+<<<<<<< Updated upstream
           "fired": false,
           "win_rate": 65.98,
           "reason": ""
+=======
+          "fired": true,
+          "win_rate": 65.98,
+          "reason": "All factors met"
+>>>>>>> Stashed changes
         },
         {
           "rank": 6,
@@ -3037,9 +3077,15 @@
           "ticker": "ADA-USD",
           "direction": "SHORT",
           "factors": "Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+<<<<<<< Updated upstream
           "fired": false,
           "win_rate": 67.09,
           "reason": ""
+=======
+          "fired": true,
+          "win_rate": 67.09,
+          "reason": "All factors met"
+>>>>>>> Stashed changes
         },
         {
           "rank": 7,
@@ -3807,6 +3853,9 @@
         "losses": 0
       },
       "telegram_status": "Sent"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
   ],
