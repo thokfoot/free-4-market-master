@@ -863,13 +863,20 @@ def update_trades(ohlc_data: dict) -> list:
         
         # Check max hold expiry FIRST (time-based exit)
         entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
-        days_held = (now - entry_date).days
+        trade_tf = str(row.get("TimeFrame", "SWING_1d"))
         mh = row.get("MaxHold")
         trade_max_hold = int(mh) if pd.notna(mh) else MAX_HOLD_DAYS
         
-        if days_held >= trade_max_hold:
-            exit_price = cmp
-            exit_reason = f"Expiry {days_held}d"
+        if trade_tf == "INTRADAY_1h":
+            hours_held = (now - entry_date).total_seconds() / 3600
+            if hours_held >= trade_max_hold:
+                exit_price = cmp
+                exit_reason = f"Expiry {int(hours_held)}h"
+        else:
+            days_held = (now - entry_date).days
+            if days_held >= trade_max_hold:
+                exit_price = cmp
+                exit_reason = f"Expiry {days_held}d"
         elif direction == "LONG":
             # 1st: Intraday LOW hit SL → stopped out during the day
             if daily_low <= sl:

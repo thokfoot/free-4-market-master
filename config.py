@@ -17,7 +17,7 @@ CAPITAL_BY_MARKET = {
     "US": 100000.0,
     "CRYPTO": 100000.0,
 }
-TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values())  # ₹3,00,000
+TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL  # ₹4,00,000
 CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss

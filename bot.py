@@ -250,13 +250,13 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     
     # Per-market breakdown table
     if capital_by_market:
-        mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP"}
+        mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP", "INTRADAY": "⚡IDAY"}
         lines.append("```")
         lines.append("Market   Capital    Return")
         lines.append("-" * 30)
-        for mkt in ["INDIAN", "US", "CRYPTO"]:
+        for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY"]:
             mcap = capital_by_market.get(mkt, 100000)
-            minit = CAPITAL_BY_MARKET.get(mkt, 100000)
+            minit = CAPITAL_BY_MARKET.get(mkt, 100000) if mkt != "INTRADAY" else 100000
             mret = ((mcap - minit) / minit * 100) if minit > 0 else 0
             label = mkt_short.get(mkt, mkt)
             lines.append(f"{label:8s} ₹{mcap:>8,.0f}  {mret:+.1f}%")
