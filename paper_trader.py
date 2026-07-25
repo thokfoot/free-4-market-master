@@ -785,12 +785,13 @@ def generate_portfolio_report(current_prices: dict = None):
     return report_file
 
 
-def update_trades(current_prices: dict) -> list:
+def update_trades(ohlc_data: dict) -> list:
     """
-    Check all open positions for SL/TP/MaxHold exit.
+    Check all open positions for SL/TP/MaxHold exit using daily OHLC data.
+    Checks INTRADAY High/Low FIRST (most realistic), then Close as backup.
     
     Args:
-        current_prices: {ticker: current_price}
+        ohlc_data: {ticker: {"close": c, "high": h, "low": l}}
     
     Returns:
         List of closed trade messages
@@ -810,10 +811,13 @@ def update_trades(current_prices: dict) -> list:
             continue
         
         ticker = row["Ticker"]
-        if ticker not in current_prices:
+        if ticker not in ohlc_data:
             continue
         
-        cmp = current_prices[ticker]
+        ohlc = ohlc_data[ticker]
+        cmp = ohlc["close"]
+        daily_high = ohlc["high"]
+        daily_low = ohlc["low"]
         direction = str(row.get("Direction", "LONG"))
         entry = float(row["Entry_Price"])
         sl = float(row["SL"])
@@ -822,7 +826,7 @@ def update_trades(current_prices: dict) -> list:
         exit_price = None
         exit_reason = None
         
-        # Check max hold expiry
+        # Check max hold expiry FIRST (time-based exit)
         entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
         days_held = (now - entry_date).days
         mh = row.get("MaxHold")
@@ -832,19 +836,39 @@ def update_trades(current_prices: dict) -> list:
             exit_price = cmp
             exit_reason = f"Expiry {days_held}d"
         elif direction == "LONG":
-            if cmp <= sl:
+            # 1st: Intraday LOW hit SL → stopped out during the day
+            if daily_low <= sl:
                 exit_price = sl
-                exit_reason = "SL Hit"
+                exit_reason = "SL Hit (intraday)"
+            # 2nd: Intraday HIGH hit TP → target reached during the day
+            elif daily_high >= target:
+                exit_price = target
+                exit_reason = "Target Hit"
+            # 3rd: Close <= SL → SL hit on close
+            elif cmp <= sl:
+                exit_price = sl
+                exit_reason = "SL Hit (close)"
+            # 4th: Close >= TP → TP hit on close
             elif cmp >= target:
                 exit_price = target
-                exit_reason = "Target Hit"
+                exit_reason = "Target Hit (close)"
         else:  # SHORT
-            if cmp >= sl:
+            # 1st: Intraday HIGH hit SL → stopped out during the day
+            if daily_high >= sl:
                 exit_price = sl
-                exit_reason = "SL Hit"
-            elif cmp <= target:
+                exit_reason = "SL Hit (intraday)"
+            # 2nd: Intraday LOW hit TP → target reached during the day
+            elif daily_low <= target:
                 exit_price = target
                 exit_reason = "Target Hit"
+            # 3rd: Close >= SL → SL hit on close
+            elif cmp >= sl:
+                exit_price = sl
+                exit_reason = "SL Hit (close)"
+            # 4th: Close <= TP → TP hit on close
+            elif cmp <= target:
+                exit_price = target
+                exit_reason = "Target Hit (close)"
         
         if exit_price:
             # Gross P&L (before charges)

@@ -331,9 +331,16 @@ def main():
     market_status = {}
     for yf_ticker, df in ticker_data.items():
         if df is not None and len(df) > 0:
+            last = df.iloc[-1]
+            # Flatten multi-index columns if present
+            close_val = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
+            high_val = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
+            low_val = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
             market_status[yf_ticker] = {
                 "data_ok": True,
-                "latest_close": float(df.iloc[-1]["Close"]),
+                "latest_close": close_val,
+                "latest_high": high_val,
+                "latest_low": low_val,
                 "latest_date": str(df.index[-1].date()),
                 "region": get_region(yf_ticker),
             }
@@ -349,13 +356,19 @@ def main():
     best_entries = get_best_entries(all_signals)
     print(f"[Bot] Best entries: {len(best_entries)}")
     
-    # ===== 7. Update existing positions =====
+    # ===== 7. Update existing positions (with High/Low for intraday SL/TP) =====
     current_prices = {}
+    ohlc_data = {}
     for yf_ticker, status in market_status.items():
         if status.get("data_ok"):
             current_prices[yf_ticker] = status["latest_close"]
+            ohlc_data[yf_ticker] = {
+                "close": status["latest_close"],
+                "high": status["latest_high"],
+                "low": status["latest_low"],
+            }
     
-    closed_msgs = update_trades(current_prices)
+    closed_msgs = update_trades(ohlc_data)
     print(f"[Bot] Closed trades: {len(closed_msgs)}")
     
     # ===== 8. Enter new trades =====
