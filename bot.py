@@ -26,10 +26,10 @@ from paper_trader import enter_trade, update_trades, load_portfolio, round_price
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
 
-# GitHub raw URL for portfolio report button
+# GitHub URL for portfolio report button (proper blob view, not raw)
 GITHUB_REPO = "thokfoot/free-4-market-master"
 GITHUB_BRANCH = "main"
-PORTFOLIO_REPORT_URL = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}/logs/portfolio_report.html"
+PORTFOLIO_REPORT_URL = f"https://github.com/{GITHUB_REPO}/blob/{GITHUB_BRANCH}/logs/portfolio_report.html"
 
 
 def send_telegram(msg: str, button_url: str = None) -> str:
@@ -73,64 +73,99 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        closed_msgs: list, cape: float, open_count: int,
                        total_pnl: float, wins: int = 0, losses: int = 0,
                        closed_count: int = 0,
-                       capital_by_market: dict = None) -> str:
+                       capital_by_market: dict = None,
+                       open_positions: list = None) -> str:
     """
-    Professional Telegram message with per-market portfolio breakdown.
-    Shows total capital, per-market caps, entries, exits, and P&L.
+    Professional Telegram message with FULL portfolio data embedded.
+    Includes capital breakdown, open positions, recent closed trades,
+    per-market performance — everything directly in the message.
+    No need to open any URL on mobile.
     """
     ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
     total_closed = wins + losses
     win_rate = round(wins / total_closed * 100) if total_closed > 0 else 0
     
-    # Return arrow
+    # Return arrow & color indicator
     if ret_pct > 0:
-        arrow = "▲"
+        arrow = "🟢"
+        ret_sign = "+"
     elif ret_pct < 0:
-        arrow = "▼"
+        arrow = "🔴"
+        ret_sign = ""
     else:
-        arrow = "◆"
+        arrow = "⚪"
+        ret_sign = ""
     
     lines = []
     
-    # Header
+    # ===== HEADER =====
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
     lines.append(f"🤖 *PAPER TRADE v5.0* | {date_str} {short_time}")
     
-    # New entries
+    # ===== NEW TRADE ENTRIES =====
     if entries:
         lines.append("")
+        lines.append("━━━ *NEW TRADES* ━━━")
         for t in entries:
-            action = "BUY" if t["direction"] == "LONG" else "SELL"
+            action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL"
+            rank_str = f" #{t.get('rank','')}" if t.get('rank') else ""
             lines.append(
-                f"📈 {action} {t['ticker']} {round_price(t['close'])} "
-                f"| Qty {t['qty']} SL {t['sl']} TGT {t['target']}"
+                f"{action} `{t['ticker']}`{rank_str}\n"
+                f"┣ Price: {round_price(t['close'])} | Qty: {t['qty']}\n"
+                f"┣ SL: {t['sl']} | TGT: {t['target']}"
             )
-    
-    # Closed trades
-    if closed_msgs:
         lines.append("")
+    
+    # ===== CLOSED TRADES =====
+    if closed_msgs:
+        lines.append("━━━ *CLOSED TRADES* ━━━")
         for c in closed_msgs:
             lines.append(f"✅ {c}")
+        lines.append("")
     
-    # Portfolio summary (ALWAYS)
-    lines.append("")
-    lines.append(f"💰 *Capital:* Rs {cape:,.0f}  {arrow} {ret_pct:+.2f}%")
+    # ===== OPEN POSITIONS (DETAILED) =====
+    if open_positions and len(open_positions) > 0:
+        lines.append("━━━ *OPEN POSITIONS* ━━━")
+        for pos in open_positions:
+            p_dir = "🟢" if pos.get("Direction") == "LONG" else "🔴"
+            p_mode = pos.get("Mode", "")
+            p_mode_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}.get(p_mode, "")
+            lines.append(
+                f"{p_dir} `{pos.get('Ticker','?')}` {pos.get('Direction','')} "
+                f"{p_mode_icon}{p_mode}\n"
+                f"┣ Entry: {round_price(pos.get('Entry_Price',0))} | Qty: {pos.get('Qty',0)}\n"
+                f"┣ SL: {pos.get('SL','?')} | TGT: {pos.get('Target','?')}\n"
+                f"┗ Reason: {str(pos.get('Reason',''))[:50]}"
+            )
+        lines.append("")
     
-    # Per-market breakdown
+    # ===== CAPITAL SUMMARY =====
+    lines.append("━━━ *PORTFOLIO* ━━━")
+    lines.append(f"{arrow} *Capital:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%)")
+    
+    # Per-market breakdown table
     if capital_by_market:
         mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP"}
-        mkt_parts = []
+        # Header
+        lines.append("```")
+        lines.append("Market   Capital    Return")
+        lines.append("-" * 30)
         for mkt in ["INDIAN", "US", "CRYPTO"]:
             mcap = capital_by_market.get(mkt, 100000)
             minit = CAPITAL_BY_MARKET.get(mkt, 100000)
             mret = ((mcap - minit) / minit * 100) if minit > 0 else 0
-            mar = "▲" if mret > 0 else ("▼" if mret < 0 else "▶")
-            label = mkt_short.get(mkt, mkt[:4])
-            mkt_parts.append(f"{label} ₹{mcap:,.0f}{mar}{mret:+.1f}%")
-        lines.append("   " + " | ".join(mkt_parts))
+            sym = "+" if mret > 0 else "" if mret < 0 else " "
+            label = mkt_short.get(mkt, mkt)
+            lines.append(f"{label:8s} ₹{mcap:>8,.0f}  {sym}{mret:+.1f}%")
+        lines.append("-" * 30)
+        lines.append(f"{'TOTAL':8s} ₹{cape:>8,.0f}  {ret_sign}{ret_pct:.1f}%")
+        lines.append("```")
     
-    lines.append(f"📊 Open: {open_count} | Closed: {closed_count} | Win: {win_rate}%")
-    lines.append(f"💵 *Total P&L:* Rs {total_pnl:+,.0f}")
+    # Stats
+    pnl_icon = "🟢" if total_pnl > 0 else ("🔴" if total_pnl < 0 else "⚪")
+    win_icon = "🏆" if win_rate >= 70 else ("👍" if win_rate >= 50 else "👎")
+    lines.append(f"{pnl_icon} *P&L:* Rs {total_pnl:+,.0f} | {win_icon} *Win:* {wins}/{total_closed} ({win_rate}%)")
+    lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | *Total:* {total_closed + open_count}")
     
     msg = "\n".join(lines)
     if len(msg) > 4000:
@@ -270,6 +305,7 @@ def main():
         total_cape, len(open_positions), total_pnl,
         wins, losses, closed_cnt,
         capital_by_market=cap_by_mkt,
+        open_positions=open_positions,
     )
     tg_status = send_telegram(tg_msg, button_url=PORTFOLIO_REPORT_URL)
     
