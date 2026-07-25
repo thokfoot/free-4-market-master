@@ -1,7 +1,7 @@
 """
 FREE 3-Market v5.0 — PROFESSIONAL PAPER TRADING BOT
 ====================================================
-Daily scan: loads 50 strategies, downloads yfinance data,
+Daily scan: loads 81 strategies, downloads yfinance data,
 computes indicators (adjust=False), checks patterns,
 enters best trades (1 per ticker per day), sends Telegram,
 logs everything.

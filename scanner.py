@@ -1,7 +1,7 @@
 """
-FREE 4-Market v5.0 — STRATEGY SCANNER
+FREE 3-Market v5.0 — STRATEGY SCANNER
 ======================================
-Loads 50 verified strategies from CSV, computes indicators on live data,
+Loads 81 verified strategies from CSV, computes indicators on live data,
 checks all pattern conditions, returns fired signals.
 """
 
@@ -12,7 +12,7 @@ from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHOR
 
 
 def load_strategies() -> pd.DataFrame:
-    """Load the 50 strategies from CSV."""
+    """Load the 81 strategies from CSV."""
     if not os.path.exists(STRATEGY_FILE):
         raise FileNotFoundError(f"Strategy file not found: {STRATEGY_FILE}")
     df = pd.read_csv(STRATEGY_FILE, on_bad_lines='warn')
