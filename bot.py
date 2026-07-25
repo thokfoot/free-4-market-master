@@ -26,36 +26,25 @@ from paper_trader import enter_trade, update_trades, load_portfolio, round_price
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
 
-# GitHub URL for portfolio report button (proper blob view, not raw)
-GITHUB_REPO = "thokfoot/free-4-market-master"
-GITHUB_BRANCH = "main"
-PORTFOLIO_REPORT_URL = f"https://github.com/{GITHUB_REPO}/blob/{GITHUB_BRANCH}/logs/portfolio_report.html"
+# Portfolio report file
+PORTFOLIO_REPORT_FILE = "logs/portfolio_report.html"
 
 
-def send_telegram(msg: str, button_url: str = None) -> str:
-    """Send Telegram message with optional inline keyboard button."""
+def send_telegram(msg: str) -> str:
+    """Send Telegram message with Markdown formatting."""
     if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
         print("[TG] Missing TELEGRAM_TOKEN or TELEGRAM_CHAT_ID")
         return "NoToken"
     
     api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    
     data = {"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}
-    
-    # Add inline keyboard with Download button if URL provided
-    if button_url:
-        data["reply_markup"] = json.dumps({
-            "inline_keyboard": [[
-                {"text": "📥 Download Full Portfolio", "url": button_url}
-            ]]
-        })
     
     for attempt in range(3):
         try:
             r = requests.post(api_url, data=data, timeout=15)
             resp = r.json() if r.text else {}
             if r.status_code == 200 and resp.get("ok"):
-                print(f"[TG] Sent OK ({len(msg)} chars, button={'YES' if button_url else 'NO'})")
+                print(f"[TG] Sent OK ({len(msg)} chars)")
                 return "Sent"
             else:
                 err = resp.get("description", r.text[:200])
@@ -66,6 +55,43 @@ def send_telegram(msg: str, button_url: str = None) -> str:
             time.sleep(2)
     
     print("[TG] All 3 attempts failed")
+    return "Failed"
+
+
+def send_telegram_document(file_path: str, caption: str = "") -> str:
+    """
+    Send an HTML file as a Telegram document attachment.
+    The user can download and open it in their browser for proper rendering.
+    """
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        print("[TG] Missing TELEGRAM_TOKEN or TELEGRAM_CHAT_ID")
+        return "NoToken"
+    if not os.path.exists(file_path):
+        print(f"[TG] File not found: {file_path}")
+        return "NoFile"
+    
+    api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument"
+    
+    for attempt in range(3):
+        try:
+            with open(file_path, "rb") as f:
+                files = {"document": (os.path.basename(file_path), f, "text/html")}
+                data = {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "Markdown"}
+                r = requests.post(api_url, data=data, files=files, timeout=30)
+            resp = r.json() if r.text else {}
+            if r.status_code == 200 and resp.get("ok"):
+                file_size = os.path.getsize(file_path)
+                print(f"[TG] Document sent: {os.path.basename(file_path)} ({file_size:,} bytes)")
+                return "Sent"
+            else:
+                err = resp.get("description", r.text[:200])
+                print(f"[TG] Document attempt {attempt+1} failed: {err}")
+                time.sleep(2)
+        except Exception as e:
+            print(f"[TG] Document attempt {attempt+1} exception: {e}")
+            time.sleep(2)
+    
+    print("[TG] All 3 document attempts failed")
     return "Failed"
 
 
@@ -306,7 +332,13 @@ def main():
         capital_by_market=cap_by_mkt,
         open_positions=open_positions,
     )
-    tg_status = send_telegram(tg_msg, button_url=PORTFOLIO_REPORT_URL)
+    tg_status = send_telegram(tg_msg)
+    
+    # Also send the HTML portfolio report as a downloadable document
+    if os.path.exists(PORTFOLIO_REPORT_FILE):
+        doc_caption = f"📊 *Full Portfolio Report* — {date_str}\n"
+        doc_caption += "Download & open in browser for beautiful formatted view"
+        send_telegram_document(PORTFOLIO_REPORT_FILE, caption=doc_caption)
     
     # ===== 12. Log Daily Scan =====
     scan_data = {
