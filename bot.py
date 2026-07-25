@@ -351,6 +351,8 @@ def main():
             entry_price=entry["close"],
             reason=entry.get("factors", "")[:60],
             pattern_rank=entry.get("rank"),
+            expected_win_rate=entry.get("win_rate"),
+            pattern_factors=entry.get("factors", ""),
         )
         if trade:
             entries.append({

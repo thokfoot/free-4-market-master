@@ -20,8 +20,74 @@ STRATEGY_STATS_FILE = os.path.join(LOG_DIR, "strategy_stats.json")
 COLUMNS = [
     "Date","Time_IST","Mode","Ticker","Direction",
     "Entry_Price","Qty","SL","Target","MaxHold",
-    "Exit_Price","Exit_Time","P&L","P&L_%","Status","Reason"
+    "Exit_Price","Exit_Time","P&L","P&L_%","Status",
+    "Pattern_Rank","Expected_WinRate","Pattern_Factors","Reason"
 ]
+
+AUDIT_FILE = os.path.join(LOG_DIR, "trade_audit.json")
+
+
+def _load_audit() -> list:
+    """Load persistent trade audit log."""
+    if os.path.exists(AUDIT_FILE):
+        try:
+            with open(AUDIT_FILE, "r") as f:
+                return json.load(f)
+        except:
+            pass
+    return []
+
+
+def _save_audit(audit: list):
+    """Save persistent trade audit log."""
+    os.makedirs(LOG_DIR, exist_ok=True)
+    with open(AUDIT_FILE, "w") as f:
+        json.dump(audit, f, indent=2)
+
+
+def _log_audit_entry(trade: dict):
+    """Log a trade entry to the persistent audit trail."""
+    audit = _load_audit()
+    audit.append({
+        "event": "ENTRY",
+        "datetime": f"{trade['Date']} {trade['Time_IST']}",
+        "mode": trade["Mode"],
+        "ticker": trade["Ticker"],
+        "direction": trade["Direction"],
+        "entry_price": trade["Entry_Price"],
+        "qty": trade["Qty"],
+        "sl": trade["SL"],
+        "target": trade["Target"],
+        "pattern_rank": trade.get("Pattern_Rank", ""),
+        "expected_win_rate": trade.get("Expected_WinRate", ""),
+        "pattern_factors": trade.get("Pattern_Factors", ""),
+        "reason": trade.get("Reason", ""),
+    })
+    _save_audit(audit)
+    print(f"[Audit] ENTRY logged: {trade['Direction']} {trade['Ticker']} Rank#{trade.get('Pattern_Rank','?')} Expected WR={trade.get('Expected_WinRate','?')}%")
+
+
+def _log_audit_exit(trade_row: dict):
+    """Log a trade exit to the persistent audit trail."""
+    audit = _load_audit()
+    audit.append({
+        "event": "EXIT",
+        "datetime": trade_row.get("Exit_Time", ""),
+        "mode": trade_row.get("Mode", ""),
+        "ticker": trade_row.get("Ticker", ""),
+        "direction": trade_row.get("Direction", ""),
+        "entry_price": trade_row.get("Entry_Price", ""),
+        "exit_price": trade_row.get("Exit_Price", ""),
+        "qty": trade_row.get("Qty", 0),
+        "pnl": trade_row.get("P&L", ""),
+        "pnl_pct": trade_row.get("P&L_%", ""),
+        "pattern_rank": trade_row.get("Pattern_Rank", ""),
+        "expected_win_rate": trade_row.get("Expected_WinRate", ""),
+        "pattern_factors": trade_row.get("Pattern_Factors", ""),
+        "reason": trade_row.get("Reason", ""),
+    })
+    _save_audit(audit)
+    print(f"[Audit] EXIT logged: {trade_row.get('Direction','?')} {trade_row.get('Ticker','?')} P&L={trade_row.get('P&L','?')} Expected WR={trade_row.get('Expected_WinRate','?')}%")
 
 
 def round_price(price):
@@ -111,7 +177,9 @@ def calculate_qty(entry: float, sl: float, market: str = "US") -> int:
 
 
 def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
-                 reason: str, pattern_rank: int = None) -> dict:
+                 reason: str, pattern_rank: int = None,
+                 expected_win_rate: float = None,
+                 pattern_factors: str = None) -> dict:
     """
     Enter a paper trade.
     
@@ -176,6 +244,9 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         "P&L": "",
         "P&L_%": "",
         "Status": "OPEN",
+        "Pattern_Rank": pattern_rank if pattern_rank else "",
+        "Expected_WinRate": expected_win_rate if expected_win_rate else "",
+        "Pattern_Factors": pattern_factors if pattern_factors else "",
         "Reason": full_reason,
     }
     
@@ -195,6 +266,10 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     save_portfolio(portfolio)
     
     print(f"[Paper] ENTER {direction} {ticker} @ {entry} Qty {qty} SL {sl} TGT {target}")
+    
+    # Log to persistent audit trail
+    _log_audit_entry(trade)
+    
     return trade
 
 
@@ -678,6 +753,9 @@ def update_trades(current_prices: dict) -> list:
                 exit_reason = "Target Hit"
         
         if exit_price:
+            # Log exit to persistent audit trail
+            _log_audit_exit(row)
+            
             # Gross P&L (before charges)
             if direction == "LONG":
                 pnl = (exit_price - entry) * row["Qty"]
