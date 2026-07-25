@@ -753,9 +753,6 @@ def update_trades(current_prices: dict) -> list:
                 exit_reason = "Target Hit"
         
         if exit_price:
-            # Log exit to persistent audit trail
-            _log_audit_exit(row)
-            
             # Gross P&L (before charges)
             if direction == "LONG":
                 pnl = (exit_price - entry) * row["Qty"]
@@ -778,6 +775,23 @@ def update_trades(current_prices: dict) -> list:
             df.at[idx, "P&L_%"] = round(pnl_pct, 2)
             df.at[idx, "Status"] = "CLOSED"
             df.at[idx, "Reason"] = str(row["Reason"]) + f" | {exit_reason}"
+            
+            # Log exit to persistent audit trail (AFTER values are set)
+            _log_audit_exit({
+                "Exit_Time": time_str,
+                "Mode": row.get("Mode", ""),
+                "Ticker": row["Ticker"],
+                "Direction": row["Direction"],
+                "Entry_Price": entry,
+                "Exit_Price": round_price(exit_price),
+                "Qty": row["Qty"],
+                "P&L": round(pnl, 2),
+                "P&L_%": round(pnl_pct, 2),
+                "Pattern_Rank": row.get("Pattern_Rank", ""),
+                "Expected_WinRate": row.get("Expected_WinRate", ""),
+                "Pattern_Factors": row.get("Pattern_Factors", ""),
+                "Reason": str(row["Reason"]) + f" | {exit_reason}",
+            })
             
             # Update per-market capital
             trade_mode = str(row.get("Mode", "US"))
