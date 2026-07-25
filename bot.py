@@ -106,7 +106,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        open_positions: list = None,
                        market_status: dict = None,
                        strategy_stats: dict = None,
-                       scan_summary: dict = None) -> str:
+                       scan_summary: dict = None,
+                       current_prices: dict = None) -> str:
     """
     Professional Telegram message with everything embedded:
     market status, daily trades, open positions, per-strategy stats,
@@ -187,10 +188,27 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             p_dir = "🟢" if pos.get("Direction") == "LONG" else "🔴"
             p_mode = pos.get("Mode", "")
             p_mode_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}.get(p_mode, "")
+            
+            # Calculate current/unrealized P&L
+            ticker = pos.get("Ticker", "")
+            entry = round_price(pos.get("Entry_Price", 0))
+            qty = int(pos.get("Qty", 0))
+            direction = str(pos.get("Direction", "LONG"))
+            
+            unrealized_pnl_str = ""
+            current_price = current_prices.get(ticker, 0) if current_prices else 0
+            if current_price > 0 and entry > 0:
+                if direction == "LONG":
+                    upnl = (current_price - entry) * qty
+                else:
+                    upnl = (entry - current_price) * qty
+                upnl_icon = "🟢" if upnl > 0 else ("🔴" if upnl < 0 else "⚪")
+                unrealized_pnl_str = f" | {upnl_icon} P&L: Rs {upnl:+,.0f}"
+            
             lines.append(
-                f"{p_dir} `{pos.get('Ticker','?')}` {pos.get('Direction','')} "
-                f"{p_mode_icon}{p_mode}\n"
-                f"┣ Entry: {round_price(pos.get('Entry_Price',0))} | Qty: {pos.get('Qty',0)}\n"
+                f"{p_dir} `{ticker}` {direction} "
+                f"{p_mode_icon}{p_mode}{unrealized_pnl_str}\n"
+                f"┣ Entry: {entry} | Qty: {qty}\n"
                 f"┣ SL: {pos.get('SL','?')} | TGT: {pos.get('Target','?')}\n"
                 f"┗ Reason: {str(pos.get('Reason',''))[:50]}"
             )
@@ -378,8 +396,8 @@ def main():
     wins = portfolio.get("total_wins", 0)
     losses = portfolio.get("total_losses", 0)
     
-    # ===== 10. Generate portfolio report =====
-    generate_portfolio_report()
+    # ===== 10. Generate portfolio report (with live prices) =====
+    generate_portfolio_report(current_prices=current_prices)
     
     # ===== 11. Get market status & strategy stats =====
     mkt_status = get_market_status()
@@ -402,6 +420,7 @@ def main():
         market_status=mkt_status,
         strategy_stats=strat_stats,
         scan_summary=scan_summary,
+        current_prices=current_prices,
     )
     tg_status = send_telegram(tg_msg)
     

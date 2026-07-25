@@ -17,6 +17,41 @@ os.makedirs(LOG_DIR, exist_ok=True)
 PAPER_FILE = os.path.join(LOG_DIR, "paper_trades.csv")
 PORTFOLIO_FILE = os.path.join(LOG_DIR, "portfolio.json")
 STRATEGY_STATS_FILE = os.path.join(LOG_DIR, "strategy_stats.json")
+
+# Cache for last known prices (updated each scan run)
+_LAST_PRICES = {}  # {ticker: price}
+
+def update_last_prices(prices: dict):
+    """Update the cached current prices for computing unrealized P&L."""
+    _LAST_PRICES.update(prices)
+
+def _get_current_price(ticker: str) -> float:
+    """Return cached current price or 0 if unknown."""
+    return _LAST_PRICES.get(ticker, 0.0)
+
+def _safe_num(val, default=""):
+    """Convert a value to safe display string, handling NaN/None/empty."""
+    if val is None:
+        return default
+    try:
+        v = float(val)
+        if v != v:  # NaN check
+            return default
+        return str(v)
+    except (ValueError, TypeError):
+        s = str(val).strip()
+        return s if s else default
+
+def _safe_float(val) -> float:
+    """Convert to float, returning 0.0 for NaN/None/empty."""
+    if val is None:
+        return 0.0
+    try:
+        v = float(val)
+        return 0.0 if v != v else v  # NaN → 0
+    except (ValueError, TypeError):
+        return 0.0
+
 COLUMNS = [
     "Date","Time_IST","Mode","Ticker","Direction",
     "Entry_Price","Qty","SL","Target","MaxHold",
@@ -380,10 +415,18 @@ def get_strategy_stats(top_n: int = 5) -> list:
 
 
 def _html_escape(text):
-    """Escape text for safe HTML embedding."""
+    """Escape text for safe HTML embedding. Handles NaN gracefully."""
     if text is None:
         return ""
+    try:
+        v = float(text)
+        if v != v:  # NaN check
+            return ""
+    except (ValueError, TypeError):
+        pass
     s = str(text)
+    if s.strip().lower() == "nan":
+        return ""
     return (s.replace("&", "&amp;")
              .replace("<", "&lt;")
              .replace(">", "&gt;")
@@ -402,7 +445,30 @@ def _pnl_class(val):
     return ""
 
 
-def generate_portfolio_report():
+def _calc_unrealized_pnl(row) -> tuple:
+    """
+    Calculate current (unrealized) P&L for an open trade.
+    Returns (pnl, pnl_pct) or (0, 0) if no current price.
+    """
+    ticker = row.get("Ticker", "")
+    current = _get_current_price(ticker)
+    if current <= 0:
+        return (0.0, 0.0)
+    entry = _safe_float(row.get("Entry_Price", 0))
+    qty = int(_safe_float(row.get("Qty", 0)))
+    direction = str(row.get("Direction", "LONG"))
+    if entry <= 0 or qty <= 0:
+        return (0.0, 0.0)
+    if direction == "LONG":
+        pnl = (current - entry) * qty
+        pnl_pct = ((current - entry) / entry) * 100
+    else:
+        pnl = (entry - current) * qty
+        pnl_pct = ((entry - current) / entry) * 100
+    return (pnl, pnl_pct)
+
+
+def generate_portfolio_report(current_prices: dict = None):
     """
     Generate a professional HTML portfolio report with EVERYTHING.
     
@@ -421,6 +487,10 @@ def generate_portfolio_report():
     
     portfolio = load_portfolio()
     cap_by_mkt = portfolio.get("capital_by_market", dict(CAPITAL_BY_MARKET))
+    
+    # Update cached prices for unrealized P&L calculations
+    if current_prices:
+        update_last_prices(current_prices)
     total_cape = sum(cap_by_mkt.values())
     open_count = len(portfolio.get("open_positions", []))
     closed_cnt = portfolio.get("closed_count", 0)
@@ -542,19 +612,33 @@ def generate_portfolio_report():
             for _, row in df.iterrows():
                 direction = str(row.get("Direction", ""))
                 status = str(row.get("Status", ""))
-                pnl = row.get("P&L", "")
-                pnl_pct = row.get("P&L_%", "")
+                pnl_raw = row.get("P&L", None)
+                pnl_pct_raw = row.get("P&L_%", None)
+                
+                # For OPEN trades, calculate current/unrealized P&L
+                is_open = (status == "OPEN")
+                if is_open:
+                    unrealized_pnl, unrealized_pnl_pct = _calc_unrealized_pnl(row)
+                    pnl_display = f"{unrealized_pnl:+,.0f}"
+                    pnl_class = _pnl_class(unrealized_pnl)
+                    pnl_pct_display = f"{unrealized_pnl_pct:+.2f}%"
+                    pnl_pct_class = _pnl_class(unrealized_pnl_pct)
+                else:
+                    pnl_safe = _safe_num(pnl_raw, "—")
+                    pnl_pct_safe = _safe_num(pnl_pct_raw, "—")
+                    pnl_display = pnl_safe
+                    pnl_class = _pnl_class(pnl_safe)
+                    pnl_pct_display = pnl_pct_safe
+                    pnl_pct_class = _pnl_class(pnl_pct_safe)
                 
                 badge_dir = f'<span class="badge badge-{"long" if direction=="LONG" else "short"}">{_html_escape(direction)}</span>'
-                badge_status = f'<span class="badge badge-{"open" if status=="OPEN" else "closed"}">{_html_escape(status)}</span>'
+                badge_status = f'<span class="badge badge-{"open" if is_open else "closed"}">{_html_escape(status)}</span>'
                 
-                pnl_display = _html_escape(pnl)
-                pnl_class = _pnl_class(pnl)
-                pnl_pct_display = _html_escape(pnl_pct)
-                pnl_pct_class = _pnl_class(pnl_pct)
-                
-                exit_price = row.get("Exit_Price", "")
-                exit_display = _html_escape(exit_price) if pd.notna(exit_price) and str(exit_price).strip() != "" else "—"
+                exit_price = row.get("Exit_Price", None)
+                exit_safe = _safe_num(exit_price, "—")
+                exit_display = exit_safe if exit_safe != "—" else "—"
+                if is_open:
+                    exit_display = "◉ " + _safe_num(_get_current_price(str(row.get("Ticker",""))), "—")
                 
                 reason = str(row.get("Reason", ""))
                 reason_short = reason[:50] + ("..." if len(reason) > 50 else "")
