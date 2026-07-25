@@ -616,15 +616,17 @@ def generate_portfolio_report(current_prices: dict = None):
   
   <div class="mkt-row">
 ''')
-    # Per-market cards
-    for mkt in ["INDIAN", "US", "CRYPTO"]:
-        mkt_cap = cap_by_mkt.get(mkt, 100000)
-        mkt_init = CAPITAL_BY_MARKET.get(mkt, 100000)
+    # Per-market cards (including INTRADAY)
+    mkt_icons = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿", "INTRADAY": "⚡"}
+    mkt_init_map = dict(CAPITAL_BY_MARKET)
+    mkt_init_map["INTRADAY"] = INTRADAY_CAPITAL
+    for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY"]:
+        mkt_cap = cap_by_mkt.get(mkt, mkt_init_map.get(mkt, 100000))
+        mkt_init = mkt_init_map.get(mkt, 100000)
         mkt_ret = ((mkt_cap - mkt_init) / mkt_init * 100) if mkt_init > 0 else 0
         mkt_arrow = "▲" if mkt_ret > 0 else ("▼" if mkt_ret < 0 else "◆")
         mkt_clr = "#00c853" if mkt_ret > 0 else ("#ff5252" if mkt_ret < 0 else "#888")
-        mkt_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}
-        parts.append(f'    <div class="mkt-item"><div class="mkt-label">{mkt_icon.get(mkt,"")} {mkt}</div>'
+        parts.append(f'    <div class="mkt-item"><div class="mkt-label">{mkt_icons.get(mkt,"")} {mkt}</div>'
                      f'<div class="mkt-value" style="color:{mkt_clr}">₹{mkt_cap:,.0f}</div>'
                      f'<div style="font-size:0.75rem;color:{mkt_clr}">{mkt_arrow} {mkt_ret:+.2f}%</div></div>')
     parts.append('  </div>')
@@ -861,23 +863,28 @@ def update_trades(ohlc_data: dict) -> list:
         exit_price = None
         exit_reason = None
         
-        # Check max hold expiry FIRST (time-based exit)
+        # Check max hold expiry FIRST (time-based exit, independent of SL/TP)
         entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
         trade_tf = str(row.get("TimeFrame", "SWING_1d"))
         mh = row.get("MaxHold")
         trade_max_hold = int(mh) if pd.notna(mh) else MAX_HOLD_DAYS
+        is_expired = False
         
         if trade_tf == "INTRADAY_1h":
             hours_held = (now - entry_date).total_seconds() / 3600
             if hours_held >= trade_max_hold:
                 exit_price = cmp
                 exit_reason = f"Expiry {int(hours_held)}h"
+                is_expired = True
         else:
             days_held = (now - entry_date).days
             if days_held >= trade_max_hold:
                 exit_price = cmp
                 exit_reason = f"Expiry {days_held}d"
-        elif direction == "LONG":
+                is_expired = True
+        
+        # SL/TP check only if not already triggered by expiry
+        if not is_expired and direction == "LONG":
             # 1st: Intraday LOW hit SL → stopped out during the day
             if daily_low <= sl:
                 exit_price = sl

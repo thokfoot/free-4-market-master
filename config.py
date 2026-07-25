@@ -17,6 +17,10 @@ CAPITAL_BY_MARKET = {
     "US": 100000.0,
     "CRYPTO": 100000.0,
 }
+
+# Intraday gets separate ₹1L (defined BEFORE TOTAL_CAPITAL to avoid NameError)
+INTRADAY_CAPITAL = 100000.0
+
 TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL  # ₹4,00,000
 CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
@@ -30,7 +34,7 @@ STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv"
 
 # ===== INTRADAY SETTINGS (v5.7+) =====
 INTRADAY_STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "intraday_strategies.csv")
-INTRADAY_CAPITAL = 100000.0  # ₹1,00,000 separate capital for intraday
+
 
 # Intraday SL/TP per market (tighter than swing)
 INTRADAY_SL_PCT = {
