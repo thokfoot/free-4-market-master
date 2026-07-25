@@ -19,10 +19,13 @@ import pytz
 
 from config import (
     CAPITAL, CAPITAL_BY_MARKET, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
-    YF_PERIOD, YF_INTERVAL, get_region,
+    YF_PERIOD, YF_INTERVAL, get_region, get_market_status,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
-from paper_trader import enter_trade, update_trades, load_portfolio, round_price, generate_portfolio_report
+from paper_trader import (
+    enter_trade, update_trades, load_portfolio, round_price,
+    generate_portfolio_report, get_strategy_stats,
+)
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
 
@@ -100,12 +103,13 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        total_pnl: float, wins: int = 0, losses: int = 0,
                        closed_count: int = 0,
                        capital_by_market: dict = None,
-                       open_positions: list = None) -> str:
+                       open_positions: list = None,
+                       market_status: dict = None,
+                       strategy_stats: dict = None) -> str:
     """
-    Professional Telegram message with FULL portfolio data embedded.
-    Includes capital breakdown, open positions, recent closed trades,
-    per-market performance — everything directly in the message.
-    No need to open any URL on mobile.
+    Professional Telegram message with everything embedded:
+    market status, daily trades, open positions, per-strategy stats,
+    capital summary, and portfolio breakdown.
     """
     ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
     total_closed = wins + losses
@@ -128,6 +132,11 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
     lines.append(f"🤖 *PAPER TRADE v5.0* | {date_str} {short_time}")
     
+    # ===== MARKET STATUS =====
+    if market_status:
+        lines.append("")
+        lines.append(market_status.get("message", ""))
+    
     # ===== NEW TRADE ENTRIES =====
     if entries:
         lines.append("")
@@ -142,14 +151,14 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             )
         lines.append("")
     
-    # ===== CLOSED TRADES =====
+    # ===== CLOSED TRADES (Daily Trade Summary) =====
     if closed_msgs:
-        lines.append("━━━ *CLOSED TRADES* ━━━")
+        lines.append("━━━ *CLOSED TODAY* ━━━")
         for c in closed_msgs:
             lines.append(f"✅ {c}")
         lines.append("")
     
-    # ===== OPEN POSITIONS (DETAILED) =====
+    # ===== OPEN POSITIONS =====
     if open_positions and len(open_positions) > 0:
         lines.append("━━━ *OPEN POSITIONS* ━━━")
         for pos in open_positions:
@@ -165,6 +174,31 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             )
         lines.append("")
     
+    # ===== PER-STRATEGY WIN RATE =====
+    if strategy_stats:
+        top = strategy_stats.get("top", [])
+        bottom = strategy_stats.get("bottom", [])
+        if top:
+            lines.append("━━━ *TOP STRATEGIES* ━━━")
+            for s in top:
+                icon = "🏆" if s["win_rate"] >= 70 else "👍"
+                pnl_sym = "+" if s["total_pnl"] >= 0 else ""
+                lines.append(
+                    f"{icon} #{s['rank']} {s['win_rate']}% "
+                    f"({s['wins']}W/{s['losses']}L) "
+                    f"₹{pnl_sym}{s['total_pnl']:,.0f}"
+                )
+            lines.append("")
+        if bottom:
+            lines.append("━━━ *WORST STRATEGIES* ━━━")
+            for s in bottom:
+                lines.append(
+                    f"👎 #{s['rank']} {s['win_rate']}% "
+                    f"({s['wins']}W/{s['losses']}L) "
+                    f"₹{s['total_pnl']:+,.0f}"
+                )
+            lines.append("")
+    
     # ===== CAPITAL SUMMARY =====
     lines.append("━━━ *PORTFOLIO* ━━━")
     lines.append(f"{arrow} *Capital:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%)")
@@ -172,7 +206,6 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     # Per-market breakdown table
     if capital_by_market:
         mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP"}
-        # Header
         lines.append("```")
         lines.append("Market   Capital    Return")
         lines.append("-" * 30)
@@ -324,13 +357,19 @@ def main():
     # ===== 10. Generate portfolio report =====
     generate_portfolio_report()
     
-    # ===== 11. Send Telegram =====
+    # ===== 11. Get market status & strategy stats =====
+    mkt_status = get_market_status()
+    strat_stats = get_strategy_stats(top_n=5)
+    
+    # ===== 12. Send Telegram =====
     tg_msg = build_telegram_msg(
         date_str, time_str, entries, closed_msgs,
         total_cape, len(open_positions), total_pnl,
         wins, losses, closed_cnt,
         capital_by_market=cap_by_mkt,
         open_positions=open_positions,
+        market_status=mkt_status,
+        strategy_stats=strat_stats,
     )
     tg_status = send_telegram(tg_msg)
     

@@ -8,7 +8,7 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 import os, json, pandas as pd
 from datetime import datetime
 import pytz
-from config import CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT
+from config import CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE
 
 IST = pytz.timezone("Asia/Kolkata")
 LOG_DIR = "logs"
@@ -16,6 +16,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 PAPER_FILE = os.path.join(LOG_DIR, "paper_trades.csv")
 PORTFOLIO_FILE = os.path.join(LOG_DIR, "portfolio.json")
+STRATEGY_STATS_FILE = os.path.join(LOG_DIR, "strategy_stats.json")
 COLUMNS = [
     "Date","Time_IST","Mode","Ticker","Direction",
     "Entry_Price","Qty","SL","Target","MaxHold",
@@ -195,6 +196,112 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     print(f"[Paper] ENTER {direction} {ticker} @ {entry} Qty {qty} SL {sl} TGT {target}")
     return trade
+
+
+# ===== PER-STRATEGY WIN RATE TRACKING =====
+
+def _extract_rank(reason: str) -> int:
+    """Extract pattern rank from Reason field like '#1 Price<SMA50+EMA9>EMA20'."""
+    if not reason:
+        return 0
+    import re
+    match = re.match(r"#?(\d+)", reason.strip())
+    if match:
+        return int(match.group(1))
+    return 0
+
+
+def _load_strategy_stats() -> dict:
+    """Load per-strategy win/Loss tracking from JSON."""
+    if os.path.exists(STRATEGY_STATS_FILE):
+        try:
+            with open(STRATEGY_STATS_FILE, "r") as f:
+                return json.load(f)
+        except:
+            pass
+    return {}
+
+
+def _save_strategy_stats(stats: dict):
+    """Save per-strategy tracking."""
+    os.makedirs(LOG_DIR, exist_ok=True)
+    with open(STRATEGY_STATS_FILE, "w") as f:
+        json.dump(stats, f, indent=2)
+
+
+def update_strategy_stats(reason: str, pnl: float):
+    """
+    Update win/loss tracking for the pattern that generated this trade.
+    Called when a trade is closed.
+    """
+    rank = _extract_rank(reason)
+    if rank == 0:
+        return
+    
+    stats = _load_strategy_stats()
+    key = str(rank)
+    
+    if key not in stats:
+        stats[key] = {
+            "rank": rank,
+            "factors": reason[:80],
+            "wins": 0,
+            "losses": 0,
+            "total_pnl": 0.0,
+        }
+    
+    stats[key]["total_pnl"] += pnl
+    if pnl > 0:
+        stats[key]["wins"] += 1
+    else:
+        stats[key]["losses"] += 1
+    # Update the reason/factors in case it was truncated
+    if len(reason) > len(stats[key]["factors"]):
+        stats[key]["factors"] = reason[:80]
+    
+    _save_strategy_stats(stats)
+    total = stats[key]["wins"] + stats[key]["losses"]
+    wr = round(stats[key]["wins"] / total * 100, 1) if total > 0 else 0
+    print(f"[Strategy] Rank #{rank} updated: {stats[key]['wins']}W/{stats[key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
+
+
+def get_strategy_stats(top_n: int = 5) -> list:
+    """
+    Get best and worst strategies by win rate.
+    
+    Returns:
+        {
+            "top": [{rank, factors, wins, losses, win_rate, total_pnl}, ...],
+            "bottom": [{rank, factors, wins, losses, win_rate, total_pnl}, ...],
+        }
+    """
+    stats = _load_strategy_stats()
+    if not stats:
+        return {"top": [], "bottom": []}
+    
+    rows = []
+    for key, data in stats.items():
+        total = data.get("wins", 0) + data.get("losses", 0)
+        wr = round(data["wins"] / total * 100, 1) if total > 0 else 0
+        rows.append({
+            "rank": data["rank"],
+            "factors": data.get("factors", "")[:50],
+            "wins": data["wins"],
+            "losses": data["losses"],
+            "total": total,
+            "win_rate": wr,
+            "total_pnl": round(data.get("total_pnl", 0), 0),
+        })
+    
+    # Sort by win rate descending
+    rows.sort(key=lambda x: x["win_rate"], reverse=True)
+    top = rows[:top_n]
+    
+    # Sort by win rate ascending (worst first)
+    rows.sort(key=lambda x: x["win_rate"])
+    bottom = [r for r in rows if r["total"] >= 2][:top_n]  # Only if 2+ trades
+    
+    return {"top": top, "bottom": bottom}
 
 
 def _html_escape(text):
@@ -612,5 +719,18 @@ def update_trades(current_prices: dict) -> list:
         open_df = df[df["Status"] == "OPEN"]
         portfolio["open_positions"] = open_df.to_dict(orient="records")
         save_portfolio(portfolio)
+        # Update per-strategy win rates for all closed trades in this run
+        for msg in closed_msgs:
+            # Find which row had this trade
+            for idx, row in df.iterrows():
+                if row["Status"] == "CLOSED" and row.get("Exit_Price", "") != "":
+                    pnl = row.get("P&L", "")
+                    if pd.notna(pnl) and str(pnl).strip() != "":
+                        try:
+                            pnl_f = float(pnl)
+                            reason = str(row.get("Reason", ""))
+                            update_strategy_stats(reason, pnl_f)
+                        except:
+                            pass
     
     return closed_msgs

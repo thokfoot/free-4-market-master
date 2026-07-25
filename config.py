@@ -115,6 +115,128 @@ def get_region(yf_ticker: str, csv_region: str = None) -> str:
     return "US"
 
 
+# ===== HOLIDAY CALENDAR =====
+# Known market holidays for India (NSE) and US (NYSE)
+# Format: "MM-DD" — year-independent
+INDIAN_HOLIDAYS = {
+    "01-26",  # Republic Day
+    "03-25",  # Holi (approx)
+    "03-29",  # Good Friday (approx)
+    "04-14",  # Dr Ambedkar Jayanti
+    "04-17",  # Ram Navami (approx)
+    "05-01",  # Maharashtra Day / Labour Day
+    "06-17",  # Bakri Eid (approx)
+    "07-17",  # Muharram (approx)
+    "08-15",  # Independence Day
+    "08-27",  # Ganesh Chaturthi (approx)
+    "10-02",  # Gandhi Jayanti
+    "10-12",  # Dussehra (approx)
+    "10-31",  # Diwali (approx)
+    "11-01",  # Diwali Balipratipada (approx)
+    "11-15",  # Guru Nanak Jayanti
+    "12-25",  # Christmas
+}
+US_HOLIDAYS = {
+    "01-01",  # New Year's Day
+    "01-15",  # Martin Luther King Jr. Day
+    "02-19",  # Presidents' Day
+    "03-29",  # Good Friday
+    "05-27",  # Memorial Day
+    "06-19",  # Juneteenth
+    "07-04",  # Independence Day
+    "09-02",  # Labor Day
+    "11-28",  # Thanksgiving
+    "12-25",  # Christmas
+}
+
+# ===== MARKET HOURS =====
+import pytz
+from datetime import datetime, time as dtime, timedelta
+
+IST_TZ = pytz.timezone("Asia/Kolkata")
+ET_TZ = pytz.timezone("US/Eastern")
+
+
+def get_market_status(now_ist: datetime = None) -> dict:
+    """
+    Return market status for all three markets at the given IST time.
+    
+    Returns:
+        {
+            "INDIAN": "OPEN" | "CLOSED" | "HOLIDAY" | "WEEKEND",
+            "US": "OPEN" | "CLOSED" | "HOLIDAY" | "WEEKEND",
+            "CRYPTO": "24/7",
+            "message": "🇮🇳 India OPEN | 🇺🇸 US CLOSED | ₿ Crypto 24/7"
+        }
+    """
+    if now_ist is None:
+        now_ist = datetime.now(IST_TZ)
+    
+    date_str = now_ist.strftime("%m-%d")
+    weekday = now_ist.weekday()  # 0=Mon, 6=Sun
+    hour = now_ist.hour
+    minute = now_ist.minute
+    current_ist_minutes = hour * 60 + minute
+    
+    result = {}
+    
+    # Crypto — always 24/7
+    result["CRYPTO"] = "24/7"
+    
+    # India market
+    if weekday >= 5:  # Sat/Sun
+        result["INDIAN"] = "WEEKEND"
+    elif date_str in INDIAN_HOLIDAYS:
+        result["INDIAN"] = "HOLIDAY"
+    elif 555 <= current_ist_minutes <= 930:  # 9:15 AM to 3:30 PM IST
+        result["INDIAN"] = "OPEN"
+    elif current_ist_minutes < 555:  # Before 9:15 AM
+        result["INDIAN"] = "PRE-OPEN"
+    else:  # After 3:30 PM
+        result["INDIAN"] = "CLOSED"
+    
+    # US market (ET)
+    # Convert IST to ET: IST = ET + 9:30 (during EST) or + 10:30 (during EDT)
+    # Rough: US market 9:30 AM - 4:00 PM ET
+    if weekday >= 5:  # Sat/Sun
+        result["US"] = "WEEKEND"
+    elif date_str in US_HOLIDAYS:
+        result["US"] = "HOLIDAY"
+    else:
+        # Convert IST to ET approximation
+        # During EDT (Mar-Nov): ET = IST - 9:30
+        # During EST (Nov-Mar): ET = IST - 10:30
+        # Rough check: 7:00 PM IST = 9:30 AM ET (EDT), 1:30 AM IST = 4:00 PM ET (EDT)
+        us_open_minutes = 19 * 60 + 0  # 7:00 PM IST = 9:30 AM ET
+        us_close_minutes = 1 * 60 + 30  # 1:30 AM IST = 4:00 PM ET
+        
+        if us_open_minutes <= current_ist_minutes or current_ist_minutes < us_close_minutes:
+            # Handles overnight session (after 7PM IST → before 1:30AM IST next day)
+            if current_ist_minutes >= us_open_minutes or current_ist_minutes < us_close_minutes:
+                result["US"] = "OPEN"
+            else:
+                result["US"] = "CLOSED"
+        else:
+            result["US"] = "CLOSED"
+    
+    # Build human-readable message
+    status_icons = {
+        "OPEN": "🟢 OPEN",
+        "CLOSED": "🔴 CLOSED",
+        "HOLIDAY": "🎉 HOLIDAY",
+        "WEEKEND": "⛔ WEEKEND",
+        "PRE-OPEN": "🟡 PRE-OPEN",
+        "24/7": "🟢 24/7",
+    }
+    parts = []
+    for mkt in ["INDIAN", "US", "CRYPTO"]:
+        icon = status_icons.get(result[mkt], result[mkt])
+        parts.append(f"{mkt[:4]} {icon}")
+    result["message"] = " | ".join(parts)
+    
+    return result
+
+
 # ===== INDICATOR FORMULAS (Documentation) =====
 # SMA20  = Close.rolling(20).mean()
 # SMA50  = Close.rolling(50).mean()
