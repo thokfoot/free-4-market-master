@@ -28,6 +28,30 @@ MAX_CONCURRENT = 5              # Max simultaneous open positions
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")
 
+# ===== INTRADAY SETTINGS (v5.7+) =====
+INTRADAY_STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "intraday_strategies.csv")
+INTRADAY_CAPITAL = 100000.0  # ₹1,00,000 separate capital for intraday
+
+# Intraday SL/TP per market (tighter than swing)
+INTRADAY_SL_PCT = {
+    "US": 0.01,      # 1% stop loss
+    "CRYPTO": 0.015,  # 1.5% stop loss
+    "INDIAN": 0.01,   # 1% stop loss (if India intraday added)
+}
+INTRADAY_TP_PCT = {
+    "US": 0.02,      # 2% take profit
+    "CRYPTO": 0.03,    # 3% take profit
+    "INDIAN": 0.02,   # 2% take profit
+}
+INTRADAY_MAX_HOLD_HOURS = {
+    "US": 6,         # Max 6 hours hold for US intraday
+    "CRYPTO": 12,     # Max 12 hours for crypto (24/7 market)
+    "INDIAN": 5,      # Max 5 hours for India intraday
+}
+INTRADAY_MAX_CONCURRENT = 3  # Max 3 concurrent intraday positions
+INTRADAY_PERIOD = "3mo"      # 3 months of 1h data from yfinance
+INTRADAY_INTERVAL = "1h"     # 1-hour candles
+
 # ===== SCAN SETTINGS =====
 # Bot runs scans for all markets. SHORT configurable per region.
 ALLOW_SHORT = {

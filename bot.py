@@ -20,8 +20,13 @@ import pytz
 from config import (
     CAPITAL, CAPITAL_BY_MARKET, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
     YF_PERIOD, YF_INTERVAL, get_region, get_market_status,
+    INTRADAY_PERIOD, INTRADAY_INTERVAL, INTRADAY_CAPITAL,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
+from scanner_intraday import (
+    load_intraday_strategies, unique_tickers as intraday_ut,
+    compute_indicators_1h, scan_intraday_strategies, get_best_intraday_entries,
+)
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
     generate_portfolio_report, get_strategy_stats,
@@ -271,137 +276,299 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     return msg
 
 
-def main():
-    """Main bot entry point."""
+def run_swing_scan() -> dict:
+    """Run the SWING (daily) scan — 81 strategies, daily data."""
     start_time = time.time()
     now = now_ist()
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
     
     print(f"\n{'='*60}")
-    print(f"  FREE 3-Market v5.0 PAPER TRADE BOT")
+    print(f"  SWING SCAN v5.7 — Daily Data")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
     
-    # ===== 1. Load strategies =====
-    try:
-        strategies = load_strategies()
-    except Exception as e:
-        log_error(f"Failed to load strategies: {e}")
-        print(f"[FATAL] {e}")
-        return
+    # 1. Load strategies
+    strategies = load_strategies()
     
-    # ===== 2. Get unique tickers =====
+    # 2. Get unique tickers
     tickers = unique_tickers(strategies)
-    print(f"[Bot] {len(tickers)} unique tickers to scan: {', '.join(tickers[:10])}{'...' if len(tickers)>10 else ''}")
+    print(f"[Swing] {len(tickers)} unique tickers")
     
-    # ===== 3. Download data for each ticker =====
+    # 3. Download data
     ticker_data = {}
     scan_errors = 0
     for yf_ticker in tickers:
         for attempt in range(3):
             try:
-                print(f"[Bot] Downloading {yf_ticker}...", end=" ")
+                print(f"[Swing] Downloading {yf_ticker}...", end=" ")
                 df = yf.download(yf_ticker, period=YF_PERIOD, interval=YF_INTERVAL,
                                  progress=False, auto_adjust=False)
                 if df is None or len(df) < 60:
-                    print(f"INSUFFICIENT DATA ({len(df) if df is not None else 0} rows)")
-                    if attempt < 2:
-                        time.sleep(1)
-                        continue
+                    print(f"INSUFFICIENT ({len(df) if df is not None else 0} rows)")
+                    if attempt < 2: time.sleep(1); continue
                     break
-                
-                # Compute indicators
                 df = compute_indicators(df)
+                ticker_data[yf_ticker] = df
+                print(f"OK ({len(df)} rows)")
+                break
+            except Exception as e:
+                print(f"ERROR: {e}")
+                if attempt < 2: time.sleep(2); continue
+                scan_errors += 1
+                log_error(f"Swing download failed {yf_ticker}: {e}")
+    
+    print(f"[Swing] Data: {len(ticker_data)}/{len(tickers)} tickers, {scan_errors} errors")
+    
+    # 4. Market status
+    market_status = {}
+    for yf_ticker, df in ticker_data.items():
+        if df is not None and len(df) > 0:
+            last = df.iloc[-1]
+            cv = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
+            hv = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
+            lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
+            market_status[yf_ticker] = {
+                "data_ok": True, "latest_close": cv, "latest_high": hv, "latest_low": lv,
+                "latest_date": str(df.index[-1].date()), "region": get_region(yf_ticker),
+            }
+        else:
+            market_status[yf_ticker] = {"data_ok": False}
+    
+    # 5. Scan
+    all_signals = scan_strategies(strategies, ticker_data)
+    fired_signals = [s for s in all_signals if s.get("fired")]
+    print(f"[Swing] Strategies: {len(all_signals)}, fired: {len(fired_signals)}")
+    
+    # 6. Best entries
+    best_entries = get_best_entries(all_signals)
+    print(f"[Swing] Best entries: {len(best_entries)}")
+    
+    # 7. Update positions
+    current_prices = {}
+    ohlc_data = {}
+    for yf_ticker, st in market_status.items():
+        if st.get("data_ok"):
+            current_prices[yf_ticker] = st["latest_close"]
+            ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"], "low": st["latest_low"]}
+    
+    closed_msgs = update_trades(ohlc_data)
+    print(f"[Swing] Closed: {len(closed_msgs)}")
+    
+    # 8. Enter new trades (SWING)
+    entries = []
+    for entry in best_entries:
+        region = get_region(entry["ticker"], entry.get("region"))
+        trade = enter_trade(
+            mode=region, ticker=entry["ticker"], direction=entry["direction"],
+            entry_price=entry["close"], reason=entry.get("factors", "")[:60],
+            pattern_rank=entry.get("rank"), expected_win_rate=entry.get("win_rate"),
+            pattern_factors=entry.get("factors", ""), tf="SWING_1d",
+        )
+        if trade:
+            entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
+                "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
+                "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
+    print(f"[Swing] New entries: {len(entries)}")
+    
+    return {
+        "mode": "SWING",
+        "ticker_data": ticker_data,
+        "market_status": market_status,
+        "current_prices": current_prices,
+        "ohlc_data": ohlc_data,
+        "all_signals": all_signals,
+        "fired_signals": fired_signals,
+        "best_entries": best_entries,
+        "entries": entries,
+        "closed_msgs": closed_msgs,
+        "scan_errors": scan_errors,
+        "duration": time.time() - start_time,
+    }
+
+
+def run_intraday_scan() -> dict:
+    """Run the INTRADAY (1h) scan — 40 strategies, 1h data."""
+    start_time = time.time()
+    now = now_ist()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
+    
+    print(f"\n{'='*60}")
+    print(f"  INTRADAY SCAN v5.7 — 1h Data")
+    print(f"  {date_str} {time_str}")
+    print(f"{'='*60}")
+    
+    # 1. Load strategies
+    strategies = load_intraday_strategies()
+    
+    # 2. Get unique tickers
+    tickers = intraday_ut(strategies)
+    print(f"[Intraday] {len(tickers)} unique tickers")
+    
+    # 3. Download 1h data
+    ticker_data = {}
+    scan_errors = 0
+    for yf_ticker in tickers:
+        for attempt in range(3):
+            try:
+                print(f"[Intraday] Downloading {yf_ticker}...", end=" ")
+                df = yf.download(yf_ticker, period=INTRADAY_PERIOD, interval=INTRADAY_INTERVAL,
+                                 progress=False, auto_adjust=False)
+                if df is None or len(df) < 200:
+                    print(f"INSUFFICIENT ({len(df) if df is not None else 0} rows)")
+                    if attempt < 2: time.sleep(1); continue
+                    break
+                df = compute_indicators_1h(df)
                 ticker_data[yf_ticker] = df
                 print(f"OK ({len(df)} rows, {df.index[-1].date()})")
                 break
             except Exception as e:
                 print(f"ERROR: {e}")
-                if attempt < 2:
-                    time.sleep(2)
-                    continue
+                if attempt < 2: time.sleep(2); continue
                 scan_errors += 1
-                log_error(f"Failed to download {yf_ticker}: {e}")
+                log_error(f"Intraday download failed {yf_ticker}: {e}")
     
-    print(f"[Bot] Data download complete: {len(ticker_data)}/{len(tickers)} tickers, {scan_errors} errors")
+    print(f"[Intraday] Data: {len(ticker_data)}/{len(tickers)} tickers, {scan_errors} errors")
     
-    # ===== 4. Compute market status =====
-    # For each ticker, determine if it's in a region the bot should trade
+    # 4. Market status
     market_status = {}
     for yf_ticker, df in ticker_data.items():
         if df is not None and len(df) > 0:
             last = df.iloc[-1]
-            # Flatten multi-index columns if present
-            close_val = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
-            high_val = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
-            low_val = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
+            cv = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
+            hv = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
+            lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
             market_status[yf_ticker] = {
-                "data_ok": True,
-                "latest_close": close_val,
-                "latest_high": high_val,
-                "latest_low": low_val,
-                "latest_date": str(df.index[-1].date()),
-                "region": get_region(yf_ticker),
+                "data_ok": True, "latest_close": cv, "latest_high": hv, "latest_low": lv,
+                "latest_date": str(df.index[-1].date()), "region": get_region(yf_ticker),
             }
         else:
             market_status[yf_ticker] = {"data_ok": False}
     
-    # ===== 5. Scan all strategies =====
-    all_signals = scan_strategies(strategies, ticker_data)
+    # 5. Scan
+    all_signals = scan_intraday_strategies(strategies, ticker_data)
     fired_signals = [s for s in all_signals if s.get("fired")]
-    print(f"[Bot] Strategies checked: {len(all_signals)}, fired: {len(fired_signals)}")
+    print(f"[Intraday] Strategies: {len(all_signals)}, fired: {len(fired_signals)}")
     
-    # ===== 6. Get best entries (1 per ticker per direction) =====
-    best_entries = get_best_entries(all_signals)
-    print(f"[Bot] Best entries: {len(best_entries)}")
+    # 6. Best entries
+    best_entries = get_best_intraday_entries(all_signals)
+    print(f"[Intraday] Best entries: {len(best_entries)}")
     
-    # ===== 7. Update existing positions (with High/Low for intraday SL/TP) =====
+    # 7. Update positions (same OHLC exit logic)
     current_prices = {}
     ohlc_data = {}
-    for yf_ticker, status in market_status.items():
-        if status.get("data_ok"):
-            current_prices[yf_ticker] = status["latest_close"]
-            ohlc_data[yf_ticker] = {
-                "close": status["latest_close"],
-                "high": status["latest_high"],
-                "low": status["latest_low"],
-            }
+    for yf_ticker, st in market_status.items():
+        if st.get("data_ok"):
+            current_prices[yf_ticker] = st["latest_close"]
+            ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"], "low": st["latest_low"]}
     
     closed_msgs = update_trades(ohlc_data)
-    print(f"[Bot] Closed trades: {len(closed_msgs)}")
+    print(f"[Intraday] Closed: {len(closed_msgs)}")
     
-    # ===== 8. Enter new trades =====
+    # 8. Enter new trades (INTRADAY)
     entries = []
     for entry in best_entries:
         region = get_region(entry["ticker"], entry.get("region"))
         trade = enter_trade(
-            mode=region,
-            ticker=entry["ticker"],
-            direction=entry["direction"],
-            entry_price=entry["close"],
-            reason=entry.get("factors", "")[:60],
-            pattern_rank=entry.get("rank"),
-            expected_win_rate=entry.get("win_rate"),
-            pattern_factors=entry.get("factors", ""),
+            mode=region, ticker=entry["ticker"], direction=entry["direction"],
+            entry_price=entry["close"], reason=entry.get("factors", "")[:60],
+            pattern_rank=entry.get("rank"), expected_win_rate=entry.get("win_rate"),
+            pattern_factors=entry.get("factors", ""), tf="INTRADAY_1h",
         )
         if trade:
-            entries.append({
-                "ticker": entry["ticker"],
-                "direction": entry["direction"],
-                "close": entry["close"],
-                "qty": trade["Qty"],
-                "sl": trade["SL"],
-                "target": trade["Target"],
-                "rank": entry.get("rank"),
-                "win_rate": entry.get("win_rate"),
-            })
+            entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
+                "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
+                "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
+    print(f"[Intraday] New entries: {len(entries)}")
     
-    print(f"[Bot] New entries: {len(entries)}")
+    return {
+        "mode": "INTRADAY",
+        "ticker_data": ticker_data,
+        "market_status": market_status,
+        "current_prices": current_prices,
+        "ohlc_data": ohlc_data,
+        "all_signals": all_signals,
+        "fired_signals": fired_signals,
+        "best_entries": best_entries,
+        "entries": entries,
+        "closed_msgs": closed_msgs,
+        "scan_errors": scan_errors,
+        "duration": time.time() - start_time,
+    }
+
+
+def main():
+    """Main bot entry point. Supports --mode swing (default), intraday, or both."""
+    start_time = time.time()
+    now = now_ist()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
     
-    # ===== 9. Load portfolio state =====
+    # Parse mode from CLI args
+    mode = "swing"
+    if len(sys.argv) > 1:
+        mode_arg = sys.argv[1].lower().replace("--mode=", "").replace("--", "")
+        if mode_arg in ("intraday", "id"):
+            mode = "intraday"
+        elif mode_arg in ("both", "all"):
+            mode = "both"
+        elif mode_arg in ("swing", "daily"):
+            mode = "swing"
+    
+    print(f"\n{'='*60}")
+    print(f"  FREE 3-Market v5.7 PAPER TRADE BOT")
+    print(f"  Mode: {mode.upper()} | {date_str} {time_str}")
+    print(f"{'='*60}")
+    
+    # Run scans based on mode
+    scan_results = []
+    if mode in ("swing", "both"):
+        try:
+            sr = run_swing_scan()
+            scan_results.append(sr)
+        except Exception as e:
+            log_error(f"Swing scan failed: {e}")
+            print(f"[FATAL] Swing scan: {e}")
+            traceback.print_exc()
+    
+    if mode in ("intraday", "both"):
+        try:
+            sr = run_intraday_scan()
+            scan_results.append(sr)
+        except Exception as e:
+            log_error(f"Intraday scan failed: {e}")
+            print(f"[FATAL] Intraday scan: {e}")
+            traceback.print_exc()
+    
+    if not scan_results:
+        print(f"[Bot] No scans completed successfully")
+        return
+    
+    # Merge results from all scans
+    all_entries = []
+    all_closed = []
+    all_signals = []
+    total_fired = 0
+    total_errors = 0
+    total_tickers = 0
+    current_prices = {}
+    
+    for sr in scan_results:
+        all_entries.extend(sr["entries"])
+        all_closed.extend(sr["closed_msgs"])
+        all_signals.extend(sr["all_signals"])
+        total_fired += len(sr["fired_signals"])
+        total_errors += sr["scan_errors"]
+        total_tickers += len(sr["ticker_data"])
+        current_prices.update(sr["current_prices"])
+    
+    # Load portfolio
     portfolio = load_portfolio()
     cap_by_mkt = portfolio.get("capital_by_market", dict(CAPITAL_BY_MARKET))
+    # Add intraday capital
+    if "INTRADAY" not in cap_by_mkt:
+        cap_by_mkt["INTRADAY"] = INTRADAY_CAPITAL
     total_cape = sum(cap_by_mkt.values())
     open_positions = portfolio.get("open_positions", [])
     total_pnl = portfolio.get("total_pnl", 0)
@@ -409,23 +576,26 @@ def main():
     wins = portfolio.get("total_wins", 0)
     losses = portfolio.get("total_losses", 0)
     
-    # ===== 10. Generate portfolio report (with live prices) =====
+    # Generate report
     generate_portfolio_report(current_prices=current_prices)
     
-    # ===== 11. Get market status & strategy stats =====
+    # Market status & stats
     mkt_status = get_market_status()
     strat_stats = get_strategy_stats(top_n=5)
+    
+    # Total signals count across all scans
+    total_strategies = sum(len(sr["all_signals"]) for sr in scan_results)
     scan_summary = {
-        "tickers_ok": len(ticker_data),
-        "tickers_total": len(tickers),
-        "strategies_total": len(all_signals),
-        "strategies_fired": len(fired_signals),
-        "errors": scan_errors,
+        "tickers_ok": len(current_prices),
+        "tickers_total": total_tickers,
+        "strategies_total": total_strategies,
+        "strategies_fired": total_fired,
+        "errors": total_errors,
     }
     
-    # ===== 12. Send Telegram =====
+    # Telegram
     tg_msg = build_telegram_msg(
-        date_str, time_str, entries, closed_msgs,
+        date_str, time_str, all_entries, all_closed,
         total_cape, len(open_positions), total_pnl,
         wins, losses, closed_cnt,
         capital_by_market=cap_by_mkt,
@@ -437,60 +607,32 @@ def main():
     )
     tg_status = send_telegram(tg_msg)
     
-    # Also send the HTML portfolio report as a downloadable document
+    # Portfolio report document
     if os.path.exists(PORTFOLIO_REPORT_FILE):
         doc_caption = f"📊 *Full Portfolio Report* — {date_str}\n"
         doc_caption += "Download & open in browser for beautiful formatted view"
         send_telegram_document(PORTFOLIO_REPORT_FILE, caption=doc_caption)
     
-    # ===== 12. Log Daily Scan =====
-    # Build fired & skipped pattern lists for audit trail
+    # Log scan data
     fired_patterns = []
-    for s in all_signals:
-        if s.get("fired"):
-            fired_patterns.append({
-                "rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
-                "direction": s["direction"], "factors": s["factors"],                    "win_rate": s["win_rate"],
-                "reason": "All factors met",
-            })
-    
-    # Why some fired signals were skipped (duplicate ticker or SHORT not allowed)
-    fired_keys = {(e["ticker"], e["direction"]) for e in best_entries}
     skipped_patterns = []
-    for s in fired_signals:
-        key = (s["ticker"], s["direction"])
-        if key not in fired_keys:
-            skip_reason = "Better pattern won (higher win rate)"
-            if s["direction"] == "SHORT":
-                region = s.get("region", "").upper()
-                if region in ("INDIA", "INDIAN"):
-                    skip_reason = "SHORT not allowed for INDIAN market (cash)"
-            skipped_patterns.append({
-                "rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
-                "direction": s["direction"], "factors": s["factors"],
-                "win_rate": s["win_rate"],
-                "skip_reason": skip_reason,
-            })
+    for sr in scan_results:
+        for s in sr["all_signals"]:
+            if s.get("fired"):
+                fired_patterns.append({
+                    "rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
+                    "direction": s["direction"], "factors": s["factors"],
+                    "win_rate": s["win_rate"], "reason": "All factors met",
+                })
     
     scan_data = {
-        "date": date_str,
-        "time": time_str,
-        "tickers_scanned": [
-            {"ticker": t, "region": market_status.get(t, {}).get("region", "?"),
-             "close": market_status.get(t, {}).get("latest_close", 0),
-             "data_ok": market_status.get(t, {}).get("data_ok", False)}
-            for t in sorted(ticker_data.keys())
-        ],
-        "patterns_checked": [
-            {"rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
-             "direction": s["direction"], "factors": s["factors"],
-             "fired": s["fired"], "win_rate": s["win_rate"],
-             "reason": s.get("reason", "")}
-            for s in all_signals
-        ],
+        "date": date_str, "time": time_str,
+        "mode": mode.upper(),
+        "tickers_scanned": list(current_prices.keys()),
+        "patterns_checked": len(all_signals),
+        "patterns_fired": total_fired,
         "fired_patterns": fired_patterns,
-        "skipped_patterns": skipped_patterns,
-        "entries": entries,
+        "entries": all_entries,
         "portfolio": {
             "capital_by_market": cap_by_mkt,
             "total_capital": total_cape,
@@ -503,32 +645,33 @@ def main():
     }
     log_scan(scan_data)
     
-    # ===== 13. Log trade run summary =====
-    log_trade_run({
-        "Date": date_str,
-        "Time": time_str,
-        "Tickers_Scanned": len(ticker_data),
-        "Errors": scan_errors,
-        "Patterns_Total": len(all_signals),
-        "Patterns_Fired": len(fired_signals),
-        "New_Entries": len(entries),
-        "Closed_Trades": len(closed_msgs),
-        "Open_Positions": len(open_positions),
-        "Capital": round(total_cape, 0),
-        "Total_PnL": round(total_pnl, 0),
-        "Telegram": tg_status,
-    })
+    # Trade run summary
+    for sr in scan_results:
+        log_trade_run({
+            "Date": date_str, "Time": time_str,
+            "Mode": sr["mode"],
+            "Tickers_Scanned": len(sr["ticker_data"]),
+            "Errors": sr["scan_errors"],
+            "Patterns_Total": len(sr["all_signals"]),
+            "Patterns_Fired": len(sr["fired_signals"]),
+            "New_Entries": len(sr["entries"]),
+            "Closed_Trades": len(sr["closed_msgs"]),
+            "Open_Positions": len(open_positions),
+            "Capital": round(total_cape, 0),
+            "Total_PnL": round(total_pnl, 0),
+            "Telegram": tg_status,
+        })
     
-    # ===== 14. Log portfolio snapshot =====
+    # Portfolio snapshot
     log_portfolio(total_cape, open_positions, closed_cnt, wins, losses, total_pnl,
                   capital_by_market=cap_by_mkt)
     
     elapsed = time.time() - start_time
     print(f"\n{'='*60}")
-    print(f"  BOT RUN COMPLETE — {elapsed:.1f}s")
-    print(f"  Tickers: {len(ticker_data)} | Fired: {len(fired_signals)}")
-    print(f"  Entered: {len(entries)} | Closed: {len(closed_msgs)}")
-    print(f"  Capital: Rs {total_cape:,.0f} (IND:₹{cap_by_mkt.get('INDIAN',0):,.0f} US:₹{cap_by_mkt.get('US',0):,.0f} CRYP:₹{cap_by_mkt.get('CRYPTO',0):,.0f}) | PnL: Rs {total_pnl:+,.0f}")
+    print(f"  BOT RUN COMPLETE — Mode: {mode.upper()} | {elapsed:.1f}s")
+    print(f"  Tickers: {total_tickers} | Fired: {total_fired}")
+    print(f"  Entered: {len(all_entries)} | Closed: {len(all_closed)}")
+    print(f"  Capital: Rs {total_cape:,.0f} | PnL: Rs {total_pnl:+,.0f}")
     print(f"{'='*60}\n")
 
 

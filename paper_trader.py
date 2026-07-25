@@ -8,7 +8,13 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 import os, json, pandas as pd
 from datetime import datetime
 import pytz
-from config import CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE, CHARGES_PER_MARKET
+from config import (
+    CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE,
+    SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE,
+    CHARGES_PER_MARKET,
+    INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
+    INTRADAY_MAX_HOLD_HOURS, INTRADAY_MAX_CONCURRENT,
+)
 
 IST = pytz.timezone("Asia/Kolkata")
 LOG_DIR = "logs"
@@ -53,7 +59,7 @@ def _safe_float(val) -> float:
         return 0.0
 
 COLUMNS = [
-    "Date","Time_IST","Mode","Ticker","Direction",
+    "Date","Time_IST","Mode","Ticker","Direction","TimeFrame",
     "Entry_Price","Qty","SL","Target","MaxHold",
     "Exit_Price","Exit_Time","P&L","P&L_%","Status",
     "Pattern_Rank","Expected_WinRate","Pattern_Factors","Reason"
@@ -138,14 +144,16 @@ def round_price(price):
 
 def _default_portfolio() -> dict:
     """Return default portfolio with per-market capital."""
+    cap = dict(CAPITAL_BY_MARKET)
+    cap["INTRADAY"] = INTRADAY_CAPITAL
     return {
-        "capital_by_market": dict(CAPITAL_BY_MARKET),
+        "capital_by_market": cap,
         "open_positions": [],
         "closed_count": 0,
         "total_wins": 0,
         "total_losses": 0,
         "total_pnl": 0,
-        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0},
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0, "INTRADAY": 0.0},
     }
 
 
@@ -192,11 +200,15 @@ def save_portfolio(port: dict):
         json.dump(port, f, indent=2)
 
 
-def calculate_qty(entry: float, sl: float, market: str = "US") -> int:
+def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
     """Calculate position size based on risk per trade (1% of market capital)."""
     port = load_portfolio()
-    mkt_cap = port.get("capital_by_market", {}).get(market, CAPITAL_BY_MARKET.get(market, 100000))
-    risk_amt = mkt_cap * RISK_PER_TRADE
+    if tf == "INTRADAY_1h":
+        mkt_cap = port.get("capital_by_market", {}).get("INTRADAY", INTRADAY_CAPITAL)
+        risk_amt = mkt_cap * RISK_PER_TRADE
+    else:
+        mkt_cap = port.get("capital_by_market", {}).get(market, CAPITAL_BY_MARKET.get(market, 100000))
+        risk_amt = mkt_cap * RISK_PER_TRADE
     risk_per_share = abs(entry - sl)
     if risk_per_share < 1e-9:
         return 0
@@ -214,7 +226,8 @@ def calculate_qty(entry: float, sl: float, market: str = "US") -> int:
 def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  reason: str, pattern_rank: int = None,
                  expected_win_rate: float = None,
-                 pattern_factors: str = None) -> dict:
+                 pattern_factors: str = None,
+                 tf: str = "SWING_1d") -> dict:
     """
     Enter a paper trade.
     
@@ -224,7 +237,10 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         direction: "LONG" | "SHORT"
         entry_price: Entry price
         reason: Signal description
-        pattern_rank: Rank from CSV (optional)
+        pattern_rank: Rank from CSV
+        expected_win_rate: Expected win rate from CSV
+        pattern_factors: Full factor string
+        tf: "SWING_1d" or "INTRADAY_1h"
     
     Returns:
         Trade dict or None if rejected
@@ -234,8 +250,14 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()
     
-    # Check max concurrent
-    if len(portfolio["open_positions"]) >= MAX_CONCURRENT:
+    # Check max concurrent (separate limits for swing vs intraday)
+    open_positions = portfolio.get("open_positions", [])
+    if tf == "INTRADAY_1h":
+        intraday_open = [p for p in open_positions if p.get("TimeFrame") == "INTRADAY_1h"]
+        if len(intraday_open) >= INTRADAY_MAX_CONCURRENT:
+            print(f"[Paper] INTRADAY MAX CONCURRENT ({INTRADAY_MAX_CONCURRENT}), skip {ticker}")
+            return None
+    elif len(open_positions) >= MAX_CONCURRENT:
         print(f"[Paper] MAX CONCURRENT ({MAX_CONCURRENT}), skip {ticker}")
         return None
     
@@ -245,23 +267,34 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
             print(f"[Paper] Duplicate {ticker} {direction} already open, skip")
             return None
     
-    # Calculate SL/TP based on direction
+    # Calculate SL/TP based on direction AND timeframe
+    is_intraday = (tf == "INTRADAY_1h")
+    if is_intraday:
+        sl_pct = INTRADAY_SL_PCT.get(mode, 0.01)
+        tp_pct = INTRADAY_TP_PCT.get(mode, 0.02)
+        max_hold = INTRADAY_MAX_HOLD_HOURS.get(mode, 6)
+    else:
+        sl_pct = SL_PCT
+        tp_pct = TP_PCT
+        max_hold = MAX_HOLD_DAYS
+    
     if direction == "LONG":
-        sl = round_price(entry_price * (1 - SL_PCT))
-        target = round_price(entry_price * (1 + TP_PCT))
+        sl = round_price(entry_price * (1 - sl_pct))
+        target = round_price(entry_price * (1 + tp_pct))
     else:  # SHORT
-        sl = round_price(entry_price * (1 + SL_PCT))
-        target = round_price(entry_price * (1 - TP_PCT))
+        sl = round_price(entry_price * (1 + sl_pct))
+        target = round_price(entry_price * (1 - tp_pct))
     
     entry = round_price(entry_price)
-    qty = calculate_qty(entry, sl, mode)
+    qty = calculate_qty(entry, sl, mode, tf)
     if qty == 0:
         return None
     
     # Build reason with pattern rank
     full_reason = reason
     if pattern_rank:
-        full_reason = f"#{pattern_rank} {reason}"
+        tf_label = "ID" if is_intraday else "SW"
+        full_reason = f"#{pattern_rank}{tf_label} {reason}"
     
     trade = {
         "Date": date_str,
@@ -269,11 +302,12 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         "Mode": mode,
         "Ticker": ticker,
         "Direction": direction,
+        "TimeFrame": tf,
         "Entry_Price": entry,
         "Qty": qty,
         "SL": sl,
         "Target": target,
-        "MaxHold": MAX_HOLD_DAYS,
+        "MaxHold": max_hold,
         "Exit_Price": "",
         "Exit_Time": "",
         "P&L": "",
@@ -285,12 +319,13 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         "Reason": full_reason,
     }
     
-    # Append to CSV
+    # Append to CSV (handle TimeFrame column migration for old rows)
     df_new = pd.DataFrame([trade])[COLUMNS]
-    os.makedirs(LOG_DIR, exist_ok=True)
     os.makedirs(LOG_DIR, exist_ok=True)
     if os.path.exists(PAPER_FILE):
         df_old = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+        if "TimeFrame" not in df_old.columns:
+            df_old["TimeFrame"] = "SWING_1d"
         df_comb = pd.concat([df_old, df_new], ignore_index=True)
     else:
         df_comb = df_new
@@ -911,14 +946,21 @@ def update_trades(ohlc_data: dict) -> list:
                 "Reason": str(row["Reason"]) + f" | {exit_reason}",
             })
             
-            # Update per-market capital
-            trade_mode = str(row.get("Mode", "US"))
-            mkt_cap = portfolio.setdefault("capital_by_market", dict(CAPITAL_BY_MARKET)).get(trade_mode, 100000)
+            # Update per-market capital (respect TimeFrame for intraday separate capital)
+            trade_tf = str(row.get("TimeFrame", "SWING_1d"))
+            if trade_tf == "INTRADAY_1h":
+                capital_key = "INTRADAY"
+            else:
+                capital_key = str(row.get("Mode", "US"))
+            mkt_cap = portfolio.setdefault("capital_by_market", {}).get(capital_key, 100000)
             mkt_cap = max(0, mkt_cap + pnl)
-            portfolio["capital_by_market"][trade_mode] = mkt_cap
+            portfolio["capital_by_market"][capital_key] = mkt_cap
             portfolio["total_pnl"] += pnl
-            tpnl_by_mkt = portfolio.setdefault("total_pnl_by_market", {"INDIAN":0,"US":0,"CRYPTO":0})
-            tpnl_by_mkt[trade_mode] = tpnl_by_mkt.get(trade_mode, 0) + pnl
+            tpnl_by_mkt = portfolio.setdefault("total_pnl_by_market", {"INDIAN":0,"US":0,"CRYPTO":0,"INTRADAY":0})
+            if capital_key in tpnl_by_mkt:
+                tpnl_by_mkt[capital_key] += pnl
+            else:
+                tpnl_by_mkt[capital_key] = pnl
             portfolio["closed_count"] += 1
             if pnl > 0:
                 portfolio["total_wins"] += 1

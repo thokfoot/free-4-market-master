@@ -4,3 +4,9 @@ __pycache__/
 .env
 *.tmp
 temp/
+
+# Intraday REAL data files (large, can be regenerated)
+real_data/
+
+# Verification scripts (not part of the bot)
+_verify_*.py
