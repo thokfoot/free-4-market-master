@@ -617,12 +617,21 @@ def generate_portfolio_report(current_prices: dict = None):
                 
                 # For OPEN trades, calculate current/unrealized P&L
                 is_open = (status == "OPEN")
-                if is_open:
+                ticker = str(row.get("Ticker", ""))
+                has_current_price = _get_current_price(ticker) > 0
+                
+                if is_open and has_current_price:
                     unrealized_pnl, unrealized_pnl_pct = _calc_unrealized_pnl(row)
                     pnl_display = f"{unrealized_pnl:+,.0f}"
                     pnl_class = _pnl_class(unrealized_pnl)
                     pnl_pct_display = f"{unrealized_pnl_pct:+.2f}%"
                     pnl_pct_class = _pnl_class(unrealized_pnl_pct)
+                elif is_open:
+                    # OPEN trade but no current price available yet
+                    pnl_display = "—"
+                    pnl_class = ""
+                    pnl_pct_display = "—"
+                    pnl_pct_class = ""
                 else:
                     pnl_safe = _safe_num(pnl_raw, "—")
                     pnl_pct_safe = _safe_num(pnl_pct_raw, "—")
@@ -638,7 +647,8 @@ def generate_portfolio_report(current_prices: dict = None):
                 exit_safe = _safe_num(exit_price, "—")
                 exit_display = exit_safe if exit_safe != "—" else "—"
                 if is_open:
-                    exit_display = "◉ " + _safe_num(_get_current_price(str(row.get("Ticker",""))), "—")
+                    cp = _get_current_price(ticker)
+                    exit_display = f"◉ {cp}" if cp > 0 else "—"
                 
                 reason = str(row.get("Reason", ""))
                 reason_short = reason[:50] + ("..." if len(reason) > 50 else "")
