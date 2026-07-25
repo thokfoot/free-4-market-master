@@ -105,7 +105,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        capital_by_market: dict = None,
                        open_positions: list = None,
                        market_status: dict = None,
-                       strategy_stats: dict = None) -> str:
+                       strategy_stats: dict = None,
+                       scan_summary: dict = None) -> str:
     """
     Professional Telegram message with everything embedded:
     market status, daily trades, open positions, per-strategy stats,
@@ -136,6 +137,27 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     if market_status:
         lines.append("")
         lines.append(market_status.get("message", ""))
+    
+    # ===== SCAN SUMMARY (always shown) =====
+    if scan_summary:
+        scanned = scan_summary.get("tickers_ok", 0)
+        total_t = scan_summary.get("tickers_total", 0)
+        strats_total = scan_summary.get("strategies_total", 0)
+        strats_fired = scan_summary.get("strategies_fired", 0)
+        errors = scan_summary.get("errors", 0)
+        summary_parts = []
+        if total_t > 0:
+            ok_icon = "✅" if errors == 0 else "⚠️"
+            summary_parts.append(f"📡 {ok_icon} Data {scanned}/{total_t} ok")
+        if strats_total > 0:
+            if strats_fired > 0:
+                summary_parts.append(f"🎯 {strats_fired}/{strats_total} fired")
+            else:
+                summary_parts.append(f"💤 0/{strats_total} strategies")
+        if errors > 0:
+            summary_parts.append(f"🔴 {errors} errors")
+        if summary_parts:
+            lines.append("  " + " | ".join(summary_parts))
     
     # ===== NEW TRADE ENTRIES =====
     if entries:
@@ -360,6 +382,13 @@ def main():
     # ===== 11. Get market status & strategy stats =====
     mkt_status = get_market_status()
     strat_stats = get_strategy_stats(top_n=5)
+    scan_summary = {
+        "tickers_ok": len(ticker_data),
+        "tickers_total": len(tickers),
+        "strategies_total": len(all_signals),
+        "strategies_fired": len(fired_signals),
+        "errors": scan_errors,
+    }
     
     # ===== 12. Send Telegram =====
     tg_msg = build_telegram_msg(
@@ -370,6 +399,7 @@ def main():
         open_positions=open_positions,
         market_status=mkt_status,
         strategy_stats=strat_stats,
+        scan_summary=scan_summary,
     )
     tg_status = send_telegram(tg_msg)
     
