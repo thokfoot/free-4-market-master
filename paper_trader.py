@@ -1,5 +1,5 @@
 """
-FREE 4-Market v5.0 — PAPER TRADER
+FREE 3-Market v5.0 — PAPER TRADER
 ===================================
 Portfolio & trade management for paper trading.
 Supports LONG and SHORT positions with SL/TP and max hold.
@@ -8,7 +8,7 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 import os, json, pandas as pd
 from datetime import datetime
 import pytz
-from config import CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE
+from config import CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE, SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE, CHARGES_PER_MARKET
 
 IST = pytz.timezone("Asia/Kolkata")
 LOG_DIR = "logs"
@@ -597,7 +597,7 @@ def generate_portfolio_report():
     # Footer
     parts.append(f'''
   <div class="footer">
-    FREE 4-Market v5.0 Paper Trade Bot &bull;
+    FREE 3-Market v5.0 Paper Trade Bot &bull;
     Generated {_html_escape(date_str)} {_html_escape(time_str)} &bull;
     <a href="https://github.com/thokfoot/free-4-market-master" style="color:#484f58">GitHub</a>
   </div>
@@ -678,12 +678,21 @@ def update_trades(current_prices: dict) -> list:
                 exit_reason = "Target Hit"
         
         if exit_price:
+            # Gross P&L (before charges)
             if direction == "LONG":
                 pnl = (exit_price - entry) * row["Qty"]
                 pnl_pct = ((exit_price - entry) / entry) * 100
             else:  # SHORT
                 pnl = (entry - exit_price) * row["Qty"]
                 pnl_pct = ((entry - exit_price) / entry) * 100
+            
+            # Deduct trading charges per market (Round Turn cost)
+            trade_mode = str(row.get("Mode", "US"))
+            charge_rate = CHARGES_PER_MARKET.get(trade_mode, 0.001)
+            notional = entry * row["Qty"]
+            charges = round(notional * charge_rate, 2)
+            pnl -= charges
+            pnl_pct -= charge_rate * 100
             
             df.at[idx, "Exit_Price"] = round_price(exit_price)
             df.at[idx, "Exit_Time"] = time_str

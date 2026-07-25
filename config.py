@@ -1,5 +1,5 @@
 """
-FREE 4-Market v5.0 — PROFESSIONAL PAPER TRADING SYSTEM
+FREE 3-Market v5.0 — PROFESSIONAL PAPER TRADING SYSTEM
 ======================================================
 Author: Finance Manager
 Config: Centralized constants — change here, all modules pick up.
@@ -33,7 +33,15 @@ STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv"
 ALLOW_SHORT = {
     "US": True,
     "CRYPTO": True,
-    "INDIAN": True,   # Paper only; set False for real ₹ trading
+    "INDIAN": False,  # India cash market NO SHORT
+}
+
+# ===== TRADING COSTS (Round Turn — entry + exit) =====
+# From V3 verified analysis
+CHARGES_PER_MARKET = {
+    "INDIAN": 0.0012,     # 0.12% RT — Zerodha: Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% + slippage
+    "US": 0.0002,          # 0.02% RT — $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%
+    "CRYPTO": 0.003,       # 0.30% RT — Binance 0.1% per side (0.2%) + slippage 0.05% per side (0.1%)
 }
 
 # ===== YAHOO FINANCE =====

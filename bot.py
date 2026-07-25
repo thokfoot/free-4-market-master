@@ -1,5 +1,5 @@
 """
-FREE 4-Market v5.0 — PROFESSIONAL PAPER TRADING BOT
+FREE 3-Market v5.0 — PROFESSIONAL PAPER TRADING BOT
 ====================================================
 Daily scan: loads 50 strategies, downloads yfinance data,
 computes indicators (adjust=False), checks patterns,
@@ -131,7 +131,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     
     # ===== HEADER =====
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
-    lines.append(f"🤖 *PAPER TRADE v5.0* | {date_str} {short_time}")
+    lines.append(f"🤖 *PAPER TRADE v5.0* | 🇮🇳🇺🇸₿ {date_str} {short_time}")
     
     # ===== MARKET STATUS =====
     if market_status:
@@ -261,7 +261,7 @@ def main():
     time_str = now.strftime("%H:%M:%S IST")
     
     print(f"\n{'='*60}")
-    print(f"  FREE 4-Market v5.0 PAPER TRADE BOT")
+    print(f"  FREE 3-Market v5.0 PAPER TRADE BOT")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
     
@@ -410,6 +410,34 @@ def main():
         send_telegram_document(PORTFOLIO_REPORT_FILE, caption=doc_caption)
     
     # ===== 12. Log Daily Scan =====
+    # Build fired & skipped pattern lists for audit trail
+    fired_patterns = []
+    for s in all_signals:
+        if s.get("fired"):
+            fired_patterns.append({
+                "rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
+                "direction": s["direction"], "factors": s["factors"],                    "win_rate": s["win_rate"],
+                "reason": "All factors met",
+            })
+    
+    # Why some fired signals were skipped (duplicate ticker or SHORT not allowed)
+    fired_keys = {(e["ticker"], e["direction"]) for e in best_entries}
+    skipped_patterns = []
+    for s in fired_signals:
+        key = (s["ticker"], s["direction"])
+        if key not in fired_keys:
+            skip_reason = "Better pattern won (higher win rate)"
+            if s["direction"] == "SHORT":
+                region = s.get("region", "").upper()
+                if region in ("INDIA", "INDIAN"):
+                    skip_reason = "SHORT not allowed for INDIAN market (cash)"
+            skipped_patterns.append({
+                "rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
+                "direction": s["direction"], "factors": s["factors"],
+                "win_rate": s["win_rate"],
+                "skip_reason": skip_reason,
+            })
+    
     scan_data = {
         "date": date_str,
         "time": time_str,
@@ -426,6 +454,8 @@ def main():
              "reason": s.get("reason", "")}
             for s in all_signals
         ],
+        "fired_patterns": fired_patterns,
+        "skipped_patterns": skipped_patterns,
         "entries": entries,
         "portfolio": {
             "capital_by_market": cap_by_mkt,
