@@ -719,18 +719,20 @@ def update_trades(current_prices: dict) -> list:
         open_df = df[df["Status"] == "OPEN"]
         portfolio["open_positions"] = open_df.to_dict(orient="records")
         save_portfolio(portfolio)
-        # Update per-strategy win rates for all closed trades in this run
-        for msg in closed_msgs:
-            # Find which row had this trade
-            for idx, row in df.iterrows():
-                if row["Status"] == "CLOSED" and row.get("Exit_Price", "") != "":
-                    pnl = row.get("P&L", "")
-                    if pd.notna(pnl) and str(pnl).strip() != "":
-                        try:
-                            pnl_f = float(pnl)
-                            reason = str(row.get("Reason", ""))
-                            update_strategy_stats(reason, pnl_f)
-                        except:
-                            pass
+        # Update per-strategy win rates — iterate once over all rows
+        for idx, row in df.iterrows():
+            if row["Status"] != "CLOSED":
+                continue
+            exit_price = row.get("Exit_Price", "")
+            if pd.isna(exit_price) or str(exit_price).strip() == "":
+                continue
+            pnl = row.get("P&L", "")
+            if pd.notna(pnl) and str(pnl).strip() != "":
+                try:
+                    pnl_f = float(pnl)
+                    reason = str(row.get("Reason", ""))
+                    update_strategy_stats(reason, pnl_f)
+                except:
+                    pass
     
     return closed_msgs

@@ -212,10 +212,7 @@ def get_market_status(now_ist: datetime = None) -> dict:
         
         if us_open_minutes <= current_ist_minutes or current_ist_minutes < us_close_minutes:
             # Handles overnight session (after 7PM IST → before 1:30AM IST next day)
-            if current_ist_minutes >= us_open_minutes or current_ist_minutes < us_close_minutes:
-                result["US"] = "OPEN"
-            else:
-                result["US"] = "CLOSED"
+            result["US"] = "OPEN"
         else:
             result["US"] = "CLOSED"
     
