@@ -113,6 +113,7 @@ TICKER_MAP = {
     "XLI": "XLI",
     "XLC": "XLC",
     "XLRE": "XLRE",
+    "XLF": "XLF",
     "XLK": "XLK",
     "XLE": "XLE",
     "XLB": "XLB",
