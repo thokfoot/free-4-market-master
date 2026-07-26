@@ -86,7 +86,9 @@ def log_scan(scan_data: dict):
         "time": scan_data.get("time", now_ist().strftime("%H:%M:%S IST")),
         "mode": scan_data.get("mode", ""),
         "tickers_scanned": scan_data.get("tickers_scanned", []),
-        "patterns_checked": scan_data.get("patterns_checked", []),
+        "patterns_count": scan_data.get("patterns_checked", 0),
+        "patterns_fired": scan_data.get("patterns_fired", 0),
+        "fired_patterns": scan_data.get("fired_patterns", []),
         "entries": scan_data.get("entries", []),
         "portfolio": scan_data.get("portfolio", {}),
         "telegram_status": scan_data.get("telegram_status", ""),
@@ -104,8 +106,9 @@ def log_scan(scan_data: dict):
         with open(scan_file, "w", encoding="utf-8") as f:
             json.dump(existing, f, indent=2, default=str)
     
+    fired = scan_data.get("patterns_fired", 0)
     print(f"[Logger] Daily scan logged: {len(scan_data.get('tickers_scanned', []))} tickers, "
-          f"{sum(1 for p in scan_data.get('patterns_checked', []) if p.get('fired'))} signals fired")
+          f"{fired} signals fired")
 
 
 def log_trade_run(row_dict: dict):
