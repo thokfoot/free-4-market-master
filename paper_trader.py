@@ -930,7 +930,11 @@ def update_trades(ohlc_data: dict) -> list:
             
             # Deduct trading charges per market (Round Turn cost)
             trade_mode = str(row.get("Mode", "US"))
-            charge_rate = CHARGES_PER_MARKET.get(trade_mode, 0.001)
+            # Normalize legacy case (e.g., "Crypto" → "CRYPTO", "India" → "INDIAN")
+            mode_norm = trade_mode.upper()
+            if mode_norm == "INDIA":
+                mode_norm = "INDIAN"
+            charge_rate = CHARGES_PER_MARKET.get(mode_norm, 0.001)
             notional = entry * row["Qty"]
             charges = round(notional * charge_rate, 2)
             pnl -= charges
@@ -966,6 +970,9 @@ def update_trades(ohlc_data: dict) -> list:
                 capital_key = "INTRADAY"
             else:
                 capital_key = str(row.get("Mode", "US"))
+                # Normalize legacy case (e.g., "Crypto" → "CRYPTO", "India" → "INDIAN")
+                ck_upper = capital_key.upper()
+                capital_key = "INDIAN" if ck_upper == "INDIA" else ck_upper
             mkt_cap = portfolio.setdefault("capital_by_market", {}).get(capital_key, 100000)
             mkt_cap = max(0, mkt_cap + pnl)
             portfolio["capital_by_market"][capital_key] = mkt_cap

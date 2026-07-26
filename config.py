@@ -142,9 +142,18 @@ CRYPTO_SUFFIX = "-USD"
 INDIA_PREFIXES = ("^NSE", "^BSESN")
 
 def get_region(yf_ticker: str, csv_region: str = None) -> str:
-    """Infer region from ticker or CSV region column."""
-    if csv_region and csv_region in ("Crypto", "US", "India"):
-        return csv_region
+    """
+    Infer region from ticker or CSV region column.
+    
+    Returns normalized region name: "CRYPTO", "US", or "INDIAN"
+    (all uppercase, matching CHARGES_PER_MARKET, INTRADAY_SL_PCT, etc.)
+    """
+    if csv_region:
+        region_upper = csv_region.upper()
+        if region_upper == "INDIA":
+            return "INDIAN"
+        if region_upper in ("CRYPTO", "US"):
+            return region_upper
     if yf_ticker.endswith(CRYPTO_SUFFIX):
         return "CRYPTO"
     if yf_ticker.startswith(INDIA_PREFIXES):
