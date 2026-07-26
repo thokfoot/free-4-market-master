@@ -112,12 +112,15 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        market_status: dict = None,
                        strategy_stats: dict = None,
                        scan_summary: dict = None,
-                       current_prices: dict = None) -> str:
+                       current_prices: dict = None) -> list:
     """
-    Professional Telegram message with everything embedded:
-    market status, daily trades, open positions, per-strategy stats,
-    capital summary, and portfolio breakdown.
+    Professional Telegram message(s) with everything embedded.
+    Returns a LIST of message strings (pages) for pagination.
+    Shows newest trades first.
     """
+    MAX_CLOSED_PER_PAGE = 5   # Max closed trades per page
+    MAX_OPEN_PER_PAGE = 3      # Max open positions per page
+    TG_CHAR_LIMIT = 4000       # Telegram max chars per message
     ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
     total_closed = wins + losses
     win_rate = round(wins / total_closed * 100) if total_closed > 0 else 0
@@ -179,17 +182,27 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             )
         lines.append("")
     
-    # ===== CLOSED TRADES (Daily Trade Summary) =====
+    # ===== CLOSED TRADES (Daily Trade Summary) — Latest First =====
     if closed_msgs:
         lines.append("━━━ *CLOSED TODAY* ━━━")
-        for c in closed_msgs:
+        # Reverse to show newest first
+        reversed_closed = list(reversed(closed_msgs))
+        total_closed_count = len(reversed_closed)
+        shown_closed = reversed_closed[:MAX_CLOSED_PER_PAGE]
+        for c in shown_closed:
             lines.append(f"✅ {c}")
+        if total_closed_count > MAX_CLOSED_PER_PAGE:
+            lines.append(f"*...and {total_closed_count - MAX_CLOSED_PER_PAGE} more*")
         lines.append("")
     
-    # ===== OPEN POSITIONS =====
+    # ===== OPEN POSITIONS — Latest First =====
     if open_positions and len(open_positions) > 0:
         lines.append("━━━ *OPEN POSITIONS* ━━━")
-        for pos in open_positions:
+        # Reverse to show newest first
+        reversed_open = list(reversed(open_positions))
+        total_open_count = len(reversed_open)
+        shown_open = reversed_open[:MAX_OPEN_PER_PAGE]
+        for pos in shown_open:
             p_dir = "🟢" if pos.get("Direction") == "LONG" else "🔴"
             p_mode = pos.get("Mode", "")
             p_mode_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}.get(p_mode, "")
@@ -270,10 +283,36 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     lines.append(f"{pnl_icon} *P&L:* Rs {total_pnl:+,.0f} | {win_icon} *Win:* {wins}/{total_closed} ({win_rate}%)")
     lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | *Total:* {total_closed + open_count}")
     
-    msg = "\n".join(lines)
-    if len(msg) > 4000:
-        msg = msg[:4000]
-    return msg
+    # Build full message
+    full_msg = "\n".join(lines)
+    
+    # Split into pages if too long (by section boundaries)
+    sections = full_msg.split("\n━━━ *")
+    
+    pages = []
+    current_page = sections[0] if sections else ""
+    
+    for i, section in enumerate(sections[1:], 1):
+        section_with_header = "\n━━━ *" + section
+        if len(current_page) + len(section_with_header) > TG_CHAR_LIMIT:
+            pages.append(current_page.strip())
+            current_page = section_with_header
+        else:
+            current_page += section_with_header
+    
+    if current_page.strip():
+        pages.append(current_page.strip())
+    
+    # If still over limit (a single section is too long), truncate last page
+    pages = [p[:TG_CHAR_LIMIT] if len(p) > TG_CHAR_LIMIT else p for p in pages]
+    
+    # Add page indicator (Page 1/3) to each page except if only 1 page
+    if len(pages) > 1:
+        pages[0] = pages[0] + f"\n\n—— *Page 1/{len(pages)}* ——"
+        for i in range(1, len(pages)):
+            pages[i] = pages[i] + f"\n\n—— *Page {i+1}/{len(pages)}* ——"
+    
+    return pages
 
 
 def run_swing_scan() -> dict:
@@ -593,8 +632,8 @@ def main():
         "errors": total_errors,
     }
     
-    # Telegram
-    tg_msg = build_telegram_msg(
+    # Telegram — now returns list of pages (paginated, newest first)
+    tg_pages = build_telegram_msg(
         date_str, time_str, all_entries, all_closed,
         total_cape, len(open_positions), total_pnl,
         wins, losses, closed_cnt,
@@ -605,7 +644,13 @@ def main():
         scan_summary=scan_summary,
         current_prices=current_prices,
     )
-    tg_status = send_telegram(tg_msg)
+    tg_status_list = []
+    for page_idx, page_msg in enumerate(tg_pages):
+        status = send_telegram(page_msg)
+        tg_status_list.append(status)
+        if page_idx < len(tg_pages) - 1:
+            time.sleep(0.5)  # Small delay between pages
+    tg_status = "/".join(tg_status_list) if tg_status_list else "NoPages"
     
     # Portfolio report document
     if os.path.exists(PORTFOLIO_REPORT_FILE):

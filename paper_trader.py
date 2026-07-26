@@ -646,7 +646,8 @@ def generate_portfolio_report(current_prices: dict = None):
             
             parts.append("<tr>" + "".join(f"<th>{c.replace('_', ' ')}</th>" for c in cols) + "</tr>")
             
-            for _, row in df.iterrows():
+            # Show newest trades FIRST (reverse order)
+            for _, row in df.iloc[::-1].iterrows():
                 direction = str(row.get("Direction", ""))
                 status = str(row.get("Status", ""))
                 pnl_raw = row.get("P&L", None)
@@ -784,7 +785,11 @@ def generate_portfolio_report(current_prices: dict = None):
             cols = ["Date", "Time", "Capital", "Return_Pct", "Open", "Win_Rate", "Total_PnL"]
             cols = [c for c in cols if c in df_snap.columns]
             parts.append("<tr>" + "".join(f"<th>{c.replace('_', ' ')}</th>" for c in cols) + "</tr>")
-            for _, row in df_snap.tail(20).iterrows():
+            # Show latest 20 snapshots FIRST (newest at top)
+            snap_limit = 20
+            total_snaps = len(df_snap)
+            parts.append(f'<div class="section-summary">Showing latest {min(snap_limit, total_snaps)} of {total_snaps} snapshot(s) — newest first</div>')
+            for _, row in df_snap.iloc[::-1].head(snap_limit).iterrows():
                 parts.append("<tr>")
                 for c in cols:
                     val = row.get(c, "")
