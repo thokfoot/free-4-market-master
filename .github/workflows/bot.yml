@@ -91,8 +91,11 @@ jobs:
         run: |
           git config --local user.email "bot@paper-trade.com"
           git config --local user.name "paper-trade-bot"
-          git pull --rebase --autostash || true
           git add logs/ || true
           git diff --staged --quiet && echo "No changes to commit" && exit 0
           git commit -m "v5.7 scan $(date -u +'%Y-%m-%d %H:%M UTC') mode=${{ steps.mode.outputs.mode }}"
-          git push || (git pull --rebase && git push)
+          if ! git push; then
+            sleep 2
+            git pull --rebase
+            git push
+          fi

@@ -8,7 +8,7 @@ Finance Manager Grade Logging System
 - Error tracking
 """
 
-import os, json, sys, traceback
+import os, json, sys, traceback, tempfile, shutil
 from datetime import datetime
 import pandas as pd
 import pytz
@@ -27,10 +27,43 @@ def now_ist() -> datetime:
     return datetime.now(IST)
 
 
+def _atomic_write(filepath: str, data):
+    """Write JSON to a temp file first, then atomically rename to target.
+    Prevents corruption from concurrent writes."""
+    tmp = filepath + ".tmp." + str(os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, default=str)
+        shutil.move(tmp, filepath)
+    except Exception as e:
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except:
+                pass
+        raise
+
+
+def _safe_read_json(filepath: str):
+    """Read JSON, returning None if corrupted or missing."""
+    if not os.path.exists(filepath):
+        return None
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, Exception):
+        return None
+
+
 def log_scan(scan_data: dict):
     """
-    Log daily scan results to JSON file.
+    Log daily scan results to JSON file (atomic write).
     File: logs/daily_scan_YYYY-MM-DD.json
+    
+    Uses atomic write to prevent corruption:
+      1. Read existing file (fail-safe: returns None if corrupted)
+      2. Merge new run into existing runs
+      3. Write to temp file, then rename to target
     
     scan_data contains:
       - date, time
@@ -43,19 +76,15 @@ def log_scan(scan_data: dict):
     date_str = scan_data.get("date", now_ist().strftime("%Y-%m-%d"))
     scan_file = os.path.join(LOG_DIR, f"daily_scan_{date_str}.json")
     
-    # Load existing if any (in case of multiple runs same day)
-    existing = {}
-    if os.path.exists(scan_file):
-        try:
-            with open(scan_file, "r") as f:
-                existing = json.load(f)
-        except:
-            pass
+    # Try to load existing — fail gracefully if corrupted
+    existing = _safe_read_json(scan_file) or {}
+    if not existing:
+        existing = {"date": date_str, "runs": []}
     
-    # Convert runs to list format
     runs = existing.get("runs", [])
     runs.append({
         "time": scan_data.get("time", now_ist().strftime("%H:%M:%S IST")),
+        "mode": scan_data.get("mode", ""),
         "tickers_scanned": scan_data.get("tickers_scanned", []),
         "patterns_checked": scan_data.get("patterns_checked", []),
         "entries": scan_data.get("entries", []),
@@ -63,13 +92,17 @@ def log_scan(scan_data: dict):
         "telegram_status": scan_data.get("telegram_status", ""),
     })
     
-    # Also store latest state
     existing["date"] = date_str
     existing["runs"] = runs
     existing["latest_portfolio"] = scan_data.get("portfolio", {})
     
-    with open(scan_file, "w") as f:
-        json.dump(existing, f, indent=2, default=str)
+    # Atomic write to prevent corruption
+    try:
+        _atomic_write(scan_file, existing)
+    except Exception as e:
+        print(f"[Logger] Atomic write failed, falling back to direct write: {e}")
+        with open(scan_file, "w", encoding="utf-8") as f:
+            json.dump(existing, f, indent=2, default=str)
     
     print(f"[Logger] Daily scan logged: {len(scan_data.get('tickers_scanned', []))} tickers, "
           f"{sum(1 for p in scan_data.get('patterns_checked', []) if p.get('fired'))} signals fired")
@@ -115,7 +148,7 @@ def log_portfolio(capital: float, open_positions: list, closed_count: int,
         }
         # Add per-market columns
         if capital_by_market:
-            for mkt in ["INDIAN", "US", "CRYPTO"]:
+            for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY"]:
                 row[f"Cap_{mkt}"] = round(capital_by_market.get(mkt, 100000), 0)
         
         df_new = pd.DataFrame([row])
@@ -128,7 +161,7 @@ def log_portfolio(capital: float, open_positions: list, closed_count: int,
         
         mkt_str = ""
         if capital_by_market:
-            mkt_parts = [f"{m}:₹{capital_by_market.get(m,0):,.0f}" for m in ["INDIAN","US","CRYPTO"]]
+            mkt_parts = [f"{m}:₹{capital_by_market.get(m,0):,.0f}" for m in ["INDIAN","US","CRYPTO","INTRADAY"]]
             mkt_str = " | " + " ".join(mkt_parts)
         print(f"[Logger] Portfolio: Rs {capital:,.0f} | Return {ret_pct:+.2f}%{mkt_str}")
     except Exception as e:

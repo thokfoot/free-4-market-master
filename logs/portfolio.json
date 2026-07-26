@@ -2,7 +2,8 @@
   "capital_by_market": {
     "INDIAN": 100000.0,
     "US": 100000.0,
-    "CRYPTO": 100000.0
+    "CRYPTO": 100000.0,
+    "INTRADAY": 100000.0
   },
   "open_positions": [],
   "closed_count": 0,
@@ -12,6 +13,8 @@
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 0.0,
-    "CRYPTO": 0.0
-  }
+    "CRYPTO": 0.0,
+    "INTRADAY": 0.0
+  },
+  "total_capital": 400000.0
 }
