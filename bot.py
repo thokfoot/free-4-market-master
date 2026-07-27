@@ -315,9 +315,33 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     
     return pages
 
+def _save_swing_scan_date(date_str: str):
+    """Save the date of the last completed swing scan."""
+    try:
+        os.makedirs("logs", exist_ok=True)
+        with open("logs/_last_swing_date.txt", "w") as f:
+            f.write(date_str)
+    except Exception as e:
+        print(f"[Swing] Could not save scan date: {e}")
+
+
+def _load_swing_scan_date() -> str:
+    """Load the date of the last completed swing scan."""
+    try:
+        if os.path.exists("logs/_last_swing_date.txt"):
+            with open("logs/_last_swing_date.txt") as f:
+                return f.read().strip()
+    except Exception:
+        pass
+    return None
+
 
 def run_swing_scan() -> dict:
-    """Run the SWING (daily) scan — 81 strategies, daily data."""
+    """Run the SWING (daily) scan — 81 strategies, daily data.
+    
+    Skips the full scan if no new daily data since the last run
+    (prevents redundant scans when market is closed).
+    """
     start_time = time.time()
     now = now_ist()
     date_str = now.strftime("%Y-%m-%d")
@@ -359,6 +383,53 @@ def run_swing_scan() -> dict:
                 log_error(f"Swing download failed {yf_ticker}: {e}")
     
     print(f"[Swing] Data: {len(ticker_data)}/{len(tickers)} tickers, {scan_errors} errors")
+    
+    # 4. Check if we already ran a full SWING scan today
+    #    SWING needs fresh data once per day (after market closes).
+    #    Intraday is handled by the separate intraday scanner.
+    last_scan_date = _load_swing_scan_date()
+    today_date = now.strftime("%Y-%m-%d")
+    
+    if last_scan_date == today_date:
+        print(f"[Swing] Already scanned today ({today_date}), "
+              f"skipping full scan — will still check exits")
+        # ── Still check exits using downloaded data ──
+        empty_result = {
+            "mode": "SWING",
+            "ticker_data": ticker_data,
+            "market_status": {},
+            "current_prices": {},
+            "ohlc_data": {},
+            "all_signals": [],
+            "fired_signals": [],
+            "best_entries": [],
+            "entries": [],
+            "closed_msgs": [],
+            "scan_errors": 0,
+            "duration": time.time() - start_time,
+        }
+        current_prices_sw = {}
+        ohlc_data_sw = {}
+        for yf_ticker, df in ticker_data.items():
+            if df is not None and len(df) > 0:
+                last = df.iloc[-1]
+                try:
+                    cv = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
+                    hv = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
+                    lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
+                    current_prices_sw[yf_ticker] = cv
+                    ohlc_data_sw[yf_ticker] = {"close": cv, "high": hv, "low": lv}
+                except:
+                    pass
+        
+        closed_msgs = update_trades(ohlc_data_sw)
+        empty_result["closed_msgs"] = closed_msgs
+        empty_result["current_prices"] = current_prices_sw
+        print(f"[Swing] Exit check: {len(closed_msgs)} closed trades | {len(current_prices_sw)} prices")
+        return empty_result
+    
+    # Save today's date for future runs
+    _save_swing_scan_date(today_date)
     
     # 4. Market status
     market_status = {}
