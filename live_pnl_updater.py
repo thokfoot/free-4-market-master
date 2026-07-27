@@ -489,6 +489,12 @@ def main():
     print(f"  {datetime.now(IST).strftime('%Y-%m-%d %H:%M:%S IST')}")
     print(f"{'='*60}")
     
+    # ── Initialize persistent state file even if 0 open positions ──
+    # This ensures live_pnl_state.json exists from the first run onward,
+    # preventing "FileNotFound" issues in future runs.
+    state = _load_live_state()
+    _save_live_state(state)
+    
     start = time.time()
     closed_msgs, update_msgs = process_open_trades()
     elapsed = time.time() - start

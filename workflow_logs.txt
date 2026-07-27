@@ -1,0 +1,348 @@
+run-bot	UNKNOWN STEP	﻿2026-07-27T04:32:09.7345801Z Current runner version: '2.336.0'
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7370435Z ##[group]Runner Image Provisioner
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7371320Z Hosted Compute Agent
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7371881Z Version: 20260707.563
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7372457Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7373226Z Build Date: 2026-07-07T19:33:50Z
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7374006Z Worker ID: {1e36feec-8ed8-4a51-a2aa-4330994ffc68}
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7374707Z Azure Region: northcentralus
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7375286Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7376738Z ##[group]Operating System
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7377372Z Ubuntu
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7377894Z 24.04.4
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7378722Z LTS
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7379270Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7379787Z ##[group]Runner Image
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7380402Z Image: ubuntu-24.04
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7380965Z Version: 20260720.247.2
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7382267Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7383746Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7384715Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7385767Z ##[group]GITHUB_TOKEN Permissions
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7388185Z Contents: write
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7389140Z Metadata: read
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7389717Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7391775Z Secret source: Actions
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7393223Z Prepare workflow directory
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7748137Z Prepare all required actions
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.7810337Z Getting action download info
+run-bot	UNKNOWN STEP	2026-07-27T04:32:09.9981295Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.3196347Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.4932395Z Complete job name: run-bot
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5687563Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5696213Z ##[group]Run actions/checkout@v4
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5696949Z with:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5700846Z   token: ***
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5701407Z   fetch-depth: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5702022Z   repository: thokfoot/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5702669Z   ssh-strict: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5703170Z   ssh-user: git
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5703662Z   persist-credentials: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5704236Z   clean: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5704759Z   sparse-checkout-cone-mode: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5705338Z   fetch-tags: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5705889Z   show-progress: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5706377Z   lfs: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5707018Z   submodules: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5707507Z   set-safe-directory: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5708086Z   allow-unsafe-pr-checkout: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.5709090Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6687027Z Syncing repository: thokfoot/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6689023Z ##[group]Getting Git version info
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6690005Z Working directory is '/home/runner/work/free-4-market-master/free-4-market-master'
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6691211Z [command]/usr/bin/git version
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6769774Z git version 2.54.0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6818670Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6833067Z Temporarily overriding HOME='/home/runner/work/_temp/942a9ea6-f643-4b45-b57c-6a39a304127d' before making global git config changes
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6835677Z Adding repository directory to the temporary git global config as a safe directory
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6838532Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/free-4-market-master/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6884095Z Deleting the contents of '/home/runner/work/free-4-market-master/free-4-market-master'
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6887221Z ##[group]Initializing the repository
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6893532Z [command]/usr/bin/git init /home/runner/work/free-4-market-master/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6967875Z hint: Using 'master' as the name for the initial branch. This default branch name
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6969995Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6972050Z hint: to use in all of your new repositories, which will suppress this warning,
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6975165Z hint: call:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6975960Z hint:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6977282Z hint: 	git config --global init.defaultBranch <name>
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6978513Z hint:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6979684Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6981763Z hint: 'development'. The just-created branch can be renamed via this command:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6983117Z hint:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6984598Z hint: 	git branch -m <name>
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6985447Z hint:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6986645Z hint: Disable this message with "git config set advice.defaultBranchName false"
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6988517Z Initialized empty Git repository in /home/runner/work/free-4-market-master/free-4-market-master/.git/
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.6990728Z [command]/usr/bin/git remote add origin https://github.com/thokfoot/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7025025Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7026445Z ##[group]Disabling automatic garbage collection
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7037908Z [command]/usr/bin/git config --local gc.auto 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7091159Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7092481Z ##[group]Setting up auth
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7093738Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7126481Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7445081Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7474143Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7699227Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7728975Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7925063Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7960874Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7962814Z ##[group]Fetching the repository
+run-bot	UNKNOWN STEP	2026-07-27T04:32:10.7970895Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1672971Z From https://github.com/thokfoot/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1674228Z  * [new branch]      main       -> origin/main
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1710299Z [command]/usr/bin/git branch --list --remote origin/main
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1736245Z   origin/main
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1745916Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1768149Z 26b882e4910ad23ad827c8a80d727a98e692e7da
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1770932Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1772255Z ##[group]Determining the checkout info
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1773554Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1776293Z [command]/usr/bin/git sparse-checkout disable
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1816298Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1842470Z ##[group]Checking out the ref
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1846181Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1898856Z Switched to a new branch 'main'
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1899828Z branch 'main' set up to track 'origin/main'.
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1903787Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1939825Z [command]/usr/bin/git log -1 --format=%H
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.1962083Z 26b882e4910ad23ad827c8a80d727a98e692e7da
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2215760Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2218314Z ##[group]Run actions/setup-python@v5
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2219067Z with:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2219599Z   python-version: 3.11
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2220183Z   check-latest: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2223746Z   token: ***
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2224235Z   update-environment: true
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2224799Z   allow-prereleases: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2225408Z   freethreaded: false
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.2225927Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3487012Z ##[group]Installed versions
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3575248Z (node:2252) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3577439Z (Use `node --trace-deprecation ...` to show where the warning was created)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3579055Z Successfully set up CPython (3.11.15)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3580641Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3713607Z ##[group]Run pip install --upgrade pip
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3714481Z ^[[36;1mpip install --upgrade pip^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3715192Z ^[[36;1mpip install -r requirements.txt^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3760278Z shell: /usr/bin/bash -e {0}
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3760932Z env:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3761546Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3762505Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3763362Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3764150Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3764986Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3765800Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+run-bot	UNKNOWN STEP	2026-07-27T04:32:11.3766746Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:12.2110237Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages (26.1.2)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:13.0070634Z Collecting yfinance>=0.2.30 (from -r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:13.0635087Z   Downloading yfinance-1.5.2-py2.py3-none-any.whl.metadata (6.2 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:13.2221236Z Collecting pytz>=2023.3 (from -r requirements.txt (line 2))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:13.2263157Z   Downloading pytz-2026.3.post1-py2.py3-none-any.whl.metadata (22 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:13.5809527Z Collecting requests>=2.31.0 (from -r requirements.txt (line 3))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:13.5849707Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.0236998Z Collecting pandas>=2.0.0 (from -r requirements.txt (line 4))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.0274967Z   Downloading pandas-3.0.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.3429236Z Collecting openpyxl>=3.1.0 (from -r requirements.txt (line 5))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.3464866Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.6937216Z Collecting numpy>=1.24.0 (from -r requirements.txt (line 6))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.6972981Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7345133Z Collecting multitasking>=0.0.7 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7387289Z   Downloading multitasking-0.0.13-py3-none-any.whl.metadata (16 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7555416Z Collecting platformdirs>=2.0.0 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7596083Z   Downloading platformdirs-4.11.0-py3-none-any.whl.metadata (5.5 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7815493Z Collecting peewee>=3.16.2 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7847430Z   Downloading peewee-4.2.6-py3-none-any.whl.metadata (10 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.7989569Z Collecting beautifulsoup4>=4.11.1 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.8022022Z   Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.8439360Z Collecting curl_cffi>=0.15 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.8471537Z   Downloading curl_cffi-0.15.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (18 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.9750011Z Collecting protobuf>=3.19.0 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:14.9790536Z   Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.0522552Z Collecting websockets>=13.0 (from yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.0558965Z   Downloading websockets-16.1.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1311756Z Collecting charset_normalizer<4,>=2 (from requests>=2.31.0->-r requirements.txt (line 3))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1345394Z   Downloading charset_normalizer-3.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (41 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1493376Z Collecting idna<4,>=2.5 (from requests>=2.31.0->-r requirements.txt (line 3))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1526107Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1698588Z Collecting urllib3<3,>=1.26 (from requests>=2.31.0->-r requirements.txt (line 3))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1731791Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1882710Z Collecting certifi>=2023.5.7 (from requests>=2.31.0->-r requirements.txt (line 3))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.1915174Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2055141Z Collecting python-dateutil>=2.8.2 (from pandas>=2.0.0->-r requirements.txt (line 4))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2086236Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2184504Z Collecting et-xmlfile (from openpyxl>=3.1.0->-r requirements.txt (line 5))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2216794Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2554540Z Collecting soupsieve>=1.6.1 (from beautifulsoup4>=4.11.1->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2589615Z   Downloading soupsieve-2.9.1-py3-none-any.whl.metadata (4.6 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2730764Z Collecting typing-extensions>=4.0.0 (from beautifulsoup4>=4.11.1->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.2766162Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.3724719Z Collecting cffi>=2.0.0 (from curl_cffi>=0.15->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.3758612Z   Downloading cffi-2.1.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4039148Z Collecting rich (from curl_cffi>=0.15->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4071825Z   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4193188Z Collecting pycparser (from cffi>=2.0.0->curl_cffi>=0.15->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4226614Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4349409Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas>=2.0.0->-r requirements.txt (line 4))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4381271Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4516612Z Collecting markdown-it-py>=2.2.0 (from rich->curl_cffi>=0.15->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4551060Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4711681Z Collecting pygments<3.0.0,>=2.13.0 (from rich->curl_cffi>=0.15->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4743829Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4839799Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich->curl_cffi>=0.15->yfinance>=0.2.30->-r requirements.txt (line 1))
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4872987Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.4950469Z Downloading yfinance-1.5.2-py2.py3-none-any.whl (144 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.5157707Z Downloading pytz-2026.3.post1-py2.py3-none-any.whl (508 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.5307545Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.5363824Z Downloading charset_normalizer-3.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (221 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.5450506Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.5508949Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.5579413Z Downloading pandas-3.0.5-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.6847138Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 91.5 MB/s  0:00:00
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.6886724Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.6969459Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.8589240Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 104.5 MB/s  0:00:00
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.8625278Z Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.8692807Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.8759208Z Downloading curl_cffi-0.15.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (11.1 MB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.9689210Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.1/11.1 MB 119.8 MB/s  0:00:00
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.9729548Z Downloading cffi-2.1.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.9800711Z Downloading multitasking-0.0.13-py3-none-any.whl (16 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.9854939Z Downloading peewee-4.2.6-py3-none-any.whl (173 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.9918249Z Downloading platformdirs-4.11.0-py3-none-any.whl (23 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:15.9975919Z Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0047891Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0116878Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0171569Z Downloading soupsieve-2.9.1-py3-none-any.whl (37 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0226684Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0282559Z Downloading websockets-16.1.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (186 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0344009Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0396326Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0452071Z Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0533227Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0699771Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 67.3 MB/s  0:00:00
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0733536Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.0792230Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:16.2020371Z Installing collected packages: pytz, peewee, multitasking, websockets, urllib3, typing-extensions, soupsieve, six, pygments, pycparser, protobuf, platformdirs, numpy, mdurl, idna, et-xmlfile, charset_normalizer, certifi, requests, python-dateutil, openpyxl, markdown-it-py, cffi, beautifulsoup4, rich, pandas, curl_cffi, yfinance
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.4117343Z 
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.4136704Z Successfully installed beautifulsoup4-4.15.0 certifi-2026.7.22 cffi-2.1.0 charset_normalizer-3.4.9 curl_cffi-0.15.0 et-xmlfile-2.0.0 idna-3.18 markdown-it-py-4.2.0 mdurl-0.1.2 multitasking-0.0.13 numpy-2.4.6 openpyxl-3.1.5 pandas-3.0.5 peewee-4.2.6 platformdirs-4.11.0 protobuf-7.35.1 pycparser-3.0 pygments-2.20.0 python-dateutil-2.9.0.post0 pytz-2026.3.post1 requests-2.34.2 rich-15.0.0 six-1.17.0 soupsieve-2.9.1 typing-extensions-4.16.0 urllib3-2.7.0 websockets-16.1.1 yfinance-1.5.2
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5218598Z ##[group]Run if [ "schedule" = "schedule" ]; then
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5219307Z ^[[36;1mif [ "schedule" = "schedule" ]; then^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5219690Z ^[[36;1m  HOUR=$(date -u +%H)^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5220147Z ^[[36;1m  if [ "$HOUR" = "01" ] || [ "$HOUR" = "09" ] || [ "$HOUR" = "12" ]; then^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5220585Z ^[[36;1m    echo "mode=swing" >> $GITHUB_OUTPUT^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5220945Z ^[[36;1m  else^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5221329Z ^[[36;1m    echo "mode=intraday" >> $GITHUB_OUTPUT^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5221668Z ^[[36;1m  fi^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5221979Z ^[[36;1melse^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5222276Z ^[[36;1m  echo "mode=both" >> $GITHUB_OUTPUT^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5222640Z ^[[36;1mfi^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5255565Z shell: /usr/bin/bash -e {0}
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5256033Z env:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5256413Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5257098Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5257594Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5258062Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5258727Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5259174Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5259657Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5396417Z ##[group]Run python bot.py --mode=intraday
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5396867Z ^[[36;1mpython bot.py --mode=intraday^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5426715Z shell: /usr/bin/bash -e {0}
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5427067Z env:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5427516Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5428245Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5428928Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5429392Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5429830Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5430335Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5431219Z   TELEGRAM_TOKEN: ***
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5431711Z   TELEGRAM_BOT_TOKEN: ***
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5432074Z   TELEGRAM_CHAT_ID: ***
+run-bot	UNKNOWN STEP	2026-07-27T04:32:23.5432382Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1383742Z 
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1385047Z ============================================================
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1385786Z   FREE 3-Market v5.7 PAPER TRADE BOT
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1386236Z   Mode: INTRADAY | 2026-07-27 10:02:24 IST
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1386778Z ============================================================
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1387079Z 
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1387297Z ============================================================
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1387886Z   INTRADAY SCAN v5.7 — 1h Data
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1388235Z   2026-07-27 10:02:24 IST
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1388828Z ============================================================
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1389498Z [IntradayScanner] Loaded 40 intraday strategies from /home/runner/work/free-4-market-master/free-4-market-master/data/intraday_strategies.csv
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1390249Z [Intraday] 9 unique tickers
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1390632Z [Intraday] Downloading ADA-USD... OK (2184 rows, 2026-07-27)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1391093Z [Intraday] Downloading DIA... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1391502Z [Intraday] Downloading IWM... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1391887Z [Intraday] Downloading QQQ... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1392377Z [Intraday] Downloading SPY... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1392998Z [Intraday] Downloading XLF... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1393421Z [Intraday] Downloading XLK... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1393833Z [Intraday] Downloading ^GSPC... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1394241Z [Intraday] Downloading ^NDX... OK (434 rows, 2026-07-24)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1394695Z [Intraday] Data: 9/9 tickers, 0 errors
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1395082Z [Intraday] Strategies: 40, fired: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1395438Z [Intraday] Best entries: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1395742Z [Intraday] Closed: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1396057Z [Intraday] New entries: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1396505Z [Report] Portfolio report generated: logs/portfolio_report.html (6,951 bytes)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1396980Z [TG] Sent OK (476 chars)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1397450Z [TG] Document sent: portfolio_report.html (6,951 bytes)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1397901Z [Logger] Daily scan logged: 9 tickers, 0 signals fired
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1398503Z [Logger] Trade log updated — 26 rows
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1399417Z [Logger] Portfolio: Rs 400,000 | Return +0.00% | INDIAN:₹100,000 US:₹100,000 CRYPTO:₹100,000 INTRADAY:₹100,000
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1399849Z 
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1399987Z ============================================================
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1400435Z   BOT RUN COMPLETE — Mode: INTRADAY | 4.0s
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1400852Z   Tickers: 9 | Fired: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1401182Z   Entered: 0 | Closed: 0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1401546Z   Capital: Rs 400,000 | PnL: Rs +0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1401938Z ============================================================
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.1402163Z 
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2195984Z ##[group]Run git config --local user.email "bot@paper-trade.com"
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2196579Z ^[[36;1mgit config --local user.email "bot@paper-trade.com"^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2197058Z ^[[36;1mgit config --local user.name "paper-trade-bot"^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2197534Z ^[[36;1mgit add logs/ || true^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2197965Z ^[[36;1mgit diff --staged --quiet && echo "No changes to commit" && exit 0^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2198855Z ^[[36;1mgit commit -m "v5.7 scan $(date -u +'%Y-%m-%d %H:%M UTC') mode=intraday"^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2199527Z ^[[36;1mif ! git push; then^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2199880Z ^[[36;1m  sleep 2^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2200187Z ^[[36;1m  git pull --rebase^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2200516Z ^[[36;1m  git push^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2200802Z ^[[36;1mfi^[[0m
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2230357Z shell: /usr/bin/bash -e {0}
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2230715Z env:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2231166Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2231765Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2232308Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2232760Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2233205Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2233664Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2234097Z ##[endgroup]
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2423748Z [main cb2c645] v5.7 scan 2026-07-27 04:32 UTC mode=intraday
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2424427Z  4 files changed, 58 insertions(+), 3 deletions(-)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:28.2425003Z  create mode 100644 logs/daily_scan_2026-07-27.json
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.2700805Z To https://github.com/thokfoot/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.2701468Z    26b882e..cb2c645  main -> main
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.3076282Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.3077476Z Post job cleanup.
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.4259115Z (node:2363) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.4260554Z (Use `node --trace-deprecation ...` to show where the warning was created)
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.4570560Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.4571843Z Post job cleanup.
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5413365Z [command]/usr/bin/git version
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5451909Z git version 2.54.0
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5496472Z Temporarily overriding HOME='/home/runner/work/_temp/7d0c3bda-b81f-4798-bf05-8736369089a1' before making global git config changes
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5497452Z Adding repository directory to the temporary git global config as a safe directory
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5504559Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/free-4-market-master/free-4-market-master
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5554151Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5585136Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5816152Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5936093Z http.https://github.com/.extraheader
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.5960467Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.6038891Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.6320686Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.6343197Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.6752955Z Cleaning up orphan processes
+run-bot	UNKNOWN STEP	2026-07-27T04:32:29.6965374Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

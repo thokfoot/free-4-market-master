@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: free4market-v5-paper
+  group: free4market-v5-live
   cancel-in-progress: false
 
 jobs:

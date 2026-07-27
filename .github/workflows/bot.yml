@@ -2,30 +2,20 @@ name: FREE 3-Market v5.7 PAPER TRADE (SWING + INTRADAY)
 
 on:
   schedule:
-    # ── SWING SCANS (daily data) ──
-    # 01:00 UTC = 6:30 AM IST → US Close / Market Open / Crypto daily
+    # Morning scan (India pre-open + Crypto)
     - cron: '0 1 * * *'
-    # 09:45 UTC = 3:15 PM IST → India Close (daily candle settled)
+    # India close scan
     - cron: '45 9 * * 1-5'
-    # 12:30 UTC = 6:00 PM IST → India Close / US Open message
+    # US pre-open scan
     - cron: '30 12 * * 1-5'
-
-    # ── INTRADAY SCANS (1h data, US market hours 7PM-1:30AM IST) ──
-    # 13:30 UTC = 7:00 PM IST → US Market Open
+    # Intraday scans (US market hours)
     - cron: '30 13 * * 1-5'
-    # 14:30 UTC = 8:00 PM IST → US Hour 2
     - cron: '30 14 * * 1-5'
-    # 15:30 UTC = 9:00 PM IST → US Hour 3
     - cron: '30 15 * * 1-5'
-    # 16:30 UTC = 10:00 PM IST → US Hour 4
     - cron: '30 16 * * 1-5'
-    # 18:00 UTC = 11:30 PM IST → US Mid-session
     - cron: '0 18 * * 1-5'
-    # 19:30 UTC = 1:00 AM IST → US Late session
     - cron: '30 19 * * 1-5'
-    # 20:30 UTC = 2:00 AM IST → US Close check (4PM ET)
     - cron: '30 20 * * 1-5'
-
   workflow_dispatch:
     inputs:
       mode:
@@ -42,26 +32,21 @@ permissions:
   contents: write
 
 concurrency:
-  group: free4market-v5-paper
+  group: free4market-v5-bot
   cancel-in-progress: false
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install deps
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
@@ -70,24 +55,22 @@ jobs:
         id: mode
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            HOUR=$(date -u +%H)
-            if [ "$HOUR" = "01" ] || [ "$HOUR" = "09" ] || [ "$HOUR" = "12" ]; then
-              echo "mode=swing" >> $GITHUB_OUTPUT
-            else
-              echo "mode=intraday" >> $GITHUB_OUTPUT
-            fi
+            # Run BOTH swing + intraday on every scheduled trigger.
+            # This prevents the bug where a delayed cron run picks the wrong mode
+            # based on current hour instead of the intended schedule.
+            echo "mode=both" >> $GITHUB_OUTPUT
           else
             echo "mode=${{ inputs.mode || 'both' }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Run Paper Trade Bot (${{ steps.mode.outputs.mode }})
+      - name: Run bot
         env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN || secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python bot.py --mode=${{ steps.mode.outputs.mode }}
 
-      - name: Commit logs & data
+      - name: Commit logs
         run: |
           git config --local user.email "bot@paper-trade.com"
           git config --local user.name "paper-trade-bot"
