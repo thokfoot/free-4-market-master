@@ -30,6 +30,7 @@ from scanner_intraday import (
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
     generate_portfolio_report, get_strategy_stats,
+    initialize_system,
 )
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
@@ -543,6 +544,9 @@ def main():
     now = now_ist()
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
+    
+    # ── Initialize system files FIRST (before any operation) ──
+    initialize_system()
     
     # Parse mode from CLI args
     mode = "swing"

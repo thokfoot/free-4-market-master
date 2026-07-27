@@ -24,6 +24,7 @@ from config import (
     MAX_HOLD_DAYS, INTRADAY_MAX_HOLD_HOURS,
     INTRADAY_CAPITAL,
 )
+from paper_trader import initialize_system
 from logger import log_error
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -489,9 +490,10 @@ def main():
     print(f"  {datetime.now(IST).strftime('%Y-%m-%d %H:%M:%S IST')}")
     print(f"{'='*60}")
     
-    # ── Initialize persistent state file even if 0 open positions ──
-    # This ensures live_pnl_state.json exists from the first run onward,
-    # preventing "FileNotFound" issues in future runs.
+    # ── Initialize ALL system files FIRST ──
+    initialize_system()
+    
+    # ── Initialize persistent live_pnl_state file ──
     state = _load_live_state()
     _save_live_state(state)
     

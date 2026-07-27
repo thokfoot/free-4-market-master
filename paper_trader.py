@@ -23,6 +23,86 @@ os.makedirs(LOG_DIR, exist_ok=True)
 PAPER_FILE = os.path.join(LOG_DIR, "paper_trades.csv")
 PORTFOLIO_FILE = os.path.join(LOG_DIR, "portfolio.json")
 STRATEGY_STATS_FILE = os.path.join(LOG_DIR, "strategy_stats.json")
+LIVE_STATE_FILE_PT = os.path.join(LOG_DIR, "live_pnl_state.json")
+
+
+# ── Atomic JSON Writer ───────────────────────────────────────
+def _atomic_write_json(filepath: str, data):
+    """
+    Write JSON to a temporary file first, then atomically rename to target.
+    Prevents corruption if the workflow is interrupted mid-write.
+    """
+    tmp = filepath + ".tmp." + str(os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, default=str)
+        os.replace(tmp, filepath)
+        print(f"[Atomic] Written {os.path.basename(filepath)}")
+    except Exception as e:
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except:
+                pass
+        print(f"[Atomic] WRITE FAILED for {os.path.basename(filepath)}: {e}")
+        raise
+
+
+# ── System Initialization ────────────────────────────────────
+def initialize_system():
+    """
+    Initialize ALL portfolio/log files on first boot.
+    Called at the start of every bot.py and live_pnl_updater.py run.
+    
+    Creates:
+      1. paper_trades.csv — empty with proper columns
+      2. portfolio.json — default capital structure
+      3. strategy_stats.json — empty dict
+      4. trade_audit.json — empty array
+      5. live_pnl_state.json — default state
+    
+    Safe to call multiple times — only creates missing files.
+    """
+    os.makedirs(LOG_DIR, exist_ok=True)
+    
+    # 1. paper_trades.csv with correct 20 columns
+    if not os.path.exists(PAPER_FILE):
+        pd.DataFrame(columns=COLUMNS).to_csv(PAPER_FILE, index=False)
+        print(f"[Init] Created {PAPER_FILE} ({len(COLUMNS)} columns, 0 rows)")
+    else:
+        # Verify columns are complete — add missing ones if needed
+        try:
+            df = pd.read_csv(PAPER_FILE, on_bad_lines='warn', nrows=0)
+            existing_cols = set(df.columns)
+            required_cols = set(COLUMNS)
+            missing = required_cols - existing_cols
+            if missing:
+                print(f"[Init] Adding missing columns to {PAPER_FILE}: {missing}")
+                df_full = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+                for col in missing:
+                    df_full[col] = ""
+                df_full.to_csv(PAPER_FILE, index=False)
+        except Exception as e:
+            print(f"[Init] Warning: Could not verify {PAPER_FILE}: {e}")
+    
+    # 2. strategy_stats.json
+    if not os.path.exists(STRATEGY_STATS_FILE):
+        _atomic_write_json(STRATEGY_STATS_FILE, {})
+    
+    # 3. portfolio.json
+    if not os.path.exists(PORTFOLIO_FILE):
+        save_portfolio(_default_portfolio())
+    
+    # 4. trade_audit.json
+    if not os.path.exists(AUDIT_FILE):
+        _atomic_write_json(AUDIT_FILE, [])
+    
+    # 5. live_pnl_state.json (also owned here for centralized init)
+    if not os.path.exists(LIVE_STATE_FILE_PT):
+        _atomic_write_json(LIVE_STATE_FILE_PT, {"last_tg": {}, "last_pnl": {}})
+    
+    print(f"[Init] System initialized — all log files present in {LOG_DIR}/")
+
 
 # Cache for last known prices (updated each scan run)
 _LAST_PRICES = {}  # {ticker: price}
@@ -74,16 +154,16 @@ def _load_audit() -> list:
         try:
             with open(AUDIT_FILE, "r") as f:
                 return json.load(f)
-        except:
-            pass
+        except (json.JSONDecodeError, Exception):
+            print(f"[Audit] WARNING: Corrupted audit file, resetting")
+            return []
     return []
 
 
 def _save_audit(audit: list):
-    """Save persistent trade audit log."""
+    """Save persistent trade audit log (atomic write)."""
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(AUDIT_FILE, "w") as f:
-        json.dump(audit, f, indent=2)
+    _atomic_write_json(AUDIT_FILE, audit)
 
 
 def _log_audit_entry(trade: dict):
@@ -194,10 +274,10 @@ def load_portfolio() -> dict:
 
 
 def save_portfolio(port: dict):
-    """Save portfolio to JSON."""
+    """Save portfolio to JSON using atomic write (temp file + rename).
+    Prevents file corruption if workflow is interrupted mid-write."""
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(PORTFOLIO_FILE, "w") as f:
-        json.dump(port, f, indent=2)
+    _atomic_write_json(PORTFOLIO_FILE, port)
 
 
 def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
@@ -368,10 +448,9 @@ def _load_strategy_stats() -> dict:
 
 
 def _save_strategy_stats(stats: dict):
-    """Save per-strategy tracking."""
+    """Save per-strategy tracking (atomic write)."""
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(STRATEGY_STATS_FILE, "w") as f:
-        json.dump(stats, f, indent=2)
+    _atomic_write_json(STRATEGY_STATS_FILE, stats)
 
 
 def update_strategy_stats(reason: str, pnl: float):
