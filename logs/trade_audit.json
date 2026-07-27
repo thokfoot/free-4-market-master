@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-27 23:32:56 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 520.27,
+    "qty": 191,
+    "sl": 515.06,
+    "target": 530.67,
+    "pattern_rank": 36,
+    "expected_win_rate": 67.86,
+    "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
+    "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
+  }
+]

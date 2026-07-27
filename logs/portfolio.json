@@ -5,7 +5,30 @@
     "CRYPTO": 100000.0,
     "INTRADAY": 100000.0
   },
-  "open_positions": [],
+  "open_positions": [
+    {
+      "Date": "2026-07-27",
+      "Time_IST": "23:32:56 IST",
+      "Mode": "US",
+      "Ticker": "DIA",
+      "Direction": "LONG",
+      "TimeFrame": "INTRADAY_1h",
+      "Entry_Price": 520.27,
+      "Qty": 191,
+      "SL": 515.06,
+      "Target": 530.67,
+      "MaxHold": 6,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 36,
+      "Expected_WinRate": 67.86,
+      "Pattern_Factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
+      "Reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
+    }
+  ],
   "closed_count": 0,
   "total_wins": 0,
   "total_losses": 0,
