@@ -550,9 +550,11 @@ def run_intraday_scan() -> dict:
             cv = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
             hv = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
             lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
-            # Actual daily range from 1h data (48 candles covers ~2 full sessions)
-            daily_h = float(df["High"].tail(48).max())
-            daily_l = float(df["Low"].tail(48).min())
+            # Actual daily range from today's 1h candles (accurate SL/TP detection)
+            same_date_mask = df.index.date == df.index[-1].date()
+            same_date_df = df[same_date_mask]
+            daily_h = float(same_date_df["High"].max()) if len(same_date_df) > 0 else hv
+            daily_l = float(same_date_df["Low"].min()) if len(same_date_df) > 0 else lv
             market_status[yf_ticker] = {
                 "data_ok": True, "latest_close": cv, "latest_high": hv, "latest_low": lv,
                 "daily_high": daily_h, "daily_low": daily_l,

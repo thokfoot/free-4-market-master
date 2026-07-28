@@ -267,6 +267,12 @@ def process_open_trades() -> tuple:
     
     df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
     
+    # ── Ensure string columns are object dtype (same fix as paper_trader.py) ──
+    str_cols_pnl = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors"]
+    for col in str_cols_pnl:
+        if col in df.columns:
+            df[col] = df[col].astype(object)
+    
     closed_msgs = []
     update_msgs = []
     now = datetime.now(IST)
