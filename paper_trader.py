@@ -404,6 +404,11 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     os.makedirs(LOG_DIR, exist_ok=True)
     if os.path.exists(PAPER_FILE):
         df_old = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+        # ── Ensure string columns are object dtype (prevent float64 inference) ──
+        str_cols_pt = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors"]
+        for col in str_cols_pt:
+            if col in df_old.columns:
+                df_old[col] = df_old[col].astype(object)
         if "TimeFrame" not in df_old.columns:
             df_old["TimeFrame"] = "SWING_1d"
         df_comb = pd.concat([df_old, df_new], ignore_index=True)

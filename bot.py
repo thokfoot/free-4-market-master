@@ -550,8 +550,12 @@ def run_intraday_scan() -> dict:
             cv = float(last["Close"].iloc[0] if hasattr(last["Close"], 'iloc') else last["Close"])
             hv = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
             lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
+            # Actual daily range from 1h data (48 candles covers ~2 full sessions)
+            daily_h = float(df["High"].tail(48).max())
+            daily_l = float(df["Low"].tail(48).min())
             market_status[yf_ticker] = {
                 "data_ok": True, "latest_close": cv, "latest_high": hv, "latest_low": lv,
+                "daily_high": daily_h, "daily_low": daily_l,
                 "latest_date": str(df.index[-1].date()), "region": get_region(yf_ticker),
             }
         else:
@@ -566,13 +570,18 @@ def run_intraday_scan() -> dict:
     best_entries = get_best_intraday_entries(all_signals)
     print(f"[Intraday] Best entries: {len(best_entries)}")
     
-    # 7. Update positions (same OHLC exit logic)
+    # 7. Update positions (same OHLC exit logic — uses daily range for SL/TP)
     current_prices = {}
     ohlc_data = {}
     for yf_ticker, st in market_status.items():
         if st.get("data_ok"):
             current_prices[yf_ticker] = st["latest_close"]
-            ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"], "low": st["latest_low"]}
+            # Use daily range (NOT latest candle) for accurate SL/TP detection
+            ohlc_data[yf_ticker] = {
+                "close": st["latest_close"],
+                "high": st.get("daily_high", st["latest_high"]),
+                "low": st.get("daily_low", st["latest_low"]),
+            }
     
     closed_msgs = update_trades(ohlc_data)
     print(f"[Intraday] Closed: {len(closed_msgs)}")
