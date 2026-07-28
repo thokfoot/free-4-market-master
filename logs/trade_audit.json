@@ -29,5 +29,20 @@
     "expected_win_rate": 67.86,
     "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
     "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-28 23:22:38 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "SHORT",
+    "entry_price": 293.1,
+    "qty": 337,
+    "sl": 296.03,
+    "target": 287.24,
+    "pattern_rank": 14,
+    "expected_win_rate": 63.41,
+    "pattern_factors": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#14ID Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open"
   }
 ]

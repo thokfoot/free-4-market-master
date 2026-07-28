@@ -5,7 +5,30 @@
     "CRYPTO": 100000.0,
     "INTRADAY": 98985.01999999999
   },
-  "open_positions": [],
+  "open_positions": [
+    {
+      "Date": "2026-07-28",
+      "Time_IST": "23:22:38 IST",
+      "Mode": "US",
+      "Ticker": "IWM",
+      "Direction": "SHORT",
+      "TimeFrame": "INTRADAY_1h",
+      "Entry_Price": 293.1,
+      "Qty": 337,
+      "SL": 296.03,
+      "Target": 287.24,
+      "MaxHold": 6,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 14,
+      "Expected_WinRate": 63.41,
+      "Pattern_Factors": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+      "Reason": "#14ID Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open"
+    }
+  ],
   "closed_count": 1,
   "total_wins": 0,
   "total_losses": 1,
