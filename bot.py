@@ -428,9 +428,6 @@ def run_swing_scan() -> dict:
         print(f"[Swing] Exit check: {len(closed_msgs)} closed trades | {len(current_prices_sw)} prices")
         return empty_result
     
-    # Save today's date for future runs
-    _save_swing_scan_date(today_date)
-    
     # 4. Market status
     market_status = {}
     for yf_ticker, df in ticker_data.items():
@@ -481,6 +478,9 @@ def run_swing_scan() -> dict:
                 "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
                 "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
     print(f"[Swing] New entries: {len(entries)}")
+    
+    # Save today's date ONLY AFTER full scan completes successfully
+    _save_swing_scan_date(today_date)
     
     return {
         "mode": "SWING",
