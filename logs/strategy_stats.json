@@ -1,1 +1,9 @@
-{}
+{
+  "36": {
+    "rank": 36,
+    "factors": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1014.98
+  }
+}

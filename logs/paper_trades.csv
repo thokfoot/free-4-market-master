@@ -1,2 +1,2 @@
 Date,Time_IST,Mode,Ticker,Direction,TimeFrame,Entry_Price,Qty,SL,Target,MaxHold,Exit_Price,Exit_Time,P&L,P&L_%,Status,Pattern_Rank,Expected_WinRate,Pattern_Factors,Reason
-2026-07-27,23:32:56 IST,US,DIA,LONG,INTRADAY_1h,520.27,191,515.06,530.67,6,,,,,OPEN,36,67.86,Price<SMA50+EMA9>EMA20+Close<Open+2Red,#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red
+2026-07-27,23:32:56 IST,US,DIA,LONG,INTRADAY_1h,520.27,191,515.06,530.67,6,515.06,12:21:41 IST,-1014.98,-1.02,CLOSED,36,67.86,Price<SMA50+EMA9>EMA20+Close<Open+2Red,#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)

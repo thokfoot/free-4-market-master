@@ -1,0 +1,3 @@
+Date,Time,Mode,Tickers_Scanned,Errors,Patterns_Total,Patterns_Fired,New_Entries,Closed_Trades,Open_Positions,Capital,Total_PnL,Telegram
+2026-07-28,12:21:36 IST,SWING,20.0,0.0,0.0,0.0,0.0,1.0,0.0,398985.0,-1015.0,Sent
+2026-07-28,12:21:36 IST,INTRADAY,9.0,0.0,40.0,0.0,0.0,0.0,0.0,398985.0,-1015.0,Sent

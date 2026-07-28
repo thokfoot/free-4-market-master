@@ -13,5 +13,21 @@
     "expected_win_rate": 67.86,
     "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
     "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "12:21:41 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 520.27,
+    "exit_price": 515.06,
+    "qty": 191,
+    "pnl": -1014.98,
+    "pnl_pct": -1.02,
+    "pattern_rank": 36,
+    "expected_win_rate": 67.86,
+    "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
+    "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)"
   }
 ]
