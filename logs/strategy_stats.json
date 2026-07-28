@@ -3,7 +3,14 @@
     "rank": 36,
     "factors": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)",
     "wins": 0,
+    "losses": 2,
+    "total_pnl": -2029.96
+  },
+  "14": {
+    "rank": 14,
+    "factors": "#14ID Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 25h",
+    "wins": 0,
     "losses": 1,
-    "total_pnl": -1014.98
+    "total_pnl": -16.38
   }
 }

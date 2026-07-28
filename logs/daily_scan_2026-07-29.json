@@ -1,0 +1,153 @@
+{
+  "date": "2026-07-29",
+  "runs": [
+    {
+      "time": "01:14:11 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 121,
+      "patterns_fired": 5,
+      "fired_patterns": [
+        {
+          "rank": 46,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Close>Open+2Red",
+          "win_rate": 69.39,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 16,
+          "market": "SP500",
+          "ticker": "^GSPC",
+          "direction": "LONG",
+          "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 62.35,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 18,
+          "market": "SP500",
+          "ticker": "^GSPC",
+          "direction": "LONG",
+          "factors": "EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 61.71,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 30,
+          "market": "IWM",
+          "ticker": "IWM",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 62.42,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 32,
+          "market": "SPY",
+          "ticker": "SPY",
+          "direction": "LONG",
+          "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 60.24,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "close": 676.3150024414062,
+          "qty": 73,
+          "sl": 662.79,
+          "target": 703.37,
+          "rank": 46,
+          "win_rate": 69.39
+        },
+        {
+          "ticker": "IWM",
+          "direction": "LONG",
+          "close": 293.0899963378906,
+          "qty": 337,
+          "sl": 290.16,
+          "target": 298.95,
+          "rank": 30,
+          "win_rate": 62.42
+        },
+        {
+          "ticker": "^GSPC",
+          "direction": "LONG",
+          "close": 7435.33984375,
+          "qty": 13,
+          "sl": 7360.99,
+          "target": 7584.05,
+          "rank": 16,
+          "win_rate": 62.35
+        },
+        {
+          "ticker": "SPY",
+          "direction": "LONG",
+          "close": 741.2000122070312,
+          "qty": 133,
+          "sl": 733.79,
+          "target": 756.02,
+          "rank": 32,
+          "win_rate": 60.24
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100000.0,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 98968.64123413086
+        },
+        "total_capital": 398968.64123413083,
+        "open_count": 4,
+        "total_pnl": -1031.35876586914,
+        "closed_count": 2,
+        "wins": 0,
+        "losses": 2
+      },
+      "telegram_status": "Sent"
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 100000.0,
+      "CRYPTO": 100000.0,
+      "INTRADAY": 98968.64123413086
+    },
+    "total_capital": 398968.64123413083,
+    "open_count": 4,
+    "total_pnl": -1031.35876586914,
+    "closed_count": 2,
+    "wins": 0,
+    "losses": 2
+  }
+}
