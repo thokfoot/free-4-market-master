@@ -927,11 +927,17 @@ def update_trades(ohlc_data: dict) -> list:
     now = datetime.now(IST)
     time_str = now.strftime("%H:%M:%S IST")
     
+    # ── Ensure string columns are object dtype (not float64) ──
+    str_cols = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors"]
+    for col in str_cols:
+        if col in df.columns:
+            df[col] = df[col].astype(object)
+    
     for idx, row in df.iterrows():
         if row["Status"] != "OPEN":
             continue
         
-        ticker = row["Ticker"]
+        ticker = str(row.get("Ticker", ""))
         if ticker not in ohlc_data:
             continue
         

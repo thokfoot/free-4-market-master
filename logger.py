@@ -115,11 +115,29 @@ def log_trade_run(row_dict: dict):
     """
     Log a bot run to trade_log.csv (append).
     One row per run with summary stats.
+    
+    Uses explicit dtype handling to prevent "Invalid value for dtype float64" errors.
     """
     try:
         df_new = pd.DataFrame([row_dict])
+        # ── Ensure numeric columns are float64, string columns are object ──
+        numeric_cols = ["Tickers_Scanned", "Errors", "Patterns_Total", "Patterns_Fired",
+                        "New_Entries", "Closed_Trades", "Open_Positions", "Capital", "Total_PnL"]
+        for col in numeric_cols:
+            if col in df_new.columns:
+                df_new[col] = pd.to_numeric(df_new[col], errors='coerce').fillna(0).astype(float)
+        
         if os.path.exists(TRADE_LOG):
             df_old = pd.read_csv(TRADE_LOG, on_bad_lines='warn')
+            # Convert old numeric columns too
+            for col in numeric_cols:
+                if col in df_old.columns:
+                    df_old[col] = pd.to_numeric(df_old[col], errors='coerce').fillna(0).astype(float)
+            # Convert old string columns to object
+            str_cols = ["Date", "Time", "Mode", "Telegram"]
+            for col in str_cols:
+                if col in df_old.columns:
+                    df_old[col] = df_old[col].astype(object)
             df_combined = pd.concat([df_old, df_new], ignore_index=True)
         else:
             df_combined = df_new
