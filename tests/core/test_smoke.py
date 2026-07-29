@@ -17,6 +17,8 @@ import os
 def test_fixture_smoke(test_env):
     """The simplest possible test: can we import fixtures in a test environment?"""
     assert test_env is not None
+    tmp = test_env["tmp_path"]
+    assert (tmp / "logs").exists(), "isolated_fs fixture did not create logs dir"
 
 
 def test_sample_trade_factory():
@@ -103,35 +105,16 @@ def test_portfolio_overrides_no_collision():
         assert trade["Qty"] == 999, f"Qty should be 999 after override, got {trade['Qty']}"
 
 
-def test_frozen_time(isolated_fs, monkeypatch):
-    """Verify frozen time fixture produces a deterministic timestamp."""
-    import pytz
+def test_frozen_time_using_fixture(frozen_time):
+    """Verify the actual frozen_time fixture produces a deterministic timestamp."""
+    import paper_trader, pytz
     IST = pytz.timezone("Asia/Kolkata")
-    from datetime import datetime
-    import paper_trader
-
-    # Patch datetime in paper_trader
-    class FrozenDT:
-        _FROZEN = datetime(2026, 1, 15, 10, 30, 0)
-        @classmethod
-        def now(cls, tz=None):
-            if tz is not None:
-                return IST.localize(cls._FROZEN)
-            return cls._FROZEN
-        @classmethod
-        def utcnow(cls):
-            return cls._FROZEN.replace(tzinfo=__import__('datetime').timezone.utc)
-        @classmethod
-        def strptime(cls, date_string, format_str):
-            return datetime.strptime(date_string, format_str)
-
-    monkeypatch.setattr("paper_trader.datetime", FrozenDT)
     now = paper_trader.datetime.now(IST)
-    assert now.year == 2026
-    assert now.month == 1
-    assert now.day == 15
-    assert now.hour == 10
-    assert now.minute == 30
+    assert now.year == 2026, f"Expected year 2026, got {now.year}"
+    assert now.month == 1, f"Expected month 1, got {now.month}"
+    assert now.day == 15, f"Expected day 15, got {now.day}"
+    assert now.hour == 10, f"Expected hour 10, got {now.hour}"
+    assert now.minute == 30, f"Expected minute 30, got {now.minute}"
 
 
 def test_ohlc_fixtures():
