@@ -8,12 +8,14 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 import os, json, math, pandas as pd
 from datetime import datetime
 import pytz
+import requests
 from config import (
     CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE,
     SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE,
     CHARGES_PER_MARKET,
     INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
     INTRADAY_MAX_HOLD_HOURS, INTRADAY_MAX_CONCURRENT,
+    TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -587,6 +589,72 @@ def _calc_unrealized_pnl(row) -> tuple:
     return (pnl, pnl_pct)
 
 
+# ── SL/TP Telegram Alert ────────────────────────────────────
+_SLTP_ALERT_COOLDOWN = {}  # {ticker: timestamp} — prevent duplicate alerts within same scan
+
+def _send_sl_tp_alert(ticker: str, direction: str, exit_reason: str,
+                       entry: float, exit_price: float, sl: float, target: float,
+                       cmp: float, daily_high: float, daily_low: float,
+                       pnl: float, pnl_pct: float, qty: int,
+                       rank_str: str = ""):
+    """
+    Send an immediate Telegram alert when SL or TP is hit.
+    Includes the OHLC data that triggered the exit for transparency.
+    Rate-limited to 1 alert per ticker per scan run.
+    """
+    # Rate limit: skip if already sent for this ticker in this run
+    if _SLTP_ALERT_COOLDOWN.get(ticker):
+        return
+    _SLTP_ALERT_COOLDOWN[ticker] = datetime.now(IST)
+    
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        print(f"[Alert] No TG credentials, skipping alert for {ticker}")
+        return
+    
+    # Determine alert icon and label
+    if "SL" in exit_reason:
+        icon = "🚨"
+        event_label = "SL HIT"
+    elif "Target" in exit_reason:
+        icon = "🎯"
+        event_label = "TP HIT"
+    elif "Expiry" in exit_reason:
+        icon = "⏰"
+        event_label = "EXPIRY"
+    else:
+        icon = "📊"
+        event_label = "EXIT"
+    
+    dir_arrow = "🟢" if direction == "LONG" else "🔴"
+    pnl_icon = "🟢" if pnl > 0 else ("🔴" if pnl < 0 else "⚪")
+    
+    rank_tag = f" #{rank_str}" if rank_str else ""
+    msg = (
+        f"{icon} *{event_label}:* {dir_arrow} `{ticker}`{rank_tag} {direction}\n"
+        f"┣ Entry: {round_price(entry)} | Exit: {round_price(exit_price)}\n"
+        f"┣ SL: {round_price(sl)} | TP: {round_price(target)}\n"
+        f"┣ Qty: {qty} | {pnl_icon} P&L: Rs {pnl:+,.0f} ({pnl_pct:+.2f}%)\n"
+        f"┣ *OHLC:* Close={cmp:.2f} High={daily_high:.2f} Low={daily_low:.2f}\n"
+        f"┗ Reason: {exit_reason}"
+    )
+    
+    for attempt in range(2):
+        try:
+            r = requests.post(
+                f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
+                data={"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"},
+                timeout=10,
+            )
+            if r.status_code == 200:
+                print(f"[Alert] TG alert sent: {ticker} {event_label}")
+                return
+            else:
+                print(f"[Alert] TG attempt {attempt+1} failed: {r.text[:100]}")
+        except Exception as e:
+            print(f"[Alert] TG attempt {attempt+1} exception: {e}")
+    print(f"[Alert] Failed to send TG alert for {ticker}")
+
+
 def generate_portfolio_report(current_prices: dict = None):
     """
     Generate a professional HTML portfolio report with EVERYTHING.
@@ -1000,7 +1068,7 @@ def update_trades(ohlc_data: dict) -> list:
                 is_expired = True
         
         # SL/TP check only if not already triggered by expiry
-        # Use a 0.05% tolerance guard to prevent exits triggered by 1-cent data noise
+        # Use a 0.01% tolerance guard to prevent exits triggered by 1-cent data noise
         # (e.g., if daily_low = 733.78 but actual SL is 733.79, that's data noise, not a real SL hit)
         _TOLERANCE = 0.9999  # Require 0.01% below SL / above TP before exiting (guards 1-cent noise)
         
@@ -1089,6 +1157,24 @@ def update_trades(ohlc_data: dict) -> list:
             
             # Update per-strategy win rate EXACTLY ONCE at exit (not at bottom of function)
             update_strategy_stats(full_reason, round(pnl, 2))
+            
+            # ── Send real-time Telegram alert with OHLC telemetry ──
+            _send_sl_tp_alert(
+                ticker=ticker,
+                direction=direction,
+                exit_reason=exit_reason,
+                entry=entry,
+                exit_price=exit_price,
+                sl=sl,
+                target=target,
+                cmp=cmp,
+                daily_high=daily_high,
+                daily_low=daily_low,
+                pnl=round(pnl, 2),
+                pnl_pct=round(pnl_pct, 2),
+                qty=int(row["Qty"]),
+                rank_str=str(row.get("Pattern_Rank", "")),
+            )
             
             # Update per-market capital (respect TimeFrame for intraday separate capital)
             trade_tf = str(row.get("TimeFrame", "SWING_1d"))
