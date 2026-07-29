@@ -40,5 +40,19 @@
     "wins": 0,
     "losses": 1,
     "total_pnl": -945.76
+  },
+  "46": {
+    "rank": 46,
+    "factors": "#46SW Close>Open+2Red | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -997.56
+  },
+  "3": {
+    "rank": 3,
+    "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | Target Hit",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 1696.83
   }
 }

@@ -1,65 +1,20 @@
 {
   "capital_by_market": {
     "INDIAN": 100000.0,
-    "US": 100000.0,
+    "US": 100699.26999999997,
     "CRYPTO": 100000.0,
     "INTRADAY": 92127.30123413086
   },
-  "open_positions": [
-    {
-      "Date": "2026-07-29",
-      "Time_IST": "01:14:15 IST",
-      "Mode": "US",
-      "Ticker": "QQQ",
-      "Direction": "LONG",
-      "TimeFrame": "SWING_1d",
-      "Entry_Price": 676.32,
-      "Qty": 73,
-      "SL": 662.79,
-      "Target": 703.37,
-      "MaxHold": 5,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
-      "Status": "OPEN",
-      "Pattern_Rank": 46,
-      "Expected_WinRate": 69.39,
-      "Pattern_Factors": "Close>Open+2Red",
-      "Reason": "#46SW Close>Open+2Red"
-    },
-    {
-      "Date": "2026-07-30",
-      "Time_IST": "01:05:35 IST",
-      "Mode": "US",
-      "Ticker": "^SOX",
-      "Direction": "LONG",
-      "TimeFrame": "SWING_1d",
-      "Entry_Price": 10658.62,
-      "Qty": 4,
-      "SL": 10445.45,
-      "Target": 11084.96,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 3,
-      "Expected_WinRate": 60.59,
-      "Pattern_Factors": "Price<SMA50+EMA20<EMA50+Close<Open",
-      "Reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open"
-    }
-  ],
-  "closed_count": 9,
-  "total_wins": 0,
-  "total_losses": 9,
-  "total_pnl": -7872.6987658691205,
+  "open_positions": [],
+  "closed_count": 11,
+  "total_wins": 1,
+  "total_losses": 10,
+  "total_pnl": -7173.428765869133,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
-    "US": 0.0,
+    "US": 699.269999999987,
     "CRYPTO": 0.0,
     "INTRADAY": -7872.6987658691205
   },
-  "total_capital": 392127.30123413086
+  "total_capital": 392826.5712341308
 }

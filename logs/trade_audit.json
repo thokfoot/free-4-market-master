@@ -361,5 +361,37 @@
     "expected_win_rate": 60.59,
     "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
     "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "01:58:29 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 676.32,
+    "exit_price": 662.79,
+    "qty": 73,
+    "pnl": -997.56,
+    "pnl_pct": -2.02,
+    "pattern_rank": 46,
+    "expected_win_rate": 69.39,
+    "pattern_factors": "Close>Open+2Red",
+    "reason": "#46SW Close>Open+2Red | SL Hit (intraday)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "01:58:29 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "entry_price": 10658.62,
+    "exit_price": 11084.96,
+    "qty": 4,
+    "pnl": 1696.83,
+    "pnl_pct": 3.98,
+    "pattern_rank": 3,
+    "expected_win_rate": 60.59,
+    "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | Target Hit"
   }
 ]
