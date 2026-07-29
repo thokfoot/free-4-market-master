@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 100000.0,
     "CRYPTO": 100000.0,
-    "INTRADAY": 95970.35123413084
+    "INTRADAY": 94996.31123413083
   },
   "open_positions": [
     {
@@ -30,15 +30,15 @@
     },
     {
       "Date": "2026-07-29",
-      "Time_IST": "20:11:02 IST",
+      "Time_IST": "20:59:02 IST",
       "Mode": "US",
       "Ticker": "DIA",
       "Direction": "LONG",
       "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 518.47,
-      "Qty": 184,
-      "SL": 513.28,
-      "Target": 528.83,
+      "Entry_Price": 518.55,
+      "Qty": 183,
+      "SL": 513.37,
+      "Target": 528.93,
       "MaxHold": 6,
       "Exit_Price": "",
       "Exit_Time": "",
@@ -51,15 +51,15 @@
       "Reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
     }
   ],
-  "closed_count": 5,
+  "closed_count": 6,
   "total_wins": 0,
-  "total_losses": 5,
-  "total_pnl": -4029.648765869137,
+  "total_losses": 6,
+  "total_pnl": -5003.688765869148,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 0.0,
     "CRYPTO": 0.0,
-    "INTRADAY": -4029.648765869137
+    "INTRADAY": -5003.688765869148
   },
-  "total_capital": 400000.0
+  "total_capital": 394996.3112341308
 }
