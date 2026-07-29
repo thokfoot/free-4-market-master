@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 100000.0,
     "CRYPTO": 100000.0,
-    "INTRADAY": 94029.39123413085
+    "INTRADAY": 93073.06123413086
   },
   "open_positions": [
     {
@@ -30,36 +30,36 @@
     },
     {
       "Date": "2026-07-29",
-      "Time_IST": "21:32:32 IST",
+      "Time_IST": "22:16:13 IST",
       "Mode": "US",
       "Ticker": "DIA",
       "Direction": "LONG",
       "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 517.9,
-      "Qty": 181,
-      "SL": 512.72,
-      "Target": 528.26,
+      "Entry_Price": 517.88,
+      "Qty": 179,
+      "SL": 512.7,
+      "Target": 528.24,
       "MaxHold": 6,
       "Exit_Price": "",
       "Exit_Time": "",
       "P&L": "",
       "P&L_%": "",
       "Status": "OPEN",
-      "Pattern_Rank": 36,
-      "Expected_WinRate": 67.86,
-      "Pattern_Factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
-      "Reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
+      "Pattern_Rank": 13,
+      "Expected_WinRate": 60.16,
+      "Pattern_Factors": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+      "Reason": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red"
     }
   ],
-  "closed_count": 7,
+  "closed_count": 8,
   "total_wins": 0,
-  "total_losses": 7,
-  "total_pnl": -5970.608765869139,
+  "total_losses": 8,
+  "total_pnl": -6926.938765869129,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 0.0,
     "CRYPTO": 0.0,
-    "INTRADAY": -5970.608765869139
+    "INTRADAY": -6926.938765869129
   },
-  "total_capital": 394029.39123413083
+  "total_capital": 393073.0612341309
 }

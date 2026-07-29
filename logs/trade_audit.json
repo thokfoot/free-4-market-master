@@ -299,5 +299,36 @@
     "expected_win_rate": 67.86,
     "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
     "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "22:16:11 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 517.9,
+    "exit_price": 512.72,
+    "qty": 181,
+    "pnl": -956.33,
+    "pnl_pct": -1.02,
+    "pattern_rank": 36,
+    "expected_win_rate": 67.86,
+    "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
+    "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-29 22:16:13 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 517.88,
+    "qty": 179,
+    "sl": 512.7,
+    "target": 528.24,
+    "pattern_rank": 13,
+    "expected_win_rate": 60.16,
+    "pattern_factors": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "reason": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red"
   }
 ]
