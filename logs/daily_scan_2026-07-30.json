@@ -1,0 +1,105 @@
+{
+  "date": "2026-07-30",
+  "runs": [
+    {
+      "time": "01:05:32 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 121,
+      "patterns_fired": 3,
+      "fired_patterns": [
+        {
+          "rank": 1,
+          "market": "PHLX_Semi",
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "factors": "EMA20<EMA50+Close<Open",
+          "win_rate": 60.0,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 2,
+          "market": "PHLX_Semi",
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "factors": "EMA20<EMA50+Range>1.5%+Close<Open",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 3,
+          "market": "PHLX_Semi",
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+          "win_rate": 60.59,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "close": 10658.6181640625,
+          "qty": 4,
+          "sl": 10445.45,
+          "target": 11084.96,
+          "rank": 3,
+          "win_rate": 60.59
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100000.0,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 92127.30123413086
+        },
+        "total_capital": 392127.30123413086,
+        "open_count": 2,
+        "total_pnl": -7872.6987658691205,
+        "closed_count": 9,
+        "wins": 0,
+        "losses": 9
+      },
+      "telegram_status": "Sent"
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 100000.0,
+      "CRYPTO": 100000.0,
+      "INTRADAY": 92127.30123413086
+    },
+    "total_capital": 392127.30123413086,
+    "open_count": 2,
+    "total_pnl": -7872.6987658691205,
+    "closed_count": 9,
+    "wins": 0,
+    "losses": 9
+  }
+}

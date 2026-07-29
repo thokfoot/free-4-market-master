@@ -27,6 +27,28 @@
       "Expected_WinRate": 69.39,
       "Pattern_Factors": "Close>Open+2Red",
       "Reason": "#46SW Close>Open+2Red"
+    },
+    {
+      "Date": "2026-07-30",
+      "Time_IST": "01:05:35 IST",
+      "Mode": "US",
+      "Ticker": "^SOX",
+      "Direction": "LONG",
+      "TimeFrame": "SWING_1d",
+      "Entry_Price": 10658.62,
+      "Qty": 4,
+      "SL": 10445.45,
+      "Target": 11084.96,
+      "MaxHold": 5,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 3,
+      "Expected_WinRate": 60.59,
+      "Pattern_Factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+      "Reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open"
     }
   ],
   "closed_count": 9,

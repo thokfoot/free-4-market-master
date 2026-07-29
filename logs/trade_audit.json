@@ -346,5 +346,20 @@
     "expected_win_rate": 60.16,
     "pattern_factors": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "reason": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red | SL Hit (intraday)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-30 01:05:35 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "entry_price": 10658.62,
+    "qty": 4,
+    "sl": 10445.45,
+    "target": 11084.96,
+    "pattern_rank": 3,
+    "expected_win_rate": 60.59,
+    "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open"
   }
 ]
