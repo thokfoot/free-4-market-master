@@ -1040,7 +1040,10 @@ def update_trades(ohlc_data: dict) -> list:
             df.at[idx, "P&L"] = round(pnl, 2)
             df.at[idx, "P&L_%"] = round(pnl_pct, 2)
             df.at[idx, "Status"] = "CLOSED"
-            df.at[idx, "Reason"] = str(row["Reason"]) + f" | {exit_reason}"
+            # Reason updated via full_reason variable (used in audit + stats)
+            
+            full_reason = str(row["Reason"]) + f" | {exit_reason}"
+            df.at[idx, "Reason"] = full_reason
             
             # Log exit to persistent audit trail (AFTER values are set)
             _log_audit_exit({
@@ -1056,8 +1059,11 @@ def update_trades(ohlc_data: dict) -> list:
                 "Pattern_Rank": row.get("Pattern_Rank", ""),
                 "Expected_WinRate": row.get("Expected_WinRate", ""),
                 "Pattern_Factors": row.get("Pattern_Factors", ""),
-                "Reason": str(row["Reason"]) + f" | {exit_reason}",
+                "Reason": full_reason,
             })
+            
+            # Update per-strategy win rate EXACTLY ONCE at exit (not at bottom of function)
+            update_strategy_stats(full_reason, round(pnl, 2))
             
             # Update per-market capital (respect TimeFrame for intraday separate capital)
             trade_tf = str(row.get("TimeFrame", "SWING_1d"))
@@ -1096,20 +1102,7 @@ def update_trades(ohlc_data: dict) -> list:
         open_df = df[df["Status"] == "OPEN"]
         portfolio["open_positions"] = open_df.to_dict(orient="records")
         save_portfolio(portfolio)
-        # Update per-strategy win rates — iterate once over all rows
-        for idx, row in df.iterrows():
-            if row["Status"] != "CLOSED":
-                continue
-            exit_price = row.get("Exit_Price", "")
-            if pd.isna(exit_price) or str(exit_price).strip() == "":
-                continue
-            pnl = row.get("P&L", "")
-            if pd.notna(pnl) and str(pnl).strip() != "":
-                try:
-                    pnl_f = float(pnl)
-                    reason = str(row.get("Reason", ""))
-                    update_strategy_stats(reason, pnl_f)
-                except:
-                    pass
+        # NOTE: strategy_stats is updated INSIDE the exit loop above (ONCE per trade)
+        # Do NOT re-iterate ALL closed rows here — that would double-count!
     
     return closed_msgs
