@@ -8,7 +8,7 @@
 1. Risk-based coverage model (hybrid: ≥85% floor + 100% critical-path gate)
 2. Updated replay verification — all observable outputs, not just files
 3. Added Mutation Testing plan (Section 8)
-4. Versioned replay baselines with symlink approach
+4. Versioned replay baselines with config-based version selection (replaces v1.0 symlink proposal)
 5. Explicit replay baseline change rules table
 
 ---
@@ -138,17 +138,19 @@ tests/fixtures/replay/
 │   ├── replay_expected_telegram.json # Captured Telegram payloads (from mock)
 │   └── replay_expected_capital.csv   # Capital timeline per day
 ├── v5.9/
-│   └── ...
-├── v6.0/
-│   └── ...
-└── current -> v5.8/                  # Symlink — compared against by default
-```
+│   └── ...├── v6.0/
+│   └── ...```
 
-**Version management:**
-- New baselines are generated with `--replay-version=v5.9` flag
-- A symlink `current` is updated to point to the active version
+**Version management (config-based, no symlinks):**
+- Active version is set via a constant in the replay test file:
+  ```python
+  REPLAY_BASELINE = "v5.9"  # Change this to switch baseline version
+  ```
+- Or overridden via CLI flag: `pytest --replay-version=v5.9`
+- The test loads from `tests/fixtures/replay/{REPLAY_BASELINE}/`
+- No filesystem symlinks needed — works identically on Windows, Linux, macOS, and GitHub Actions
 - Historical versions remain in the repo for reproducibility
-- To compare across versions: `python -c "compare_replay(v5.8, v5.9)"`
+- To compare across versions: `pytest --replay-version=v5.8 --replay-compare-against=v5.9`
 
 ### Replay Baseline Change Rules
 
@@ -430,15 +432,15 @@ Baselines are generated **per version** and stored in versioned directories:
 # Generate baseline for current version:
 pytest tests/replay/ --replay-generate-golden --replay-version=v5.9
   → Creates tests/fixtures/replay/v5.9/replay_expected_*.csv/json
-  → Updates symlink: tests/fixtures/replay/current -> v5.9/
+  → Saves to tests/fixtures/replay/v5.9/
 
 # Verify against current baseline (default):
 pytest tests/replay/
-  → Compares actual output against tests/fixtures/replay/current/
+  → Compares actual output against tests/fixtures/replay/{REPLAY_BASELINE}/
   → FAIL if any difference detected
 
 # Run against a specific historical version:
-pytest tests/replay/ --replay-compare-against=v5.8
+pytest tests/replay/ --replay-version=v5.8
   → Useful when testing whether a change broke backward compatibility
 ```
 
