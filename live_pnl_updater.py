@@ -11,7 +11,7 @@ Entries are handled by bot.py (runs 3x/day after market close).
 Designed to work alongside bot.py without conflicts.
 """
 
-import os, sys, json, time, traceback
+import os, sys, json, math, time, traceback
 from datetime import datetime, timedelta
 import yfinance as yf
 import pandas as pd
@@ -302,22 +302,42 @@ def process_open_trades() -> tuple:
         daily_high = ohlc["high"]
         daily_low = ohlc["low"]
         
-        # ── SL/TP Check (intraday High/Low priority) ──
+        # ── OHLC DATA VALIDATION: Prevent false exits from corrupt data ──
+        _invalid_ohlc = (
+            daily_low is None or daily_high is None or cmp is None
+            or not math.isfinite(daily_low)
+            or not math.isfinite(daily_high)
+            or not math.isfinite(cmp)
+            or daily_low <= 0 or daily_high <= 0 or cmp <= 0
+        )
+        if _invalid_ohlc:
+            print(f"[Live] WARNING: Invalid OHLC data for {ticker}: "
+                  f"close={cmp}, high={daily_high}, low={daily_low} — SKIPPING SL/TP check")
+            continue  # Skip this ticker — don't exit based on bad data
+
+        # Log OHLC values for debugging
+        print(f"[Live] SL/TP check {direction} {ticker}: "
+              f"close={cmp:.2f} high={daily_high:.2f} low={daily_low:.2f} | "
+              f"entry={entry:.2f} sl={sl:.2f} target={target:.2f}")
+
+        # ── SL/TP Check (intraday High/Low priority, with tolerance guard) ──
+        # Use 0.01% tolerance to prevent 1-cent data noise from triggering exit
+        _TOLERANCE = 0.9999
         exit_price = None
         exit_reason = None
-        
+
         if direction == "LONG":
-            if daily_low <= sl:
+            if daily_low <= sl * _TOLERANCE:
                 exit_price = sl
                 exit_reason = "🎯 SL Hit (live)"
-            elif daily_high >= target:
+            elif daily_high >= target / _TOLERANCE:
                 exit_price = target
                 exit_reason = "🎯 Target Hit (live)"
         else:  # SHORT
-            if daily_high >= sl:
+            if daily_high >= sl / _TOLERANCE:
                 exit_price = sl
                 exit_reason = "🎯 SL Hit (live)"
-            elif daily_low <= target:
+            elif daily_low <= target * _TOLERANCE:
                 exit_price = target
                 exit_reason = "🎯 Target Hit (live)"
         
