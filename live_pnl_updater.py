@@ -116,10 +116,12 @@ def _log_audit_exit(trade_row: dict):
         "pnl": trade_row.get("P&L", ""),
         "pnl_pct": trade_row.get("P&L_%", ""),
         "pattern_rank": trade_row.get("Pattern_Rank", ""),
+        "expected_win_rate": trade_row.get("Expected_WinRate", ""),
+        "pattern_factors": trade_row.get("Pattern_Factors", ""),
         "reason": trade_row.get("Reason", ""),
     })
     _save_audit(audit)
-    print(f"[Audit] EXIT (Live): {trade_row.get('Direction','?')} {trade_row.get('Ticker','?')} P&L={trade_row.get('P&L','?')}")
+    print(f"[Audit] EXIT (Live): {trade_row.get('Direction','?')} {trade_row.get('Ticker','?')} P&L={trade_row.get('P&L','?')} Expected WR={trade_row.get('Expected_WinRate','?')}%")
 
 
 def _extract_rank(reason: str) -> int:
