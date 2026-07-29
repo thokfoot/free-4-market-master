@@ -82,12 +82,16 @@ def portfolio_with_mixed_positions(**overrides) -> dict:
 def portfolio_with_full_swing_concurrent(**overrides) -> dict:
     """Portfolio with 5 open swing positions (at max concurrent limit)."""
     trades = [
-        long_swing_us_trade(Ticker="SPY", **overrides),
-        long_swing_us_trade(Ticker="QQQ", Entry_Price=500.00, SL=490.00, Target=520.00, Qty=200, Rank=30),
-        long_swing_us_trade(Ticker="IWM", Entry_Price=225.00, SL=220.50, Target=234.00, Qty=444, Rank=8),
-        long_swing_us_trade(Ticker="DIA", Entry_Price=350.00, SL=343.00, Target=364.00, Qty=285, Rank=15),
-        long_swing_us_trade(Ticker="^GSPC", Entry_Price=5000.00, SL=4900.00, Target=5200.00, Qty=20, Rank=22),
+        long_swing_us_trade(Ticker="SPY"),
+        long_swing_us_trade(Ticker="QQQ", Entry_Price=500.00, SL=490.00, Target=520.00, Qty=200),
+        long_swing_us_trade(Ticker="IWM", Entry_Price=225.00, SL=220.50, Target=234.00, Qty=444),
+        long_swing_us_trade(Ticker="DIA", Entry_Price=350.00, SL=343.00, Target=364.00, Qty=285),
+        long_swing_us_trade(Ticker="^GSPC", Entry_Price=5000.00, SL=4900.00, Target=5200.00, Qty=20),
     ]
+    # Apply overrides to ALL trades after construction (avoid duplicate kwarg collision)
+    if overrides:
+        for t in trades:
+            t.update(overrides)
     port = empty_portfolio()
     port["open_positions"] = trades
     port.update(overrides)

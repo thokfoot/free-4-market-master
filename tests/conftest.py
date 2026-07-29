@@ -64,11 +64,7 @@ def frozen_time(monkeypatch):
         def strptime(cls, date_string, format):
             return datetime.strptime(date_string, format)
     
-    # We patch paper_trader's reference to datetime
-    import paper_trader
-    monkeypatch.setattr(paper_trader, "datetime", FrozenDateTime)
-    
-    # We also patch the built-in datetime for any direct calls
+    # Patch paper_trader's module-level datetime reference
     monkeypatch.setattr("paper_trader.datetime", FrozenDateTime)
     
     return FrozenDateTime._FROZEN_NAIVE
@@ -228,11 +224,5 @@ def test_env(frozen_time, isolated_fs, mock_env, mock_telegram, mock_yfinance):
     This is the recommended fixture for most tests.
     """
     return {
-        "frozen_time": FrozenDateTimeFixture,
         "tmp_path": isolated_fs,
     }
-
-
-class FrozenDateTimeFixture:
-    """Simple container for the frozen datetime value."""
-    _FROZEN_NAIVE = datetime(2026, 1, 15, 10, 30, 0)

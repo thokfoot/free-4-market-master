@@ -92,12 +92,7 @@ def assert_portfolio_equals(expected: Dict[str, Any], actual: Dict[str, Any],
             )
 
 
-_COLUMNS = [
-    "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame",
-    "Entry_Price", "Qty", "SL", "Target", "MaxHold",
-    "Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status",
-    "Pattern_Rank", "Expected_WinRate", "Pattern_Factors", "Reason",
-]
+from paper_trader import COLUMNS as _COLUMNS
 
 
 def assert_valid_trade_columns(trade: Dict[str, Any], msg: str = ""):

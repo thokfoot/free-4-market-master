@@ -12,6 +12,7 @@ Usage:
 """
 
 from copy import deepcopy
+from paper_trader import COLUMNS
 
 _FROZEN_DATE = "2026-01-15"
 _FROZEN_TIME = "10:30:00 IST"
@@ -207,9 +208,4 @@ def closed_us_loss_trade(**overrides):
 
 def row_from_trade(trade: dict) -> dict:
     """Convert a trade dict to a pandas row-like dict (all strings/floats)."""
-    return {k: trade[k] for k in [
-        "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame",
-        "Entry_Price", "Qty", "SL", "Target", "MaxHold",
-        "Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status",
-        "Pattern_Rank", "Expected_WinRate", "Pattern_Factors", "Reason",
-    ]}
+    return {k: trade[k] for k in COLUMNS}
