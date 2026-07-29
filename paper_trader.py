@@ -5,7 +5,7 @@ Portfolio & trade management for paper trading.
 Supports LONG and SHORT positions with SL/TP and max hold.
 """
 
-import os, json, pandas as pd
+import os, json, math, pandas as pd
 from datetime import datetime
 import pytz
 from config import (
@@ -958,6 +958,27 @@ def update_trades(ohlc_data: dict) -> list:
         exit_price = None
         exit_reason = None
         
+        # ── OHLC DATA VALIDATION: Prevent false exits from corrupt data ──
+        # If OHLC values are zero, negative, or NaN, DO NOT exit based on them.
+        # This guards against transient yfinance data glitches (like partial candles,
+        # or auto_adjust=False MultiIndex column issues returning wrong values).
+        _invalid_ohlc = (
+            daily_low is None or daily_high is None or cmp is None
+            or not math.isfinite(daily_low)
+            or not math.isfinite(daily_high)
+            or not math.isfinite(cmp)
+            or daily_low <= 0 or daily_high <= 0 or cmp <= 0
+        )
+        if _invalid_ohlc:
+            print(f"[Paper] WARNING: Invalid OHLC data for {ticker}: "
+                  f"close={cmp}, high={daily_high}, low={daily_low} — SKIPPING SL/TP check")
+            continue  # Skip this ticker entirely — don't exit based on bad data
+        
+        # Log OHLC values for debugging (captured in GH Actions logs)
+        print(f"[Paper] SL/TP check {direction} {ticker}: "
+              f"close={cmp:.2f} high={daily_high:.2f} low={daily_low:.2f} | "
+              f"entry={entry:.2f} sl={sl:.2f} target={target:.2f}")
+        
         # Check max hold expiry FIRST (time-based exit, independent of SL/TP)
         entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
         trade_tf = str(row.get("TimeFrame", "SWING_1d"))
@@ -979,38 +1000,42 @@ def update_trades(ohlc_data: dict) -> list:
                 is_expired = True
         
         # SL/TP check only if not already triggered by expiry
+        # Use a 0.05% tolerance guard to prevent exits triggered by 1-cent data noise
+        # (e.g., if daily_low = 733.78 but actual SL is 733.79, that's data noise, not a real SL hit)
+        _TOLERANCE = 0.9999  # Require 0.01% below SL / above TP before exiting (guards 1-cent noise)
+        
         if not is_expired and direction == "LONG":
             # 1st: Intraday LOW hit SL → stopped out during the day
-            if daily_low <= sl:
+            if daily_low <= sl * _TOLERANCE:
                 exit_price = sl
                 exit_reason = "SL Hit (intraday)"
             # 2nd: Intraday HIGH hit TP → target reached during the day
-            elif daily_high >= target:
+            elif daily_high >= target / _TOLERANCE:
                 exit_price = target
                 exit_reason = "Target Hit"
             # 3rd: Close <= SL → SL hit on close
-            elif cmp <= sl:
+            elif cmp <= sl * _TOLERANCE:
                 exit_price = sl
                 exit_reason = "SL Hit (close)"
             # 4th: Close >= TP → TP hit on close
-            elif cmp >= target:
+            elif cmp >= target / _TOLERANCE:
                 exit_price = target
                 exit_reason = "Target Hit (close)"
         else:  # SHORT
             # 1st: Intraday HIGH hit SL → stopped out during the day
-            if daily_high >= sl:
+            if daily_high >= sl / _TOLERANCE:
                 exit_price = sl
                 exit_reason = "SL Hit (intraday)"
             # 2nd: Intraday LOW hit TP → target reached during the day
-            elif daily_low <= target:
+            elif daily_low <= target * _TOLERANCE:
                 exit_price = target
                 exit_reason = "Target Hit"
             # 3rd: Close >= SL → SL hit on close
-            elif cmp >= sl:
+            elif cmp >= sl / _TOLERANCE:
                 exit_price = sl
                 exit_reason = "SL Hit (close)"
             # 4th: Close <= TP → TP hit on close
-            elif cmp <= target:
+            elif cmp <= target * _TOLERANCE:
                 exit_price = target
                 exit_reason = "Target Hit (close)"
         
