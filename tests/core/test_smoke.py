@@ -157,3 +157,101 @@ def test_assertion_helpers():
 
     ohlc_bad = ohlc_nan_low()
     assert_invalid_ohlc(ohlc_bad)  # Should not raise
+
+
+def test_enter_trade_smoke(test_env):
+    """
+    Integration smoke test — exercises enter_trade() using real fixture environment.
+
+    Validates:
+    1. Portfolio initializes with correct capital
+    2. Trade can be entered successfully
+    3. CSV file is created with correct columns
+    4. Audit log receives ENTRY event
+    5. Portfolio open_positions increments
+    6. Exit via update_trades works
+    7. Audit log receives EXIT event
+    8. Strategy stats are updated
+    9. Capital reflects P&L after exit
+    10. No exceptions during the full lifecycle
+    """
+    import os
+    import paper_trader
+
+    # 1. Verify fresh portfolio
+    port = paper_trader.load_portfolio()
+    assert port["capital_by_market"]["US"] == 100000.0
+    assert port["open_positions"] == []
+
+    # 2. Enter a trade
+    trade = paper_trader.enter_trade(
+        mode="US",
+        ticker="SPY",
+        direction="LONG",
+        entry_price=450.00,
+        reason="Price>SMA50+2Red",
+        pattern_rank=46,
+        expected_win_rate=62.5,
+        pattern_factors="Price>SMA50+2Red",
+        tf="SWING_1d",
+    )
+    assert trade is not None, "enter_trade returned None"
+    assert trade["Ticker"] == "SPY"
+    assert trade["Direction"] == "LONG"
+    assert trade["Qty"] > 0
+    assert trade["Status"] == "OPEN"
+    assert "#46SW" in trade["Reason"], f"Expected #46SW in reason, got: {trade['Reason']}"
+
+    # 3. Verify CSV created
+    assert os.path.exists(paper_trader.PAPER_FILE), "paper_trades.csv not created"
+    import pandas as pd
+    df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines='warn')
+    assert len(df) == 1, f"Expected 1 trade row, got {len(df)}"
+    assert df.iloc[0]["Ticker"] == "SPY"
+    assert df.iloc[0]["Status"] == "OPEN"
+
+    # 4. Verify audit log
+    audit = paper_trader._load_audit()
+    assert len(audit) == 1, f"Expected 1 audit event, got {len(audit)}"
+    assert audit[0]["event"] == "ENTRY"
+    assert audit[0]["ticker"] == "SPY"
+    assert audit[0]["direction"] == "LONG"
+    assert audit[0]["pattern_rank"] == 46, f"Expected pattern_rank 46, got {audit[0]['pattern_rank']} (type {type(audit[0]['pattern_rank']).__name__})"
+
+    # 5. Verify portfolio has open position
+    port = paper_trader.load_portfolio()
+    assert len(port["open_positions"]) == 1
+
+    # 6. Simulate an exit via SL hit
+    ohlc_data = {
+        "SPY": {
+            "close": 448.00,
+            "high": 452.00,
+            "low": 440.50,  # Below SL (441.00) — triggers SL
+        }
+    }
+    closed_msgs = paper_trader.update_trades(ohlc_data)
+    assert len(closed_msgs) == 1, f"Expected 1 closed message, got {len(closed_msgs)}"
+    assert "SL Hit" in closed_msgs[0], f"Expected SL Hit message, got: {closed_msgs[0]}"
+
+    # 7. Verify audit log updated
+    audit = paper_trader._load_audit()
+    assert len(audit) == 2, f"Expected 2 audit events (entry+exit), got {len(audit)}"
+    assert audit[1]["event"] == "EXIT"
+    assert audit[1]["ticker"] == "SPY"
+    assert "pnl" in audit[1], f"Expected 'pnl' in audit EXIT event, got keys: {list(audit[1].keys())}"
+    assert "pnl_pct" in audit[1]
+
+    # 8. Verify strategy stats updated
+    stats = paper_trader._load_strategy_stats()
+    assert "46" in stats, f"Strategy 46 not found in stats: {list(stats.keys())}"
+    assert stats["46"]["losses"] == 1, f"Expected 1 loss for strategy 46, got {stats['46']}"
+
+    # 9. Verify capital updated (loss = lower capital)
+    port = paper_trader.load_portfolio()
+    assert port["capital_by_market"]["US"] < 100000.0, \
+        f"Capital should decrease after loss: {port['capital_by_market']['US']}"
+    assert port["total_pnl"] < 0, f"Total P&L should be negative after loss: {port['total_pnl']}"
+    assert port["closed_count"] == 1
+    assert port["total_losses"] == 1
+    assert port["open_positions"] == []
