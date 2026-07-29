@@ -174,5 +174,53 @@
     "datetime": "2026-07-29 11:35:40 IST",
     "reason": "Reversed 3 false SL exits caused by yfinance data glitch at 09:30 IST",
     "details": "IWM(-1007) ^GSPC(-986) SPY(-1005) = +Rs 2998 restored"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "17:18:52 IST",
+    "mode": "US",
+    "ticker": "^GSPC",
+    "direction": "LONG",
+    "entry_price": 7435.34,
+    "exit_price": 7360.99,
+    "qty": 13,
+    "pnl": -985.88,
+    "pnl_pct": -1.02,
+    "pattern_rank": 16,
+    "expected_win_rate": 62.35,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "17:18:52 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "entry_price": 741.2,
+    "exit_price": 733.79,
+    "qty": 133,
+    "pnl": -1005.25,
+    "pnl_pct": -1.02,
+    "pattern_rank": 32,
+    "expected_win_rate": 60.24,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "17:18:55 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "LONG",
+    "entry_price": 293.09,
+    "exit_price": 290.16,
+    "qty": 337,
+    "pnl": -1007.16,
+    "pnl_pct": -1.02,
+    "pattern_rank": 30,
+    "expected_win_rate": 62.42,
+    "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)"
   }
 ]
