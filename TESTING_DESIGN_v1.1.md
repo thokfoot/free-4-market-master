@@ -1,8 +1,15 @@
-# Testing Design Document v1.0 — FREE 3-Market Paper Trade Bot
+# Testing Design Document v1.1 — FREE 3-Market Paper Trade Bot
 
 **Date:** 29 Jul 2026  
-**Version:** v1.0 (Design — No Implementation Yet)  
+**Version:** v1.1 (Design — No Implementation Yet)  
 **Status:** ⏳ Awaiting Approval Before Any Test Code Is Written
+
+**Changes from v1.0:**
+1. Risk-based coverage model (hybrid: ≥85% floor + 100% critical-path gate)
+2. Updated replay verification — all observable outputs, not just files
+3. Added Mutation Testing plan (Section 8)
+4. Versioned replay baselines with symlink approach
+5. Explicit replay baseline change rules table
 
 ---
 
@@ -116,19 +123,53 @@ tests/fixtures/data/
 
 These are **small slices** (not the full backtest files) — just enough to exercise indicator computation and signal generation.
 
-### 1.7 Replay Fixtures
+### 1.7 Replay Fixtures (Versioned)
 
-A separate fixture directory for the deterministic replay testing:
+A versioned fixture directory for the deterministic replay testing. Each engine version gets its own baseline directory, preserving historical outputs for cross-version comparison.
 
 ```
 tests/fixtures/replay/
-├── replay_input.csv          # Historical ticker data (frozen)
-├── replay_expected_trades.csv      # Expected paper_trades.csv output
-├── replay_expected_portfolio.json   # Expected portfolio.json output
-└── replay_expected_audit.json       # Expected trade_audit.json output
+├── v5.8/
+│   ├── replay_input.csv              # Historical ticker data (frozen)
+│   ├── replay_expected_trades.csv    # Expected paper_trades.csv output
+│   ├── replay_expected_portfolio.json
+│   ├── replay_expected_audit.json
+│   ├── replay_expected_strategy_stats.json
+│   ├── replay_expected_telegram.json # Captured Telegram payloads (from mock)
+│   └── replay_expected_capital.csv   # Capital timeline per day
+├── v5.9/
+│   └── ...
+├── v6.0/
+│   └── ...
+└── current -> v5.8/                  # Symlink — compared against by default
 ```
 
-These are **golden files** — generated once by running the bot against frozen data, then verified on every CI run.
+**Version management:**
+- New baselines are generated with `--replay-version=v5.9` flag
+- A symlink `current` is updated to point to the active version
+- Historical versions remain in the repo for reproducibility
+- To compare across versions: `python -c "compare_replay(v5.8, v5.9)"`
+
+### Replay Baseline Change Rules
+
+Not every code change requires a new replay baseline. The following table defines which changes require regeneration:
+
+| Change | New Baseline Required? |
+|:-------|:---------------------:|
+| Refactor (no output change) | ❌ No |
+| Bug fix affecting trade outputs (SL/TP/P&L/qty) | ✅ Yes |
+| New strategy added | ✅ Yes |
+| Position sizing change | ✅ Yes |
+| SL/TP logic change | ✅ Yes |
+| Charges formula change | ✅ Yes |
+| Entry/exit conditions change | ✅ Yes |
+| Logger formatting | ❌ No |
+| Telegram wording | ❌ No |
+| Comment/doc changes only | ❌ No |
+| Import reordering | ❌ No |
+| Test-only additions | ❌ No |
+
+Baseline regeneration is always an **explicit action** (`--replay-generate-golden`) — never automatic.
 
 ---
 
@@ -349,16 +390,25 @@ Exactly 60 daily rows and ~240 1h rows per ticker.
 8. Compare against golden files
 ```
 
-### 4.4 Expected Outputs
+### 4.4 Expected Outputs — Full Observable Behaviour
 
-| File | Compared? | Match Condition |
-|:-----|:---------:|:----------------|
-| `logs/paper_trades.csv` | ✅ Exact match | Every row, every column identical |
-| `logs/portfolio.json` | ✅ Exact match | JSON structure + numeric values identical |
-| `logs/trade_audit.json` | ✅ Exact match | Every audit event identical |
-| `logs/strategy_stats.json` | ✅ Exact match | Every strategy key identical |
-| `logs/portfolio_snapshots.csv` | ✅ Exact match | Every row identical |
-| Telegram messages | ❌ Not compared | (Would need to mock the API) |
+Replay verifies **every observable output** the bot produces, not just file contents. This ensures the entire system is deterministic:
+
+| Observable | Compared? | Match Condition | Notes |
+|:-----------|:---------:|:----------------|:------|
+| `logs/paper_trades.csv` | ✅ Exact match | Every row, every column identical | Including Trade_ID, Entry_Time, Exit_Time |
+| `logs/portfolio.json` | ✅ Exact match | JSON structure + numeric values identical | Capital by market, P&L by market, open positions |
+| `logs/trade_audit.json` | ✅ Exact match | Every audit event identical | ENTRY and EXIT events with all fields |
+| `logs/strategy_stats.json` | ✅ Exact match | Every strategy key identical | Wins, losses, total_pnl per rank |
+| `logs/portfolio_snapshots.csv` | ✅ Exact match | Every row identical | Per-scan snapshot of portfolio state |
+| **Trade IDs** | ✅ Exact match | UUID values identical | Deterministic via `uuid.uuid4()` monkeypatch |
+| **Entry timestamps** | ✅ Exact match | ISO format strings identical | Time frozen via monkeypatch |
+| **Exit timestamps** | ✅ Exact match | ISO format strings identical | Time frozen via monkeypatch |
+| **Capital timeline** | ✅ Exact match | Per-day capital values identical | Derived from portfolio.json sequence |
+| **Telegram payloads** | ✅ Captured & compared | Messages captured in mock list, compared as JSON | Mock replaces `requests.post` with capture |
+| **Live P&L snapshots** | ✅ Exact match | Unrealized P&L per position per scan | Derived from OHLC data at each time step |
+
+**Telegram verification detail:** The mock `requests.post` stores every call as `{"url": url, "data": data}` in a list. At the end of replay, this list is compared against golden `replay_expected_telegram.json`. This proves that Telegram messages are deterministic — same markets, same entries, same exits, same formatting.
 
 ### 4.5 Tolerance Rules
 
@@ -372,20 +422,30 @@ Exactly 60 daily rows and ~240 1h rows per ticker.
 
 **If any output differs:** CI fails, developer must investigate whether the change is intentional (golden file updated) or a regression (fix required).
 
-### 4.6 Golden File Generation
+### 4.6 Golden File Generation (Versioned)
+
+Baselines are generated **per version** and stored in versioned directories:
 
 ```
-# First-run (baseline):
-pytest tests/replay/ --replay-generate-golden
-  → Creates tests/fixtures/replay/replay_expected_*.csv/json
+# Generate baseline for current version:
+pytest tests/replay/ --replay-generate-golden --replay-version=v5.9
+  → Creates tests/fixtures/replay/v5.9/replay_expected_*.csv/json
+  → Updates symlink: tests/fixtures/replay/current -> v5.9/
 
-# Subsequent runs (verify):
-pytest tests/replay/  # (default — no --replay-generate-golden)
-  → Compares actual output against golden files
+# Verify against current baseline (default):
+pytest tests/replay/
+  → Compares actual output against tests/fixtures/replay/current/
   → FAIL if any difference detected
+
+# Run against a specific historical version:
+pytest tests/replay/ --replay-compare-against=v5.8
+  → Useful when testing whether a change broke backward compatibility
 ```
 
-Golden files are regenerated **deliberately** — only when a change to core logic is intentional and verified.
+**Golden file regeneration is always deliberate:**
+- Only when you explicitly run `--replay-generate-golden`
+- Only after confirming the changes are correct
+- The `git diff` on golden files must be inspected before committing
 
 ---
 
@@ -501,34 +561,44 @@ on:
 
 ---
 
-## 6. Coverage Targets
+## 6. Coverage — Risk-Based Model
 
-### 6.1 Per-File Targets
+### 6.1 Principle
 
-| File | Target | Lines | Critical Path | Rationale |
-|:-----|:-----:|:-----:|:-------------|:----------|
-| `paper_trader.py` | **≥95%** | ~1,150 | All of it | Core P&L, entry, exit, portfolio — most critical file |
-| `live_pnl_updater.py` | **≥90%** | ~700 | All of it | Real-time SL/TP checks — second most critical |
-| `scanner.py` | **≥85%** | ~350 | Indicator computation, signal detection | Mathematical logic — hard to get 100% |
-| `scanner_intraday.py` | **≥85%** | ~300 | Same as scanner.py | Mirror of scanner |
-| `scanner_intraday.py` (duplicate) | — | — | — | — |
-| `logger.py` | **≥70%** | ~200 | Log_trade, log_scan | File IO — some branches hard to test |
-| `config.py` | **≥95%** | ~200 | All constants | Trivial — just constants and get_region() |
-| `bot.py` | **~50-60%** | ~960 | `build_telegram_msg`, market status logic | Orchestration — expensive to mock entire flow |
+Coverage percentages are a **signal**, not a goal. The goal is that every **risk-relevant code path** is tested. A file with 98% coverage can still miss the one branch that loses money.
 
-### 6.2 Critical Path Definition (Must Cover 100%)
+This section defines two tiers:
+1. **Risk Coverage** (primary) — critical functions + branches + historical bugs at 100%
+2. **File Coverage** (secondary) — minimum percentage floor per file
 
-These code paths must be tested **exhaustively** regardless of file-level targets:
+### 6.2 Risk Coverage — Must Be 100% Tested
 
-- **`calculate_qty()`**: Every market (India/US/Crypto) × every direction (LONG/SHORT) × every timeframe (SWING/INTRADAY) — **22 combinations** minimum
-- **`update_trades()` exit logic**: SL/Low, SL/Close, TP/High, TP/Close, Expiry — for both LONG and SHORT — **20 combinations**
-- **`_invalid_ohlc` guard**: Every branch of the validation condition — **11 combinations**
-- **Charges deduction**: Exactly once, correct rate per market, correct notional — **5 combinations**
-- **P&L formula**: LONG profit, LONG loss, SHORT profit, SHORT loss — **4 combinations**
+| Risk Category | What It Covers | Why |
+|:-------------|:---------------|:----|
+| **Critical Functions** | `calculate_qty()`, `enter_trade()`, `update_trades()`, `_calc_unrealized_pnl()`, `_send_sl_tp_alert()`, `update_strategy_stats()`, `_extract_rank()`, `load_portfolio()`, `save_portfolio()` | Every trade's correctness depends on these |
+| **Critical Branches** | All 22 position-sizing combos, all 20 SL/TP exit combos, all 11 OHLC validation combos, all 5 charges deduction paths, all 4 P&L formulas | Edge cases that cause financial loss |
+| **Historical Bugs** | All 6 regression tests from Section 3 | Permanently prevents regression |
+| **Cross-File Consistency** | paper_trader vs live_pnl_updater: identical P&L, identical exit logic, identical audit fields | Ensures both files stay in sync |
 
-### 6.3 Exclusions
+### 6.3 File Coverage — Minimum Floor
 
-The following are **explicitly excluded** from coverage targets (will not mock):
+These provide a basic **safety net** against untested new code:
+
+| File | Minimum Target | Rationale |
+|:-----|:-------------:|:----------|
+| `paper_trader.py` | **≥85%** | Core engine — risk coverage already catches critical paths. Floor prevents large untested additions. |
+| `live_pnl_updater.py` | **≥85%** | Second core file — same reasoning. |
+| `scanner.py` | **≥80%** | Mathematical logic — some branches hard to fixture. |
+| `scanner_intraday.py` | **≥80%** | Mirror of scanner.py. |
+| `logger.py` | **≥65%** | File IO — some error branches impractical to test. |
+| `config.py` | **≥90%** | Constants + `get_region()` — low risk. |
+| `bot.py` | **~40-50%** | Orchestration — expensive to mock end-to-end. Critical-path only. |
+
+**These floors are deliberately lower than v1.0 targets.** The real quality comes from risk coverage, not line percentages.
+
+### 6.4 Exclusions
+
+The following are **explicitly excluded** from coverage targets:
 
 - `requests.post` to Telegram API — mocked in all tests
 - `yf.download` — monkeypatched in all tests
@@ -537,20 +607,36 @@ The following are **explicitly excluded** from coverage targets (will not mock):
 
 ---
 
-## 7. Deliverables & Phasing
+## 7. Deliverables & Phasing (Updated for v1.1)
 
 | Phase | Deliverable | Files | Estimated Effort | Depends On |
 |:------|:-----------|:------|:----------------:|:-----------|
-| **1** ✅ | **Design Document** | `TESTING_DESIGN_v1.0.md` | 1 session | — |
+| **1** ✅ | **Design Document** | `TESTING_DESIGN_v1.1.md` | 1 session | — |
 | **2** | **Fixtures** | `tests/conftest.py`, `tests/fixtures/*.py`, fixture data CSVs | 1 session | Phase 1 approval |
 | **3** | **Core Regression Tests** | `tests/core/test_position_sizing.py`, `test_trade_lifecycle.py`, `test_exit_logic.py`, `test_pnl.py` | 2 sessions | Phase 2 |
 | **4** | **Extended Core Tests** | `tests/core/test_strategy_stats.py`, `test_portfolio.py`, `test_data_validation.py` | 1 session | Phase 2 |
+| **4.5** 🔥 **NEW** | **Test Validation (Mutation Testing)** | `tests/mutation/` — deliberate breakage tests | 1 session | Phase 4 |
 | **5** | **Historical Bug Regression** | `tests/regression/test_historical_bugs.py` | 1 session | Phase 2 |
-| **6** | **Deterministic Replay** | `tests/replay/test_deterministic_replay.py`, golden files | 2 sessions | Phase 2 |
+| **6** | **Deterministic Replay** | `tests/replay/test_deterministic_replay.py`, versioned golden files | 2 sessions | Phase 2 |
 | **7** | **CI Automation** | `.github/workflows/test.yml` | 1 session | Phase 3-6 |
 | **8** | **Coverage Hardening** | Backfill uncovered branches | 1 session | Phase 7 |
 
-### Total Estimated Effort: **~9-10 sessions**
+### Phase 4.5 Detail — Test Validation (Mutation Testing)
+
+After the core regression suite is built, we intentionally break the engine to prove the tests catch every breakage:
+
+| Mutation | What Changes | Expected Result |
+|:---------|:-------------|:----------------|
+| SL comparison `>=` → `>` | `daily_low <= sl * tolerance` → `daily_low < sl * tolerance` | Exit with exact SL at LOW should **not** exit — but should have. Test fails = bug detected. |
+| LONG P&L → SHORT P&L | `(price - entry) * qty` → `(entry - price) * qty` | P&L calculation inverted. Test fails. |
+| Remove charges deduction | Comment out `pnl -= charges` | P&L inflated. Test fails. |
+| Remove OHLC validation guard | Comment out `_invalid_ohlc` block | NaN data causes false exit. Test fails. |
+| Remove duplicate prevention | `if exists: return None` → removed | Duplicate entries allowed. Test fails. |
+| Strategy stats double-count | `stats[key]["wins"] += 1` called twice | Stats overcounted. Test fails. |
+
+Each mutation is a **standalone test** in `tests/mutation/test_suite_catches_mutations.py`. It monkeypatches the production function, runs the relevant regression tests, and asserts that **at least one test fails**. If all tests pass → the mutation went undetected → the test suite has a gap.
+
+### Total Estimated Effort: **~10-11 sessions** (v1.1 adds Phase 4.5)
 
 ### Risk Assessment
 
@@ -561,6 +647,92 @@ The following are **explicitly excluded** from coverage targets (will not mock):
 | Monkeypatch conflicts between tests | Medium | Each test gets fresh monkeypatch via `monkeypatch` fixture |
 | Replay test too slow | Medium | Limit to 5 tickers × 20 days replay |
 | Floating point tolerance mismatches | Low | Exact match — if P&L differs by ₹0.0001, golden file must be regenerated |
+| Mutation tests flaky | Low | Each mutation patches one function, runs subset of tests — deterministic
+
+---
+
+## 8. Mutation Testing — Proving the Tests Have Teeth
+
+### 8.1 Why Mutation Testing?
+
+A normal regression suite proves one thing only: **existing code still passes the tests.** It does NOT prove that the tests would catch a bug. Mutation testing fills this gap by intentionally breaking the engine and asserting the tests detect every breakage.
+
+If a mutation passes all tests → the test suite has a blind spot → the mutation must be covered.
+
+### 8.2 Mutation Test Design
+
+Each mutation is a **standalone pytest test** in `tests/mutation/test_suite_catches_mutations.py`.
+
+Pattern:
+```python
+def test_mutation_<name>(monkeypatch):
+    """
+    MUTATION: <what was changed>
+    
+    Expected result: <regression test name> should fail.
+    """
+    # 1. Apply mutation via monkeypatch
+    monkeypatch.setattr("paper_trader._original_function", mutated_function)
+    
+    # 2. Run the relevant regression test
+    # Must be done via subprocess to get fresh import state
+    result = subprocess.run(
+        ["pytest", "tests/core/test_position_sizing.py", "-x", "--no-header", "-q"],
+        capture_output=True, text=True, timeout=30
+    )
+    
+    # 3. Assert that the test FAILED (mutation was detected)
+    assert result.returncode != 0, (
+        f"MUTATION UNDETECTED: {description}\n"
+        f"Test suite passed despite breaking change.\n"
+        f"Add a test that covers this branch."
+    )
+```
+
+### 8.3 Mutation Catalogue
+
+| # | Mutation | What Changes | Expected Detection |
+|:-:|:---------|:-------------|:-------------------|
+| M1 | **SL threshold `<=` → `<`** | `daily_low <= sl * _TOLERANCE` → `daily_low < sl * _TOLERANCE` | `test_exit_logic` — SL at exact boundary no longer triggers |
+| M2 | **TP threshold `>=` → `>`** | `daily_high >= target / _TOLERANCE` → `daily_high > target / _TOLERANCE` | `test_exit_logic` — TP at exact boundary no longer triggers |
+| M3 | **LONG P&L → SHORT P&L** | `(price - entry) * qty` → `(entry - price) * qty` for LONG | `test_pnl` — profit becomes loss |
+| M4 | **Remove charges deduction** | `pnl -= charges` commented out | `test_pnl` — net P&L equals gross (inflated by charges) |
+| M5 | **Remove OHLC validation guard** | `if _invalid_ohlc: continue` removed | `test_data_validation` — NaN data causes false exit |
+| M6 | **Remove duplicate prevention** | `if ticker_exists: return None` removed | `test_trade_lifecycle` — duplicate entry succeeds |
+| M7 | **Strategy stats double-count** | `stats[key]["wins"] += 1` called twice | `test_strategy_stats` — win count overcounted |
+| M8 | **Swap LONG/SHORT SL check** | LONG checks High for SL, SHORT checks Low for SL | `test_exit_logic` — wrong SL direction allows false exit |
+| M9 | **Remove tolerance guard** | `_TOLERANCE = 0.9999` → `_TOLERANCE = 1.0` | `test_exit_logic` — 1-cent noise triggers false exit |
+| M10 | **Invert capital update sign** | `capital += pnl` → `capital -= pnl` | `test_portfolio` — capital moves wrong direction |
+
+### 8.4 When Mutation Tests Run
+
+Mutations are **NOT run on every CI push** — they take too long (10 subprocess calls × ~20s each = ~200s). Instead:
+
+- **Trigger:** `workflow_dispatch` only (manual)
+- **Frequency:** After major changes or before release
+- **Result:** If any mutation passes, the test suite has a gap and must be fixed before release
+
+### 8.5 Mutation Test Workflow
+
+```
+Manually trigger mutation test run
+    │
+    ▼
+┌────────────────────────────────┐
+│ Run mutation M1                │
+│ Patch paper_trader.py          │
+│ Run affected tests              │
+│ Assert: at least 1 test FAILS  │
+└────────────────────────────────┘
+    │
+    ▼ (repeat for M2-M10)
+┌────────────────────────────────┐
+│ All 10 mutations DETECTED?     │ ← If NO → add missing test case
+└────────────────────────────────┘
+    │
+    ▼
+✅ Suite validated / ❌ Gap found
+```
 
 ---
 
@@ -575,4 +747,4 @@ Once approved:
 
 ---
 
-*End of Testing Design Document v1.0*
+*End of Testing Design Document v1.1*
