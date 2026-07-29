@@ -33,5 +33,12 @@
     "wins": 0,
     "losses": 1,
     "total_pnl": -1007.16
+  },
+  "13": {
+    "rank": 13,
+    "factors": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -945.76
   }
 }

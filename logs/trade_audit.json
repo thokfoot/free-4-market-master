@@ -330,5 +330,21 @@
     "expected_win_rate": 60.16,
     "pattern_factors": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "reason": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "23:17:08 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 517.88,
+    "exit_price": 512.7,
+    "qty": 179,
+    "pnl": -945.76,
+    "pnl_pct": -1.02,
+    "pattern_rank": 13,
+    "expected_win_rate": 60.16,
+    "pattern_factors": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "reason": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red | SL Hit (intraday)"
   }
 ]
