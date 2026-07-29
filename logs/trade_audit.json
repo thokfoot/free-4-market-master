@@ -222,5 +222,20 @@
     "expected_win_rate": 62.42,
     "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-29 20:11:02 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 518.47,
+    "qty": 184,
+    "sl": 513.28,
+    "target": 528.83,
+    "pattern_rank": 36,
+    "expected_win_rate": 67.86,
+    "pattern_factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
+    "reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
   }
 ]

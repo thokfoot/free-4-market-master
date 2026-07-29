@@ -27,6 +27,28 @@
       "Expected_WinRate": 69.39,
       "Pattern_Factors": "Close>Open+2Red",
       "Reason": "#46SW Close>Open+2Red"
+    },
+    {
+      "Date": "2026-07-29",
+      "Time_IST": "20:11:02 IST",
+      "Mode": "US",
+      "Ticker": "DIA",
+      "Direction": "LONG",
+      "TimeFrame": "INTRADAY_1h",
+      "Entry_Price": 518.47,
+      "Qty": 184,
+      "SL": 513.28,
+      "Target": 528.83,
+      "MaxHold": 6,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 36,
+      "Expected_WinRate": 67.86,
+      "Pattern_Factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
+      "Reason": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red"
     }
   ],
   "closed_count": 5,
