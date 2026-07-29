@@ -16,6 +16,7 @@ from config import (
     INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
     INTRADAY_MAX_HOLD_HOURS, INTRADAY_MAX_CONCURRENT,
     CAP_MAX_QTY_ULTRA_LOW, CAP_MAX_QTY_LOW, CAP_MAX_QTY_HIGH,
+    SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
 )
 
@@ -225,6 +226,50 @@ def round_price(price):
     return round(p, 8)
 
 
+def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str) -> float:
+    """
+    Apply realistic fill slippage to a price.
+    
+    Slippage always makes the fill WORSE than the signal price:
+    - LONG entry: buy slightly higher (pay more)
+    - SHORT entry: sell slightly lower (receive less)
+    - LONG exit (SL/TP hit): sell slightly lower (receive less)
+    - SHORT exit (SL/TP hit): buy slightly higher (pay more)
+    
+    Args:
+        price: The ideal signal price (entry/exit)
+        direction: "LONG" or "SHORT"
+        action: "ENTRY" or "EXIT"
+        mode: "INDIAN" | "US" | "CRYPTO"
+        tf: "SWING_1d" or "INTRADAY_1h"
+    
+    Returns:
+        Slipped price (always worse for the trader).
+        When slippage is 0 (default), returns price unchanged.
+    """
+    is_intraday = (tf == "INTRADAY_1h")
+    slip_pct = (
+        INTRADAY_SLIPPAGE_PCT.get(mode, 0.0)
+        if is_intraday else
+        SLIPPAGE_PCT.get(mode, 0.0)
+    )
+    if slip_pct <= 0:
+        return price
+    
+    if action == "ENTRY":
+        # Entry: pay more (LONG) or receive less (SHORT)
+        if direction == "LONG":
+            return price * (1 + slip_pct)
+        else:
+            return price * (1 - slip_pct)
+    else:  # EXIT
+        # Exit: receive less (LONG sells) or pay more (SHORT covers)
+        if direction == "LONG":
+            return price * (1 - slip_pct)
+        else:
+            return price * (1 + slip_pct)
+
+
 def _default_portfolio() -> dict:
     """Return default portfolio with per-market capital."""
     cap = dict(CAPITAL_BY_MARKET)
@@ -368,7 +413,9 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         sl = round_price(entry_price * (1 + sl_pct))
         target = round_price(entry_price * (1 - tp_pct))
     
-    entry = round_price(entry_price)
+    # ── Apply entry slippage for realistic fills ──
+    actual_entry = _apply_slippage(entry_price, direction, "ENTRY", mode, tf)
+    entry = round_price(actual_entry)
     qty = calculate_qty(entry, sl, mode, tf)
     if qty == 0:
         return None
@@ -1109,6 +1156,11 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_reason = "Target Hit (close)"
         
         if exit_price:
+            # Apply exit slippage for realistic fills (worse than trigger price)
+            trade_mode_exit = str(row.get("Mode", "US"))
+            trade_tf_exit = str(row.get("TimeFrame", "SWING_1d"))
+            exit_price = _apply_slippage(exit_price, direction, "EXIT", trade_mode_exit, trade_tf_exit)
+            
             # Gross P&L (before charges)
             if direction == "LONG":
                 pnl = (exit_price - entry) * row["Qty"]

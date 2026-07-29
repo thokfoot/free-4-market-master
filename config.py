@@ -41,6 +41,29 @@ CAP_MAX_QTY_ULTRA_LOW = 50000   # entry < 0.1  (penny stocks, low-cap crypto)
 CAP_MAX_QTY_LOW       = 10000   # entry < 1    (sub-dollar crypto, cheap stocks)
 CAP_MAX_QTY_HIGH      = 5000    # entry > 100  (expensive stocks like GOOGL, MRF)
 
+# ===== SLIPPAGE MODEL =====
+# Realistic fill slippage as a fraction of price per trade.
+# Applied to both entry and exit prices — makes paper P&L more realistic.
+# Set to 0.0 for ideal fills (no slippage).
+# Recommended values (based on market liquidity):
+#   US ETFs: 0.0001-0.0005  (0.01-0.05% — very liquid)
+#   US Indices: 0.0002-0.001 (0.02-0.1%)
+#   Indian stocks: 0.0005-0.002 (0.05-0.2%)
+#   Crypto: 0.001-0.003 (0.1-0.3% — less liquid)
+# NOTE: 0.0 = ideal fills (current behavior unchanged)
+SLIPPAGE_PCT = {
+    "INDIAN": 0.0,     # 0% — ideal fills
+    "US": 0.0,          # 0% — ideal fills
+    "CRYPTO": 0.0,      # 0% — ideal fills
+}
+
+# Intraday slippage (typically wider due to 1h candle execution)
+INTRADAY_SLIPPAGE_PCT = {
+    "US": 0.0,
+    "CRYPTO": 0.0,
+    "INDIAN": 0.0,
+}
+
 # ===== INTRADAY SETTINGS (v5.7+) =====
 INTRADAY_STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "intraday_strategies.csv")
 
