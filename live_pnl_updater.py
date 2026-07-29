@@ -149,19 +149,39 @@ def _save_strategy_stats(stats: dict):
 
 
 def update_strategy_stats(reason: str, pnl: float):
+    """
+    Update win/loss tracking for the pattern that generated this trade.
+    Called when a trade is closed.
+    """
     rank = _extract_rank(reason)
     if rank == 0:
         return
+
     stats = _load_strategy_stats()
     key = str(rank)
+
     if key not in stats:
-        stats[key] = {"rank": rank, "factors": reason[:80], "wins": 0, "losses": 0, "total_pnl": 0.0}
+        stats[key] = {
+            "rank": rank,
+            "factors": reason[:80],
+            "wins": 0,
+            "losses": 0,
+            "total_pnl": 0.0,
+        }
+
     stats[key]["total_pnl"] += pnl
     if pnl > 0:
         stats[key]["wins"] += 1
     else:
         stats[key]["losses"] += 1
+    # Update the reason/factors in case it was truncated
+    if len(reason) > len(stats[key]["factors"]):
+        stats[key]["factors"] = reason[:80]
+
     _save_strategy_stats(stats)
+    total = stats[key]["wins"] + stats[key]["losses"]
+    wr = round(stats[key]["wins"] / total * 100, 1) if total > 0 else 0
+    print(f"[Strategy] Rank #{rank} updated: {stats[key]['wins']}W/{stats[key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
 
 
 def load_portfolio() -> dict:
@@ -397,8 +417,9 @@ def process_open_trades() -> tuple:
                 "Reason": f"{row.get('Reason','')} | {exit_reason}",
             })
             
-            # Strategy stats
-            update_strategy_stats(str(row.get("Reason", "")), pnl)
+            # Strategy stats (pass full reason with exit context, rounded PnL)
+            full_reason = str(row["Reason"]) + f" | {exit_reason}"
+            update_strategy_stats(full_reason, round(pnl, 2))
             
             closed_msgs.append(f"{direction} {ticker} {exit_reason} @ {round_price(exit_price)} P&L Rs {pnl:+.0f} ({pnl_pct:+.1f}%)")
             portfolio_updated = True
