@@ -282,6 +282,7 @@ def _default_portfolio() -> dict:
         "total_losses": 0,
         "total_pnl": 0,
         "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0, "INTRADAY": 0.0},
+        "total_capital": sum(cap.values()),
     }
 
 
@@ -1265,6 +1266,9 @@ def update_trades(ohlc_data: dict) -> list:
         df.to_csv(PAPER_FILE, index=False)
         open_df = df[df["Status"] == "OPEN"]
         portfolio["open_positions"] = open_df.to_dict(orient="records")
+        # ── Recalculate total_capital from actual capital_by_market ──
+        # This field was historically never updated after trade closure.
+        portfolio["total_capital"] = sum(portfolio.get("capital_by_market", {}).values())
         save_portfolio(portfolio)
         # NOTE: strategy_stats is updated INSIDE the exit loop above (ONCE per trade)
         # Do NOT re-iterate ALL closed rows here — that would double-count!
