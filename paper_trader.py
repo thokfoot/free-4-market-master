@@ -15,6 +15,7 @@ from config import (
     CHARGES_PER_MARKET,
     INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
     INTRADAY_MAX_HOLD_HOURS, INTRADAY_MAX_CONCURRENT,
+    CAP_MAX_QTY_ULTRA_LOW, CAP_MAX_QTY_LOW, CAP_MAX_QTY_HIGH,
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
 )
 
@@ -295,13 +296,13 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
     if risk_per_share < 1e-9:
         return 0
     qty = int(risk_amt / risk_per_share)
-    # Caps based on price
+    # Caps based on price (configurable via config.py)
     if entry < 0.1:
-        qty = min(qty, 50000)
+        qty = min(qty, CAP_MAX_QTY_ULTRA_LOW)
     elif entry < 1:
-        qty = min(qty, 10000)
+        qty = min(qty, CAP_MAX_QTY_LOW)
     elif entry > 100:
-        qty = min(qty, 5000)
+        qty = min(qty, CAP_MAX_QTY_HIGH)
     return max(1, qty)
 
 

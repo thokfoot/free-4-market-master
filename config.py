@@ -32,6 +32,15 @@ MAX_CONCURRENT = 5              # Max simultaneous open positions
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")
 
+# ===== QUANTITY CAPS =====
+# Maximum position size per trade based on entry price tier.
+# Prevents excessively large positions in low-priced assets.
+# These were previously hardcoded in paper_trader.py calculate_qty().
+# Moved here in v5.9 for easy configuration.
+CAP_MAX_QTY_ULTRA_LOW = 50000   # entry < 0.1  (penny stocks, low-cap crypto)
+CAP_MAX_QTY_LOW       = 10000   # entry < 1    (sub-dollar crypto, cheap stocks)
+CAP_MAX_QTY_HIGH      = 5000    # entry > 100  (expensive stocks like GOOGL, MRF)
+
 # ===== INTRADAY SETTINGS (v5.7+) =====
 INTRADAY_STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "intraday_strategies.csv")
 
