@@ -393,5 +393,53 @@
     "expected_win_rate": 60.59,
     "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
     "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | Target Hit"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-31 01:14:10 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 683.69,
+    "qty": 134,
+    "sl": 676.85,
+    "target": 697.36,
+    "pattern_rank": 5,
+    "expected_win_rate": 63.38,
+    "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "reason": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "signal_indicators": "{\"Volume\": 6303349.0, \"Ret\": 0.002213, \"EMA20\": 677.849297, \"EMA9\": 678.867461, \"2Red\": 0.0, \"SMA50\": 685.700555, \"SMA20\": 674.813739, \"Low\": 681.51001, \"EMA50\": 684.320598, \"Open\": 682.325012, \"High\": 685.119995, \"RSI14\": 55.076392, \"Close\": 683.840027}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-31 01:14:10 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "entry_price": 28110.43,
+    "qty": 3,
+    "sl": 27829.33,
+    "target": 28672.64,
+    "pattern_rank": 6,
+    "expected_win_rate": 62.86,
+    "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "reason": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "signal_indicators": "{\"Volume\": 139751000.0, \"Ret\": 0.002212, \"EMA20\": 27868.161217, \"EMA9\": 27912.04169, \"2Red\": 0.0, \"SMA50\": 28189.130977, \"SMA20\": 27741.636719, \"Low\": 28020.814453, \"EMA50\": 28132.698719, \"Open\": 28055.808594, \"High\": 28168.037109, \"RSI14\": 55.16046, \"Close\": 28115.818359}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-31 01:14:10 IST",
+    "mode": "US",
+    "ticker": "^GSPC",
+    "direction": "LONG",
+    "entry_price": 7442.12,
+    "qty": 12,
+    "sl": 7367.7,
+    "target": 7590.96,
+    "pattern_rank": 16,
+    "expected_win_rate": 62.35,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "signal_indicators": "{\"Volume\": 320621000.0, \"Ret\": 0.001882, \"EMA20\": 7405.644297, \"EMA9\": 7409.114328, \"2Red\": 0.0, \"SMA50\": 7426.554189, \"SMA20\": 7403.30896, \"Low\": 7424.149902, \"EMA50\": 7425.4437, \"Open\": 7427.850098, \"High\": 7448.75, \"RSI14\": 55.618168, \"Close\": 7441.779785}"
   }
 ]
