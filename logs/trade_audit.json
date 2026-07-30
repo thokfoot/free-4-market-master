@@ -537,5 +537,21 @@
     "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
     "reason": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
     "signal_indicators": "{\"EMA20\": 678.396981, \"EMA50\": 684.292339, \"SMA50\": 685.204755, \"EMA9\": 679.813964, \"Close\": 683.599976, \"Low\": 682.900024, \"RSI14\": 54.801846, \"2Red\": 0.0, \"Volume\": 10064291.0, \"High\": 684.349976, \"SMA20\": 675.475238, \"Open\": 683.820007, \"Ret\": -0.000351}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "04:08:47 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 683.6,
+    "exit_price": 676.76,
+    "qty": 130,
+    "pnl": -906.97,
+    "pnl_pct": -1.02,
+    "pattern_rank": 5,
+    "expected_win_rate": 63.38,
+    "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "reason": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)"
   }
 ]
