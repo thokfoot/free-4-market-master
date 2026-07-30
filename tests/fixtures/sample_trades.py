@@ -40,6 +40,7 @@ _BASE_TRADE = {
     "Expected_WinRate": "62.5",
     "Pattern_Factors": "Price>SMA50+2Red",
     "Reason": "#46SW Price>SMA50+2Red",
+    "Signal_Indicators": "",
 }
 
 

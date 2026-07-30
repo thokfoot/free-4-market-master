@@ -247,6 +247,36 @@ def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> lis
         close_price = float(df.iloc[-1]["Close"])
         fired = compute_signal_1h(df, factors, direction)
 
+        # ── Signal Snapshot: Capture indicator values at signal time ──
+        signal_indicators = None
+        if fired:
+            try:
+                # Use the same COMPLETED candle that compute_signal_1h uses
+                # Replicate the candle selection logic:
+                last_candle_time = df.index[-1]
+                candle_end = last_candle_time + pd.Timedelta(hours=1)
+                now_utc = pd.Timestamp.now(tz='UTC')
+                if last_candle_time.tz is not None:
+                    now_utc = now_utc.tz_convert(last_candle_time.tz)
+                else:
+                    now_utc = now_utc.tz_localize(None)
+                snap_idx = -2 if candle_end > now_utc else -1
+                last = df.iloc[snap_idx]
+                
+                inds = {"Close", "Open", "High", "Low", "Volume",
+                        "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
+                        "RSI14", "Ret", "2Red"}
+                snap = {}
+                for col in inds:
+                    if col in last.index and pd.notna(last[col]):
+                        v = last[col]
+                        if hasattr(v, 'iloc'):
+                            v = float(v.iloc[0])
+                        snap[col] = round(float(v), 6)
+                signal_indicators = snap
+            except Exception as e:
+                print(f"[IntradayScanner] Could not capture signal snapshot for {yf_ticker}: {e}")
+
         signals.append({
             "rank": rank,
             "market": market,
@@ -259,6 +289,7 @@ def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> lis
             "close": close_price,
             "fired": fired,
             "reason": "All factors met" if fired else "",
+            "signal_indicators": signal_indicators,
         })
 
     return signals

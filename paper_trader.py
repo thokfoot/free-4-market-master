@@ -147,7 +147,8 @@ COLUMNS = [
     "Date","Time_IST","Mode","Ticker","Direction","TimeFrame",
     "Entry_Price","Qty","SL","Target","MaxHold",
     "Exit_Price","Exit_Time","P&L","P&L_%","Status",
-    "Pattern_Rank","Expected_WinRate","Pattern_Factors","Reason"
+    "Pattern_Rank","Expected_WinRate","Pattern_Factors","Reason",
+    "Signal_Indicators"
 ]
 
 AUDIT_FILE = os.path.join(LOG_DIR, "trade_audit.json")
@@ -188,6 +189,7 @@ def _log_audit_entry(trade: dict):
         "expected_win_rate": trade.get("Expected_WinRate", ""),
         "pattern_factors": trade.get("Pattern_Factors", ""),
         "reason": trade.get("Reason", ""),
+        "signal_indicators": trade.get("Signal_Indicators", ""),
     })
     _save_audit(audit)
     print(f"[Audit] ENTRY logged: {trade['Direction']} {trade['Ticker']} Rank#{trade.get('Pattern_Rank','?')} Expected WR={trade.get('Expected_WinRate','?')}%")
@@ -211,6 +213,7 @@ def _log_audit_exit(trade_row: dict):
         "expected_win_rate": trade_row.get("Expected_WinRate", ""),
         "pattern_factors": trade_row.get("Pattern_Factors", ""),
         "reason": trade_row.get("Reason", ""),
+        "signal_indicators": trade_row.get("Signal_Indicators", ""),
     })
     _save_audit(audit)
     print(f"[Audit] EXIT logged: {trade_row.get('Direction','?')} {trade_row.get('Ticker','?')} P&L={trade_row.get('P&L','?')} Expected WR={trade_row.get('Expected_WinRate','?')}%")
@@ -361,7 +364,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  tf: str = "SWING_1d",
                  sl_override: float = None,
                  tp_override: float = None,
-                 max_hold_override: int = None) -> dict:
+                 max_hold_override: int = None,
+                 signal_indicators: dict = None) -> dict:
     """
     Enter a paper trade.
     
@@ -378,6 +382,9 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         sl_override: Optional SL price (overrides calculated SL)
         tp_override: Optional TP price (overrides calculated TP)
         max_hold_override: Optional max hold in hours/days (overrides calculated)
+        signal_indicators: Optional dict of indicator values at signal time
+            (e.g. {"Close": 676.32, "SMA20": 670.5, "SMA50": 665.0, ...})
+            Saved as JSON string for permanent verifiability.
     
     Returns:
         Trade dict or None if rejected
@@ -480,7 +487,11 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         "Expected_WinRate": expected_win_rate if expected_win_rate else "",
         "Pattern_Factors": pattern_factors if pattern_factors else "",
         "Reason": full_reason,
+        "Signal_Indicators": json.dumps(signal_indicators) if signal_indicators else "",
     }
+    
+    print(f"[Paper] Signal snapshot saved for {ticker} Rank#{pattern_rank}: "
+          f"{json.dumps(signal_indicators) if signal_indicators else 'N/A'}")
     
     # Append to CSV (handle TimeFrame column migration for old rows)
     df_new = pd.DataFrame([trade])[COLUMNS]
@@ -488,7 +499,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     if os.path.exists(PAPER_FILE):
         df_old = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
         # ── Ensure string columns are object dtype (prevent float64 inference) ──
-        str_cols_pt = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors"]
+        str_cols_pt = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors", "Signal_Indicators"]
         for col in str_cols_pt:
             if col in df_old.columns:
                 df_old[col] = df_old[col].astype(object)
@@ -1183,7 +1194,7 @@ def update_trades(ohlc_data: dict) -> list:
     time_str = now.strftime("%H:%M:%S IST")
     
     # ── Ensure string columns are object dtype (not float64) ──
-    str_cols = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors"]
+    str_cols = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors", "Signal_Indicators"]
     for col in str_cols:
         if col in df.columns:
             df[col] = df[col].astype(object)

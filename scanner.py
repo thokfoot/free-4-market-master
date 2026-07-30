@@ -288,6 +288,27 @@ def scan_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
         close_price = float(df.iloc[-1]["Close"])
         fired = compute_signal(df, factors, direction)
         
+        # ── Signal Snapshot: Capture indicator values at signal time ──
+        # This is saved permanently so entries are verifiable forever
+        # (even after yfinance adjusts historical data).
+        signal_indicators = None
+        if fired:
+            try:
+                last = df.iloc[-1]
+                inds = {"Close", "Open", "High", "Low", "Volume",
+                        "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
+                        "RSI14", "Ret", "2Red"}
+                snap = {}
+                for col in inds:
+                    if col in last.index and pd.notna(last[col]):
+                        v = last[col]
+                        if hasattr(v, 'iloc'):
+                            v = float(v.iloc[0])
+                        snap[col] = round(float(v), 6)
+                signal_indicators = snap
+            except Exception as e:
+                print(f"[Scanner] Could not capture signal snapshot for {yf_ticker}: {e}")
+        
         signals.append({
             "rank": rank,
             "market": market,
@@ -300,6 +321,7 @@ def scan_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
             "close": close_price,
             "fired": fired,
             "reason": "All factors met" if fired else "",
+            "signal_indicators": signal_indicators,
         })
     
     return signals

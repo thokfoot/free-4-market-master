@@ -476,6 +476,7 @@ def run_swing_scan() -> dict:
             entry_price=entry["close"], reason=entry.get("factors", "")[:60],
             pattern_rank=entry.get("rank"), expected_win_rate=entry.get("win_rate"),
             pattern_factors=entry.get("factors", ""), tf="SWING_1d",
+            signal_indicators=entry.get("signal_indicators"),
         )
         if trade:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
@@ -601,6 +602,7 @@ def run_intraday_scan() -> dict:
             entry_price=entry["close"], reason=entry.get("factors", "")[:60],
             pattern_rank=entry.get("rank"), expected_win_rate=entry.get("win_rate"),
             pattern_factors=entry.get("factors", ""), tf="INTRADAY_1h",
+            signal_indicators=entry.get("signal_indicators"),
         )
         if trade:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
