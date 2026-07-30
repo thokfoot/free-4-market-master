@@ -29,6 +29,14 @@ TP_PCT = 0.04                   # 4% take profit
 MAX_HOLD_DAYS = 5               # Max hold days per trade (matches backtest)
 MAX_CONCURRENT = 5              # Max simultaneous open positions
 
+# ===== CONSECUTIVE LOSS GUARD =====
+# Prevents re-entering the same ticker+strategy after repeated losses.
+# If a strategy loses N times consecutively on the same ticker, skip it.
+# Example: DIA #36 entered 4 times and lost each time — after 3 losses,
+# the 4th entry is blocked until cooldown expires.
+MAX_CONSECUTIVE_LOSSES = 3        # Max consecutive losses before cooldown
+CONSECUTIVE_LOSS_COOLDOWN_H = 24   # Cooldown in hours after hitting max consecutive losses
+
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")
 

@@ -460,7 +460,10 @@ class TestGeneratePortfolioReport:
         assert len(msgs) == 1
 
         # Now corrupt the P&L values in the CSV
+        # Convert to object dtype first to prevent pandas LossySetitemError
         df = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
+        for col in ["P&L", "P&L_%"]:
+            df[col] = df[col].astype(object)
         df.loc[0, "P&L"] = None
         df.loc[0, "P&L_%"] = "nan"
         df.to_csv(PAPER_FILE, index=False)

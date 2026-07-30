@@ -416,7 +416,10 @@ def test_zero_pnl_charges_only(test_env):
     qty = t["Qty"]
 
     # Manually set Exit_Price = Entry_Price and close the trade
+    # Convert string columns to object dtype first to prevent pandas LossySetitemError
     df = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
+    for col in ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason"]:
+        df[col] = df[col].astype(object)
     df.at[0, "Exit_Price"] = entry
     df.at[0, "Exit_Time"] = "10:30:00 IST"
     df.at[0, "P&L"] = round(0 - (entry * qty * 0.0002), 2)  # gross=0, net=-charges
