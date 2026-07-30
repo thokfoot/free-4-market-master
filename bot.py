@@ -21,6 +21,7 @@ from config import (
     CAPITAL, CAPITAL_BY_MARKET, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
     YF_PERIOD, YF_INTERVAL, get_region, get_market_status,
     INTRADAY_PERIOD, INTRADAY_INTERVAL, INTRADAY_CAPITAL,
+    GAP_DOWN_MAX_SIGNALS_PER_RUN, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
 from scanner_intraday import (
@@ -666,40 +667,52 @@ def run_gap_down_scan() -> dict:
         closed_msgs = update_trades(ohlc_data)
         print(f"[GapDown] Closed: {len(closed_msgs)}")
         
-        # 3. Enter new trades using SL/TP overrides
-        # Sort: Strategy A (75% WR) before Strategy B (70% WR) for priority
-        all_signals.sort(key=lambda s: (
-            0 if s["strategy"] == "gap_down_52wk_low" else 1
-        ))
-        for s in all_signals:
-            trade = enter_trade(
-                mode="INDIAN",
-                ticker=s["ticker"],
-                direction="LONG",
-                entry_price=s["entry_price"],
-                reason=s["strategy"],
-                pattern_rank=None,  # No CSV rank for gap-down
-                expected_win_rate=75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
-                pattern_factors=f"f_gap_down + f_52wk_low" if s["strategy"] == "gap_down_52wk_low" else "f_gap_down",
-                tf="GAP_DOWN_1m",
-                sl_override=s["sl"],
-                tp_override=s["tp"],
-                max_hold_override=s["max_hold_minutes"],
-            )
-            if trade:
-                entries.append({
-                    "ticker": s["ticker"],
-                    "direction": "LONG",
-                    "close": s["entry_price"],
-                    "qty": trade["Qty"],
-                    "sl": trade["SL"],
-                    "target": trade["Target"],
-                    "rank": s.get("strategy"),
-                    "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
-                })
-                # Also add to current_prices for live P&L
-                if s["ticker"] not in current_prices:
-                    current_prices[s["ticker"]] = s["entry_price"]
+        # ── CRASH DETECTOR ──
+        # If N+ stocks gap down simultaneously, it's a market-wide event.
+        # In a crash, gaps DON'T fill — every entry would hit SL.
+        # Skip ALL entries until the next scan cycle.
+        if len(all_signals) >= GAP_DOWN_MAX_SIGNALS_PER_RUN:
+            print(f"[GapDown] ⚠️ MARKET-WIDE EVENT: {len(all_signals)} signals > "
+                  f"threshold ({GAP_DOWN_MAX_SIGNALS_PER_RUN}). "
+                  f"Skipping ALL entries to prevent crash losses.")
+            log_error(f"GapDown crash: {len(all_signals)} signals >= {GAP_DOWN_MAX_SIGNALS_PER_RUN}, skipped all entries")
+        else:
+            # 3. Enter new trades using SL/TP overrides
+            # Sort: Strategy A (75% WR) before Strategy B (70% WR) for priority
+            # Assign rank IDs for strategy_stats tracking + consecutive loss guard
+            all_signals.sort(key=lambda s: (
+                0 if s["strategy"] == "gap_down_52wk_low" else 1
+            ))
+            for s in all_signals:
+                rank_id = GAP_DOWN_RANK_A if s["strategy"] == "gap_down_52wk_low" else GAP_DOWN_RANK_B
+                trade = enter_trade(
+                    mode="INDIAN",
+                    ticker=s["ticker"],
+                    direction="LONG",
+                    entry_price=s["entry_price"],
+                    reason=s["strategy"],
+                    pattern_rank=rank_id,  # 997 for A, 998 for B — enables stats + loss guard
+                    expected_win_rate=75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                    pattern_factors=f"f_gap_down + f_52wk_low" if s["strategy"] == "gap_down_52wk_low" else "f_gap_down",
+                    tf="GAP_DOWN_1m",
+                    sl_override=s["sl"],
+                    tp_override=s["tp"],
+                    max_hold_override=s["max_hold_minutes"],
+                )
+                if trade:
+                    entries.append({
+                        "ticker": s["ticker"],
+                        "direction": "LONG",
+                        "close": s["entry_price"],
+                        "qty": trade["Qty"],
+                        "sl": trade["SL"],
+                        "target": trade["Target"],
+                        "rank": rank_id,
+                        "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                    })
+                    # Also add to current_prices for live P&L
+                    if s["ticker"] not in current_prices:
+                        current_prices[s["ticker"]] = s["entry_price"]
     except Exception as e:
         log_error(f"GapDown scan failed: {e}")
         print(f"[FATAL] GapDown scan: {e}")

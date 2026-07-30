@@ -91,6 +91,16 @@ GAP_DOWN_A_TP_PCT = 0.010         # 1.0% take profit
 GAP_DOWN_B_SL_PCT = 0.005        # 0.5% stop loss
 GAP_DOWN_B_TP_PCT = 0.010         # 1.0% take profit
 
+# Gap-down crash protection: if N+ stocks gap down simultaneously,
+# it's a market-wide event (budget, election, global crash).
+# Skip ALL entries in that run to prevent repeated SL hits.
+GAP_DOWN_MAX_SIGNALS_PER_RUN = 8
+
+# Strategy rank IDs for stats tracking and loss guard
+# These go in Pattern_Rank column so strategy_stats and consecutive_loss_guard work.
+GAP_DOWN_RANK_A = 997   # f_gap_down + f_52wk_low
+GAP_DOWN_RANK_B = 998   # f_gap_down (single)
+
 # Indian stock universe for gap-down scanning
 # NIFTY 50 + NIFTY NEXT 50 + BANKNIFTY = 97 tickers
 INDIAN_TICKERS = [
