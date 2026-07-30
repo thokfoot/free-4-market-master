@@ -72,6 +72,55 @@ INTRADAY_SLIPPAGE_PCT = {
     "INDIAN": 0.0,
 }
 
+# ===== GAP-DOWN STRATEGY (Indian 1m Intraday, v5.9+) =====
+# Two mean-reversion strategies for Indian stocks:
+#   A: f_gap_down + f_52wk_low → SL 0.3%, TP 1.0%, 5min hold
+#   B: f_gap_down (single)     → SL 0.5%, TP 1.0%, 5min hold
+# Data: 1m OHLCV via yf.Ticker().history() (NOT yf.download())
+
+# Data download settings
+GAP_DOWN_PERIOD_DAYS = 7        # Days of 1m data to download
+GAP_DOWN_MIN_DATA = 60           # Minimum 1m candles needed for factor calc
+GAP_DOWN_MAX_HOLD_MINUTES = 5    # Max hold time per trade
+
+# Strategy A: f_gap_down + f_52wk_low (higher confidence)
+GAP_DOWN_A_SL_PCT = 0.003        # 0.3% stop loss
+GAP_DOWN_A_TP_PCT = 0.010         # 1.0% take profit
+
+# Strategy B: f_gap_down single factor (more frequent)
+GAP_DOWN_B_SL_PCT = 0.005        # 0.5% stop loss
+GAP_DOWN_B_TP_PCT = 0.010         # 1.0% take profit
+
+# Indian stock universe for gap-down scanning
+# NIFTY 50 + NIFTY NEXT 50 + BANKNIFTY = 97 tickers
+INDIAN_TICKERS = [
+    # NIFTY 50
+    "RELIANCE.NS", "TCS.NS", "INFY.NS", "HDFCBANK.NS", "ICICIBANK.NS",
+    "SBIN.NS", "BHARTIARTL.NS", "ITC.NS", "LT.NS", "KOTAKBANK.NS",
+    "BAJFINANCE.NS", "HINDUNILVR.NS", "ASIANPAINT.NS", "AXISBANK.NS",
+    "MARUTI.NS", "TITAN.NS", "SUNPHARMA.NS", "ULTRACEMCO.NS", "WIPRO.NS",
+    "NTPC.NS", "HCLTECH.NS", "POWERGRID.NS", "ONGC.NS", "M&M.NS",
+    "BAJAJFINSV.NS", "ADANIENT.NS", "ADANIPORTS.NS", "COALINDIA.NS",
+    "HDFCLIFE.NS", "SBILIFE.NS", "TATASTEEL.NS", "JSWSTEEL.NS",
+    "HINDALCO.NS", "GRASIM.NS", "CIPLA.NS", "DRREDDY.NS", "DIVISLAB.NS",
+    "EICHERMOT.NS", "BAJAJ-AUTO.NS", "HEROMOTOCO.NS", "BRITANNIA.NS",
+    "NESTLEIND.NS", "TATACONSUM.NS", "APOLLOHOSP.NS", "BPCL.NS", "UPL.NS",
+    "TECHM.NS", "INDUSINDBK.NS", "TATAMOTORS.NS",
+    # NIFTY NEXT 50
+    "VEDL.NS", "SAIL.NS", "NMDC.NS", "BANKBARODA.NS", "PNB.NS", "CANBK.NS",
+    "IDFCFIRSTB.NS", "FEDERALBNK.NS", "AUBANK.NS", "BANDHANBNK.NS",
+    "INDIGO.NS", "ZOMATO.NS", "DMART.NS", "TRENT.NS", "ABFRL.NS",
+    "PIDILITIND.NS", "BERGEPAINT.NS", "CUMMINSIND.NS", "ASHOKLEY.NS",
+    "MOTHERSON.NS", "TVSMOTOR.NS", "BAJAJHLDNG.NS", "CHOLAFIN.NS",
+    "MUTHOOTFIN.NS", "PFC.NS", "RECLTD.NS", "IRCTC.NS", "IRFC.NS", "HAL.NS",
+    "BEL.NS", "BDL.NS", "MAZDOCK.NS", "COCHINSHIP.NS", "RVNL.NS", "IDEA.NS",
+    "TATAPOWER.NS", "ADANIGREEN.NS", "ADANIENSOL.NS", "SUZLON.NS",
+    "KPITTECH.NS", "PERSISTENT.NS", "COFORGE.NS", "MPHASIS.NS", "LTTS.NS",
+    "TATAELXSI.NS", "OFSS.NS", "LTIM.NS", "POLYCAB.NS", "KEI.NS",
+    # Indices
+    "^NSEI", "^NSEBANK",
+]
+
 # ===== INTRADAY SETTINGS (v5.7+) =====
 INTRADAY_STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "intraday_strategies.csv")
 

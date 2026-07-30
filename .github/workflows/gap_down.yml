@@ -1,0 +1,39 @@
+name: Gap-Down 1m Scan
+
+on:
+  schedule:
+    # Indian market hours: 9:15 AM to 3:30 PM IST = 03:45 to 10:00 UTC
+    # Runs every 5 minutes during 3-10 UTC (covers slightly wider range)
+    - cron: '*/5 3-10 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  gap-down-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install yfinance pandas pytz requests
+
+      - name: Run Gap-Down Scan
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python bot.py --mode=gapdown
+
+      - name: Commit logs
+        run: |
+          git config --local user.email "bot@gapdown.v5"
+          git config --local user.name "GapDown Bot"
+          git add logs/
+          git diff --staged --quiet || git commit -m "gapdown scan $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
+
+    concurrency:
+      group: gapdown-scan-${{ github.ref }}
+      cancel-in-progress: false

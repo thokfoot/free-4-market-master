@@ -1,0 +1,234 @@
+"""
+FREE 3-Market v5.9 — GAP-DOWN INTRADAY SCANNER
+================================================
+Scans Indian stocks for gap-down mean reversion signals.
+2 strategies:
+  A: f_gap_down + f_52wk_low (near 252-period low) → SL 0.3%, TP 1.0%, 5min hold
+  B: f_gap_down (single factor)                  → SL 0.5%, TP 1.0%, 5min hold
+
+Data: 1-minute OHLCV via yf.Ticker().history() (NOT yf.download())
+Holding: 5 minutes per trade
+Market: Indian (NIFTY 50 + NEXT 50 + BANKNIFTY = 97 tickers)
+
+Shift-1 rule: signal based on PREVIOUS candle's factors.
+Entry at NEXT candle's open.
+"""
+
+import yfinance as yf
+import pandas as pd
+import time
+from datetime import datetime, timedelta
+import pytz
+from config import (
+    INDIAN_TICKERS, TICKER_MAP, GAP_DOWN_PERIOD_DAYS,
+    GAP_DOWN_MIN_DATA, GAP_DOWN_MAX_HOLD_MINUTES,
+    GAP_DOWN_A_SL_PCT, GAP_DOWN_A_TP_PCT,
+    GAP_DOWN_B_SL_PCT, GAP_DOWN_B_TP_PCT,
+)
+
+IST = pytz.timezone("Asia/Kolkata")
+
+
+def download_1m_data(ticker: str, period_days: int = None) -> pd.DataFrame:
+    """
+    Download 1-minute OHLCV data using yf.Ticker().history().
+    
+    CRITICAL: Uses Ticker().history() NOT yf.download() because
+    yf.download() shares internal state across calls and can return
+    wrong prices (cross-contamination bug).
+    """
+    if period_days is None:
+        period_days = GAP_DOWN_PERIOD_DAYS
+    try:
+        t = yf.Ticker(ticker)
+        end = datetime.now()
+        start = end - timedelta(days=period_days)
+        df = t.history(start=start.strftime("%Y-%m-%d"),
+                       end=end.strftime("%Y-%m-%d"),
+                       interval="1m", auto_adjust=True)
+        if df is None or df.empty:
+            return None
+        
+        # Flatten MultiIndex columns if present
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
+        
+        # Drop duplicates and sort
+        df = df[~df.index.duplicated(keep='first')]
+        df = df.sort_index()
+        
+        return df
+    except Exception as e:
+        print(f"[GapDown] Download error {ticker}: {e}")
+        return None
+
+
+def calculate_factors(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Calculate gap-down and price-level factors for Indian 1m data.
+    
+    Factors:
+      - ind_gap_pct: (open / prev_close - 1) * 100
+      - f_gap_down: 1 if gap_pct < -0.5 else 0
+      - f_52wk_low: 1 if close <= 252-period low * 1.01 else 0
+      
+    NOTE: On 1m data, 252 periods = ~5.5 hours, NOT actual 52 weeks.
+    This captures 'near the recent intraday low' as an oversold signal.
+    """
+    df = df.copy()
+    
+    # Gap calculation
+    df['prev_close'] = df['Close'].shift(1)
+    df['ind_gap_pct'] = (df['Open'] / df['prev_close'] - 1) * 100
+    
+    # f_gap_down: open more than 0.5% below previous close
+    df['f_gap_down'] = (df['ind_gap_pct'] < -0.5).astype(int)
+    
+    # f_52wk_low: close within 1% of 252-period low
+    # Uses available data up to 252 periods
+    lookback = min(len(df), 252)
+    if lookback >= 20:
+        df['low_252'] = df['Close'].rolling(window=lookback, min_periods=lookback).min()
+        df['f_52wk_low'] = (df['Close'] <= df['low_252'] * 1.01).astype(int)
+    else:
+        df['f_52wk_low'] = 0
+    
+    return df
+
+
+def check_strategy_signals(ticker: str, factors_df: pd.DataFrame) -> list:
+    """
+    Check if either gap-down strategy triggers on the latest data.
+    
+    Shift-1 rule (prevents look-ahead bias):
+      - Candle N: factors calculated (f_gap_down, f_52wk_low)
+      - Candle N+1: ENTER at open if Candle N's factors satisfy conditions
+    
+    Returns list of signal dicts:
+      [{ticker, strategy, direction, entry_price, sl, tp, gap_pct, timestamp, max_hold_minutes}]
+    """
+    if factors_df is None or len(factors_df) < 3:
+        return []
+    
+    prev = factors_df.iloc[-2]   # Previous completed candle factors
+    curr = factors_df.iloc[-1]   # Current candle (use its open for entry)
+    
+    signals = []
+    entry_price = float(curr['Open'])
+    
+    # Strategy A: f_gap_down + f_52wk_low (near 252-period low)
+    if prev['f_gap_down'] == 1 and prev['f_52wk_low'] == 1:
+        signals.append({
+            'ticker': ticker,
+            'strategy': 'gap_down_52wk_low',
+            'direction': 'LONG',
+            'entry_price': entry_price,
+            'sl': round(entry_price * (1 - GAP_DOWN_A_SL_PCT), 2),
+            'tp': round(entry_price * (1 + GAP_DOWN_A_TP_PCT), 2),
+            'gap_pct': round(float(prev['ind_gap_pct']), 2),
+            'timestamp': curr.name,
+            'max_hold_minutes': GAP_DOWN_MAX_HOLD_MINUTES,
+        })
+    
+    # Strategy B: f_gap_down (single factor — any gap down >0.5%)
+    elif prev['f_gap_down'] == 1:
+        signals.append({
+            'ticker': ticker,
+            'strategy': 'gap_down_single',
+            'direction': 'LONG',
+            'entry_price': entry_price,
+            'sl': round(entry_price * (1 - GAP_DOWN_B_SL_PCT), 2),
+            'tp': round(entry_price * (1 + GAP_DOWN_B_TP_PCT), 2),
+            'gap_pct': round(float(prev['ind_gap_pct']), 2),
+            'timestamp': curr.name,
+            'max_hold_minutes': GAP_DOWN_MAX_HOLD_MINUTES,
+        })
+    
+    return signals
+
+
+def scan_gap_down_ticker(ticker: str) -> list:
+    """
+    Full scan pipeline for one Indian ticker:
+    1. Download 1m data
+    2. Calculate factors
+    3. Check signals
+    4. Return entries (or empty list)
+    """
+    df = download_1m_data(ticker, GAP_DOWN_PERIOD_DAYS)
+    if df is None or len(df) < GAP_DOWN_MIN_DATA:
+        return []
+    
+    factors = calculate_factors(df)
+    signals = check_strategy_signals(ticker, factors)
+    return signals
+
+
+def scan_all_gap_down(progress_interval: int = 10) -> list:
+    """
+    Scan ALL Indian tickers for gap-down signals.
+    Runs the full pipeline on each ticker sequentially.
+    
+    Args:
+        progress_interval: Print progress every N tickers
+        
+    Returns:
+        List of signal dicts with entry params
+    """
+    all_entries = []
+    tickers = INDIAN_TICKERS
+    total = len(tickers)
+    
+    print(f"[GapDown] Scanning {total} Indian tickers for gap-down signals...")
+    
+    for i, ticker in enumerate(tickers):
+        signals = scan_gap_down_ticker(ticker)
+        for s in signals:
+            all_entries.append(s)
+            print(f"[GapDown] SIGNAL: {s['ticker']} {s['strategy']} "
+                  f"@{s['entry_price']} SL={s['sl']} TP={s['tp']} "
+                  f"Gap={s['gap_pct']}%")
+        
+        # Rate limit: 0.5s between tickers
+        time.sleep(0.5)
+        
+        # Clear yfinance shared caches between tickers
+        try:
+            if hasattr(yf, '_ERRORS') and hasattr(yf.shared, '_ERRORS'):
+                yf.shared._ERRORS.clear()
+            if hasattr(yf, '_PRICES') and hasattr(yf.shared, '_PRICES'):
+                yf.shared._PRICES.clear()
+        except:
+            pass
+        
+        # Progress every N tickers
+        if (i + 1) % progress_interval == 0:
+            print(f"[GapDown] Progress: {i+1}/{total} tickers, "
+                  f"{len(all_entries)} signals found")
+    
+    print(f"[GapDown] Complete: {total}/{total} tickers, {len(all_entries)} signals")
+    return all_entries
+
+
+def get_current_ohlc(ticker: str) -> dict:
+    """
+    Get current day's intraday OHLC for an Indian ticker.
+    Used by update_trades() for SL/TP checking.
+    
+    Returns:
+        {"close": c, "high": h, "low": l} or None
+    """
+    try:
+        df = download_1m_data(ticker, period_days=1)
+        if df is not None and len(df) >= 3:
+            last = df.iloc[-1]
+            daily_high = float(df['High'].max())
+            daily_low = float(df['Low'].min())
+            return {
+                "close": float(last['Close']),
+                "high": daily_high,
+                "low": daily_low,
+            }
+    except Exception as e:
+        print(f"[GapDown] OHLC error {ticker}: {e}")
+    return None

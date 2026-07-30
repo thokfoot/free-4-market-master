@@ -27,6 +27,9 @@ from scanner_intraday import (
     load_intraday_strategies, unique_tickers as intraday_ut,
     compute_indicators_1h, scan_intraday_strategies, get_best_intraday_entries,
 )
+from scanner_gap_down import (
+    scan_all_gap_down, get_current_ohlc,
+)
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
     generate_portfolio_report, get_strategy_stats,
@@ -620,8 +623,112 @@ def run_intraday_scan() -> dict:
     }
 
 
+def run_gap_down_scan() -> dict:
+    """Run the GAP-DOWN 1m intraday scan.
+    
+    Scans all 97 Indian tickers for gap-down mean reversion signals.
+    Enters trades using strategy-specific SL/TP and 5-minute holding period.
+    Checks exits for all open GAP_DOWN_1m positions.
+    """
+    start_time = time.time()
+    now = now_ist()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
+    
+    print(f"\n{'='*60}")
+    print(f"  GAP-DOWN SCAN v5.9 — 1m Intraday")
+    print(f"  {date_str} {time_str}")
+    print(f"{'='*60}")
+    
+    # 1. Scan all Indian tickers for gap-down signals
+    entries = []
+    scan_errors = 0
+    try:
+        all_signals = scan_all_gap_down(progress_interval=20)
+        print(f"[GapDown] Total signals found: {len(all_signals)}")
+        
+        # 2. Check exits for open GAP_DOWN_1m positions FIRST
+        # Get current OHLC data for all tickers that have open gap-down trades
+        portfolio = load_portfolio()
+        gap_down_tickers = []
+        for pos in portfolio.get("open_positions", []):
+            if pos.get("TimeFrame") == "GAP_DOWN_1m":
+                gap_down_tickers.append(pos["Ticker"])
+        
+        ohlc_data = {}
+        current_prices = {}
+        for tkr in gap_down_tickers:
+            ohlc = get_current_ohlc(tkr)
+            if ohlc:
+                ohlc_data[tkr] = ohlc
+                current_prices[tkr] = ohlc["close"]
+        
+        closed_msgs = update_trades(ohlc_data)
+        print(f"[GapDown] Closed: {len(closed_msgs)}")
+        
+        # 3. Enter new trades using SL/TP overrides
+        # Sort: Strategy A (75% WR) before Strategy B (70% WR) for priority
+        all_signals.sort(key=lambda s: (
+            0 if s["strategy"] == "gap_down_52wk_low" else 1
+        ))
+        for s in all_signals:
+            trade = enter_trade(
+                mode="INDIAN",
+                ticker=s["ticker"],
+                direction="LONG",
+                entry_price=s["entry_price"],
+                reason=s["strategy"],
+                pattern_rank=None,  # No CSV rank for gap-down
+                expected_win_rate=75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                pattern_factors=f"f_gap_down + f_52wk_low" if s["strategy"] == "gap_down_52wk_low" else "f_gap_down",
+                tf="GAP_DOWN_1m",
+                sl_override=s["sl"],
+                tp_override=s["tp"],
+                max_hold_override=s["max_hold_minutes"],
+            )
+            if trade:
+                entries.append({
+                    "ticker": s["ticker"],
+                    "direction": "LONG",
+                    "close": s["entry_price"],
+                    "qty": trade["Qty"],
+                    "sl": trade["SL"],
+                    "target": trade["Target"],
+                    "rank": s.get("strategy"),
+                    "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                })
+                # Also add to current_prices for live P&L
+                if s["ticker"] not in current_prices:
+                    current_prices[s["ticker"]] = s["entry_price"]
+    except Exception as e:
+        log_error(f"GapDown scan failed: {e}")
+        print(f"[FATAL] GapDown scan: {e}")
+        traceback.print_exc()
+        scan_errors += 1
+        closed_msgs = []
+        current_prices = {}
+        all_signals = []
+    
+    print(f"[GapDown] New entries: {len(entries)}")
+    
+    return {
+        "mode": "GAPDOWN",
+        "ticker_data": {},
+        "market_status": {},
+        "current_prices": current_prices,
+        "ohlc_data": {},
+        "all_signals": all_signals,
+        "fired_signals": [{"fired": True} for _ in all_signals],
+        "best_entries": [],
+        "entries": entries,
+        "closed_msgs": closed_msgs,
+        "scan_errors": scan_errors,
+        "duration": time.time() - start_time,
+    }
+
+
 def main():
-    """Main bot entry point. Supports --mode swing (default), intraday, or both."""
+    """Main bot entry point. Supports --mode swing (default), intraday, both, or gapdown."""
     start_time = time.time()
     now = now_ist()
     date_str = now.strftime("%Y-%m-%d")
@@ -640,6 +747,8 @@ def main():
             mode = "both"
         elif mode_arg in ("swing", "daily"):
             mode = "swing"
+        elif mode_arg in ("gapdown", "gd", "gap"):
+            mode = "gapdown"
     
     print(f"\n{'='*60}")
     print(f"  FREE 3-Market v5.7 PAPER TRADE BOT")
@@ -664,6 +773,15 @@ def main():
         except Exception as e:
             log_error(f"Intraday scan failed: {e}")
             print(f"[FATAL] Intraday scan: {e}")
+            traceback.print_exc()
+    
+    if mode == "gapdown":
+        try:
+            sr = run_gap_down_scan()
+            scan_results.append(sr)
+        except Exception as e:
+            log_error(f"GapDown scan failed: {e}")
+            print(f"[FATAL] GapDown scan: {e}")
             traceback.print_exc()
     
     if not scan_results:

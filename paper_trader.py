@@ -248,7 +248,8 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         Slipped price (always worse for the trader).
         When slippage is 0 (default), returns price unchanged.
     """
-    is_intraday = (tf == "INTRADAY_1h")
+    # GAP_DOWN_1m is intraday — use intraday slippage rates
+    is_intraday = (tf in ("INTRADAY_1h", "GAP_DOWN_1m"))
     slip_pct = (
         INTRADAY_SLIPPAGE_PCT.get(mode, 0.0)
         if is_intraday else
@@ -333,7 +334,7 @@ def save_portfolio(port: dict):
 def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
     """Calculate position size based on risk per trade (1% of market capital)."""
     port = load_portfolio()
-    if tf == "INTRADAY_1h":
+    if tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
         mkt_cap = port.get("capital_by_market", {}).get("INTRADAY", INTRADAY_CAPITAL)
         risk_amt = mkt_cap * RISK_PER_TRADE
     else:
@@ -357,7 +358,10 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  reason: str, pattern_rank: int = None,
                  expected_win_rate: float = None,
                  pattern_factors: str = None,
-                 tf: str = "SWING_1d") -> dict:
+                 tf: str = "SWING_1d",
+                 sl_override: float = None,
+                 tp_override: float = None,
+                 max_hold_override: int = None) -> dict:
     """
     Enter a paper trade.
     
@@ -370,7 +374,10 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         pattern_rank: Rank from CSV
         expected_win_rate: Expected win rate from CSV
         pattern_factors: Full factor string
-        tf: "SWING_1d" or "INTRADAY_1h"
+        tf: "SWING_1d", "INTRADAY_1h", or "GAP_DOWN_1m"
+        sl_override: Optional SL price (overrides calculated SL)
+        tp_override: Optional TP price (overrides calculated TP)
+        max_hold_override: Optional max hold in hours/days (overrides calculated)
     
     Returns:
         Trade dict or None if rejected
@@ -382,8 +389,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     # Check max concurrent (separate limits for swing vs intraday)
     open_positions = portfolio.get("open_positions", [])
-    if tf == "INTRADAY_1h":
-        intraday_open = [p for p in open_positions if p.get("TimeFrame") == "INTRADAY_1h"]
+    if tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
+        intraday_open = [p for p in open_positions if p.get("TimeFrame") in ("INTRADAY_1h", "GAP_DOWN_1m")]
         if len(intraday_open) >= INTRADAY_MAX_CONCURRENT:
             print(f"[Paper] INTRADAY MAX CONCURRENT ({INTRADAY_MAX_CONCURRENT}), skip {ticker}")
             return None
@@ -406,7 +413,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
             return None
     
     # Calculate SL/TP based on direction AND timeframe
-    is_intraday = (tf == "INTRADAY_1h")
+    # Use sl_override/tp_override if provided (gap-down strategies set their own)
+    is_intraday = (tf in ("INTRADAY_1h", "GAP_DOWN_1m"))
     if is_intraday:
         sl_pct = INTRADAY_SL_PCT.get(mode, 0.01)
         tp_pct = INTRADAY_TP_PCT.get(mode, 0.02)
@@ -416,12 +424,27 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         tp_pct = TP_PCT
         max_hold = MAX_HOLD_DAYS
     
-    if direction == "LONG":
+    # Override SL/TP if provided (used by gap-down strategies)
+    if sl_override is not None:
+        sl = round_price(sl_override)
+    elif direction == "LONG":
         sl = round_price(entry_price * (1 - sl_pct))
-        target = round_price(entry_price * (1 + tp_pct))
     else:  # SHORT
         sl = round_price(entry_price * (1 + sl_pct))
+    
+    if tp_override is not None:
+        target = round_price(tp_override)
+    elif direction == "LONG":
+        target = round_price(entry_price * (1 + tp_pct))
+    else:  # SHORT
         target = round_price(entry_price * (1 - tp_pct))
+    
+    # Override max_hold if provided (gap-down: 5 minutes)
+    if max_hold_override is not None:
+        max_hold = max_hold_override
+    
+    # For GAP_DOWN_1m, max_hold is stored in MINUTES (not hours/days)
+    # update_trades() handles this via the TimeFrame check
     
     # ── Apply entry slippage for realistic fills ──
     actual_entry = _apply_slippage(entry_price, direction, "ENTRY", mode, tf)
@@ -1213,7 +1236,14 @@ def update_trades(ohlc_data: dict) -> list:
         trade_max_hold = int(mh) if pd.notna(mh) else MAX_HOLD_DAYS
         is_expired = False
         
-        if trade_tf == "INTRADAY_1h":
+        if trade_tf == "GAP_DOWN_1m":
+            # 5-minute holding period for gap-down trades
+            minutes_held = (now - entry_date).total_seconds() / 60
+            if minutes_held >= trade_max_hold:
+                exit_price = cmp
+                exit_reason = f"Expiry {int(minutes_held)}m"
+                is_expired = True
+        elif trade_tf == "INTRADAY_1h":
             hours_held = (now - entry_date).total_seconds() / 3600
             if hours_held >= trade_max_hold:
                 exit_price = cmp
