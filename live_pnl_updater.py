@@ -382,7 +382,13 @@ def process_open_trades() -> tuple:
             charges = round(entry * qty * charge_rate, 2)
             pnl -= charges
             pnl_pct -= charge_rate * 100
-            
+
+            # ── NaN/Inf Guard: prevent NaN/Inf P&L from corrupting CSV ──
+            if not math.isfinite(pnl):
+                print(f"[Live] CRITICAL: NaN/Inf P&L for {ticker}! pnl={pnl}, entry={entry}, exit={exit_price}, qty={qty}")
+                pnl = 0.0
+                pnl_pct = 0.0
+
             # Update CSV
             df.at[idx, "Exit_Price"] = round_price(exit_price)
             df.at[idx, "Exit_Time"] = time_str

@@ -1322,6 +1322,12 @@ def update_trades(ohlc_data: dict) -> list:
             pnl -= charges
             pnl_pct -= charge_rate * 100
             
+            # ── NaN/Inf Guard: prevent NaN/Inf P&L from corrupting CSV ──
+            if not math.isfinite(pnl):
+                print(f"[Paper] CRITICAL: NaN/Inf P&L for {ticker}! pnl={pnl}, entry={entry}, exit={exit_price}, qty={row['Qty']}")
+                pnl = 0.0
+                pnl_pct = 0.0
+            
             df.at[idx, "Exit_Price"] = round_price(exit_price)
             df.at[idx, "Exit_Time"] = time_str
             df.at[idx, "P&L"] = round(pnl, 2)
