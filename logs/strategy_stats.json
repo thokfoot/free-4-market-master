@@ -54,5 +54,19 @@
     "wins": 1,
     "losses": 0,
     "total_pnl": 1696.83
+  },
+  "5": {
+    "rank": 5,
+    "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -934.88
+  },
+  "6": {
+    "rank": 6,
+    "factors": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -860.17
   }
 }
