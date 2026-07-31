@@ -65,15 +65,15 @@
   "6": {
     "rank": 6,
     "factors": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)",
-    "wins": 0,
+    "wins": 1,
     "losses": 2,
-    "total_pnl": -1720.03
+    "total_pnl": -1068.1999999999998
   },
   "31": {
     "rank": 31,
     "factors": "#31ID Price>SMA50+EMA20<EMA50+Close<Open | Expiry 6h",
-    "wins": 0,
+    "wins": 1,
     "losses": 2,
-    "total_pnl": -35.599999999999994
+    "total_pnl": 429.75
   }
 }
