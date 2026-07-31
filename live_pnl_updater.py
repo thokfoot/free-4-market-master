@@ -201,6 +201,9 @@ def load_portfolio() -> dict:
 
 def save_portfolio(port: dict):
     os.makedirs(LOG_DIR, exist_ok=True)
+    # Recalculate total_capital from actual capital_by_market (mirrors paper_trader.py fix)
+    # Prevents stale total_capital after live exits update capital_by_market.
+    port["total_capital"] = sum(port.get("capital_by_market", {}).values())
     with open(PORTFOLIO_FILE, "w") as f:
         json.dump(port, f, indent=2)
 
