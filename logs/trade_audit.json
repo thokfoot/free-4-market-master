@@ -944,5 +944,21 @@
     "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
     "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open",
     "signal_indicators": "{\"Volume\": 0.0, \"EMA20\": 11966.062376, \"RSI14\": 43.587381, \"Low\": 11231.787109, \"2Red\": 0.0, \"EMA9\": 11511.230674, \"EMA50\": 12086.272196, \"SMA50\": 12738.933203, \"High\": 11885.740234, \"SMA20\": 12054.971973, \"Ret\": 0.011433, \"Close\": 11432.22168, \"Open\": 11715.462891}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "04:39:55 IST",
+    "mode": "US",
+    "ticker": "^GSPC",
+    "direction": "LONG",
+    "entry_price": 7469.62,
+    "exit_price": 7489.52,
+    "qty": 11,
+    "pnl": 202.47,
+    "pnl_pct": 0.25,
+    "pattern_rank": 16,
+    "expected_win_rate": 62.35,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h"
   }
 ]
