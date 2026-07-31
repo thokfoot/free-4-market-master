@@ -1290,6 +1290,20 @@ def update_trades(ohlc_data: dict) -> list:
         # still closed), the intraday low/high is pre-entry price action that could
         # NOT have stopped us out. Skip SL/TP — hold until the next session produces
         # data or MaxHold expiry closes the position. (Matches live_pnl_updater.)
+        #
+        # KNOWN LIMITATION (parity gap vs live_pnl_updater): this date-level guard
+        # only catches CROSS-day staleness (data_date < entry_date). For a position
+        # entered MID-SESSION where data_date == entry_date, bot.py's daily_low
+        # still includes 1h bars BEFORE the entry candle, so a same-day pre-entry
+        # low could theoretically still trigger a false exit here. live_pnl_updater
+        # fully closes this via bar-level filtering (has_post_entry); paper_trader
+        # only receives aggregate {close, high, low, date}, so bar-level filtering
+        # would require a larger refactor. Accepted: this only surfaces on the NEXT
+        # same-day intraday scan (bot.py runs update_trades BEFORE entering new
+        # trades, so a freshly-entered position is never checked in the same scan
+        # run). If it ever shows up as a confirmed false-exit pattern, upgrade
+        # update_trades to accept post-entry-filtered OHLC (like live_pnl's
+        # has_post_entry bar filter).
         data_date = str(ohlc.get("date", ""))
         stale_data = bool(data_date) and data_date < entry_date.strftime("%Y-%m-%d")
         if stale_data:
