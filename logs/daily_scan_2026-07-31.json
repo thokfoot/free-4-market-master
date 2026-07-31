@@ -1271,6 +1271,92 @@
         "losses": 21
       },
       "telegram_status": "Sent"
+    },
+    {
+      "time": "22:30:28 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 42,
+      "patterns_fired": 3,
+      "fired_patterns": [
+        {
+          "rank": 16,
+          "market": "SP500",
+          "ticker": "^GSPC",
+          "direction": "LONG",
+          "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 62.35,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 18,
+          "market": "SP500",
+          "ticker": "^GSPC",
+          "direction": "LONG",
+          "factors": "EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 61.71,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 32,
+          "market": "SPY",
+          "ticker": "SPY",
+          "direction": "LONG",
+          "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 60.24,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "^GSPC",
+          "direction": "LONG",
+          "close": 7469.6201171875,
+          "qty": 11,
+          "sl": 7394.92,
+          "target": 7619.01,
+          "rank": 16,
+          "win_rate": 62.35
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100699.26999999997,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 88275.21396850585
+        },
+        "total_capital": 388974.4839685058,
+        "open_count": 3,
+        "total_pnl": -11025.516031494139,
+        "closed_count": 24,
+        "wins": 3,
+        "losses": 21
+      },
+      "telegram_status": "Sent"
     }
   ],
   "latest_portfolio": {
@@ -1278,13 +1364,13 @@
       "INDIAN": 100000.0,
       "US": 100699.26999999997,
       "CRYPTO": 100000.0,
-      "INTRADAY": 86558.00396850584
+      "INTRADAY": 88275.21396850585
     },
-    "total_capital": 387257.2739685058,
+    "total_capital": 388974.4839685058,
     "open_count": 3,
-    "total_pnl": -12742.726031494143,
-    "closed_count": 23,
-    "wins": 2,
+    "total_pnl": -11025.516031494139,
+    "closed_count": 24,
+    "wins": 3,
     "losses": 21
   }
 }
