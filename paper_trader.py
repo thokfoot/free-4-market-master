@@ -1241,7 +1241,19 @@ def update_trades(ohlc_data: dict) -> list:
               f"entry={entry:.2f} sl={sl:.2f} target={target:.2f}")
         
         # Check max hold expiry FIRST (time-based exit, independent of SL/TP)
+        # Use ACTUAL entry time (Date + Time_IST) for accurate hold duration.
+        # Previously only the Date was used (midnight), which made evening entries
+        # prematurely expire (e.g., 23:22 IST entry counted as ~25h held at 01:14
+        # next day → false "Expiry 25h"). Matches live_pnl_updater MaxHold logic.
         entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
+        try:
+            _entry_time = str(row.get("Time_IST", ""))[:8]
+            if len(_entry_time) == 8 and "IST" in str(row.get("Time_IST", "")):
+                entry_date = datetime.strptime(
+                    f"{row['Date']} {_entry_time}", "%Y-%m-%d %H:%M:%S"
+                ).replace(tzinfo=IST)
+        except Exception:
+            pass  # fall back to date-only if Time_IST is missing/unparsable
         trade_tf = str(row.get("TimeFrame", "SWING_1d"))
         mh = row.get("MaxHold")
         trade_max_hold = int(mh) if pd.notna(mh) else MAX_HOLD_DAYS

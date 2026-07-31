@@ -345,26 +345,62 @@ def process_open_trades() -> tuple:
               f"close={cmp:.2f} high={daily_high:.2f} low={daily_low:.2f} | "
               f"entry={entry:.2f} sl={sl:.2f} target={target:.2f}")
 
-        # ── SL/TP Check (intraday High/Low priority, with tolerance guard) ──
-        # Use 0.01% tolerance to prevent 1-cent data noise from triggering exit
+        # ── MaxHold expiry check FIRST (time-based exit, independent of SL/TP) ──
+        # Mirrors paper_trader.update_trades so expired positions are force-closed
+        # promptly even between scheduled bot scans (which run only a few times/day).
         _TOLERANCE = 0.9999
         exit_price = None
         exit_reason = None
+        is_expired = False
+        try:
+            entry_dt_str = f"{row.get('Date', '')} {str(row.get('Time_IST', ''))[:8]}"
+            entry_dt = datetime.strptime(entry_dt_str.strip(), "%Y-%m-%d %H:%M:%S").replace(tzinfo=IST)
+            trade_tf_live = str(row.get("TimeFrame", "SWING_1d"))
+            mh_live = row.get("MaxHold")
+            if pd.notna(mh_live):
+                hold_limit = int(mh_live)
+            elif trade_tf_live == "INTRADAY_1h":
+                hold_limit = INTRADAY_MAX_HOLD_HOURS.get(str(row.get("Mode", "")).upper(), 6)
+            else:
+                hold_limit = MAX_HOLD_DAYS
+            if trade_tf_live == "GAP_DOWN_1m":
+                mins_held = (now - entry_dt).total_seconds() / 60
+                if mins_held >= hold_limit:
+                    exit_price = cmp
+                    exit_reason = f"Expiry {int(mins_held)}m"
+                    is_expired = True
+            elif trade_tf_live == "INTRADAY_1h":
+                hrs_held = (now - entry_dt).total_seconds() / 3600
+                if hrs_held >= hold_limit:
+                    exit_price = cmp
+                    exit_reason = f"Expiry {int(hrs_held)}h"
+                    is_expired = True
+            else:
+                days_held = (now - entry_dt).days
+                if days_held >= hold_limit:
+                    exit_price = cmp
+                    exit_reason = f"Expiry {days_held}d"
+                    is_expired = True
+        except Exception as e:
+            print(f"[Live] MaxHold check error {ticker}: {e}")
 
-        if direction == "LONG":
-            if daily_low <= sl * _TOLERANCE:
-                exit_price = sl
-                exit_reason = "🎯 SL Hit (live)"
-            elif daily_high >= target / _TOLERANCE:
-                exit_price = target
-                exit_reason = "🎯 Target Hit (live)"
-        else:  # SHORT
-            if daily_high >= sl / _TOLERANCE:
-                exit_price = sl
-                exit_reason = "🎯 SL Hit (live)"
-            elif daily_low <= target * _TOLERANCE:
-                exit_price = target
-                exit_reason = "🎯 Target Hit (live)"
+        # ── SL/TP Check (intraday High/Low priority, with tolerance guard) ──
+        # Use 0.01% tolerance to prevent 1-cent data noise from triggering exit
+        if not is_expired:
+            if direction == "LONG":
+                if daily_low <= sl * _TOLERANCE:
+                    exit_price = sl
+                    exit_reason = "🎯 SL Hit (live)"
+                elif daily_high >= target / _TOLERANCE:
+                    exit_price = target
+                    exit_reason = "🎯 Target Hit (live)"
+            else:  # SHORT
+                if daily_high >= sl / _TOLERANCE:
+                    exit_price = sl
+                    exit_reason = "🎯 SL Hit (live)"
+                elif daily_low <= target * _TOLERANCE:
+                    exit_price = target
+                    exit_reason = "🎯 Target Hit (live)"
         
         if exit_price:
             # ── CLOSE THE TRADE ──
