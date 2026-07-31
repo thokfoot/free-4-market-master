@@ -555,3 +555,95 @@ def test_paper_trader_still_exits_on_current_ohlc_date(test_env, monkeypatch):
     msgs = update_trades(ohlc)
     assert len(msgs) == 1, f"Expected 1 SL exit, got: {msgs}"
     assert "SL Hit" in msgs[0], f"Expected SL Hit, got: {msgs[0]}"
+
+
+
+# ======================================================================
+# Bug 5: MaxHold expired + stale pre-entry low -> Expiry close, NOT false SL
+# ======================================================================
+# Real case (2026-07-31): SPY entered 09:48 IST (US market closed, entry at
+# July-30 close). LIVE updater's 1m window only has July-30 bars (pre-entry,
+# stale). At 15:50 IST the position is past its 6h MaxHold (expiry 15:48).
+# Even though the stale July-30 low (734.10) is BELOW SL (734.31), the exit
+# must be MaxHold Expiry at current price (~741.73) — NOT a false "SL Hit".
+
+def test_live_pnl_expired_stale_data_closes_at_cmp_not_sl(test_env, monkeypatch):
+    """Regression (expired + stale combination): when a position is past MaxHold
+    AND the only available data is stale/pre-entry (has_post_entry=False), it
+    must close via Expiry at the current price — never at a stale pre-entry low
+    below SL. Guards against SL/TP logic overwriting an expiry exit.
+
+    NOTE: the pure stale-data guard (non-expired position) is pinned by
+    test_live_pnl_no_false_sl_on_pre_entry_low; this test pins the combined
+    ordering invariant (expiry exit must win even with stale data present)."""
+    import live_pnl_updater as lp
+
+    tmp = test_env["tmp_path"]
+    log_dir = tmp / "logs"
+    monkeypatch.setattr(lp, "PAPER_FILE", str(log_dir / "paper_trades.csv"))
+    monkeypatch.setattr(lp, "PORTFOLIO_FILE", str(log_dir / "portfolio.json"))
+    monkeypatch.setattr(lp, "AUDIT_FILE", str(log_dir / "trade_audit.json"))
+    monkeypatch.setattr(lp, "STRATEGY_STATS_FILE", str(log_dir / "strategy_stats.json"))
+    monkeypatch.setattr(lp, "LIVE_STATE_FILE", str(log_dir / "live_pnl_state.json"))
+    monkeypatch.setattr(lp, "LIVE_PNL_LOG", str(log_dir / "live_pnl_snapshots.csv"))
+
+    # Check time: 15:50 IST — entry was 09:48:19 IST, MaxHold 6h (expires 15:48:19)
+    class FrozenLpDT:
+        _F = datetime(2026, 7, 31, 15, 50, 0)
+
+        @classmethod
+        def now(cls, tz=None):
+            return IST.localize(cls._F) if tz is not None else cls._F
+
+        @classmethod
+        def strptime(cls, s, fmt):
+            return datetime.strptime(s, fmt)
+
+    monkeypatch.setattr(lp, "datetime", FrozenLpDT)
+
+    open_pos = {
+        "Date": "2026-07-31", "Time_IST": "09:48:19 IST", "Mode": "US",
+        "Ticker": "SPY", "Direction": "LONG", "TimeFrame": "INTRADAY_1h",
+        "Entry_Price": 741.73, "Qty": 119, "SL": 734.31, "Target": 756.56,
+        "MaxHold": 6, "Exit_Price": "", "Exit_Time": "", "P&L": "", "P&L_%": "",
+        "Status": "OPEN", "Pattern_Rank": 31, "Expected_WinRate": 63.16,
+        "Pattern_Factors": "Price>SMA50+EMA20<EMA50+Close<Open",
+        "Reason": "#31ID Price>SMA50+EMA20<EMA50+Close<Open", "Signal_Indicators": "",
+    }
+    portfolio = {
+        "capital_by_market": {"INDIAN": 100000.0, "US": 100699.27, "CRYPTO": 100000.0, "INTRADAY": 88654.05},
+        "open_positions": [open_pos],
+        "closed_count": 19, "total_wins": 1, "total_losses": 18,
+        "total_pnl": -12646.67,
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 699.27, "CRYPTO": 0.0, "INTRADAY": -13345.94},
+    }
+    lp.save_portfolio(portfolio)
+    df = pd.DataFrame([open_pos])
+    df.to_csv(lp.PAPER_FILE, index=False)
+
+    # Stale July-30 data: low 734.10 is BELOW SL 734.31 but pre-entry → has_post_entry=False
+    def fake_fetch(ticker, entry_dt=None):
+        return {"close": 741.73, "high": 742.45, "low": 734.10,
+                "date": "2026-07-30", "has_post_entry": False}
+
+    monkeypatch.setattr(lp, "fetch_live_ohlc", fake_fetch)
+
+    closed_msgs, _ = lp.process_open_trades()
+
+    assert len(closed_msgs) == 1, f"Expected 1 Expiry close, got: {closed_msgs}"
+    assert "Expiry" in closed_msgs[0], f"Expected Expiry reason, got: {closed_msgs[0]}"
+    assert "SL Hit" not in closed_msgs[0], f"False SL exit! got: {closed_msgs[0]}"
+
+    # Exit must be at current price (~741.73), NOT the SL (734.31)
+    saved_csv = pd.read_csv(lp.PAPER_FILE, on_bad_lines="warn")
+    closed = saved_csv[saved_csv["Status"].astype(str) == "CLOSED"]
+    assert len(closed) == 1
+    exit_px = float(closed.iloc[0]["Exit_Price"])
+    assert exit_px == pytest.approx(741.73, abs=0.05), \
+        f"Expiry should exit at current price 741.73, got {exit_px}"
+    assert "Expiry" in str(closed.iloc[0]["Reason"])
+
+    # Position removed from portfolio
+    saved_port = json.loads(open(lp.PORTFOLIO_FILE).read())
+    assert len(saved_port.get("open_positions", [])) == 0
+    assert saved_port.get("closed_count") == 20
