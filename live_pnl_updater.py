@@ -466,7 +466,29 @@ def process_open_trades() -> tuple:
             full_reason = str(row["Reason"]) + f" | {exit_reason}"
             update_strategy_stats(full_reason, round(pnl, 2))
             
-            closed_msgs.append(f"{direction} {ticker} {exit_reason} @ {round_price(exit_price)} P&L Rs {pnl:+.0f} ({pnl_pct:+.1f}%)")
+            # ── Detailed exit alert (mirrors paper_trader._send_sl_tp_alert) ──
+            # Includes OHLC telemetry so LIVE EXIT messages show the exact data
+            # that triggered the close (SL/TP/MaxHold).
+            _rank_live = row.get("Pattern_Rank", "")
+            _rank_tag = f" #{_rank_live}" if pd.notna(_rank_live) and str(_rank_live) else ""
+            if "SL" in exit_reason:
+                _icon, _label = "\U0001F6A8", "SL HIT"
+            elif "Target" in exit_reason:
+                _icon, _label = "\U0001F3AF", "TP HIT"
+            elif "Expiry" in exit_reason:
+                _icon, _label = "\u23F0", "EXPIRY"
+            else:
+                _icon, _label = "\U0001F4CA", "EXIT"
+            _dir_arrow = "\U0001F7E2" if direction == "LONG" else "\U0001F534"
+            _pnl_icon = "\U0001F7E2" if pnl > 0 else ("\U0001F534" if pnl < 0 else "\u26AA")
+            closed_msgs.append(
+                f"{_icon} *{_label}:* {_dir_arrow} `{ticker}`{_rank_tag} {direction}\n"
+                f"\u2523 Entry: {round_price(entry)} | Exit: {round_price(exit_price)}\n"
+                f"\u2523 SL: {round_price(sl)} | TP: {round_price(target)}\n"
+                f"\u2523 Qty: {qty} | {_pnl_icon} P&L: Rs {pnl:+,.0f} ({pnl_pct:+.2f}%)\n"
+                f"\u2523 *OHLC:* Close={cmp:.2f} High={daily_high:.2f} Low={daily_low:.2f}\n"
+                f"\u2517 Reason: {exit_reason}"
+            )
             portfolio_updated = True
             print(f"[Live] EXIT {direction} {ticker} @ {round_price(exit_price)} | P&L {pnl:+.0f} | {exit_reason}")
         
@@ -602,12 +624,10 @@ def main():
     tg_exit_msgs = []
     for msg in closed_msgs:
         tg_exit_msgs.append(msg)
-        # Send each exit as separate message for visibility
-        exit_tg = (
-            f"🚨 *LIVE EXIT*\n"
-            f"{msg}"
-        )
-        send_telegram(exit_tg)
+        # Send each exit as separate message for visibility.
+        # msg is now self-describing (icon + label + full telemetry),
+        # so send it directly — no redundant/misleading "LIVE EXIT" header.
+        send_telegram(msg)
     
     # Telegram: send unrealized P&L updates (batched, max 1 per ticker per 25 min)
     if update_msgs:
