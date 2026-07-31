@@ -23,6 +23,7 @@ from config import (
     CHARGES_PER_MARKET, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
     MAX_HOLD_DAYS, INTRADAY_MAX_HOLD_HOURS,
     INTRADAY_CAPITAL,
+    SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
 )
 from paper_trader import initialize_system
 from logger import log_error
@@ -62,6 +63,51 @@ def _save_live_state(state: dict):
 
 
 # ── Helpers (standalone copies so no import cycles) ─────────────
+def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str) -> float:
+    """
+    Apply realistic fill slippage to a price (mirrors paper_trader._apply_slippage).
+
+    Slippage always makes the fill WORSE than the signal price:
+    - LONG entry: buy slightly higher (pay more)
+    - SHORT entry: sell slightly lower (receive less)
+    - LONG exit (SL/TP hit): sell slightly lower (receive less)
+    - SHORT exit (SL/TP hit): buy slightly higher (pay more)
+
+    Args:
+        price: The ideal signal price (entry/exit)
+        direction: "LONG" or "SHORT"
+        action: "ENTRY" or "EXIT"
+        mode: "INDIAN" | "US" | "CRYPTO"
+        tf: "SWING_1d" or "INTRADAY_1h"
+
+    Returns:
+        Slipped price (always worse for the trader).
+        When slippage is 0 (default), returns price unchanged.
+    """
+    # GAP_DOWN_1m is intraday — use intraday slippage rates
+    is_intraday = (tf in ("INTRADAY_1h", "GAP_DOWN_1m"))
+    slip_pct = (
+        INTRADAY_SLIPPAGE_PCT.get(mode, 0.0)
+        if is_intraday else
+        SLIPPAGE_PCT.get(mode, 0.0)
+    )
+    if slip_pct <= 0:
+        return price
+
+    if action == "ENTRY":
+        # Entry: pay more (LONG) or receive less (SHORT)
+        if direction == "LONG":
+            return price * (1 + slip_pct)
+        else:
+            return price * (1 - slip_pct)
+    else:  # EXIT
+        # Exit: receive less (LONG sells) or pay more (SHORT covers)
+        if direction == "LONG":
+            return price * (1 - slip_pct)
+        else:
+            return price * (1 + slip_pct)
+
+
 def _safe_float(val) -> float:
     if val is None:
         return 0.0
@@ -404,7 +450,13 @@ def process_open_trades() -> tuple:
         
         if exit_price:
             # ── CLOSE THE TRADE ──
-            # Gross P&L
+            # Apply exit slippage for realistic fills (worse than trigger price)
+            # Mirrors paper_trader.update_trades — keeps both engines in parity.
+            trade_mode_exit = str(row.get("Mode", "US"))
+            trade_tf_exit = str(row.get("TimeFrame", "SWING_1d"))
+            exit_price = _apply_slippage(exit_price, direction, "EXIT", trade_mode_exit, trade_tf_exit)
+
+            # Gross P&L (entry already includes entry slippage from paper_trader)
             if direction == "LONG":
                 pnl = (exit_price - entry) * qty
                 pnl_pct = ((exit_price - entry) / entry) * 100
