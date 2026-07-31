@@ -354,7 +354,7 @@ def process_open_trades() -> tuple:
         is_expired = False
         try:
             entry_dt_str = f"{row.get('Date', '')} {str(row.get('Time_IST', ''))[:8]}"
-            entry_dt = datetime.strptime(entry_dt_str.strip(), "%Y-%m-%d %H:%M:%S").replace(tzinfo=IST)
+            entry_dt = IST.localize(datetime.strptime(entry_dt_str.strip(), "%Y-%m-%d %H:%M:%S"))
             trade_tf_live = str(row.get("TimeFrame", "SWING_1d"))
             mh_live = row.get("MaxHold")
             if pd.notna(mh_live):

@@ -1245,13 +1245,13 @@ def update_trades(ohlc_data: dict) -> list:
         # Previously only the Date was used (midnight), which made evening entries
         # prematurely expire (e.g., 23:22 IST entry counted as ~25h held at 01:14
         # next day → false "Expiry 25h"). Matches live_pnl_updater MaxHold logic.
-        entry_date = datetime.strptime(row["Date"], "%Y-%m-%d").replace(tzinfo=IST)
+        entry_date = IST.localize(datetime.strptime(row["Date"], "%Y-%m-%d"))
         try:
             _entry_time = str(row.get("Time_IST", ""))[:8]
             if len(_entry_time) == 8 and "IST" in str(row.get("Time_IST", "")):
-                entry_date = datetime.strptime(
+                entry_date = IST.localize(datetime.strptime(
                     f"{row['Date']} {_entry_time}", "%Y-%m-%d %H:%M:%S"
-                ).replace(tzinfo=IST)
+                ))
         except Exception:
             pass  # fall back to date-only if Time_IST is missing/unparsable
         trade_tf = str(row.get("TimeFrame", "SWING_1d"))
@@ -1284,40 +1284,41 @@ def update_trades(ohlc_data: dict) -> list:
         # (e.g., if daily_low = 733.78 but actual SL is 733.79, that's data noise, not a real SL hit)
         _TOLERANCE = 0.9999  # Require 0.01% below SL / above TP before exiting (guards 1-cent noise)
         
-        if not is_expired and direction == "LONG":
-            # 1st: Intraday LOW hit SL → stopped out during the day
-            if daily_low <= sl * _TOLERANCE:
-                exit_price = sl
-                exit_reason = "SL Hit (intraday)"
-            # 2nd: Intraday HIGH hit TP → target reached during the day
-            elif daily_high >= target / _TOLERANCE:
-                exit_price = target
-                exit_reason = "Target Hit"
-            # 3rd: Close <= SL → SL hit on close
-            elif cmp <= sl * _TOLERANCE:
-                exit_price = sl
-                exit_reason = "SL Hit (close)"
-            # 4th: Close >= TP → TP hit on close
-            elif cmp >= target / _TOLERANCE:
-                exit_price = target
-                exit_reason = "Target Hit (close)"
-        else:  # SHORT
-            # 1st: Intraday HIGH hit SL → stopped out during the day
-            if daily_high >= sl / _TOLERANCE:
-                exit_price = sl
-                exit_reason = "SL Hit (intraday)"
-            # 2nd: Intraday LOW hit TP → target reached during the day
-            elif daily_low <= target * _TOLERANCE:
-                exit_price = target
-                exit_reason = "Target Hit"
-            # 3rd: Close >= SL → SL hit on close
-            elif cmp >= sl / _TOLERANCE:
-                exit_price = sl
-                exit_reason = "SL Hit (close)"
-            # 4th: Close <= TP → TP hit on close
-            elif cmp <= target * _TOLERANCE:
-                exit_price = target
-                exit_reason = "Target Hit (close)"
+        if not is_expired:
+            if direction == "LONG":
+                # 1st: Intraday LOW hit SL → stopped out during the day
+                if daily_low <= sl * _TOLERANCE:
+                    exit_price = sl
+                    exit_reason = "SL Hit (intraday)"
+                # 2nd: Intraday HIGH hit TP → target reached during the day
+                elif daily_high >= target / _TOLERANCE:
+                    exit_price = target
+                    exit_reason = "Target Hit"
+                # 3rd: Close <= SL → SL hit on close
+                elif cmp <= sl * _TOLERANCE:
+                    exit_price = sl
+                    exit_reason = "SL Hit (close)"
+                # 4th: Close >= TP → TP hit on close
+                elif cmp >= target / _TOLERANCE:
+                    exit_price = target
+                    exit_reason = "Target Hit (close)"
+            else:  # SHORT
+                # 1st: Intraday HIGH hit SL → stopped out during the day
+                if daily_high >= sl / _TOLERANCE:
+                    exit_price = sl
+                    exit_reason = "SL Hit (intraday)"
+                # 2nd: Intraday LOW hit TP → target reached during the day
+                elif daily_low <= target * _TOLERANCE:
+                    exit_price = target
+                    exit_reason = "Target Hit"
+                # 3rd: Close >= SL → SL hit on close
+                elif cmp >= sl / _TOLERANCE:
+                    exit_price = sl
+                    exit_reason = "SL Hit (close)"
+                # 4th: Close <= TP → TP hit on close
+                elif cmp <= target * _TOLERANCE:
+                    exit_price = target
+                    exit_reason = "Target Hit (close)"
         
         if exit_price:
             # Apply exit slippage for realistic fills (worse than trigger price)
