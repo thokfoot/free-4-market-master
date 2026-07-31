@@ -633,5 +633,37 @@
     "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "signal_indicators": "{\"Open\": 292.105011, \"EMA9\": 291.363438, \"EMA20\": 291.334442, \"EMA50\": 292.133683, \"Close\": 292.519989, \"Low\": 292.095001, \"SMA20\": 291.304959, \"SMA50\": 292.167371, \"Volume\": 3397177.0, \"High\": 292.839996, \"Ret\": 0.001421, \"2Red\": 0.0, \"RSI14\": 54.646637}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "11:37:18 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "entry_price": 28099.85,
+    "exit_price": 27818.85,
+    "qty": 3,
+    "pnl": -859.86,
+    "pnl_pct": -1.02,
+    "pattern_rank": 6,
+    "expected_win_rate": 62.86,
+    "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "reason": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "11:37:18 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "LONG",
+    "entry_price": 292.52,
+    "exit_price": 289.59,
+    "qty": 301,
+    "pnl": -899.54,
+    "pnl_pct": -1.02,
+    "pattern_rank": 30,
+    "expected_win_rate": 62.42,
+    "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | \ud83c\udfaf SL Hit (live)"
   }
 ]
