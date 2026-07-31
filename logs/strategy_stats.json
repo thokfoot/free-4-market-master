@@ -51,9 +51,9 @@
   "3": {
     "rank": 3,
     "factors": "#3ID Price>SMA20+Price<SMA50+EMA9>EMA20 | SL Hit (intraday)",
-    "wins": 1,
+    "wins": 2,
     "losses": 1,
-    "total_pnl": 822.2199999999999
+    "total_pnl": 2500.04
   },
   "5": {
     "rank": 5,

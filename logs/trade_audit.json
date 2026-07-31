@@ -795,5 +795,38 @@
     "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20",
     "reason": "#3ID Price>SMA20+Price<SMA50+EMA9>EMA20",
     "signal_indicators": "{\"RSI14\": 50.452183, \"2Red\": 1.0, \"High\": 174.869995, \"EMA50\": 174.377476, \"Ret\": -0.003876, \"SMA50\": 174.765309, \"Low\": 173.100006, \"Close\": 173.485001, \"Volume\": 1102438.0, \"SMA20\": 171.96878, \"EMA20\": 173.250885, \"Open\": 174.179993, \"EMA9\": 173.968593}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "21:47:36 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "entry_price": 173.95,
+    "exit_price": 177.43,
+    "qty": 487,
+    "pnl": 1677.82,
+    "pnl_pct": 1.98,
+    "pattern_rank": 3,
+    "expected_win_rate": 67.35,
+    "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20",
+    "reason": "#3ID Price>SMA20+Price<SMA50+EMA9>EMA20 | Target Hit",
+    "signal_indicators": ""
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-07-31 21:47:39 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "entry_price": 174.29,
+    "qty": 497,
+    "sl": 172.55,
+    "target": 177.78,
+    "pattern_rank": 3,
+    "expected_win_rate": 67.35,
+    "pattern_factors": "Price>SMA20+Price<SMA50+EMA9>EMA20",
+    "reason": "#3ID Price>SMA20+Price<SMA50+EMA9>EMA20",
+    "signal_indicators": "{\"SMA20\": 171.96953, \"EMA9\": 173.971593, \"EMA20\": 173.252314, \"Ret\": -0.00379, \"SMA50\": 174.765609, \"High\": 174.869995, \"Volume\": 1112891.0, \"Close\": 173.5, \"Open\": 174.179993, \"2Red\": 1.0, \"RSI14\": 50.495204, \"Low\": 173.100006, \"EMA50\": 174.378064}"
   }
 ]
