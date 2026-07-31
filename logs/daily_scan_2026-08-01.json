@@ -95,6 +95,53 @@
         "losses": 22
       },
       "telegram_status": "Sent"
+    },
+    {
+      "time": "02:09:08 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 42,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100699.26999999997,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 88486.9098083496
+        },
+        "total_capital": 389186.1798083496,
+        "open_count": 2,
+        "total_pnl": -10813.82019165039,
+        "closed_count": 27,
+        "wins": 5,
+        "losses": 22
+      },
+      "telegram_status": "Sent"
     }
   ],
   "latest_portfolio": {
