@@ -3,42 +3,18 @@
     "INDIAN": 100000.0,
     "US": 100699.26999999997,
     "CRYPTO": 100000.0,
-    "INTRADAY": 86654.05629272459
+    "INTRADAY": 86636.40396850584
   },
-  "open_positions": [
-    {
-      "Date": "2026-07-31",
-      "Time_IST": "09:48:19 IST",
-      "Mode": "US",
-      "Ticker": "SPY",
-      "Direction": "LONG",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 741.73,
-      "Qty": 119,
-      "SL": 734.31,
-      "Target": 756.56,
-      "MaxHold": 6,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
-      "Status": "OPEN",
-      "Pattern_Rank": 31,
-      "Expected_WinRate": 63.16,
-      "Pattern_Factors": "Price>SMA50+EMA20<EMA50+Close<Open",
-      "Reason": "#31ID Price>SMA50+EMA20<EMA50+Close<Open",
-      "Signal_Indicators": "{\"Open\": 741.77002, \"EMA9\": 739.15355, \"EMA20\": 738.518298, \"EMA50\": 740.197673, \"Close\": 741.72998, \"Low\": 741.0, \"SMA20\": 738.175507, \"SMA50\": 740.120288, \"Volume\": 12583754.0, \"High\": 742.099976, \"Ret\": -6.7e-05, \"2Red\": 0.0, \"RSI14\": 55.502244}"
-    }
-  ],
-  "closed_count": 19,
+  "open_positions": [],
+  "closed_count": 20,
   "total_wins": 1,
-  "total_losses": 18,
-  "total_pnl": -12646.673707275397,
+  "total_losses": 19,
+  "total_pnl": -12664.326031494149,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 699.269999999987,
     "CRYPTO": 0.0,
-    "INTRADAY": -13345.943707275384
+    "INTRADAY": -13363.596031494137
   },
-  "total_capital": 387353.3262927246
+  "total_capital": 387335.6739685058
 }

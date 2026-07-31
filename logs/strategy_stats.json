@@ -73,7 +73,7 @@
     "rank": 31,
     "factors": "#31ID Price>SMA50+EMA20<EMA50+Close<Open | Expiry 6h",
     "wins": 0,
-    "losses": 1,
-    "total_pnl": -17.95
+    "losses": 2,
+    "total_pnl": -35.599999999999994
   }
 }

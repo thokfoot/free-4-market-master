@@ -665,5 +665,21 @@
     "expected_win_rate": 62.42,
     "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "17:06:04 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "entry_price": 741.73,
+    "exit_price": 741.73,
+    "qty": 119,
+    "pnl": -17.65,
+    "pnl_pct": -0.02,
+    "pattern_rank": 31,
+    "expected_win_rate": 63.16,
+    "pattern_factors": "Price>SMA50+EMA20<EMA50+Close<Open",
+    "reason": "#31ID Price>SMA50+EMA20<EMA50+Close<Open | Expiry 7h"
   }
 ]
