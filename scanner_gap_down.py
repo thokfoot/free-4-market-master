@@ -228,6 +228,7 @@ def get_current_ohlc(ticker: str) -> dict:
                 "close": float(last['Close']),
                 "high": daily_high,
                 "low": daily_low,
+                "date": str(df.index[-1].date()),
             }
     except Exception as e:
         print(f"[GapDown] OHLC error {ticker}: {e}")

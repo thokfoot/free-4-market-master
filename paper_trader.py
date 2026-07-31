@@ -1284,7 +1284,19 @@ def update_trades(ohlc_data: dict) -> list:
         # (e.g., if daily_low = 733.78 but actual SL is 733.79, that's data noise, not a real SL hit)
         _TOLERANCE = 0.9999  # Require 0.01% below SL / above TP before exiting (guards 1-cent noise)
         
-        if not is_expired:
+        # ── STALE-DATA GUARD: prevent false SL/TP exits from pre-entry data ──
+        # If the OHLC data's latest date is BEFORE the position's entry date (e.g.,
+        # a US position entered at the prior session's close while the US market is
+        # still closed), the intraday low/high is pre-entry price action that could
+        # NOT have stopped us out. Skip SL/TP — hold until the next session produces
+        # data or MaxHold expiry closes the position. (Matches live_pnl_updater.)
+        data_date = str(ohlc.get("date", ""))
+        stale_data = bool(data_date) and data_date < entry_date.strftime("%Y-%m-%d")
+        if stale_data:
+            print(f"[Paper] {ticker}: stale OHLC date {data_date} < entry "
+                  f"{entry_date.strftime('%Y-%m-%d')} — skipping SL/TP (market closed since entry)")
+        
+        if not is_expired and not stale_data:
             if direction == "LONG":
                 # 1st: Intraday LOW hit SL → stopped out during the day
                 if daily_low <= sl * _TOLERANCE:

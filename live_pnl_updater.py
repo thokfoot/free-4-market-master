@@ -278,10 +278,13 @@ def send_telegram(msg: str) -> str:
 
 
 # ── Core: fetch live 1m data ─────────────────────────────────
-def fetch_live_ohlc(ticker: str) -> dict:
+def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
     """
     Fetch today's OHLC data using 1m interval.
-    Returns {close, high, low, date} or None if failed.
+    If entry_dt (IST-aware datetime) is provided, only bars at/after the entry
+    time are considered, so pre-entry price action (e.g., a prior session's low
+    while the market is still closed) can never trigger a false SL/TP exit.
+    Returns {close, high, low, date, has_post_entry} or None if failed.
     """
     for attempt in range(3):
         try:
@@ -291,6 +294,24 @@ def fetch_live_ohlc(ticker: str) -> dict:
                 # Handle multi-index columns
                 if isinstance(df.columns, pd.MultiIndex):
                     df.columns = df.columns.get_level_values(0)
+                
+                # Filter to bars at/after entry time (prevents false pre-entry exits)
+                has_post_entry = True
+                if entry_dt is not None:
+                    try:
+                        entry_utc = entry_dt.astimezone(pytz.utc)
+                        idx_utc = df.index
+                        if idx_utc.tz is None:
+                            idx_utc = idx_utc.tz_localize("UTC")
+                        else:
+                            idx_utc = idx_utc.tz_convert("UTC")
+                        post = df[idx_utc >= entry_utc]
+                        if len(post) > 0:
+                            df = post
+                        else:
+                            has_post_entry = False
+                    except Exception as e:
+                        print(f"[Live] {ticker}: entry-time filter error: {e}")
                 
                 last = df.iloc[-1]
                 current_close = float(last["Close"])
@@ -303,6 +324,7 @@ def fetch_live_ohlc(ticker: str) -> dict:
                     "high": daily_high,
                     "low": daily_low,
                     "date": latest_date,
+                    "has_post_entry": has_post_entry,
                 }
             print(f"[Live] {ticker}: No 1m data ({len(df) if df is not None else 0} rows)")
             if attempt < 2:
@@ -364,14 +386,25 @@ def process_open_trades() -> tuple:
         if entry <= 0 or qty <= 0:
             continue
         
-        # Fetch live 1m data
-        ohlc = fetch_live_ohlc(ticker)
+        # Parse entry datetime FIRST (needed to filter post-entry bars so a prior
+        # session's low can't falsely stop out a position entered at the prior
+        # session's close while the market is still closed)
+        entry_dt = None
+        try:
+            entry_dt_str = f"{row.get('Date', '')} {str(row.get('Time_IST', ''))[:8]}"
+            entry_dt = IST.localize(datetime.strptime(entry_dt_str.strip(), "%Y-%m-%d %H:%M:%S"))
+        except Exception as e:
+            print(f"[Live] Entry time parse error {ticker}: {e}")
+        
+        # Fetch live 1m data (only bars at/after entry considered for SL/TP)
+        ohlc = fetch_live_ohlc(ticker, entry_dt)
         if not ohlc:
             continue
         
         cmp = ohlc["close"]
         daily_high = ohlc["high"]
         daily_low = ohlc["low"]
+        has_post_entry = ohlc.get("has_post_entry", True)
         
         # ── OHLC DATA VALIDATION: Prevent false exits from corrupt data ──
         _invalid_ohlc = (
@@ -399,8 +432,6 @@ def process_open_trades() -> tuple:
         exit_reason = None
         is_expired = False
         try:
-            entry_dt_str = f"{row.get('Date', '')} {str(row.get('Time_IST', ''))[:8]}"
-            entry_dt = IST.localize(datetime.strptime(entry_dt_str.strip(), "%Y-%m-%d %H:%M:%S"))
             trade_tf_live = str(row.get("TimeFrame", "SWING_1d"))
             mh_live = row.get("MaxHold")
             if pd.notna(mh_live):
@@ -432,7 +463,9 @@ def process_open_trades() -> tuple:
 
         # ── SL/TP Check (intraday High/Low priority, with tolerance guard) ──
         # Use 0.01% tolerance to prevent 1-cent data noise from triggering exit
-        if not is_expired:
+        # Only SL/TP-check when the market has actually traded since entry
+        # (has_post_entry) — pre-entry lows must never stop out a position.
+        if not is_expired and has_post_entry:
             if direction == "LONG":
                 if daily_low <= sl * _TOLERANCE:
                     exit_price = sl

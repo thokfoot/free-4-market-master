@@ -267,7 +267,7 @@ def test_live_pnl_enforces_maxhold_expiry(test_env, monkeypatch):
     df.to_csv(lp.PAPER_FILE, index=False)
 
     # Mock live OHLC fetch (valid data - no SL/TP trigger)
-    def fake_fetch(ticker):
+    def fake_fetch(ticker, entry_dt=None):
         return {"close": 741.50, "high": 742.00, "low": 740.50, "date": "2026-01-16"}
 
     monkeypatch.setattr(lp, "fetch_live_ohlc", fake_fetch)
@@ -322,3 +322,236 @@ def test_maxhold_short_expires_at_cmp(test_env, monkeypatch):
     assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(292.00, abs=0.05), \
         f"SHORT expiry should exit at current price 292.00, got {closed.iloc[0]['Exit_Price']}"
 
+
+
+# ======================================================================
+# Bug 4: False SL/TP exits from pre-entry (stale) OHLC data
+# ======================================================================
+# Real case (2026-07-31): bot entered US intraday positions (SPY/^NDX/IWM) at
+# 09:48 IST while the US market was CLOSED — entries at the prior (July-30)
+# session close. The LIVE P&L updater then checked them against the July-30
+# session's intraday lows (which happened BEFORE entry) and falsely stopped
+# them out: ^NDX low=27691.48 < SL 27818.85, IWM low=288.96 < SL 289.59.
+# A position cannot be stopped out by a price that occurred before it existed.
+
+def _stale_open_pos():
+    return {
+        "Date": "2026-07-31", "Time_IST": "09:48:19 IST", "Mode": "US",
+        "Ticker": "^NDX", "Direction": "LONG", "TimeFrame": "INTRADAY_1h",
+        "Entry_Price": 28099.85, "Qty": 3, "SL": 27818.85, "Target": 28661.85,
+        "MaxHold": 6, "Exit_Price": "", "Exit_Time": "", "P&L": "", "P&L_%": "",
+        "Status": "OPEN", "Pattern_Rank": 6, "Expected_WinRate": 62.86,
+        "Pattern_Factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+        "Reason": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+        "Signal_Indicators": "",
+    }
+
+
+def test_live_pnl_no_false_sl_on_pre_entry_low(test_env, monkeypatch):
+    """Regression: live updater must NOT exit when the only bars are from
+    BEFORE the entry (stale pre-entry low below SL)."""
+    import live_pnl_updater as lp
+
+    tmp = test_env["tmp_path"]
+    log_dir = tmp / "logs"
+    monkeypatch.setattr(lp, "PAPER_FILE", str(log_dir / "paper_trades.csv"))
+    monkeypatch.setattr(lp, "PORTFOLIO_FILE", str(log_dir / "portfolio.json"))
+    monkeypatch.setattr(lp, "AUDIT_FILE", str(log_dir / "trade_audit.json"))
+    monkeypatch.setattr(lp, "STRATEGY_STATS_FILE", str(log_dir / "strategy_stats.json"))
+    monkeypatch.setattr(lp, "LIVE_STATE_FILE", str(log_dir / "live_pnl_state.json"))
+    monkeypatch.setattr(lp, "LIVE_PNL_LOG", str(log_dir / "live_pnl_snapshots.csv"))
+
+    class FrozenLpDT:
+        _F = datetime(2026, 7, 31, 11, 37, 0)
+
+        @classmethod
+        def now(cls, tz=None):
+            return IST.localize(cls._F) if tz is not None else cls._F
+
+        @classmethod
+        def strptime(cls, s, fmt):
+            return datetime.strptime(s, fmt)
+
+    monkeypatch.setattr(lp, "datetime", FrozenLpDT)
+
+    open_pos = _stale_open_pos()
+    portfolio = {
+        "capital_by_market": {"INDIAN": 100000.0, "US": 100699.27, "CRYPTO": 100000.0, "INTRADAY": 88654.05},
+        "open_positions": [open_pos],
+        "closed_count": 18, "total_wins": 1, "total_losses": 17,
+        "total_pnl": -11786.53,
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 699.27, "CRYPTO": 0.0, "INTRADAY": -12485.80},
+    }
+    lp.save_portfolio(portfolio)
+    df = pd.DataFrame([open_pos])
+    df.to_csv(lp.PAPER_FILE, index=False)
+
+    # Stale July-30 data: close==entry, low 27691.48 is BELOW SL 27818.85 but
+    # it happened BEFORE the July-31 entry → must NOT trigger a false SL exit.
+    def fake_fetch(ticker, entry_dt=None):
+        return {"close": 28099.85, "high": 28168.04, "low": 27691.48,
+                "date": "2026-07-30", "has_post_entry": False}
+
+    monkeypatch.setattr(lp, "fetch_live_ohlc", fake_fetch)
+
+    closed_msgs, _ = lp.process_open_trades()
+
+    assert len(closed_msgs) == 0, f"No exit expected (stale pre-entry low), got: {closed_msgs}"
+
+    # Position must still be OPEN
+    saved_csv = pd.read_csv(lp.PAPER_FILE, on_bad_lines="warn")
+    assert len(saved_csv[saved_csv["Status"].astype(str) == "OPEN"]) == 1
+    saved_port = json.loads(open(lp.PORTFOLIO_FILE).read())
+    assert len(saved_port.get("open_positions", [])) == 1
+
+
+def test_live_pnl_still_exits_on_post_entry_low(test_env, monkeypatch):
+    """Regression: live updater STILL exits when the bar data is from AFTER
+    the entry (has_post_entry=True) — the guard must not block real SL/TP."""
+    import live_pnl_updater as lp
+
+    tmp = test_env["tmp_path"]
+    log_dir = tmp / "logs"
+    monkeypatch.setattr(lp, "PAPER_FILE", str(log_dir / "paper_trades.csv"))
+    monkeypatch.setattr(lp, "PORTFOLIO_FILE", str(log_dir / "portfolio.json"))
+    monkeypatch.setattr(lp, "AUDIT_FILE", str(log_dir / "trade_audit.json"))
+    monkeypatch.setattr(lp, "STRATEGY_STATS_FILE", str(log_dir / "strategy_stats.json"))
+    monkeypatch.setattr(lp, "LIVE_STATE_FILE", str(log_dir / "live_pnl_state.json"))
+    monkeypatch.setattr(lp, "LIVE_PNL_LOG", str(log_dir / "live_pnl_snapshots.csv"))
+
+    class FrozenLpDT:
+        _F = datetime(2026, 7, 31, 11, 37, 0)
+
+        @classmethod
+        def now(cls, tz=None):
+            return IST.localize(cls._F) if tz is not None else cls._F
+
+        @classmethod
+        def strptime(cls, s, fmt):
+            return datetime.strptime(s, fmt)
+
+    monkeypatch.setattr(lp, "datetime", FrozenLpDT)
+
+    open_pos = _stale_open_pos()
+    portfolio = {
+        "capital_by_market": {"INDIAN": 100000.0, "US": 100699.27, "CRYPTO": 100000.0, "INTRADAY": 88654.05},
+        "open_positions": [open_pos],
+        "closed_count": 18, "total_wins": 1, "total_losses": 17,
+        "total_pnl": -11786.53,
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 699.27, "CRYPTO": 0.0, "INTRADAY": -12485.80},
+    }
+    lp.save_portfolio(portfolio)
+    df = pd.DataFrame([open_pos])
+    df.to_csv(lp.PAPER_FILE, index=False)
+
+    # Fresh same-day data (has_post_entry=True) where low breaches SL → real exit
+    def fake_fetch(ticker, entry_dt=None):
+        return {"close": 28099.85, "high": 28120.00, "low": 27800.00,
+                "date": "2026-07-31", "has_post_entry": True}
+
+    monkeypatch.setattr(lp, "fetch_live_ohlc", fake_fetch)
+
+    closed_msgs, _ = lp.process_open_trades()
+
+    assert len(closed_msgs) == 1, f"Expected 1 SL exit, got: {closed_msgs}"
+    assert "SL Hit" in closed_msgs[0], f"Expected SL Hit, got: {closed_msgs[0]}"
+
+
+def test_fetch_live_ohlc_filters_pre_entry_bars(test_env, monkeypatch):
+    """Regression: fetch_live_ohlc must drop bars before entry_dt so a stale
+    pre-entry low can never be returned as the daily low."""
+    import live_pnl_updater as lp
+    import pandas as pd
+    from datetime import timedelta
+
+    # Bars 03:30–04:20 UTC (pre-entry, low 27691.48) and 04:30–05:00 UTC
+    # (post-entry, low 28000). Entry_dt 10:00 IST == 04:30 UTC, so the filter
+    # must drop the pre-entry bars and keep only post-entry lows.
+    idx = pd.date_range("2026-07-31 03:30", periods=10, freq="10min", tz="UTC")
+    df = pd.DataFrame({
+        "Open": [28100.0] * 10,
+        "High": [28150.0] * 10,
+        "Low": [27691.48] * 6 + [28000.0] * 4,
+        "Close": [28099.85] * 10,
+        "Volume": [1000] * 10,
+    }, index=idx)
+
+    monkeypatch.setattr(lp.yf, "download", lambda *a, **k: df)
+
+    entry_dt = IST.localize(datetime(2026, 7, 31, 10, 0, 0))
+    ohlc = lp.fetch_live_ohlc("^NDX", entry_dt)
+
+    assert ohlc is not None
+    assert ohlc["has_post_entry"] is True
+    # Low must be the post-entry low (28000), NOT the stale pre-entry 27691.48
+    assert ohlc["low"] == pytest.approx(28000.00, abs=0.01),         f"Pre-entry low leaked into daily low: {ohlc['low']}"
+
+
+def test_fetch_live_ohlc_no_post_entry_flag(test_env, monkeypatch):
+    """Regression: when ALL bars precede entry (market closed since entry),
+    fetch_live_ohlc must return has_post_entry=False so SL/TP is skipped."""
+    import live_pnl_updater as lp
+    import pandas as pd
+
+    idx = pd.date_range("2026-07-30 13:30", periods=5, freq="1h", tz="UTC")
+    df = pd.DataFrame({
+        "Open": [28100.0] * 5,
+        "High": [28150.0] * 5,
+        "Low": [27691.48] * 5,
+        "Close": [28099.85] * 5,
+        "Volume": [1000] * 5,
+    }, index=idx)
+
+    monkeypatch.setattr(lp.yf, "download", lambda *a, **k: df)
+
+    entry_dt = IST.localize(datetime(2026, 7, 31, 9, 48, 19))
+    ohlc = lp.fetch_live_ohlc("^NDX", entry_dt)
+
+    assert ohlc is not None
+    assert ohlc["has_post_entry"] is False, "Expected no post-entry bars"
+
+
+def test_paper_trader_skips_sltp_on_stale_ohlc_date(test_env, monkeypatch):
+    """Regression: paper_trader.update_trades must skip SL/TP when the OHLC
+    data's date is BEFORE the position's entry date (stale pre-entry data)."""
+    import paper_trader
+    from paper_trader import enter_trade, update_trades
+
+    _set_time(monkeypatch, datetime(2026, 7, 31, 9, 48, 19))
+
+    t = enter_trade("US", "^NDX", "LONG", 28099.85, "Stale test",
+                    pattern_rank=6, expected_win_rate=62.86,
+                    pattern_factors="Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+                    tf="INTRADAY_1h")
+    assert t is not None, "Failed to enter test trade"
+
+    # ohlc data date (2026-07-30) < entry date (2026-07-31) → stale → no SL/TP exit
+    ohlc = {"^NDX": {"close": 28099.85, "high": 28168.04, "low": 27691.48,
+                     "date": "2026-07-30"}}
+    msgs = update_trades(ohlc)
+    assert len(msgs) == 0, f"No exit expected on stale data, got: {msgs}"
+
+    df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines="warn")
+    assert len(df[df["Status"] == "OPEN"]) == 1, "Trade must remain OPEN"
+
+
+def test_paper_trader_still_exits_on_current_ohlc_date(test_env, monkeypatch):
+    """Regression: paper_trader.update_trades STILL exits when the OHLC date
+    matches the entry date (fresh same-day data) — guard must not block real SL/TP."""
+    import paper_trader
+    from paper_trader import enter_trade, update_trades
+
+    _set_time(monkeypatch, datetime(2026, 7, 31, 9, 48, 19))
+
+    t = enter_trade("US", "^NDX", "LONG", 28099.85, "Fresh test",
+                    pattern_rank=6, expected_win_rate=62.86,
+                    pattern_factors="Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+                    tf="INTRADAY_1h")
+    assert t is not None, "Failed to enter test trade"
+
+    # Same-day data (2026-07-31) where low breaches SL → real exit
+    ohlc = {"^NDX": {"close": 28099.85, "high": 28120.00, "low": 27800.00,
+                     "date": "2026-07-31"}}
+    msgs = update_trades(ohlc)
+    assert len(msgs) == 1, f"Expected 1 SL exit, got: {msgs}"
+    assert "SL Hit" in msgs[0], f"Expected SL Hit, got: {msgs[0]}"

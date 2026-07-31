@@ -422,7 +422,8 @@ def run_swing_scan() -> dict:
                     hv = float(last["High"].iloc[0] if hasattr(last["High"], 'iloc') else last["High"])
                     lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
                     current_prices_sw[yf_ticker] = cv
-                    ohlc_data_sw[yf_ticker] = {"close": cv, "high": hv, "low": lv}
+                    ohlc_data_sw[yf_ticker] = {"close": cv, "high": hv, "low": lv,
+                                               "date": str(df.index[-1].date())}
                 except:
                     pass
         
@@ -462,7 +463,8 @@ def run_swing_scan() -> dict:
     for yf_ticker, st in market_status.items():
         if st.get("data_ok"):
             current_prices[yf_ticker] = st["latest_close"]
-            ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"], "low": st["latest_low"]}
+            ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"],
+                                    "low": st["latest_low"], "date": st.get("latest_date", "")}
     
     closed_msgs = update_trades(ohlc_data)
     print(f"[Swing] Closed: {len(closed_msgs)}")
@@ -588,6 +590,7 @@ def run_intraday_scan() -> dict:
                 "close": st["latest_close"],
                 "high": st.get("daily_high", st["latest_high"]),
                 "low": st.get("daily_low", st["latest_low"]),
+                "date": st.get("latest_date", ""),
             }
     
     closed_msgs = update_trades(ohlc_data)
