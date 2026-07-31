@@ -3,65 +3,18 @@
     "INDIAN": 100000.0,
     "US": 100699.26999999997,
     "CRYPTO": 100000.0,
-    "INTRADAY": 88504.35123413085
+    "INTRADAY": 88413.4562927246
   },
-  "open_positions": [
-    {
-      "Date": "2026-07-31",
-      "Time_IST": "01:14:10 IST",
-      "Mode": "US",
-      "Ticker": "^GSPC",
-      "Direction": "LONG",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 7442.12,
-      "Qty": 12,
-      "SL": 7367.7,
-      "Target": 7590.96,
-      "MaxHold": 6,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
-      "Status": "OPEN",
-      "Pattern_Rank": 16,
-      "Expected_WinRate": 62.35,
-      "Pattern_Factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
-      "Reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
-      "Signal_Indicators": "{\"Volume\": 320621000.0, \"Ret\": 0.001882, \"EMA20\": 7405.644297, \"EMA9\": 7409.114328, \"2Red\": 0.0, \"SMA50\": 7426.554189, \"SMA20\": 7403.30896, \"Low\": 7424.149902, \"EMA50\": 7425.4437, \"Open\": 7427.850098, \"High\": 7448.75, \"RSI14\": 55.618168, \"Close\": 7441.779785}"
-    },
-    {
-      "Date": "2026-07-31",
-      "Time_IST": "02:09:08 IST",
-      "Mode": "US",
-      "Ticker": "SPY",
-      "Direction": "LONG",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 741.73,
-      "Qty": 121,
-      "SL": 734.31,
-      "Target": 756.56,
-      "MaxHold": 6,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
-      "Status": "OPEN",
-      "Pattern_Rank": 31,
-      "Expected_WinRate": 63.16,
-      "Pattern_Factors": "Price>SMA50+EMA20<EMA50+Close<Open",
-      "Reason": "#31ID Price>SMA50+EMA20<EMA50+Close<Open",
-      "Signal_Indicators": "{\"Volume\": 12583754.0, \"SMA20\": 738.175507, \"EMA20\": 738.518298, \"EMA50\": 740.197673, \"Close\": 741.72998, \"Low\": 741.0, \"Open\": 741.77002, \"High\": 742.099976, \"Ret\": -6.7e-05, \"SMA50\": 740.120288, \"2Red\": 0.0, \"RSI14\": 55.502244, \"EMA9\": 739.15355}"
-    }
-  ],
-  "closed_count": 15,
+  "open_positions": [],
+  "closed_count": 17,
   "total_wins": 1,
-  "total_losses": 14,
-  "total_pnl": -10796.378765869142,
+  "total_losses": 16,
+  "total_pnl": -10887.273707275393,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 699.269999999987,
     "CRYPTO": 0.0,
-    "INTRADAY": -11495.64876586913
+    "INTRADAY": -11586.543707275381
   },
-  "total_capital": 389203.62
+  "total_capital": 389112.72629272455
 }
