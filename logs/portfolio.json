@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 100699.26999999997,
     "CRYPTO": 100000.0,
-    "INTRADAY": 89392.39980834961
+    "INTRADAY": 88486.9098083496
   },
   "open_positions": [
     {
@@ -30,38 +30,38 @@
       "Signal_Indicators": "{\"Close\": 7467.189941, \"Low\": 7421.779785, \"SMA50\": 7421.043184, \"EMA9\": 7428.670236, \"Ret\": 0.005654, \"Open\": 7425.459961, \"SMA20\": 7405.795923, \"EMA20\": 7417.20706, \"Volume\": 267257000.0, \"RSI14\": 59.320997, \"2Red\": 0.0, \"High\": 7467.370117, \"EMA50\": 7427.595754}"
     },
     {
-      "Date": "2026-07-31",
-      "Time_IST": "23:32:54 IST",
+      "Date": "2026-08-01",
+      "Time_IST": "01:15:20 IST",
       "Mode": "US",
-      "Ticker": "SPY",
+      "Ticker": "^SOX",
       "Direction": "LONG",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 745.84,
-      "Qty": 119,
-      "SL": 738.38,
-      "Target": 760.76,
-      "MaxHold": 6,
+      "TimeFrame": "SWING_1d",
+      "Entry_Price": 11432.22,
+      "Qty": 4,
+      "SL": 11203.58,
+      "Target": 11889.51,
+      "MaxHold": 5,
       "Exit_Price": "",
       "Exit_Time": "",
       "P&L": "",
       "P&L_%": "",
       "Status": "OPEN",
-      "Pattern_Rank": 32,
-      "Expected_WinRate": 60.24,
-      "Pattern_Factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
-      "Reason": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
-      "Signal_Indicators": "{\"EMA9\": 741.70706, \"Open\": 744.429993, \"Low\": 743.98999, \"Volume\": 4072705.0, \"RSI14\": 62.13446, \"Ret\": 0.002512, \"EMA50\": 740.609545, \"High\": 746.400024, \"SMA50\": 739.652488, \"2Red\": 0.0, \"SMA20\": 738.535001, \"EMA20\": 740.044973, \"Close\": 746.289978}"
+      "Pattern_Rank": 3,
+      "Expected_WinRate": 60.59,
+      "Pattern_Factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+      "Reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open",
+      "Signal_Indicators": "{\"Volume\": 0.0, \"EMA20\": 11966.062376, \"RSI14\": 43.587381, \"Low\": 11231.787109, \"2Red\": 0.0, \"EMA9\": 11511.230674, \"EMA50\": 12086.272196, \"SMA50\": 12738.933203, \"High\": 11885.740234, \"SMA20\": 12054.971973, \"Ret\": 0.011433, \"Close\": 11432.22168, \"Open\": 11715.462891}"
     }
   ],
-  "closed_count": 26,
+  "closed_count": 27,
   "total_wins": 5,
-  "total_losses": 21,
-  "total_pnl": -9908.330191650386,
+  "total_losses": 22,
+  "total_pnl": -10813.82019165039,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 699.269999999987,
     "CRYPTO": 0.0,
-    "INTRADAY": -10607.600191650374
+    "INTRADAY": -11513.090191650379
   },
-  "total_capital": 390091.6698083496
+  "total_capital": 389186.1798083496
 }

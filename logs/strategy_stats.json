@@ -24,8 +24,8 @@
     "rank": 32,
     "factors": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)",
     "wins": 0,
-    "losses": 1,
-    "total_pnl": -1005.25
+    "losses": 2,
+    "total_pnl": -1910.74
   },
   "30": {
     "rank": 30,

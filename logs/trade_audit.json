@@ -911,5 +911,38 @@
     "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "signal_indicators": "{\"EMA9\": 741.70706, \"Open\": 744.429993, \"Low\": 743.98999, \"Volume\": 4072705.0, \"RSI14\": 62.13446, \"Ret\": 0.002512, \"EMA50\": 740.609545, \"High\": 746.400024, \"SMA50\": 739.652488, \"2Red\": 0.0, \"SMA20\": 738.535001, \"EMA20\": 740.044973, \"Close\": 746.289978}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "01:15:19 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "entry_price": 745.84,
+    "exit_price": 738.38,
+    "qty": 119,
+    "pnl": -905.49,
+    "pnl_pct": -1.02,
+    "pattern_rank": 32,
+    "expected_win_rate": 60.24,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)",
+    "signal_indicators": ""
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-01 01:15:20 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "entry_price": 11432.22,
+    "qty": 4,
+    "sl": 11203.58,
+    "target": 11889.51,
+    "pattern_rank": 3,
+    "expected_win_rate": 60.59,
+    "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open",
+    "signal_indicators": "{\"Volume\": 0.0, \"EMA20\": 11966.062376, \"RSI14\": 43.587381, \"Low\": 11231.787109, \"2Red\": 0.0, \"EMA9\": 11511.230674, \"EMA50\": 12086.272196, \"SMA50\": 12738.933203, \"High\": 11885.740234, \"SMA20\": 12054.971973, \"Ret\": 0.011433, \"Close\": 11432.22168, \"Open\": 11715.462891}"
   }
 ]
