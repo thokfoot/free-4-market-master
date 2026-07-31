@@ -396,6 +396,139 @@
         "losses": 13
       },
       "telegram_status": "Sent"
+    },
+    {
+      "time": "09:48:16 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 42,
+      "patterns_fired": 6,
+      "fired_patterns": [
+        {
+          "rank": 5,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+          "win_rate": 63.38,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 6,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+          "win_rate": 62.86,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 10,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+          "win_rate": 60.0,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 30,
+          "market": "IWM",
+          "ticker": "IWM",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+          "win_rate": 62.42,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 31,
+          "market": "SPY",
+          "ticker": "SPY",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA20<EMA50+Close<Open",
+          "win_rate": 63.16,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 33,
+          "market": "SPY",
+          "ticker": "SPY",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close<Open",
+          "win_rate": 60.38,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "SPY",
+          "direction": "LONG",
+          "close": 741.72998046875,
+          "qty": 119,
+          "sl": 734.31,
+          "target": 756.56,
+          "rank": 31,
+          "win_rate": 63.16
+        },
+        {
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "close": 28099.849609375,
+          "qty": 3,
+          "sl": 27818.85,
+          "target": 28661.85,
+          "rank": 6,
+          "win_rate": 62.86
+        },
+        {
+          "ticker": "IWM",
+          "direction": "LONG",
+          "close": 292.5199890136719,
+          "qty": 301,
+          "sl": 289.59,
+          "target": 298.37,
+          "rank": 30,
+          "win_rate": 62.42
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100699.26999999997,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 88413.4562927246
+        },
+        "total_capital": 389112.72629272455,
+        "open_count": 3,
+        "total_pnl": -10887.273707275393,
+        "closed_count": 17,
+        "wins": 1,
+        "losses": 16
+      },
+      "telegram_status": "Sent"
     }
   ],
   "latest_portfolio": {
@@ -403,13 +536,13 @@
       "INDIAN": 100000.0,
       "US": 100699.26999999997,
       "CRYPTO": 100000.0,
-      "INTRADAY": 89411.32123413085
+      "INTRADAY": 88413.4562927246
     },
-    "total_capital": 390110.5912341308,
+    "total_capital": 389112.72629272455,
     "open_count": 3,
-    "total_pnl": -9889.408765869137,
-    "closed_count": 14,
+    "total_pnl": -10887.273707275393,
+    "closed_count": 17,
     "wins": 1,
-    "losses": 13
+    "losses": 16
   }
 }
