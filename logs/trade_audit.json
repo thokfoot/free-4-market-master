@@ -976,5 +976,21 @@
     "expected_win_rate": 60.59,
     "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
     "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-03 20:55:15 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "LONG",
+    "entry_price": 295.73,
+    "qty": 299,
+    "sl": 292.77,
+    "target": 301.64,
+    "pattern_rank": 30,
+    "expected_win_rate": 62.42,
+    "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "signal_indicators": "{\"EMA50\": 291.990817, \"SMA50\": 291.65457, \"Volume\": 6448852.0, \"Low\": 292.399994, \"Open\": 292.899994, \"High\": 295.855011, \"Close\": 295.660004, \"EMA20\": 291.597546, \"SMA20\": 290.979457, \"Ret\": 0.01549, \"EMA9\": 292.077126, \"2Red\": 0.0, \"RSI14\": 64.619159}"
   }
 ]
