@@ -960,5 +960,21 @@
     "expected_win_rate": 62.35,
     "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "20:26:21 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "entry_price": 11432.22,
+    "exit_price": 11203.58,
+    "qty": 4,
+    "pnl": -923.71,
+    "pnl_pct": -2.02,
+    "pattern_rank": 3,
+    "expected_win_rate": 60.59,
+    "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | \ud83c\udfaf SL Hit (live)"
   }
 ]
