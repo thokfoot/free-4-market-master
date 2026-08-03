@@ -5,7 +5,31 @@
     "CRYPTO": 100000.0,
     "INTRADAY": 87786.66002319334
   },
-  "open_positions": [],
+  "open_positions": [
+    {
+      "Date": "2026-08-04",
+      "Time_IST": "01:18:05 IST",
+      "Mode": "US",
+      "Ticker": "QQQ",
+      "Direction": "LONG",
+      "TimeFrame": "SWING_1d",
+      "Entry_Price": 700.39,
+      "Qty": 71,
+      "SL": 686.38,
+      "Target": 728.41,
+      "MaxHold": 5,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 52,
+      "Expected_WinRate": 71.43,
+      "Pattern_Factors": "Price>SMA20+EMA9<EMA20+Close>Open",
+      "Reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open",
+      "Signal_Indicators": "{\"Close\": 700.390015, \"Ret\": 0.018024, \"Low\": 685.820007, \"High\": 701.590027, \"Volume\": 36459876.0, \"EMA20\": 696.896645, \"SMA20\": 699.896997, \"2Red\": 0.0, \"EMA9\": 689.142707, \"RSI14\": 50.141657, \"SMA50\": 714.8328, \"Open\": 688.340027, \"EMA50\": 699.878887}"
+    }
+  ],
   "closed_count": 30,
   "total_wins": 6,
   "total_losses": 24,

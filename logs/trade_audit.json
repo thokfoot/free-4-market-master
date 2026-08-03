@@ -1009,5 +1009,21 @@
     "pattern_factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)",
     "signal_indicators": ""
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-04 01:18:05 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 700.39,
+    "qty": 71,
+    "sl": 686.38,
+    "target": 728.41,
+    "pattern_rank": 52,
+    "expected_win_rate": 71.43,
+    "pattern_factors": "Price>SMA20+EMA9<EMA20+Close>Open",
+    "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open",
+    "signal_indicators": "{\"Close\": 700.390015, \"Ret\": 0.018024, \"Low\": 685.820007, \"High\": 701.590027, \"Volume\": 36459876.0, \"EMA20\": 696.896645, \"SMA20\": 699.896997, \"2Red\": 0.0, \"EMA9\": 689.142707, \"RSI14\": 50.141657, \"SMA50\": 714.8328, \"Open\": 688.340027, \"EMA50\": 699.878887}"
   }
 ]
