@@ -3,42 +3,18 @@
     "INDIAN": 100000.0,
     "US": 99775.55999999998,
     "CRYPTO": 100000.0,
-    "INTRADAY": 88689.38002319336
+    "INTRADAY": 87786.66002319334
   },
-  "open_positions": [
-    {
-      "Date": "2026-08-03",
-      "Time_IST": "20:55:15 IST",
-      "Mode": "US",
-      "Ticker": "IWM",
-      "Direction": "LONG",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 295.73,
-      "Qty": 299,
-      "SL": 292.77,
-      "Target": 301.64,
-      "MaxHold": 6,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 30,
-      "Expected_WinRate": 62.42,
-      "Pattern_Factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
-      "Reason": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
-      "Signal_Indicators": "{\"EMA50\": 291.990817, \"SMA50\": 291.65457, \"Volume\": 6448852.0, \"Low\": 292.399994, \"Open\": 292.899994, \"High\": 295.855011, \"Close\": 295.660004, \"EMA20\": 291.597546, \"SMA20\": 290.979457, \"Ret\": 0.01549, \"EMA9\": 292.077126, \"2Red\": 0.0, \"RSI14\": 64.619159}"
-    }
-  ],
-  "closed_count": 29,
+  "open_positions": [],
+  "closed_count": 30,
   "total_wins": 6,
-  "total_losses": 23,
-  "total_pnl": -11535.059976806635,
+  "total_losses": 24,
+  "total_pnl": -12437.779976806645,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -224.44000000001063,
     "CRYPTO": 0.0,
-    "INTRADAY": -11310.619976806627
+    "INTRADAY": -12213.339976806637
   },
-  "total_capital": 388464.94002319337
+  "total_capital": 387562.22002319334
 }
