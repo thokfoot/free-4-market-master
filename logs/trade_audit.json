@@ -1025,5 +1025,37 @@
     "pattern_factors": "Price>SMA20+EMA9<EMA20+Close>Open",
     "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open",
     "signal_indicators": "{\"Close\": 700.390015, \"Ret\": 0.018024, \"Low\": 685.820007, \"High\": 701.590027, \"Volume\": 36459876.0, \"EMA20\": 696.896645, \"SMA20\": 699.896997, \"2Red\": 0.0, \"EMA9\": 689.142707, \"RSI14\": 50.141657, \"SMA50\": 714.8328, \"Open\": 688.340027, \"EMA50\": 699.878887}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-05 01:17:01 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "entry_price": 29815.05,
+    "qty": 1,
+    "sl": 29218.75,
+    "target": 31007.66,
+    "pattern_rank": 49,
+    "expected_win_rate": 76.09,
+    "pattern_factors": "Price>SMA50+EMA9<EMA20",
+    "reason": "#49SW Price>SMA50+EMA9<EMA20",
+    "signal_indicators": "{\"SMA20\": 28804.195215, \"Close\": 29815.054688, \"EMA50\": 28808.688685, \"Open\": 29109.257812, \"Ret\": 0.03608, \"Volume\": 1214152000.0, \"EMA9\": 28623.371081, \"RSI14\": 58.488969, \"High\": 29831.402344, \"SMA50\": 29388.400469, \"2Red\": 0.0, \"Low\": 29109.257812, \"EMA20\": 28757.935581}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-05 01:17:01 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "entry_price": 187.55,
+    "qty": 266,
+    "sl": 183.8,
+    "target": 195.05,
+    "pattern_rank": 75,
+    "expected_win_rate": 69.57,
+    "pattern_factors": "Price>SMA50+EMA9<EMA20",
+    "reason": "#75SW Price>SMA50+EMA9<EMA20",
+    "signal_indicators": "{\"SMA20\": 178.592001, \"Close\": 187.550003, \"EMA50\": 177.843942, \"Open\": 182.520004, \"Ret\": 0.053415, \"Volume\": 11151001.0, \"EMA9\": 177.956007, \"RSI14\": 59.045479, \"High\": 187.705002, \"SMA50\": 183.167201, \"2Red\": 0.0, \"Low\": 181.869995, \"EMA20\": 178.56525}"
   }
 ]

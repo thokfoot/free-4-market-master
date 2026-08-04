@@ -1,0 +1,142 @@
+{
+  "date": "2026-08-05",
+  "runs": [
+    {
+      "time": "01:16:57 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 123,
+      "patterns_fired": 6,
+      "fired_patterns": [
+        {
+          "rank": 49,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20",
+          "win_rate": 76.09,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 50,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20",
+          "win_rate": 76.6,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 52,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA20+EMA9<EMA20+Close>Open",
+          "win_rate": 71.43,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 56,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20+Close>Open",
+          "win_rate": 75.68,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 58,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20+Close>Open",
+          "win_rate": 80.0,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 75,
+          "market": "XLK_Tech",
+          "ticker": "XLK",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20",
+          "win_rate": 69.57,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "close": 29815.0546875,
+          "qty": 1,
+          "sl": 29218.75,
+          "target": 31007.66,
+          "rank": 49,
+          "win_rate": 76.09
+        },
+        {
+          "ticker": "XLK",
+          "direction": "LONG",
+          "close": 187.5500030517578,
+          "qty": 266,
+          "sl": 183.8,
+          "target": 195.05,
+          "rank": 75,
+          "win_rate": 69.57
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 99775.55999999998,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 87786.66002319334
+        },
+        "total_capital": 387562.22002319334,
+        "open_count": 3,
+        "total_pnl": -12437.779976806645,
+        "closed_count": 30,
+        "wins": 6,
+        "losses": 24
+      },
+      "telegram_status": "Sent"
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 99775.55999999998,
+      "CRYPTO": 100000.0,
+      "INTRADAY": 87786.66002319334
+    },
+    "total_capital": 387562.22002319334,
+    "open_count": 3,
+    "total_pnl": -12437.779976806645,
+    "closed_count": 30,
+    "wins": 6,
+    "losses": 24
+  }
+}
