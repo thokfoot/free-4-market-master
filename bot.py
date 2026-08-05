@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.0 — PROFESSIONAL PAPER TRADING BOT
+FREE 3-Market v5.10 — PROFESSIONAL PAPER TRADING BOT
 ====================================================
 Daily scan: loads 81 strategies, downloads yfinance data,
 computes indicators (adjust=False), checks patterns,
@@ -175,7 +175,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     
     # ===== HEADER =====
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
-    lines.append(f"🤖 *PAPER TRADE v5.0* | 🇮🇳🇺🇸₿ {date_str} {short_time}")
+    lines.append(f"🤖 *PAPER TRADE v5.10* | 🇮🇳🇺🇸₿ {date_str} {short_time}")
     
     # ===== MARKET STATUS =====
     if market_status:
@@ -255,6 +255,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                     upnl = (current_price - entry) * qty
                 else:
                     upnl = (entry - current_price) * qty
+                upnl = 0.0 if abs(upnl) < 0.5 else upnl
                 upnl_icon = "🟢" if upnl > 0 else ("🔴" if upnl < 0 else "⚪")
                 unrealized_pnl_str = f" | {upnl_icon} P&L: Rs {upnl:+,.0f}"
             
@@ -265,6 +266,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                 f"┣ SL: {pos.get('SL','?')} | TGT: {pos.get('Target','?')}\n"
                 f"┗ Reason: {str(pos.get('Reason',''))[:50]}"
             )
+        if total_open_count > MAX_OPEN_PER_PAGE:
+            lines.append(f"*...and {total_open_count - MAX_OPEN_PER_PAGE} more open*")
         lines.append("")
     
     # ===== PER-STRATEGY WIN RATE =====
@@ -382,7 +385,7 @@ def run_swing_scan() -> dict:
     time_str = now.strftime("%H:%M:%S IST")
     
     print(f"\n{'='*60}")
-    print(f"  SWING SCAN v5.7 — Daily Data")
+    print(f"  SWING SCAN v5.10 — Daily Data")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
     
@@ -558,7 +561,7 @@ def run_intraday_scan() -> dict:
     time_str = now.strftime("%H:%M:%S IST")
     
     print(f"\n{'='*60}")
-    print(f"  INTRADAY SCAN v5.7 — 1h Data")
+    print(f"  INTRADAY SCAN v5.10 — 1h Data")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
     
@@ -701,7 +704,7 @@ def run_gap_down_scan() -> dict:
     time_str = now.strftime("%H:%M:%S IST")
     
     print(f"\n{'='*60}")
-    print(f"  GAP-DOWN SCAN v5.9 — 1m Intraday")
+    print(f"  GAP-DOWN SCAN v5.10 — 1m Intraday")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
     
@@ -838,7 +841,7 @@ def main():
             mode = "gapdown"
     
     print(f"\n{'='*60}")
-    print(f"  FREE 3-Market v5.7 PAPER TRADE BOT")
+    print(f"  FREE 3-Market v5.10 PAPER TRADE BOT")
     print(f"  Mode: {mode.upper()} | {date_str} {time_str}")
     print(f"{'='*60}")
     

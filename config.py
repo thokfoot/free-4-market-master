@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.0 — PROFESSIONAL PAPER TRADING SYSTEM
+FREE 3-Market v5.10 — PROFESSIONAL PAPER TRADING SYSTEM
 ======================================================
 Author: Finance Manager
 Config: Centralized constants — change here, all modules pick up.

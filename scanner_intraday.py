@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.7 — INTRADAY STRATEGY SCANNER
+FREE 3-Market v5.10 — INTRADAY STRATEGY SCANNER
 ===============================================
 Loads 40 verified intraday (1h) strategies from CSV, downloads 1h data
 from yfinance, computes indicators (adjust=False), checks pattern conditions

@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.0 — STRATEGY SCANNER
+FREE 3-Market v5.10 — STRATEGY SCANNER
 ======================================
 Loads 81 verified strategies from CSV, computes indicators on live data,
 checks all pattern conditions, returns fired signals.

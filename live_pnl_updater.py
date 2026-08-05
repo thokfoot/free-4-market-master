@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.7 — LIVE P&L UPDATER
+FREE 3-Market v5.10 — LIVE P&L UPDATER
 =======================================
 Runs every 5 min during market hours (via GitHub Actions).
 Reads open positions, fetches live 1m data, checks SL/TP intraday,
@@ -692,7 +692,7 @@ def _log_live_snapshot(portfolio: dict):
 # ── Main ──────────────────────────────────────────────────────
 def main():
     print(f"\n{'='*60}")
-    print(f"  LIVE P&L UPDATER v5.7")
+    print(f"  LIVE P&L UPDATER v5.10")
     print(f"  {datetime.now(IST).strftime('%Y-%m-%d %H:%M:%S IST')}")
     print(f"{'='*60}")
     

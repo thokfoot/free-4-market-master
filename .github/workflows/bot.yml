@@ -1,4 +1,4 @@
-name: FREE 3-Market v5.7 PAPER TRADE (SWING + INTRADAY)
+name: FREE 3-Market v5.10 PAPER TRADE (SWING + INTRADAY)
 
 on:
   schedule:
@@ -76,7 +76,7 @@ jobs:
           git config --local user.name "paper-trade-bot"
           git add logs/ || true
           git diff --staged --quiet && echo "No changes to commit" && exit 0
-          git commit -m "v5.7 scan $(date -u +'%Y-%m-%d %H:%M UTC') mode=${{ steps.mode.outputs.mode }}"
+          git commit -m "v5.10 scan $(date -u +'%Y-%m-%d %H:%M UTC') mode=${{ steps.mode.outputs.mode }}"
           if ! git push; then
             sleep 2
             git pull --rebase

@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.9 — GAP-DOWN INTRADAY SCANNER
+FREE 3-Market v5.10 — GAP-DOWN INTRADAY SCANNER
 ================================================
 Scans Indian stocks for gap-down mean reversion signals.
 2 strategies:
