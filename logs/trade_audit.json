@@ -1322,5 +1322,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "EMA9>EMA20+Price>SMA20+RSI<50",
     "skip_reason": "Duplicate TRX-USD SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-06 03:19:56 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "skip_reason": "Duplicate TRX-USD SHORT already open"
   }
 ]
