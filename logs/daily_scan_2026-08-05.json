@@ -469,6 +469,81 @@
         "losses": 9
       },
       "telegram_status": "Sent"
+    },
+    {
+      "time": "13:11:04 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "QQQ",
+        "SPY",
+        "XLC",
+        "XLI",
+        "XLK",
+        "XLRE",
+        "XLV",
+        "XRP-USD",
+        "^BSESN",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^SOX",
+        "IWM",
+        "XLF"
+      ],
+      "patterns_count": 42,
+      "patterns_fired": 3,
+      "fired_patterns": [
+        {
+          "rank": 38,
+          "market": "XLF_Fin",
+          "ticker": "XLF",
+          "direction": "SHORT",
+          "factors": "RSI>65+2Red",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 39,
+          "market": "XLF_Fin",
+          "ticker": "XLF",
+          "direction": "SHORT",
+          "factors": "RSI>65+Price>SMA20+2Red",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 40,
+          "market": "XLF_Fin",
+          "ticker": "XLF",
+          "direction": "SHORT",
+          "factors": "RSI>65+EMA9>EMA20+2Red",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 99775.56,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 112521.63999999996
+        },
+        "total_capital": 412297.19999999995,
+        "open_count": 5,
+        "total_pnl": 12297.200000000003,
+        "closed_count": 30,
+        "wins": 21,
+        "losses": 9
+      },
+      "telegram_status": "Sent"
     }
   ],
   "latest_portfolio": {
