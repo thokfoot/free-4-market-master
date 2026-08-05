@@ -579,3 +579,8 @@ TypeError: Invalid value '09:26:04 IST' for dtype 'float64'
 [2026-08-05 13:45:39 IST] ERROR
 ============================================================
 GapDown crash: 31 signals >= 8, skipped all entries
+
+============================================================
+[2026-08-05 16:26:03 IST] ERROR
+============================================================
+GapDown crash: 32 signals >= 8, skipped all entries
