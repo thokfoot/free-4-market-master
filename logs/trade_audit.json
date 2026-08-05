@@ -1089,5 +1089,21 @@
     "expected_win_rate": 60.47,
     "pattern_factors": "RSI>65+2Red",
     "reason": "#38ID RSI>65+2Red | Expiry 6h"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-05 09:24:51 IST",
+    "mode": "US",
+    "ticker": "XLF",
+    "direction": "SHORT",
+    "entry_price": 57.86,
+    "qty": 1513,
+    "sl": 58.44,
+    "target": 56.7,
+    "pattern_rank": 38,
+    "expected_win_rate": 60.47,
+    "pattern_factors": "RSI>65+2Red",
+    "reason": "#38ID RSI>65+2Red",
+    "signal_indicators": "{\"2Red\": 1.0, \"High\": 57.98, \"Low\": 57.855, \"Close\": 57.860001, \"EMA20\": 57.484915, \"Volume\": 7199102.0, \"SMA20\": 57.388985, \"EMA50\": 57.115787, \"SMA50\": 57.139006, \"Open\": 57.93, \"EMA9\": 57.738724, \"RSI14\": 66.919848, \"Ret\": -0.001295}"
   }
 ]
