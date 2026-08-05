@@ -136,6 +136,39 @@ def test_rebuild_portfolio_skips_closed_row_with_missing_pnl(test_env, monkeypat
     assert port["total_pnl"] == 0.0
 
 
+def test_rebuild_open_positions_keep_empty_exit_fields(test_env):
+    """OPEN rows must keep '' for exit fields — pd.read_csv blank cells become
+    float NaN, which would otherwise be written as bare NaN (invalid strict
+    JSON) into portfolio.json."""
+    rows = [
+        {"Date": "2026-01-15", "Time_IST": "09:00:00 IST", "Mode": "CRYPTO",
+         "Ticker": "ETH-USD", "Direction": "LONG", "TimeFrame": "SWING_1d",
+         "Entry_Price": 3000.0, "Qty": 1, "SL": 2940.0, "Target": 3120.0,
+         "MaxHold": 5, "Exit_Price": "", "Exit_Time": "", "P&L": "",
+         "P&L_%": "", "Status": "OPEN", "Pattern_Rank": 4,
+         "Expected_WinRate": 60.0, "Pattern_Factors": "W",
+         "Reason": "#4 W", "Signal_Indicators": ""},
+    ]
+    pd.DataFrame(rows).to_csv(pt.PAPER_FILE, index=False)
+
+    port = pt.rebuild_portfolio_from_csv()
+
+    pos = port["open_positions"][0]
+    assert pos["Exit_Price"] == ""
+    assert pos["Exit_Time"] == ""
+    assert pos["P&L"] == ""
+    assert pos["P&L_%"] == ""
+    # Entry fields survive as real numbers
+    assert pos["Entry_Price"] == pytest.approx(3000.0)
+    assert pos["Qty"] == 1
+
+    # And the on-disk JSON must be valid strict JSON (no bare NaN tokens)
+    raw = open(pt.PORTFOLIO_FILE, encoding="utf-8").read()
+    assert "NaN" not in raw
+    import json as _json
+    _json.loads(raw)  # strict parser must accept it
+
+
 # ======================================================================
 # 2. Re-entry allowed (re-entry guard removed for paper-trade evaluation)
 # ======================================================================

@@ -435,10 +435,31 @@ def load_portfolio() -> dict:
     return _default_portfolio()
 
 
+def _clean_nan(v):
+    """Convert missing values (None/NaN) to empty string — CSV cell convention.
+
+    pd.read_csv parses blank cells as float NaN; this keeps OPEN rows in
+    portfolio.json consistent ("" for exit fields) instead of writing bare
+    NaN (invalid strict JSON) into the file.
+    """
+    if v is None:
+        return ""
+    try:
+        if isinstance(v, float) and pd.isna(v):
+            return ""
+    except (TypeError, ValueError):
+        pass
+    return v
+
+
 def save_portfolio(port: dict):
     """Save portfolio to JSON using atomic write (temp file + rename).
     Prevents file corruption if workflow is interrupted mid-write."""
     os.makedirs(LOG_DIR, exist_ok=True)
+    # Sanitize stray NaN (blank CSV cells) in open positions to ""
+    for pos in port.get("open_positions", []):
+        for k, v in list(pos.items()):
+            pos[k] = _clean_nan(v)
     _atomic_write_json(PORTFOLIO_FILE, port)
 
 
@@ -471,7 +492,7 @@ def rebuild_portfolio_from_csv() -> dict:
 
                 status = str(r.get("Status", "")).strip()
                 if status == "OPEN":
-                    port["open_positions"].append({c: r.get(c, "") for c in COLUMNS})
+                    port["open_positions"].append({c: _clean_nan(r.get(c, "")) for c in COLUMNS})
                     continue
 
                 pnl_raw = r.get("P&L")
