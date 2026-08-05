@@ -1113,5 +1113,21 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "RSI>65+2Red",
     "skip_reason": "Duplicate XLF SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "19:55:15 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 700.39,
+    "exit_price": 728.41,
+    "qty": 71,
+    "pnl": 1979.47,
+    "pnl_pct": 3.98,
+    "pattern_rank": 52,
+    "expected_win_rate": 71.43,
+    "pattern_factors": "Price>SMA20+EMA9<EMA20+Close>Open",
+    "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)"
   }
 ]

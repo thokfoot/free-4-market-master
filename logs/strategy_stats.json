@@ -75,5 +75,12 @@
     "wins": 3,
     "losses": 0,
     "total_pnl": 1997.75
+  },
+  "52": {
+    "rank": 52,
+    "factors": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 1979.47
   }
 }

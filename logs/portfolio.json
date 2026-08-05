@@ -1,34 +1,11 @@
 {
   "capital_by_market": {
     "INDIAN": 100000.0,
-    "US": 99775.56,
+    "US": 101755.03,
     "CRYPTO": 100000.0,
     "INTRADAY": 112521.63999999996
   },
   "open_positions": [
-    {
-      "Date": "2026-08-04",
-      "Time_IST": "01:18:05 IST",
-      "Mode": "US",
-      "Ticker": "QQQ",
-      "Direction": "LONG",
-      "TimeFrame": "SWING_1d",
-      "Entry_Price": 700.39,
-      "Qty": 71,
-      "SL": 686.38,
-      "Target": 728.41,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 52,
-      "Expected_WinRate": 71.43,
-      "Pattern_Factors": "Price>SMA20+EMA9<EMA20+Close>Open",
-      "Reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open",
-      "Signal_Indicators": "{\"Close\": 700.390015, \"Ret\": 0.018024, \"Low\": 685.820007, \"High\": 701.590027, \"Volume\": 36459876.0, \"EMA20\": 696.896645, \"SMA20\": 699.896997, \"2Red\": 0.0, \"EMA9\": 689.142707, \"RSI14\": 50.141657, \"SMA50\": 714.8328, \"Open\": 688.340027, \"EMA50\": 699.878887}"
-    },
     {
       "Date": "2026-08-05",
       "Time_IST": "01:17:01 IST",
@@ -214,15 +191,15 @@
       "Signal_Indicators": "{\"Open\": 11834.769531, \"2Red\": 0.0, \"Low\": 11834.769531, \"EMA50\": 12060.819678, \"High\": 12258.080078, \"Volume\": 0.0, \"Close\": 12179.259766, \"SMA20\": 11969.362402, \"SMA50\": 12733.155156, \"EMA9\": 11616.389397, \"Ret\": 0.065519, \"RSI14\": 51.036819, \"EMA20\": 11930.761336}"
     }
   ],
-  "closed_count": 31,
-  "total_wins": 21,
+  "closed_count": 32,
+  "total_wins": 22,
   "total_losses": 9,
-  "total_pnl": 12297.200000000003,
+  "total_pnl": 14276.670000000002,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
-    "US": -224.44000000000005,
+    "US": 1755.03,
     "CRYPTO": 0.0,
     "INTRADAY": 12521.639999999998
   },
-  "total_capital": 412297.19999999995
+  "total_capital": 414276.67
 }
