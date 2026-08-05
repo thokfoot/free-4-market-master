@@ -15,3 +15,7 @@ _verify_*.py
 .coverage
 coverage_html_report/
 htmlcov/
+
+# Strategy miner: yfinance cache + analysis artifacts (regenerable)
+data/miner_cache/
+logs/miner_*.csv
