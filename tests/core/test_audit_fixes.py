@@ -169,6 +169,29 @@ def test_rebuild_open_positions_keep_empty_exit_fields(test_env):
     _json.loads(raw)  # strict parser must accept it
 
 
+def test_rebuild_zero_pnl_is_neither_win_nor_loss(test_env):
+    """A breakeven (P&L == 0) closed trade counts as closed but not as a
+    win or a loss — e.g. a manual duplicate-cleanup close at entry price."""
+    rows = [
+        {"Date": "2026-01-15", "Time_IST": "10:00:00 IST", "Mode": "US",
+         "Ticker": "XLF", "Direction": "SHORT", "TimeFrame": "INTRADAY_1h",
+         "Entry_Price": 57.86, "Qty": 1513, "SL": 58.44, "Target": 56.7,
+         "MaxHold": 6, "Exit_Price": 57.86, "Exit_Time": "11:00:00 IST",
+         "P&L": 0.0, "P&L_%": 0.0, "Status": "CLOSED", "Pattern_Rank": 38,
+         "Expected_WinRate": 60.47, "Pattern_Factors": "RSI>65+2Red",
+         "Reason": "#38ID RSI>65+2Red | Duplicate cleanup", "Signal_Indicators": ""},
+    ]
+    pd.DataFrame(rows).to_csv(pt.PAPER_FILE, index=False)
+
+    port = pt.rebuild_portfolio_from_csv()
+
+    assert port["closed_count"] == 1
+    assert port["total_wins"] == 0
+    assert port["total_losses"] == 0
+    assert port["total_pnl"] == 0.0
+    assert len(port["open_positions"]) == 0
+
+
 # ======================================================================
 # 2. Re-entry allowed (re-entry guard removed for paper-trade evaluation)
 # ======================================================================

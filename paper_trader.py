@@ -506,8 +506,9 @@ def rebuild_portfolio_from_csv() -> dict:
                 port["closed_count"] += 1
                 if pnl > 0:
                     port["total_wins"] += 1
-                else:
+                elif pnl < 0:
                     port["total_losses"] += 1
+                # pnl == 0 (breakeven/void cleanup) is neither a win nor a loss
                 port["total_pnl"] += pnl
                 tpnl = port.setdefault("total_pnl_by_market", {})
                 tpnl[capital_key] = tpnl.get(capital_key, 0) + pnl

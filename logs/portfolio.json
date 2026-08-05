@@ -100,29 +100,6 @@
     },
     {
       "Date": "2026-08-05",
-      "Time_IST": "09:24:51 IST",
-      "Mode": "US",
-      "Ticker": "XLF",
-      "Direction": "SHORT",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 57.86,
-      "Qty": 1513,
-      "SL": 58.44,
-      "Target": 56.7,
-      "MaxHold": 6,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 38,
-      "Expected_WinRate": 60.47,
-      "Pattern_Factors": "RSI>65+2Red",
-      "Reason": "#38ID RSI>65+2Red",
-      "Signal_Indicators": "{\"2Red\": 1.0, \"High\": 57.98, \"Low\": 57.855, \"Close\": 57.860001, \"EMA20\": 57.484915, \"Volume\": 7199102.0, \"SMA20\": 57.388985, \"EMA50\": 57.115787, \"SMA50\": 57.139006, \"Open\": 57.93, \"EMA9\": 57.738724, \"RSI14\": 66.919848, \"Ret\": -0.001295}"
-    },
-    {
-      "Date": "2026-08-05",
       "Time_IST": "15:13:11 IST",
       "Mode": "CRYPTO",
       "Ticker": "TRX-USD",
@@ -237,7 +214,7 @@
       "Signal_Indicators": "{\"Open\": 11834.769531, \"2Red\": 0.0, \"Low\": 11834.769531, \"EMA50\": 12060.819678, \"High\": 12258.080078, \"Volume\": 0.0, \"Close\": 12179.259766, \"SMA20\": 11969.362402, \"SMA50\": 12733.155156, \"EMA9\": 11616.389397, \"Ret\": 0.065519, \"RSI14\": 51.036819, \"EMA20\": 11930.761336}"
     }
   ],
-  "closed_count": 30,
+  "closed_count": 31,
   "total_wins": 21,
   "total_losses": 9,
   "total_pnl": 12297.200000000003,
