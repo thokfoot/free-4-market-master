@@ -574,3 +574,8 @@ Traceback (most recent call last):
     raise TypeError(f"Invalid value '{other}' for dtype '{self.values.dtype}'")
 TypeError: Invalid value '09:26:04 IST' for dtype 'float64'
 
+
+============================================================
+[2026-08-05 13:45:39 IST] ERROR
+============================================================
+GapDown crash: 31 signals >= 8, skipped all entries
