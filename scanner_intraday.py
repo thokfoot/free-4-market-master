@@ -152,28 +152,54 @@ def _signal_candle_index(df: pd.DataFrame) -> int:
     return -2 if candle_end > now_utc else -1
 
 
-def compute_signal_1h(df: pd.DataFrame, factors_str: str, direction: str) -> bool:
+def _fmt(v) -> str:
+    """Format an indicator value for logging ('n/a' if unusable)."""
+    try:
+        return f"{float(v):.4g}"
+    except (TypeError, ValueError):
+        return "n/a"
+
+
+def _safe_ret(df: pd.DataFrame, idx: int) -> str:
+    """Format the Ret value at a row index for a '2Red failed' explanation."""
+    if df is None or len(df) == 0:
+        return "n/a"
+    if idx >= 0 or abs(idx) > len(df):
+        return "n/a"
+    try:
+        v = df.iloc[idx].get("Ret")
+        return _fmt(v) if pd.notna(v) else "n/a"
+    except (IndexError, AttributeError):
+        return "n/a"
+
+
+def explain_signal_1h(df: pd.DataFrame, factors_str: str, direction: str,
+                      row_idx: int = None) -> tuple:
     """
-    Check if a strategy's factors are met on the latest COMPLETED 1h candle.
+    Evaluate an intraday strategy's factors and explain the outcome.
     
-    Uses the last COMPLETED candle (not the forming one) to ensure reliable signals.
-    A 1h candle is complete when its end time is in the past.
+    Uses the last COMPLETED 1h candle (not the forming one) — same as
+    compute_signal_1h. Returns (fired, reason) where reason is "All factors
+    met" when fired, otherwise the first failing factor with actual values.
     """
     if df is None or len(df) < 3:
-        return False
+        return False, "Insufficient data"
 
-    last = df.iloc[_signal_candle_index(df)]
+    if row_idx is None:
+        row_idx = _signal_candle_index(df)
+    last = df.iloc[row_idx]
     factors = [f.strip() for f in factors_str.split("+")]
 
     for factor in factors:
         if factor == "2Red":
             if not (last["2Red"] == True):
-                return False
+                return False, (f"2Red failed (Ret={_safe_ret(df, row_idx)}, "
+                               f"prev={_safe_ret(df, row_idx - 1)})")
             continue
 
         match = re.match(r"^([A-Za-z0-9_.%]+)([<>])(.+)$", factor)
         if not match:
-            return False
+            return False, f"Cannot parse factor '{factor}'"
 
         left_str = match.group(1)
         operator = match.group(2)
@@ -181,21 +207,31 @@ def compute_signal_1h(df: pd.DataFrame, factors_str: str, direction: str) -> boo
 
         left_val = _resolve_value_1h(last, left_str)
         if left_val is None:
-            return False
+            return False, f"{left_str} unresolved in '{factor}'"
         right_val = _resolve_value_1h(last, right_str)
         if right_val is None:
-            return False
+            return False, f"{right_str} unresolved in '{factor}'"
 
         if operator == "<":
             if not (left_val < right_val):
-                return False
+                return False, f"{factor}: {_fmt(left_val)} !< {_fmt(right_val)}"
         elif operator == ">":
             if not (left_val > right_val):
-                return False
+                return False, f"{factor}: {_fmt(left_val)} !> {_fmt(right_val)}"
         else:
-            return False
+            return False, f"Bad operator '{operator}' in '{factor}'"
 
-    return True
+    return True, "All factors met"
+
+
+def compute_signal_1h(df: pd.DataFrame, factors_str: str, direction: str) -> bool:
+    """
+    Check if a strategy's factors are met on the latest COMPLETED 1h candle.
+    
+    Uses the last COMPLETED candle (not the forming one) to ensure reliable signals.
+    A 1h candle is complete when its end time is in the past.
+    """
+    return explain_signal_1h(df, factors_str, direction)[0]
 
 
 def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
@@ -247,29 +283,30 @@ def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> lis
         # candle when a signal fires mid-hour — so the paper entry price did not
         # match the candle the factors were evaluated on.
         close_price = float(df.iloc[_signal_candle_index(df)]["Close"])
-        fired = compute_signal_1h(df, factors, direction)
+        fired, reason = explain_signal_1h(df, factors, direction)
 
         # ── Signal Snapshot: Capture indicator values at signal time ──
+        # Captured for fired AND non-fired signals so "why did this strategy
+        # not fire" can be audited against the exact indicator values.
         signal_indicators = None
-        if fired:
-            try:
-                # Use the same COMPLETED candle that compute_signal_1h uses
-                snap_idx = _signal_candle_index(df)
-                last = df.iloc[snap_idx]
-                
-                inds = {"Close", "Open", "High", "Low", "Volume",
-                        "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
-                        "RSI14", "Ret", "2Red"}
-                snap = {}
-                for col in inds:
-                    if col in last.index and pd.notna(last[col]):
-                        v = last[col]
-                        if hasattr(v, 'iloc'):
-                            v = float(v.iloc[0])
-                        snap[col] = round(float(v), 6)
-                signal_indicators = snap
-            except Exception as e:
-                print(f"[IntradayScanner] Could not capture signal snapshot for {yf_ticker}: {e}")
+        try:
+            # Use the same COMPLETED candle that explain_signal_1h uses
+            snap_idx = _signal_candle_index(df)
+            last = df.iloc[snap_idx]
+            
+            inds = {"Close", "Open", "High", "Low", "Volume",
+                    "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
+                    "RSI14", "Ret", "2Red"}
+            snap = {}
+            for col in inds:
+                if col in last.index and pd.notna(last[col]):
+                    v = last[col]
+                    if hasattr(v, 'iloc'):
+                        v = float(v.iloc[0])
+                    snap[col] = round(float(v), 6)
+            signal_indicators = snap
+        except Exception as e:
+            print(f"[IntradayScanner] Could not capture signal snapshot for {yf_ticker}: {e}")
 
         signals.append({
             "rank": rank,
@@ -282,7 +319,7 @@ def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> lis
             "region": region,
             "close": close_price,
             "fired": fired,
-            "reason": "All factors met" if fired else "",
+            "reason": reason,
             "signal_indicators": signal_indicators,
         })
 

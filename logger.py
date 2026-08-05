@@ -86,12 +86,15 @@ def log_scan(scan_data: dict):
         "time": scan_data.get("time", now_ist().strftime("%H:%M:%S IST")),
         "mode": scan_data.get("mode", ""),
         "tickers_scanned": scan_data.get("tickers_scanned", []),
+        "market_close": scan_data.get("market_close", {}),
         "patterns_count": scan_data.get("patterns_checked", 0),
         "patterns_fired": scan_data.get("patterns_fired", 0),
         "fired_patterns": scan_data.get("fired_patterns", []),
         "entries": scan_data.get("entries", []),
+        "skipped_entries": scan_data.get("skipped_entries", []),
         "portfolio": scan_data.get("portfolio", {}),
         "telegram_status": scan_data.get("telegram_status", ""),
+        "duration_sec": scan_data.get("duration_sec"),
     })
     
     existing["date"] = date_str

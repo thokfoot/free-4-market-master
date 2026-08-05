@@ -524,6 +524,59 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
     return max(1, qty)
 
 
+def check_entry_allowed(ticker: str, direction: str,
+                        open_positions: list = None) -> str:
+    """
+    Why an entry would currently be rejected, or None if it is allowed.
+
+    Shared single source of truth used by both enter_trade() (which rejects)
+    and bot.py (which persists the skip reason in the daily scan log) so a
+    fired-but-skipped signal is always auditable.
+
+    Args:
+        ticker: yfinance ticker
+        direction: "LONG" | "SHORT"
+        open_positions: optional pre-loaded open positions list (avoids a
+            second portfolio read when the caller already has it)
+
+    Returns:
+        None if allowed, else a reason string such as
+        "MAX_CONCURRENT (100) reached" or "Duplicate SPY LONG already open".
+    """
+    portfolio = load_portfolio() if open_positions is None else None
+    positions = (open_positions if open_positions is not None
+                 else portfolio.get("open_positions", []))
+
+    # Total active-position cap (swing + intraday combined)
+    if len(positions) >= MAX_CONCURRENT:
+        return f"MAX_CONCURRENT ({MAX_CONCURRENT}) reached"
+
+    # Check duplicate (same ticker, same direction, open)
+    for pos in positions:
+        if pos["Ticker"] == ticker and pos["Direction"] == direction:
+            return f"Duplicate {ticker} {direction} already open"
+
+    return None
+
+
+def _log_audit_skip(now, mode: str, ticker: str, direction: str,
+                    tf: str, reason: str, skip_reason: str):
+    """Log a rejected entry to the persistent audit trail."""
+    audit = _load_audit()
+    audit.append({
+        "event": "SKIP",
+        "datetime": now.strftime("%Y-%m-%d %H:%M:%S IST"),
+        "mode": mode,
+        "ticker": ticker,
+        "direction": direction,
+        "tf": tf,
+        "pattern_reason": reason,
+        "skip_reason": skip_reason,
+    })
+    _save_audit(audit)
+    print(f"[Audit] SKIP logged: {direction} {ticker} — {skip_reason}")
+
+
 def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  reason: str, pattern_rank: int = None,
                  expected_win_rate: float = None,
@@ -562,16 +615,13 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     portfolio = load_portfolio()
     open_positions = portfolio.get("open_positions", [])
     
-    # Total active-position cap (swing + intraday combined)
-    if len(open_positions) >= MAX_CONCURRENT:
-        print(f"[Paper] MAX CONCURRENT ({MAX_CONCURRENT}), skip {ticker}")
+    # Total active-position cap + duplicate check (single source of truth
+    # shared with bot.py so skipped entries get a persisted reason)
+    skip_reason = check_entry_allowed(ticker, direction, open_positions)
+    if skip_reason:
+        print(f"[Paper] {skip_reason}, skip {ticker}")
+        _log_audit_skip(now, mode, ticker, direction, tf, reason, skip_reason)
         return None
-    
-    # Check duplicate (same ticker, same direction, open)
-    for pos in open_positions:
-        if pos["Ticker"] == ticker and pos["Direction"] == direction:
-            print(f"[Paper] Duplicate {ticker} {direction} already open, skip")
-            return None
     
     # Calculate SL/TP based on direction AND timeframe
     # Use sl_override/tp_override if provided (gap-down strategies set their own)
@@ -612,6 +662,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     entry = round_price(actual_entry)
     qty = calculate_qty(entry, sl, mode, tf)
     if qty == 0:
+        _log_audit_skip(now, mode, ticker, direction, tf, reason,
+                        f"Qty=0 (entry={entry}, sl={sl}, mode={mode})")
         return None
     
     # Build reason with pattern rank

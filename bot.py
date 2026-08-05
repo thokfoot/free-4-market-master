@@ -34,7 +34,7 @@ from scanner_gap_down import (
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
     generate_portfolio_report, get_strategy_stats,
-    initialize_system,
+    initialize_system, check_entry_allowed,
 )
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
@@ -506,6 +506,7 @@ def run_swing_scan() -> dict:
     
     # 8. Enter new trades (SWING)
     entries = []
+    skipped_entries = []
     for entry in best_entries:
         region = get_region(entry["ticker"], entry.get("region"))
         trade = enter_trade(
@@ -519,6 +520,14 @@ def run_swing_scan() -> dict:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
                 "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
                 "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
+        else:
+            skipped_entries.append({
+                "ticker": entry["ticker"], "direction": entry["direction"],
+                "close": entry["close"], "rank": entry.get("rank"),
+                "win_rate": entry.get("win_rate"),
+                "reason": check_entry_allowed(entry["ticker"], entry["direction"])
+                          or "Rejected (position sizing / unknown)",
+            })
     print(f"[Swing] New entries: {len(entries)}")
     
     # Save today's date ONLY AFTER full scan completes successfully
@@ -534,6 +543,7 @@ def run_swing_scan() -> dict:
         "fired_signals": fired_signals,
         "best_entries": best_entries,
         "entries": entries,
+        "skipped_entries": skipped_entries,
         "closed_msgs": closed_msgs,
         "scan_errors": scan_errors,
         "duration": time.time() - start_time,
@@ -637,6 +647,7 @@ def run_intraday_scan() -> dict:
     
     # 8. Enter new trades (INTRADAY)
     entries = []
+    skipped_entries = []
     for entry in best_entries:
         region = get_region(entry["ticker"], entry.get("region"))
         trade = enter_trade(
@@ -650,6 +661,14 @@ def run_intraday_scan() -> dict:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
                 "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
                 "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
+        else:
+            skipped_entries.append({
+                "ticker": entry["ticker"], "direction": entry["direction"],
+                "close": entry["close"], "rank": entry.get("rank"),
+                "win_rate": entry.get("win_rate"),
+                "reason": check_entry_allowed(entry["ticker"], entry["direction"])
+                          or "Rejected (position sizing / unknown)",
+            })
     print(f"[Intraday] New entries: {len(entries)}")
     
     return {
@@ -662,6 +681,7 @@ def run_intraday_scan() -> dict:
         "fired_signals": fired_signals,
         "best_entries": best_entries,
         "entries": entries,
+        "skipped_entries": skipped_entries,
         "closed_msgs": closed_msgs,
         "scan_errors": scan_errors,
         "duration": time.time() - start_time,
@@ -687,6 +707,7 @@ def run_gap_down_scan() -> dict:
     
     # 1. Scan all Indian tickers for gap-down signals
     entries = []
+    skipped_entries = []
     scan_errors = 0
     try:
         all_signals = scan_all_gap_down(progress_interval=20)
@@ -757,6 +778,14 @@ def run_gap_down_scan() -> dict:
                     # Also add to current_prices for live P&L
                     if s["ticker"] not in current_prices:
                         current_prices[s["ticker"]] = s["entry_price"]
+                else:
+                    skipped_entries.append({
+                        "ticker": s["ticker"], "direction": "LONG",
+                        "close": s["entry_price"], "rank": rank_id,
+                        "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                        "reason": check_entry_allowed(s["ticker"], "LONG")
+                                  or "Rejected (position sizing / unknown)",
+                    })
     except Exception as e:
         log_error(f"GapDown scan failed: {e}")
         print(f"[FATAL] GapDown scan: {e}")
@@ -778,6 +807,7 @@ def run_gap_down_scan() -> dict:
         "fired_signals": [{"fired": True} for _ in all_signals],
         "best_entries": [],
         "entries": entries,
+        "skipped_entries": skipped_entries,
         "closed_msgs": closed_msgs,
         "scan_errors": scan_errors,
         "duration": time.time() - start_time,
@@ -849,6 +879,7 @@ def main():
     all_entries = []
     all_closed = []
     all_signals = []
+    all_skipped = []
     total_fired = 0
     total_errors = 0
     total_tickers = 0
@@ -858,6 +889,7 @@ def main():
         all_entries.extend(sr["entries"])
         all_closed.extend(sr["closed_msgs"])
         all_signals.extend(sr["all_signals"])
+        all_skipped.extend(sr.get("skipped_entries", []))
         total_fired += len(sr["fired_signals"])
         total_errors += sr["scan_errors"]
         total_tickers += len(sr["ticker_data"])
@@ -921,24 +953,26 @@ def main():
     
     # Log scan data
     fired_patterns = []
-    skipped_patterns = []
     for sr in scan_results:
         for s in sr["all_signals"]:
             if s.get("fired"):
                 fired_patterns.append({
                     "rank": s["rank"], "market": s["market"], "ticker": s["ticker"],
                     "direction": s["direction"], "factors": s["factors"],
-                    "win_rate": s["win_rate"], "reason": "All factors met",
+                    "win_rate": s["win_rate"], "reason": s.get("reason", "All factors met"),
+                    "signal_indicators": s.get("signal_indicators"),
                 })
     
     scan_data = {
         "date": date_str, "time": time_str,
         "mode": mode.upper(),
         "tickers_scanned": list(current_prices.keys()),
+        "market_close": {t: c for t, c in current_prices.items()},
         "patterns_checked": len(all_signals),
         "patterns_fired": total_fired,
         "fired_patterns": fired_patterns,
         "entries": all_entries,
+        "skipped_entries": all_skipped,
         "portfolio": {
             "capital_by_market": cap_by_mkt,
             "total_capital": total_cape,

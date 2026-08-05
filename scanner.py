@@ -111,6 +111,93 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def _fmt(v) -> str:
+    """Format an indicator value for logging ('n/a' if unusable)."""
+    try:
+        return f"{float(v):.4g}"
+    except (TypeError, ValueError):
+        return "n/a"
+
+
+def _safe_ret(df: pd.DataFrame, idx: int) -> str:
+    """Format the Ret value at a row index for a '2Red failed' explanation."""
+    if df is None or len(df) == 0:
+        return "n/a"
+    if idx >= 0 or abs(idx) > len(df):
+        return "n/a"
+    try:
+        v = df.iloc[idx].get("Ret")
+        return _fmt(v) if pd.notna(v) else "n/a"
+    except (IndexError, AttributeError):
+        return "n/a"
+
+
+def explain_signal(df: pd.DataFrame, factors_str: str, direction: str,
+                   row_idx: int = -1) -> tuple:
+    """
+    Evaluate a strategy's factors on a candle and explain the outcome.
+    
+    Args:
+        df: DataFrame with computed indicators
+        factors_str: e.g. "Price<SMA50+EMA9>EMA20+Range>1.5%"
+        direction: "LONG" or "SHORT" (not used for evaluation)
+        row_idx: row to evaluate (default -1 = latest candle)
+    
+    Returns:
+        (fired: bool, reason: str) — reason is "All factors met" when the
+        strategy fires, otherwise the first failing factor with the actual
+        indicator values (permanently auditable "why not fired").
+    """
+    if df is None or len(df) < 2:
+        return False, "Insufficient data"
+
+    last = df.iloc[row_idx]
+
+    # Split into individual factor strings
+    factors = [f.strip() for f in factors_str.split("+")]
+
+    for factor in factors:
+        # Handle special factors
+        if factor == "2Red":
+            # Check if last 2 candles are red
+            if not (last["2Red"] == True):
+                return False, (f"2Red failed (Ret={_safe_ret(df, row_idx)}, "
+                               f"prev={_safe_ret(df, row_idx - 1)})")
+            continue
+
+        # Parse "A<B" or "A>B" format
+        # Match pattern: Left <operator> Right
+        match = re.match(r"^([A-Za-z0-9_.%]+)([<>])(.+)$", factor)
+        if not match:
+            return False, f"Cannot parse factor '{factor}'"
+
+        left_str = match.group(1)
+        operator = match.group(2)
+        right_str = match.group(3)
+
+        # Resolve left value
+        left_val = _resolve_value(last, left_str)
+        if left_val is None:
+            return False, f"{left_str} unresolved in '{factor}'"
+
+        # Resolve right value
+        right_val = _resolve_value(last, right_str)
+        if right_val is None:
+            return False, f"{right_str} unresolved in '{factor}'"
+
+        # Compare
+        if operator == "<":
+            if not (left_val < right_val):
+                return False, f"{factor}: {_fmt(left_val)} !< {_fmt(right_val)}"
+        elif operator == ">":
+            if not (left_val > right_val):
+                return False, f"{factor}: {_fmt(left_val)} !> {_fmt(right_val)}"
+        else:
+            return False, f"Bad operator '{operator}' in '{factor}'"
+
+    return True, "All factors met"
+
+
 def compute_signal(df: pd.DataFrame, factors_str: str, direction: str) -> bool:
     """
     Check if a strategy's factors are met on the latest candle.
@@ -123,54 +210,7 @@ def compute_signal(df: pd.DataFrame, factors_str: str, direction: str) -> bool:
     Returns:
         True if all factors are satisfied on latest row
     """
-    if df is None or len(df) < 2:
-        return False
-    
-    last = df.iloc[-1]
-    
-    # Split into individual factor strings
-    factors = [f.strip() for f in factors_str.split("+")]
-    
-    for factor in factors:
-        # Handle special factors
-        if factor == "2Red":
-            # Check if last 2 candles are red
-            if not (last["2Red"] == True):
-                return False
-            continue
-        
-        # Parse "A<B" or "A>B" format
-        # Match pattern: Left <operator> Right
-        match = re.match(r"^([A-Za-z0-9_.%]+)([<>])(.+)$", factor)
-        if not match:
-            print(f"[Scanner] WARNING: Cannot parse factor '{factor}'")
-            return False
-        
-        left_str = match.group(1)
-        operator = match.group(2)
-        right_str = match.group(3)
-        
-        # Resolve left value
-        left_val = _resolve_value(last, left_str)
-        if left_val is None:
-            return False
-        
-        # Resolve right value
-        right_val = _resolve_value(last, right_str)
-        if right_val is None:
-            return False
-        
-        # Compare
-        if operator == "<":
-            if not (left_val < right_val):
-                return False
-        elif operator == ">":
-            if not (left_val > right_val):
-                return False
-        else:
-            return False
-    
-    return True
+    return explain_signal(df, factors_str, direction, row_idx=-1)[0]
 
 
 def _resolve_value(row: pd.Series, expr: str) -> float:
@@ -286,28 +326,29 @@ def scan_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
             continue
         
         close_price = float(df.iloc[-1]["Close"])
-        fired = compute_signal(df, factors, direction)
+        fired, reason = explain_signal(df, factors, direction)
         
         # ── Signal Snapshot: Capture indicator values at signal time ──
         # This is saved permanently so entries are verifiable forever
-        # (even after yfinance adjusts historical data).
+        # (even after yfinance adjusts historical data). Captured for fired
+        # AND non-fired signals so "why did this strategy not fire" can be
+        # audited against the exact indicator values at scan time.
         signal_indicators = None
-        if fired:
-            try:
-                last = df.iloc[-1]
-                inds = {"Close", "Open", "High", "Low", "Volume",
-                        "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
-                        "RSI14", "Ret", "2Red"}
-                snap = {}
-                for col in inds:
-                    if col in last.index and pd.notna(last[col]):
-                        v = last[col]
-                        if hasattr(v, 'iloc'):
-                            v = float(v.iloc[0])
-                        snap[col] = round(float(v), 6)
-                signal_indicators = snap
-            except Exception as e:
-                print(f"[Scanner] Could not capture signal snapshot for {yf_ticker}: {e}")
+        try:
+            last = df.iloc[-1]
+            inds = {"Close", "Open", "High", "Low", "Volume",
+                    "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
+                    "RSI14", "Ret", "2Red"}
+            snap = {}
+            for col in inds:
+                if col in last.index and pd.notna(last[col]):
+                    v = last[col]
+                    if hasattr(v, 'iloc'):
+                        v = float(v.iloc[0])
+                    snap[col] = round(float(v), 6)
+            signal_indicators = snap
+        except Exception as e:
+            print(f"[Scanner] Could not capture signal snapshot for {yf_ticker}: {e}")
         
         signals.append({
             "rank": rank,
@@ -320,7 +361,7 @@ def scan_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
             "region": region,
             "close": close_price,
             "fired": fired,
-            "reason": "All factors met" if fired else "",
+            "reason": reason,
             "signal_indicators": signal_indicators,
         })
     
