@@ -1129,5 +1129,21 @@
     "expected_win_rate": 71.43,
     "pattern_factors": "Price>SMA20+EMA9<EMA20+Close>Open",
     "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-05 21:46:25 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "SHORT",
+    "entry_price": 0.3273,
+    "qty": 10000,
+    "sl": 0.3322,
+    "target": 0.3175,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"Low\": 0.327155, \"Close\": 0.327305, \"EMA9\": 0.327714, \"High\": 0.327798, \"EMA50\": 0.327798, \"2Red\": 1.0, \"SMA20\": 0.327275, \"RSI14\": 45.145799, \"SMA50\": 0.328237, \"Volume\": 11714432.0, \"EMA20\": 0.327706, \"Open\": 0.327798, \"Ret\": -0.00148}"
   }
 ]
