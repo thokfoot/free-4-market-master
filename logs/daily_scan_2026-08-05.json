@@ -370,6 +370,30 @@
         "losses": 25
       },
       "telegram_status": "Sent"
+    },
+    {
+      "time": "11:20:01 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "patterns_count": 0,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 99775.55999999998,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 87769.14909973142
+        },
+        "total_capital": 387544.7090997314,
+        "open_count": 4,
+        "total_pnl": -12455.290900268561,
+        "closed_count": 31,
+        "wins": 6,
+        "losses": 25
+      },
+      "telegram_status": "Sent"
     }
   ],
   "latest_portfolio": {
