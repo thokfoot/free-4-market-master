@@ -1083,5 +1083,15 @@
     "pattern_factors": "RSI>50+SMA20<SMA50",
     "reason": "#43SW RSI>50+SMA20<SMA50",
     "signal_indicators": "{\"Open\": 11834.769531, \"2Red\": 0.0, \"Low\": 11834.769531, \"EMA50\": 12060.819678, \"High\": 12258.080078, \"Volume\": 0.0, \"Close\": 12179.259766, \"SMA20\": 11969.362402, \"SMA50\": 12733.155156, \"EMA9\": 11616.389397, \"Ret\": 0.065519, \"RSI14\": 51.036819, \"EMA20\": 11930.761336}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-05 15:43:21 IST",
+    "mode": "US",
+    "ticker": "XLF",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI>65+2Red",
+    "skip_reason": "Duplicate XLF SHORT already open"
   }
 ]
