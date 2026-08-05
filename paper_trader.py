@@ -11,15 +11,13 @@ import pytz
 import requests
 from config import (
     CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE,
-    SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE,
+    SL_PCT, TP_PCT, MAX_HOLD_DAYS, STRATEGY_FILE,
     CHARGES_PER_MARKET,
     INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
-    INTRADAY_MAX_HOLD_HOURS, INTRADAY_MAX_CONCURRENT,
+    INTRADAY_MAX_HOLD_HOURS,
     CAP_MAX_QTY_ULTRA_LOW, CAP_MAX_QTY_LOW, CAP_MAX_QTY_HIGH,
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
-    MAX_CONSECUTIVE_LOSSES, CONSECUTIVE_LOSS_COOLDOWN_H,
-    MIN_ENTRY_GAP_HOURS,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -562,45 +560,13 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()
-    
-    # Check max concurrent (separate limits for swing vs intraday)
     open_positions = portfolio.get("open_positions", [])
-    if tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
-        intraday_open = [p for p in open_positions if p.get("TimeFrame") in ("INTRADAY_1h", "GAP_DOWN_1m")]
-        if len(intraday_open) >= INTRADAY_MAX_CONCURRENT:
-            print(f"[Paper] INTRADAY MAX CONCURRENT ({INTRADAY_MAX_CONCURRENT}), skip {ticker}")
-            return None
-    elif len(open_positions) >= MAX_CONCURRENT:
-        print(f"[Paper] MAX CONCURRENT ({MAX_CONCURRENT}), skip {ticker}")
-        return None
     
     # Check duplicate (same ticker, same direction, open)
-    for pos in portfolio["open_positions"]:
+    for pos in open_positions:
         if pos["Ticker"] == ticker and pos["Direction"] == direction:
             print(f"[Paper] Duplicate {ticker} {direction} already open, skip")
             return None
-    
-    # ── Consecutive Loss Guard ──
-    # Skip entry if same ticker+strategy has lost N+ times consecutively
-    # and cooldown hasn't expired yet.
-    if pattern_rank is not None:
-        if not _check_consecutive_loss_cooldown(ticker, pattern_rank):
-            print(f"[Paper] Consecutive loss cooldown active — skip {ticker} Rank#{pattern_rank}")
-            return None
-    
-    # ── Re-entry Guard ──
-    # Prevent the same ticker+strategy from being re-entered repeatedly while a
-    # persistent signal keeps firing (e.g. DIA #36 entered 3x in 90 min, QQQ #5
-    # 3x in 2h). Without this, an intraday signal that stays true for hours
-    # re-enters on every 15-min scan and bleeds out on the same SL repeatedly.
-    if tf in ("INTRADAY_1h", "GAP_DOWN_1m") and pattern_rank is not None:
-        last_entry = _last_entry_time(ticker, pattern_rank)
-        if last_entry is not None:
-            hours_since = (now - last_entry).total_seconds() / 3600
-            if hours_since < MIN_ENTRY_GAP_HOURS:
-                print(f"[Paper] Re-entry guard: {ticker} Rank#{pattern_rank} entered "
-                      f"{hours_since:.1f}h ago (min {MIN_ENTRY_GAP_HOURS}h) — skip")
-                return None
     
     # Calculate SL/TP based on direction AND timeframe
     # Use sl_override/tp_override if provided (gap-down strategies set their own)
@@ -703,139 +669,6 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     _log_audit_entry(trade)
     
     return trade
-
-
-# ===== CONSECUTIVE LOSS GUARD =====
-# Prevents re-entering the same ticker+strategy after repeated losses.
-
-def _last_entry_time(ticker: str, strategy_rank) -> pd.Timestamp:
-    """
-    Return IST-aware datetime of the most recent entry for (ticker, rank),
-    or None if there is no prior entry.
-    Used by the re-entry guard to enforce MIN_ENTRY_GAP_HOURS.
-    """
-    if not os.path.exists(PAPER_FILE):
-        return None
-    try:
-        df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
-        if df.empty:
-            return None
-        rank_str = str(int(strategy_rank))
-        mask = (
-            (df["Ticker"].astype(str).str.strip() == str(ticker).strip()) &
-            (df["Pattern_Rank"].astype(str).str.strip() == rank_str)
-        )
-        matches = df[mask].sort_values(["Date", "Time_IST"], ascending=[False, False])
-        if matches.empty:
-            return None
-        first = matches.iloc[0]
-        date_str = str(first["Date"])
-        time_raw = str(first.get("Time_IST", "00:00:00"))[:8]
-        try:
-            return IST.localize(datetime.strptime(f"{date_str} {time_raw}", "%Y-%m-%d %H:%M:%S"))
-        except (ValueError, TypeError):
-            return None
-    except Exception as e:
-        print(f"[Paper] _last_entry_time error: {e}")
-        return None
-
-def _consecutive_losses_for_strategy(ticker: str, strategy_rank) -> int:
-    """
-    Count consecutive closed losses for (ticker, strategy_rank).
-    Scans paper_trades.csv chronologically (newest first).
-    Returns 0 if last trade was a win, otherwise count of consecutive losses.
-    """
-    if not os.path.exists(PAPER_FILE):
-        return 0
-    try:
-        df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
-        if df.empty:
-            return 0
-        
-        rank_str = str(int(strategy_rank)) if strategy_rank is not None else ""
-        if not rank_str:
-            return 0
-        
-        mask = (
-            (df["Ticker"].astype(str).str.strip() == str(ticker).strip()) &
-            (df["Pattern_Rank"].astype(str).str.strip() == rank_str) &
-            (df["Status"].astype(str).str.strip() == "CLOSED")
-        )
-        matches = df[mask].sort_values(["Date", "Time_IST"], ascending=[False, False])
-        if matches.empty:
-            return 0
-        
-        count = 0
-        for _, r in matches.iterrows():
-            pnl = r.get("P&L")
-            try:
-                pnl_val = float(pnl)
-            except (ValueError, TypeError):
-                break
-            if pnl_val < 0:
-                count += 1
-            else:
-                break  # Win breaks the consecutive loss streak
-        return count
-    except Exception as e:
-        print(f"[LossGuard] Error counting consecutive losses: {e}")
-        return 0
-
-
-def _check_consecutive_loss_cooldown(ticker: str, strategy_rank) -> bool:
-    """
-    Check if (ticker, strategy_rank) is on cooldown due to consecutive losses.
-    Returns True if entry is ALLOWED, False if it should be BLOCKED.
-    """
-    if strategy_rank is None:
-        return True  # No rank info — always allow
-    
-    consec = _consecutive_losses_for_strategy(ticker, strategy_rank)
-    if consec < MAX_CONSECUTIVE_LOSSES:
-        return True  # Below threshold — allow
-    
-    # Hit threshold — check cooldown time from last exit
-    try:
-        df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
-        if df.empty:
-            return True
-        
-        rank_str = str(int(strategy_rank))
-        mask = (
-            (df["Ticker"].astype(str).str.strip() == str(ticker).strip()) &
-            (df["Pattern_Rank"].astype(str).str.strip() == rank_str) &
-            (df["Status"].astype(str).str.strip() == "CLOSED")
-        )
-        matches = df[mask].sort_values(["Date", "Time_IST"], ascending=[False, False])
-        if matches.empty:
-            return True
-        
-        last = matches.iloc[0]
-        last_date = str(last["Date"])
-        last_time_raw = str(last.get("Exit_Time", str(last.get("Time_IST", "00:00:00"))))
-        # Strip timezone suffix like "IST" or "UTC"
-        for suffix in [" IST", " UTC", "IST", "UTC"]:
-            if last_time_raw.endswith(suffix):
-                last_time_raw = last_time_raw[: -len(suffix)]
-                break
-        if not last_time_raw.strip():
-            last_time_raw = "00:00:00"
-        
-        last_dt = datetime.strptime(f"{last_date} {last_time_raw.strip()}", "%Y-%m-%d %H:%M:%S")
-        last_dt = IST.localize(last_dt)
-        now = datetime.now(IST)
-        hours_since = (now - last_dt).total_seconds() / 3600
-        
-        if hours_since < CONSECUTIVE_LOSS_COOLDOWN_H:
-            print(f"[LossGuard] SKIP {ticker} Rank#{rank_str}: {consec} consecutive losses, "
-                  f"only {hours_since:.0f}h since last (cooldown={CONSECUTIVE_LOSS_COOLDOWN_H}h)")
-            return False
-        
-        print(f"[LossGuard] ALLOW {ticker} Rank#{rank_str}: cooldown expired ({hours_since:.0f}h >= {CONSECUTIVE_LOSS_COOLDOWN_H}h)")
-        return True
-    except Exception as e:
-        print(f"[LossGuard] Error checking cooldown: {e}")
-        return True
 
 
 # ===== PER-STRATEGY WIN RATE TRACKING =====

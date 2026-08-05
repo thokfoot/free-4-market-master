@@ -27,22 +27,9 @@ RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss
 TP_PCT = 0.04                   # 4% take profit
 MAX_HOLD_DAYS = 5               # Max hold days per trade (matches backtest)
-MAX_CONCURRENT = 5              # Max simultaneous open positions
-
-# ===== CONSECUTIVE LOSS GUARD =====
-# Prevents re-entering the same ticker+strategy after repeated losses.
-# If a strategy loses N times consecutively on the same ticker, skip it.
-# Example: DIA #36 entered 4 times and lost each time — after 3 losses,
-# the 4th entry is blocked until cooldown expires.
-MAX_CONSECUTIVE_LOSSES = 3        # Max consecutive losses before cooldown
-CONSECUTIVE_LOSS_COOLDOWN_H = 24   # Cooldown in hours after hitting max consecutive losses
-
-# ===== RE-ENTRY GUARD =====
-# Prevent the same ticker+strategy from being re-entered repeatedly while a
-# persistent signal keeps firing (e.g. DIA #36 entered 3x in 90 min and QQQ #5
-# 3x in 2h during US intraday). Only applied to intraday timeframes — swing
-# re-entry after a multi-day gap is a normal cycle.
-MIN_ENTRY_GAP_HOURS = 24
+# NOTE: No MAX_CONCURRENT / consecutive-loss cooldown / re-entry-gap limits.
+# Paper trade only — every fired signal is entered so each strategy's real
+# long-run performance can be measured without entry caps distorting results.
 
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")
@@ -158,7 +145,6 @@ INTRADAY_MAX_HOLD_HOURS = {
     "CRYPTO": 12,     # Max 12 hours for crypto (24/7 market)
     "INDIAN": 5,      # Max 5 hours for India intraday
 }
-INTRADAY_MAX_CONCURRENT = 3  # Max 3 concurrent intraday positions
 INTRADAY_PERIOD = "3mo"      # 3 months of 1h data from yfinance
 INTRADAY_INTERVAL = "1h"     # 1-hour candles
 

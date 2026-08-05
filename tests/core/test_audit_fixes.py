@@ -5,9 +5,8 @@ Covers:
     1. rebuild_portfolio_from_csv() — portfolio.json becomes a pure function of
        paper_trades.csv (single source of truth) so bot.py and live_pnl_updater.py
        can never drift or double-count. GAP_DOWN_1m draws from the INTRADAY bucket.
-    2. Re-entry guard — the same intraday ticker+strategy can no longer be
-       re-entered within MIN_ENTRY_GAP_HOURS (24h) while a persistent signal
-       keeps firing (DIA #36 entered 3x in 90 min, QQQ #5 3x in 2h).
+    2. Re-entry allowed — the intraday re-entry guard (24h gap) was REMOVED so
+       every fired signal is paper-entered (unlimited evaluation of strategies).
     3. scanner_gap_down.calculate_factors — a "gap" is the day's open vs the
        PRIOR DAY's close, not vs the prior 1-minute candle's close.
     4. scanner_intraday entry price — must be the close of the COMPLETED signal
@@ -138,11 +137,11 @@ def test_rebuild_portfolio_skips_closed_row_with_missing_pnl(test_env, monkeypat
 
 
 # ======================================================================
-# 2. Re-entry guard (same ticker+strategy, intraday only, 24h gap)
+# 2. Re-entry allowed (re-entry guard removed for paper-trade evaluation)
 # ======================================================================
 
-def test_reentry_guard_blocks_same_intraday_signal(test_env, monkeypatch):
-    """DIA-style loop: a persistent intraday signal must NOT re-enter within 24h."""
+def test_immediate_intraday_reentry_allowed(test_env, monkeypatch):
+    """A persistent intraday signal may re-enter immediately (no 24h guard)."""
     _set_time(monkeypatch, datetime(2026, 1, 15, 10, 30, 0))
 
     t1 = enter_trade("US", "DIA", "LONG", 400.0, "Test", pattern_rank=36,
@@ -157,23 +156,12 @@ def test_reentry_guard_blocks_same_intraday_signal(test_env, monkeypatch):
     # Immediate re-entry of the SAME ticker+rank while the signal still fires
     t2 = enter_trade("US", "DIA", "LONG", 400.0, "Test", pattern_rank=36,
                      expected_win_rate=67.86, pattern_factors="P", tf="INTRADAY_1h")
-    assert t2 is None, "re-entry within 24h must be blocked"
+    assert t2 is not None, "re-entry must be allowed (re-entry guard removed)"
 
-    # Swing on the SAME ticker+rank is NOT gated by the intraday re-entry guard
+    # Opposite-direction swing on the same ticker is still fine
     t3 = enter_trade("US", "DIA", "SHORT", 400.0, "Test", pattern_rank=3,
                      expected_win_rate=60.0, pattern_factors="Q", tf="SWING_1d")
     assert t3 is not None, "swing entry must not be blocked"
-
-    # After >24h the intraday re-entry is allowed again
-    _set_time(monkeypatch, datetime(2026, 1, 16, 12, 0, 0))
-    t4 = enter_trade("US", "DIA", "LONG", 400.0, "Test", pattern_rank=36,
-                     expected_win_rate=67.86, pattern_factors="P", tf="INTRADAY_1h")
-    assert t4 is not None, "re-entry after 24h cooldown must be allowed"
-
-
-def test_last_entry_time_returns_none_with_no_history(test_env, monkeypatch):
-    _set_time(monkeypatch, datetime(2026, 1, 15, 10, 30, 0))
-    assert pt._last_entry_time("DIA", 36) is None
 
 
 # ======================================================================
