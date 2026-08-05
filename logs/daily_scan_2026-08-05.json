@@ -1022,6 +1022,419 @@
         "losses": 9
       },
       "telegram_status": "Sent"
+    },
+    {
+      "time": "15:12:47 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "IBB",
+        "IWB",
+        "IWM",
+        "OEF",
+        "QQQ",
+        "SPY",
+        "TRX-USD",
+        "XLB",
+        "XLC",
+        "XLE",
+        "XLF",
+        "XLI",
+        "XLK",
+        "XLP",
+        "XLRE",
+        "XLU",
+        "XLV",
+        "XLY",
+        "XRP-USD",
+        "^BKX",
+        "^BSESN",
+        "^DJT",
+        "^DJU",
+        "^GSPC",
+        "^NDX",
+        "^NSEBANK",
+        "^NSEI",
+        "^NYA",
+        "^SOX",
+        "^SP400",
+        "BTC-USD",
+        "LINK-USD",
+        "SOL-USD"
+      ],
+      "patterns_count": 281,
+      "patterns_fired": 33,
+      "fired_patterns": [
+        {
+          "rank": 49,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20",
+          "win_rate": 76.09,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 50,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20",
+          "win_rate": 76.6,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 52,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA20+EMA9<EMA20+Close>Open",
+          "win_rate": 71.43,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 56,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20+Close>Open",
+          "win_rate": 75.68,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 58,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20+Close>Open",
+          "win_rate": 80.0,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 75,
+          "market": "XLK_Tech",
+          "ticker": "XLK",
+          "direction": "LONG",
+          "factors": "Price>SMA50+EMA9<EMA20",
+          "win_rate": 69.57,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 1,
+          "market": "XLK",
+          "ticker": "XLK",
+          "direction": "LONG",
+          "factors": "Price>EMA9+SMA20<SMA50",
+          "win_rate": 51.38,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 2,
+          "market": "XLK",
+          "ticker": "XLK",
+          "direction": "LONG",
+          "factors": "Price>EMA20+SMA20<SMA50",
+          "win_rate": 54.23,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 43,
+          "market": "PHLX_Semi",
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "factors": "RSI>50+SMA20<SMA50",
+          "win_rate": 46.96,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 3,
+          "market": "XLK",
+          "ticker": "XLK",
+          "direction": "LONG",
+          "factors": "RSI>50+SMA20<SMA50",
+          "win_rate": 54.55,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 4,
+          "market": "XLK",
+          "ticker": "XLK",
+          "direction": "LONG",
+          "factors": "Price>SMA20+SMA20<SMA50",
+          "win_rate": 52.13,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 46,
+          "market": "PHLX_Semi",
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "factors": "Price>EMA20+SMA20<SMA50",
+          "win_rate": 45.96,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 60,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>EMA20+SMA20<SMA50",
+          "win_rate": 55.11,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 64,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>EMA20+SMA20<SMA50",
+          "win_rate": 54.29,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 61,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>EMA9+SMA20<SMA50",
+          "win_rate": 51.17,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 62,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "RSI>50+SMA20<SMA50",
+          "win_rate": 56.33,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 65,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>EMA9+SMA20<SMA50",
+          "win_rate": 50.7,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 66,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "RSI>50+SMA20<SMA50",
+          "win_rate": 55.7,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 64,
+          "market": "Nasdaq100",
+          "ticker": "^NDX",
+          "direction": "LONG",
+          "factors": "Price>SMA50+SMA20<SMA50",
+          "win_rate": 60.0,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 68,
+          "market": "QQQ",
+          "ticker": "QQQ",
+          "direction": "LONG",
+          "factors": "Price>SMA50+SMA20<SMA50",
+          "win_rate": 57.63,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 1,
+          "market": "XLC",
+          "ticker": "XLC",
+          "direction": "LONG",
+          "factors": "Price>EMA9+SMA20<SMA50",
+          "win_rate": 51.27,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 1,
+          "market": "XLY",
+          "ticker": "XLY",
+          "direction": "LONG",
+          "factors": "EMA9<EMA50+RSI>50",
+          "win_rate": 58.65,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 1,
+          "market": "TRX",
+          "ticker": "TRX-USD",
+          "direction": "LONG",
+          "factors": "EMA9>EMA20+Price>SMA50+Range<1%",
+          "win_rate": 66.67,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 2,
+          "market": "TRX",
+          "ticker": "TRX-USD",
+          "direction": "LONG",
+          "factors": "Price>SMA50+Range<1%",
+          "win_rate": 66.28,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 2,
+          "market": "XLY",
+          "ticker": "XLY",
+          "direction": "LONG",
+          "factors": "EMA20<EMA50+RSI>50",
+          "win_rate": 55.17,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 3,
+          "market": "TRX",
+          "ticker": "TRX-USD",
+          "direction": "LONG",
+          "factors": "EMA9>EMA20+Range<1%",
+          "win_rate": 65.56,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 4,
+          "market": "TRX",
+          "ticker": "TRX-USD",
+          "direction": "LONG",
+          "factors": "EMA9>EMA20+Price>EMA50+Range<1%",
+          "win_rate": 65.38,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 3,
+          "market": "XLY",
+          "ticker": "XLY",
+          "direction": "LONG",
+          "factors": "EMA9<EMA50+Price>EMA20",
+          "win_rate": 51.97,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 4,
+          "market": "XLY",
+          "ticker": "XLY",
+          "direction": "LONG",
+          "factors": "EMA20<EMA50+Price>EMA20",
+          "win_rate": 50.9,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 4,
+          "market": "XLV",
+          "ticker": "XLV",
+          "direction": "LONG",
+          "factors": "EMA9>EMA20+Range<1%",
+          "win_rate": 52.32,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 38,
+          "market": "XLF_Fin",
+          "ticker": "XLF",
+          "direction": "SHORT",
+          "factors": "RSI>65+2Red",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 39,
+          "market": "XLF_Fin",
+          "ticker": "XLF",
+          "direction": "SHORT",
+          "factors": "RSI>65+Price>SMA20+2Red",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        },
+        {
+          "rank": 40,
+          "market": "XLF_Fin",
+          "ticker": "XLF",
+          "direction": "SHORT",
+          "factors": "RSI>65+EMA9>EMA20+2Red",
+          "win_rate": 60.47,
+          "reason": "All factors met"
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "TRX-USD",
+          "direction": "LONG",
+          "close": 0.32807818055152893,
+          "qty": 10000,
+          "sl": 0.3215,
+          "target": 0.3412,
+          "rank": 1,
+          "win_rate": 66.67
+        },
+        {
+          "ticker": "XLY",
+          "direction": "LONG",
+          "close": 118.29000091552734,
+          "qty": 420,
+          "sl": 115.92,
+          "target": 123.02,
+          "rank": 1,
+          "win_rate": 58.65
+        },
+        {
+          "ticker": "XLV",
+          "direction": "LONG",
+          "close": 162.10000610351562,
+          "qty": 307,
+          "sl": 158.86,
+          "target": 168.58,
+          "rank": 4,
+          "win_rate": 52.32
+        },
+        {
+          "ticker": "XLC",
+          "direction": "LONG",
+          "close": 112.04000091552734,
+          "qty": 445,
+          "sl": 109.8,
+          "target": 116.52,
+          "rank": 1,
+          "win_rate": 51.27
+        },
+        {
+          "ticker": "^SOX",
+          "direction": "LONG",
+          "close": 12179.259765625,
+          "qty": 4,
+          "sl": 11935.67,
+          "target": 12666.43,
+          "rank": 43,
+          "win_rate": 46.96
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 99775.56,
+          "CRYPTO": 100000.0,
+          "INTRADAY": 112521.63999999996
+        },
+        "total_capital": 412297.19999999995,
+        "open_count": 10,
+        "total_pnl": 12297.200000000003,
+        "closed_count": 30,
+        "wins": 21,
+        "losses": 9
+      },
+      "telegram_status": "Sent"
     }
   ],
   "latest_portfolio": {
@@ -1032,7 +1445,7 @@
       "INTRADAY": 112521.63999999996
     },
     "total_capital": 412297.19999999995,
-    "open_count": 5,
+    "open_count": 10,
     "total_pnl": 12297.200000000003,
     "closed_count": 30,
     "wins": 21,
