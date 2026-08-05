@@ -4,7 +4,7 @@ Tests for paper_trader.enter_trade() — trade lifecycle, entry rules.
 Covers:
     - Duplicate detection (same ticker + direction)
     - Different direction on same ticker (allowed)
-    - Unlimited concurrent positions (no max-cap; every signal is entered)
+    - Many concurrent positions allowed (100-cap, not 5)
     - Intraday/swing pool independence
     - SL/TP rate differences per market mode
     - Intraday tighter SL/TP rates
@@ -71,11 +71,11 @@ def test_duplicate_different_ticker_allowed(test_env):
 
 
 # ======================================================================
-# Unlimited Concurrent Positions (caps removed for paper-trade evaluation)
+# Concurrent Positions (100 total cap — high enough for every signal)
 # ======================================================================
 
-def test_unlimited_concurrent_swing(test_env):
-    """5+ open swing positions → next entry still succeeds (no cap)."""
+def test_many_concurrent_swing_allowed(test_env):
+    """5+ open swing positions → next entry still succeeds (cap is 100)."""
     tickers = ["SPY", "QQQ", "IWM", "DIA", "^GSPC", "XLK"]
     for i, t in enumerate(tickers, start=1):
         tr = enter_trade("US", t, "LONG", 450.00, f"Entry {t}",
@@ -84,15 +84,15 @@ def test_unlimited_concurrent_swing(test_env):
         assert tr is not None, f"Entry #{i} ({t}) should succeed"
         assert tr["Ticker"] == t
 
-    # 6th entry on a fresh ticker — must also succeed (no max cap)
+    # 7th entry on a fresh ticker — must also succeed (well under the 100 cap)
     t7 = enter_trade("US", "IWB", "LONG", 250.00, "Beyond old cap entry",
                      pattern_rank=99, expected_win_rate=60.0,
                      pattern_factors="Test", tf="SWING_1d")
-    assert t7 is not None, "7th swing entry should succeed (no max cap)"
+    assert t7 is not None, "7th swing entry should succeed (cap is 100)"
 
 
-def test_unlimited_concurrent_intraday(test_env):
-    """3+ open intraday positions → 4th intraday still succeeds (no cap)."""
+def test_many_concurrent_intraday_allowed(test_env):
+    """3+ open intraday positions → 4th intraday still succeeds (cap is 100)."""
     tickers = ["SPY", "QQQ", "IWM"]
     for i, t in enumerate(tickers, start=1):
         tr = enter_trade("US", t, "LONG", 450.00, f"Intraday {t}",
@@ -101,11 +101,26 @@ def test_unlimited_concurrent_intraday(test_env):
         assert tr is not None, f"Intraday #{i} ({t}) should succeed"
         assert tr["TimeFrame"] == "INTRADAY_1h"
 
-    # 4th intraday entry — must succeed (no intraday cap)
+    # 4th intraday entry — must succeed (cap is 100)
     t4 = enter_trade("US", "DIA", "LONG", 350.00, "Beyond old intraday cap",
                      pattern_rank=99, expected_win_rate=60.0,
                      pattern_factors="Test", tf="INTRADAY_1h")
-    assert t4 is not None, "4th intraday entry should succeed (no cap)"
+    assert t4 is not None, "4th intraday entry should succeed (cap is 100)"
+
+
+def test_100_total_position_cap(test_env):
+    """100 open positions → 101st returns None."""
+    for i in range(1, 101):
+        tr = enter_trade("US", f"T{i}", "LONG", 450.00, f"Entry {i}",
+                         pattern_rank=i, expected_win_rate=60.0,
+                         pattern_factors="Test", tf="SWING_1d")
+        assert tr is not None, f"Entry #{i} should succeed"
+
+    # 101st entry on a fresh ticker — must be rejected (cap = 100)
+    t101 = enter_trade("US", "T101", "LONG", 450.00, "Over cap",
+                       pattern_rank=101, expected_win_rate=60.0,
+                       pattern_factors="Test", tf="SWING_1d")
+    assert t101 is None, "101st entry should be rejected (cap = 100)"
 
 
 def test_intraday_separate_pool_from_swing(test_env):

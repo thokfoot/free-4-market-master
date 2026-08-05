@@ -27,9 +27,13 @@ RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss
 TP_PCT = 0.04                   # 4% take profit
 MAX_HOLD_DAYS = 5               # Max hold days per trade (matches backtest)
-# NOTE: No MAX_CONCURRENT / consecutive-loss cooldown / re-entry-gap limits.
-# Paper trade only — every fired signal is entered so each strategy's real
-# long-run performance can be measured without entry caps distorting results.
+MAX_CONCURRENT = 100            # Total active positions allowed (all TFs/markets).
+                                # High cap so every fired signal is paper-entered
+                                # for long-run strategy evaluation, with a sane
+                                # ceiling to keep the portfolio manageable.
+# NOTE: No consecutive-loss cooldown / re-entry-gap limits. Paper trade only —
+# every fired signal is entered so each strategy's real long-run performance can
+# be measured without loss-based entry caps distorting results.
 
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")

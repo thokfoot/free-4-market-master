@@ -11,7 +11,7 @@ import pytz
 import requests
 from config import (
     CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE,
-    SL_PCT, TP_PCT, MAX_HOLD_DAYS, STRATEGY_FILE,
+    SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE,
     CHARGES_PER_MARKET,
     INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
     INTRADAY_MAX_HOLD_HOURS,
@@ -561,6 +561,11 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()
     open_positions = portfolio.get("open_positions", [])
+    
+    # Total active-position cap (swing + intraday combined)
+    if len(open_positions) >= MAX_CONCURRENT:
+        print(f"[Paper] MAX CONCURRENT ({MAX_CONCURRENT}), skip {ticker}")
+        return None
     
     # Check duplicate (same ticker, same direction, open)
     for pos in open_positions:
