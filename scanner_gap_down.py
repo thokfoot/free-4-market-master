@@ -18,6 +18,7 @@ import yfinance as yf
 import pandas as pd
 import time
 from datetime import datetime, timedelta
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import pytz
 from config import (
     INDIAN_TICKERS, TICKER_MAP, GAP_DOWN_PERIOD_DAYS,
@@ -66,22 +67,27 @@ def download_1m_data(ticker: str, period_days: int = None) -> pd.DataFrame:
 def calculate_factors(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculate gap-down and price-level factors for Indian 1m data.
-    
+
     Factors:
-      - ind_gap_pct: (open / prev_close - 1) * 100
+      - ind_gap_pct: (day_open / prev_day_close - 1) * 100
       - f_gap_down: 1 if gap_pct < -0.5 else 0
       - f_52wk_low: 1 if close <= 252-period low * 1.01 else 0
       
-    NOTE: On 1m data, 252 periods = ~5.5 hours, NOT actual 52 weeks.
-    This captures 'near the recent intraday low' as an oversold signal.
+    NOTE: A gap is the day's open vs the PRIOR DAY's close. The previous
+    implementation compared each 1m candle's open to the prior 1m candle's
+    close — that is just the per-minute return, which is almost never < -0.5%,
+    so the strategy never fired (0 signals in all historical runs).
     """
     df = df.copy()
     
-    # Gap calculation
-    df['prev_close'] = df['Close'].shift(1)
-    df['ind_gap_pct'] = (df['Open'] / df['prev_close'] - 1) * 100
-    
-    # f_gap_down: open more than 0.5% below previous close
+    # ── Daily open gap vs previous day's close ──
+    df['_day'] = df.index.date
+    day_open = df.groupby('_day')['Open'].first()
+    day_close = df.groupby('_day')['Close'].last()
+    prev_day_close = day_close.shift(1)
+    day_gap_pct = (day_open / prev_day_close - 1) * 100
+    # Map the (constant) gap of the day back onto every bar of that day
+    df['ind_gap_pct'] = df['_day'].map(day_gap_pct)
     df['f_gap_down'] = (df['ind_gap_pct'] < -0.5).astype(int)
     
     # f_52wk_low: close within 1% of 252-period low
@@ -93,6 +99,7 @@ def calculate_factors(df: pd.DataFrame) -> pd.DataFrame:
     else:
         df['f_52wk_low'] = 0
     
+    df = df.drop(columns=['_day'])
     return df
 
 
@@ -164,13 +171,17 @@ def scan_gap_down_ticker(ticker: str) -> list:
     return signals
 
 
-def scan_all_gap_down(progress_interval: int = 10) -> list:
+def scan_all_gap_down(progress_interval: int = 10, max_workers: int = 6) -> list:
     """
     Scan ALL Indian tickers for gap-down signals.
-    Runs the full pipeline on each ticker sequentially.
+    Runs the full pipeline on each ticker with a thread pool — the sequential
+    version took ~4 min, which meant GitHub Actions scheduled runs (which are
+    routinely delayed by minutes/hours and can be dropped under load) rarely
+    completed in time. Parallelizing keeps each run under ~90s.
     
     Args:
         progress_interval: Print progress every N tickers
+        max_workers: Number of concurrent yfinance downloads
         
     Returns:
         List of signal dicts with entry params
@@ -179,32 +190,28 @@ def scan_all_gap_down(progress_interval: int = 10) -> list:
     tickers = INDIAN_TICKERS
     total = len(tickers)
     
-    print(f"[GapDown] Scanning {total} Indian tickers for gap-down signals...")
+    print(f"[GapDown] Scanning {total} Indian tickers for gap-down signals "
+          f"({max_workers} workers)...")
     
-    for i, ticker in enumerate(tickers):
-        signals = scan_gap_down_ticker(ticker)
-        for s in signals:
-            all_entries.append(s)
-            print(f"[GapDown] SIGNAL: {s['ticker']} {s['strategy']} "
-                  f"@{s['entry_price']} SL={s['sl']} TP={s['tp']} "
-                  f"Gap={s['gap_pct']}%")
-        
-        # Rate limit: 0.5s between tickers
-        time.sleep(0.5)
-        
-        # Clear yfinance shared caches between tickers
-        try:
-            if hasattr(yf, '_ERRORS') and hasattr(yf.shared, '_ERRORS'):
-                yf.shared._ERRORS.clear()
-            if hasattr(yf, '_PRICES') and hasattr(yf.shared, '_PRICES'):
-                yf.shared._PRICES.clear()
-        except:
-            pass
-        
-        # Progress every N tickers
-        if (i + 1) % progress_interval == 0:
-            print(f"[GapDown] Progress: {i+1}/{total} tickers, "
-                  f"{len(all_entries)} signals found")
+    done = 0
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        futures = {ex.submit(scan_gap_down_ticker, t): t for t in tickers}
+        for fut in as_completed(futures):
+            ticker = futures[fut]
+            done += 1
+            try:
+                signals = fut.result()
+            except Exception as e:
+                print(f"[GapDown] Scan error {ticker}: {e}")
+                signals = []
+            for s in signals:
+                all_entries.append(s)
+                print(f"[GapDown] SIGNAL: {s['ticker']} {s['strategy']} "
+                      f"@{s['entry_price']} SL={s['sl']} TP={s['tp']} "
+                      f"Gap={s['gap_pct']}%")
+            if done % progress_interval == 0:
+                print(f"[GapDown] Progress: {done}/{total} tickers, "
+                      f"{len(all_entries)} signals found")
     
     print(f"[GapDown] Complete: {total}/{total} tickers, {len(all_entries)} signals")
     return all_entries

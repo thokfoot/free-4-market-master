@@ -4,12 +4,25 @@ on:
   schedule:
     # Indian market hours: 9:15 AM to 3:30 PM IST = 03:45 to 10:00 UTC
     # Runs every 5 minutes during 3-10 UTC (covers slightly wider range)
+    #
+    # NOTE: GitHub Actions scheduled runs are subject to arbitrary delays and
+    # can be dropped under heavy load (observed: most 5-min runs never fire,
+    # and those that do can be minutes-to-hours late). This is a platform
+    # limitation — the scanner itself runs in ~90s after the parallelization fix.
     - cron: '*/5 3-10 * * 1-5'
   workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: free4market-v5-gapdown
+  cancel-in-progress: false
 
 jobs:
   gap-down-scan:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +46,3 @@ jobs:
           git add logs/
           git diff --staged --quiet || git commit -m "gapdown scan $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
-
-    concurrency:
-      group: gapdown-scan-${{ github.ref }}
-      cancel-in-progress: false

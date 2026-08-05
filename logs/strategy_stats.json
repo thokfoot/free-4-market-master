@@ -1,86 +1,79 @@
 {
   "36": {
     "rank": 36,
-    "factors": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | SL Hit (intraday)",
-    "wins": 0,
-    "losses": 4,
-    "total_pnl": -3912.27
+    "factors": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | Expiry 6h",
+    "wins": 2,
+    "losses": 2,
+    "total_pnl": 1144.54
   },
   "14": {
     "rank": 14,
-    "factors": "#14ID Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 25h",
-    "wins": 0,
-    "losses": 1,
-    "total_pnl": -16.38
-  },
-  "16": {
-    "rank": 16,
-    "factors": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)",
+    "factors": "#14ID Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
     "wins": 1,
-    "losses": 2,
-    "total_pnl": -856.3499999999999
-  },
-  "32": {
-    "rank": 32,
-    "factors": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)",
-    "wins": 0,
-    "losses": 2,
-    "total_pnl": -1910.74
-  },
-  "30": {
-    "rank": 30,
-    "factors": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | SL Hit (intraday)",
-    "wins": 0,
-    "losses": 4,
-    "total_pnl": -3691.0299999999997
-  },
-  "13": {
-    "rank": 13,
-    "factors": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red | SL Hit (intraday)",
-    "wins": 0,
-    "losses": 1,
-    "total_pnl": -945.76
+    "losses": 0,
+    "total_pnl": 1163.12
   },
   "46": {
     "rank": 46,
-    "factors": "#46SW Close>Open+2Red | SL Hit (intraday)",
+    "factors": "#46SW Close>Open+2Red | SL Hit",
     "wins": 0,
     "losses": 1,
     "total_pnl": -997.56
   },
+  "30": {
+    "rank": 30,
+    "factors": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "wins": 1,
+    "losses": 3,
+    "total_pnl": -1584.57
+  },
+  "16": {
+    "rank": 16,
+    "factors": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "wins": 2,
+    "losses": 1,
+    "total_pnl": 1033.27
+  },
+  "32": {
+    "rank": 32,
+    "factors": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "wins": 1,
+    "losses": 1,
+    "total_pnl": 372.8699999999999
+  },
+  "13": {
+    "rank": 13,
+    "factors": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red | Expiry 6h",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 298.29
+  },
   "3": {
     "rank": 3,
-    "factors": "#3ID Price>SMA20+Price<SMA50+EMA9>EMA20 | SL Hit (intraday)",
-    "wins": 3,
-    "losses": 2,
-    "total_pnl": 3293.54
+    "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | Target Hit",
+    "wins": 4,
+    "losses": 1,
+    "total_pnl": 4335.32
   },
   "5": {
     "rank": 5,
-    "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)",
-    "wins": 0,
-    "losses": 3,
-    "total_pnl": -2762.7799999999997
+    "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
+    "wins": 3,
+    "losses": 0,
+    "total_pnl": 2349.4
   },
   "6": {
     "rank": 6,
-    "factors": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | \ud83c\udfaf SL Hit (live)",
-    "wins": 1,
-    "losses": 2,
-    "total_pnl": -1068.1999999999998
+    "factors": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
+    "wins": 3,
+    "losses": 0,
+    "total_pnl": 2184.77
   },
   "31": {
     "rank": 31,
     "factors": "#31ID Price>SMA50+EMA20<EMA50+Close<Open | Expiry 6h",
-    "wins": 1,
-    "losses": 2,
-    "total_pnl": 429.75
-  },
-  "38": {
-    "rank": 38,
-    "factors": "#38ID RSI>65+2Red | Expiry 6h",
-    "wins": 0,
-    "losses": 1,
-    "total_pnl": -17.51
+    "wins": 3,
+    "losses": 0,
+    "total_pnl": 1997.75
   }
 }

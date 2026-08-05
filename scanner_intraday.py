@@ -136,6 +136,22 @@ def _resolve_value_1h(row: pd.Series, expr: str) -> float:
     return None
 
 
+def _signal_candle_index(df: pd.DataFrame) -> int:
+    """
+    Row index (relative to the end) of the last COMPLETED 1h candle.
+    Returns -2 when the latest candle is still forming, else -1.
+    A 1h candle is complete when its end time is in the past.
+    """
+    last_candle_time = df.index[-1]
+    candle_end = last_candle_time + pd.Timedelta(hours=1)
+    now_utc = pd.Timestamp.now(tz='UTC')
+    if last_candle_time.tz is not None:
+        now_utc = now_utc.tz_convert(last_candle_time.tz)
+    else:
+        now_utc = now_utc.tz_localize(None)
+    return -2 if candle_end > now_utc else -1
+
+
 def compute_signal_1h(df: pd.DataFrame, factors_str: str, direction: str) -> bool:
     """
     Check if a strategy's factors are met on the latest COMPLETED 1h candle.
@@ -146,25 +162,7 @@ def compute_signal_1h(df: pd.DataFrame, factors_str: str, direction: str) -> boo
     if df is None or len(df) < 3:
         return False
 
-    # ── Determine which candle to use (last COMPLETED, not forming) ──
-    last_candle_time = df.index[-1]
-    candle_end = last_candle_time + pd.Timedelta(hours=1)
-    # Get timezone-aware current time matching the dataframe's timezone
-    now_utc = pd.Timestamp.now(tz='UTC')
-    if last_candle_time.tz is not None:
-        now_utc = now_utc.tz_convert(last_candle_time.tz)
-    else:
-        # Candle index is timezone-naive — make now_utc naive for comparison
-        now_utc = now_utc.tz_localize(None)
-    
-    if candle_end > now_utc:
-        # Latest candle is still forming — use the last COMPLETED candle
-        check_idx = -2
-    else:
-        # Latest candle is complete — use it
-        check_idx = -1
-    
-    last = df.iloc[check_idx]
+    last = df.iloc[_signal_candle_index(df)]
     factors = [f.strip() for f in factors_str.split("+")]
 
     for factor in factors:
@@ -244,7 +242,11 @@ def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> lis
             })
             continue
 
-        close_price = float(df.iloc[-1]["Close"])
+        # ── Entry price = close of the COMPLETED signal candle ──
+        # Previously this was the latest candle's close, which is the still-forming
+        # candle when a signal fires mid-hour — so the paper entry price did not
+        # match the candle the factors were evaluated on.
+        close_price = float(df.iloc[_signal_candle_index(df)]["Close"])
         fired = compute_signal_1h(df, factors, direction)
 
         # ── Signal Snapshot: Capture indicator values at signal time ──
@@ -252,15 +254,7 @@ def scan_intraday_strategies(strategies: pd.DataFrame, ticker_data: dict) -> lis
         if fired:
             try:
                 # Use the same COMPLETED candle that compute_signal_1h uses
-                # Replicate the candle selection logic:
-                last_candle_time = df.index[-1]
-                candle_end = last_candle_time + pd.Timedelta(hours=1)
-                now_utc = pd.Timestamp.now(tz='UTC')
-                if last_candle_time.tz is not None:
-                    now_utc = now_utc.tz_convert(last_candle_time.tz)
-                else:
-                    now_utc = now_utc.tz_localize(None)
-                snap_idx = -2 if candle_end > now_utc else -1
+                snap_idx = _signal_candle_index(df)
                 last = df.iloc[snap_idx]
                 
                 inds = {"Close", "Open", "High", "Low", "Volume",

@@ -6,7 +6,7 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 """
 
 import os, json, math, pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 import requests
 from config import (
@@ -19,6 +19,7 @@ from config import (
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
     MAX_CONSECUTIVE_LOSSES, CONSECUTIVE_LOSS_COOLDOWN_H,
+    MIN_ENTRY_GAP_HOURS,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -29,6 +30,115 @@ PAPER_FILE = os.path.join(LOG_DIR, "paper_trades.csv")
 PORTFOLIO_FILE = os.path.join(LOG_DIR, "portfolio.json")
 STRATEGY_STATS_FILE = os.path.join(LOG_DIR, "strategy_stats.json")
 LIVE_STATE_FILE_PT = os.path.join(LOG_DIR, "live_pnl_state.json")
+
+
+# ── US Session-Time MaxHold (13:30-20:00 UTC, weekdays) ──────────────
+# The 6h intraday MaxHold counts ONLY session time. Overnight/weekend
+# market-closed gaps do not consume the budget (a position entered at
+# 23:22 IST must survive until the next session consumes the remaining
+# minutes, not expire on wall-clock hours). Mirrors _backtest replay.
+SESSION_START_UTC = (13, 30)
+SESSION_END_UTC = (20, 0)
+
+
+def _session_minutes_until(entry_utc, target_utc):
+    """US session minutes (13:30-20:00 UTC, weekdays) in [entry_utc, target_utc]."""
+    if target_utc <= entry_utc:
+        return 0.0
+    total = 0.0
+    day = entry_utc.date()
+    while day <= target_utc.date():
+        if day.weekday() < 5:
+            s = pd.Timestamp(day).tz_localize("UTC") + pd.Timedelta(hours=13, minutes=30)
+            e = pd.Timestamp(day).tz_localize("UTC") + pd.Timedelta(hours=20)
+            lo = max(s, entry_utc)
+            hi = min(e, target_utc)
+            if hi > lo:
+                total += (hi - lo).total_seconds() / 60.0
+        day += timedelta(days=1)
+    return total
+
+
+def _session_live_until(entry_utc, max_hold_hours):
+    """First time T >= entry whose session-minutes-from-entry == max_hold."""
+    budget = max_hold_hours * 60.0
+    day = entry_utc.date()
+    while True:
+        if day.weekday() < 5:
+            s = pd.Timestamp(day).tz_localize("UTC") + pd.Timedelta(hours=13, minutes=30)
+            e = pd.Timestamp(day).tz_localize("UTC") + pd.Timedelta(hours=20)
+            lo = max(s, entry_utc)
+            if lo < e:
+                available = (e - lo).total_seconds() / 60.0
+                if available >= budget:
+                    return lo + pd.Timedelta(minutes=budget)
+                budget -= available
+        day += timedelta(days=1)
+
+
+def _bars_min(bars):
+    """Min low across bars (for debug/logging only)."""
+    try:
+        return round(min(float(b[2]) for b in bars), 2)
+    except Exception:
+        return None
+
+
+def _bars_max(bars):
+    """Max high across bars (for debug/logging only)."""
+    try:
+        return round(max(float(b[1]) for b in bars), 2)
+    except Exception:
+        return None
+
+
+def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"):
+    """First-touch SL/TP over post-entry bars (session-time live window).
+
+    bars: iterable of (utc_ts, high, low, close). US only. Mirrors the
+    replay engine so a pre-entry bar (same-day low before the entry candle,
+    prior-session low) can never stop out a position. Returns
+    (exit_price, reason) or None.
+    """
+    try:
+        if str(mode).upper() != "US":
+            return None
+        entry_utc = entry_date.astimezone(pytz.utc)
+        if tf == "INTRADAY_1h":
+            lu = _session_live_until(entry_utc, max_hold)
+            for ts, hi, lo, _cl in bars:
+                if ts < entry_utc or ts >= lu:
+                    continue
+                if direction == "LONG":
+                    if lo <= sl:
+                        return (sl, "SL Hit (intraday)")
+                    if hi >= target:
+                        return (target, "Target Hit")
+                else:
+                    if hi >= sl:
+                        return (sl, "SL Hit (intraday)")
+                    if lo <= target:
+                        return (target, "Target Hit")
+            return None
+        else:  # SWING_1d
+            et = pytz.timezone("America/New_York")
+            entry_session = entry_utc.astimezone(et).date()
+            for ts, hi, lo, _cl in bars:
+                if pd.Timestamp(ts.date()) <= pd.Timestamp(entry_session):
+                    continue
+                if direction == "LONG":
+                    if lo <= sl:
+                        return (sl, "SL Hit (intraday)")
+                    if hi >= target:
+                        return (target, "Target Hit")
+                else:
+                    if hi >= sl:
+                        return (sl, "SL Hit (intraday)")
+                    if lo <= target:
+                        return (target, "Target Hit")
+            return None
+    except Exception:
+        return None
 
 
 # ── Atomic JSON Writer ───────────────────────────────────────
@@ -334,6 +444,65 @@ def save_portfolio(port: dict):
     _atomic_write_json(PORTFOLIO_FILE, port)
 
 
+def rebuild_portfolio_from_csv() -> dict:
+    """
+    Recompute portfolio.json ENTIRELY from paper_trades.csv (single source of truth).
+
+    Fixes cumulative drift: previously both bot.py (update_trades) and
+    live_pnl_updater.py (process_open_trades) updated portfolio.json
+    incrementally. When the two workflows ran concurrently they could
+    double-count or lose updates, which is how capital_by_market and
+    total_pnl diverged from the actual trade log.
+
+    Rebuild rules (must match how capital was historically tracked):
+      - capital is NOT reduced at entry; only realized P&L is applied on exit
+      - INTRADAY_1h and GAP_DOWN_1m trades draw from the INTRADAY bucket
+      - all other trades draw from their Mode bucket (INDIAN/US/CRYPTO)
+      - open_positions mirrors every OPEN row of the CSV
+    """
+    port = _default_portfolio()
+    if os.path.exists(PAPER_FILE):
+        try:
+            df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            for _, r in df.iterrows():
+                tf = str(r.get("TimeFrame", "SWING_1d"))
+                mode = str(r.get("Mode", "US")).upper()
+                if mode == "INDIA":
+                    mode = "INDIAN"
+                capital_key = "INTRADAY" if tf in ("INTRADAY_1h", "GAP_DOWN_1m") else mode
+
+                status = str(r.get("Status", "")).strip()
+                if status == "OPEN":
+                    port["open_positions"].append({c: r.get(c, "") for c in COLUMNS})
+                    continue
+
+                pnl_raw = r.get("P&L")
+                if pnl_raw is None or pd.isna(pnl_raw) or str(pnl_raw).strip() == "" \
+                        or str(pnl_raw).strip().lower() == "nan":
+                    print(f"[Paper] WARNING: CLOSED trade missing P&L "
+                          f"({r.get('Date','')} {r.get('Ticker','')}) — skipping in rebuild")
+                    continue
+
+                pnl = _safe_float(pnl_raw)
+                port["closed_count"] += 1
+                if pnl > 0:
+                    port["total_wins"] += 1
+                else:
+                    port["total_losses"] += 1
+                port["total_pnl"] += pnl
+                tpnl = port.setdefault("total_pnl_by_market", {})
+                tpnl[capital_key] = tpnl.get(capital_key, 0) + pnl
+                mkt_cap = port["capital_by_market"].get(capital_key, 100000)
+                port["capital_by_market"][capital_key] = max(0, mkt_cap + pnl)
+        except Exception as e:
+            print(f"[Paper] rebuild_portfolio_from_csv error: {e}")
+    port["total_capital"] = sum(port["capital_by_market"].values())
+    save_portfolio(port)
+    print(f"[Paper] Portfolio rebuilt from CSV — {port['closed_count']} closed, "
+          f"{len(port['open_positions'])} open, P&L {port['total_pnl']:+.2f}")
+    return port
+
+
 def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
     """Calculate position size based on risk per trade (1% of market capital)."""
     port = load_portfolio()
@@ -418,6 +587,20 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         if not _check_consecutive_loss_cooldown(ticker, pattern_rank):
             print(f"[Paper] Consecutive loss cooldown active — skip {ticker} Rank#{pattern_rank}")
             return None
+    
+    # ── Re-entry Guard ──
+    # Prevent the same ticker+strategy from being re-entered repeatedly while a
+    # persistent signal keeps firing (e.g. DIA #36 entered 3x in 90 min, QQQ #5
+    # 3x in 2h). Without this, an intraday signal that stays true for hours
+    # re-enters on every 15-min scan and bleeds out on the same SL repeatedly.
+    if tf in ("INTRADAY_1h", "GAP_DOWN_1m") and pattern_rank is not None:
+        last_entry = _last_entry_time(ticker, pattern_rank)
+        if last_entry is not None:
+            hours_since = (now - last_entry).total_seconds() / 3600
+            if hours_since < MIN_ENTRY_GAP_HOURS:
+                print(f"[Paper] Re-entry guard: {ticker} Rank#{pattern_rank} entered "
+                      f"{hours_since:.1f}h ago (min {MIN_ENTRY_GAP_HOURS}h) — skip")
+                return None
     
     # Calculate SL/TP based on direction AND timeframe
     # Use sl_override/tp_override if provided (gap-down strategies set their own)
@@ -525,6 +708,37 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
 # ===== CONSECUTIVE LOSS GUARD =====
 # Prevents re-entering the same ticker+strategy after repeated losses.
 
+def _last_entry_time(ticker: str, strategy_rank) -> pd.Timestamp:
+    """
+    Return IST-aware datetime of the most recent entry for (ticker, rank),
+    or None if there is no prior entry.
+    Used by the re-entry guard to enforce MIN_ENTRY_GAP_HOURS.
+    """
+    if not os.path.exists(PAPER_FILE):
+        return None
+    try:
+        df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+        if df.empty:
+            return None
+        rank_str = str(int(strategy_rank))
+        mask = (
+            (df["Ticker"].astype(str).str.strip() == str(ticker).strip()) &
+            (df["Pattern_Rank"].astype(str).str.strip() == rank_str)
+        )
+        matches = df[mask].sort_values(["Date", "Time_IST"], ascending=[False, False])
+        if matches.empty:
+            return None
+        first = matches.iloc[0]
+        date_str = str(first["Date"])
+        time_raw = str(first.get("Time_IST", "00:00:00"))[:8]
+        try:
+            return IST.localize(datetime.strptime(f"{date_str} {time_raw}", "%Y-%m-%d %H:%M:%S"))
+        except (ValueError, TypeError):
+            return None
+    except Exception as e:
+        print(f"[Paper] _last_entry_time error: {e}")
+        return None
+
 def _consecutive_losses_for_strategy(ticker: str, strategy_rank) -> int:
     """
     Count consecutive closed losses for (ticker, strategy_rank).
@@ -608,7 +822,8 @@ def _check_consecutive_loss_cooldown(ticker: str, strategy_rank) -> bool:
             last_time_raw = "00:00:00"
         
         last_dt = datetime.strptime(f"{last_date} {last_time_raw.strip()}", "%Y-%m-%d %H:%M:%S")
-        now = datetime.now()
+        last_dt = IST.localize(last_dt)
+        now = datetime.now(IST)
         hours_since = (now - last_dt).total_seconds() / 3600
         
         if hours_since < CONSECUTIVE_LOSS_COOLDOWN_H:
@@ -1267,11 +1482,23 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_reason = f"Expiry {int(minutes_held)}m"
                 is_expired = True
         elif trade_tf == "INTRADAY_1h":
-            hours_held = (now - entry_date).total_seconds() / 3600
-            if hours_held >= trade_max_hold:
-                exit_price = cmp
-                exit_reason = f"Expiry {int(hours_held)}h"
-                is_expired = True
+            if str(row.get("Mode", "")).upper() == "US":
+                # Session-time MaxHold: only US session minutes (13:30-20:00 UTC,
+                # weekdays) count toward the hold budget. Overnight & weekend
+                # market-closed gaps don't expire the position.
+                entry_utc = entry_date.astimezone(pytz.utc)
+                now_utc = now.astimezone(pytz.utc)
+                if now_utc >= _session_live_until(entry_utc, trade_max_hold):
+                    exit_price = cmp
+                    sess_h = round(_session_minutes_until(entry_utc, now_utc) / 60.0, 1)
+                    exit_reason = f"Expiry {int(sess_h)}h"
+                    is_expired = True
+            else:
+                hours_held = (now - entry_date).total_seconds() / 3600
+                if hours_held >= trade_max_hold:
+                    exit_price = cmp
+                    exit_reason = f"Expiry {int(hours_held)}h"
+                    is_expired = True
         else:
             days_held = (now - entry_date).days
             if days_held >= trade_max_hold:
@@ -1309,8 +1536,23 @@ def update_trades(ohlc_data: dict) -> list:
         if stale_data:
             print(f"[Paper] {ticker}: stale OHLC date {data_date} < entry "
                   f"{entry_date.strftime('%Y-%m-%d')} — skipping SL/TP (market closed since entry)")
-        
-        if not is_expired and not stale_data:
+
+        # ── POST-ENTRY BAR-LEVEL SL/TP (bot supplies full bars) ──
+        # Closes the known limitation above: when full bar data is available,
+        # evaluate SL/TP first-touch only on bars at/after the entry time
+        # within the session-time live window — a same-day pre-entry low or a
+        # prior-session low can never stop out the position. Mirrors the
+        # replay engine used to rebuild paper_trades.csv.
+        bars = ohlc.get("bars")
+        if not is_expired and bars is not None:
+            bar_hit = _bars_sl_tp(bars, trade_tf, entry_date, direction, sl, target,
+                                  trade_max_hold, mode=row.get("Mode", "US"))
+            if bar_hit:
+                exit_price, exit_reason = bar_hit
+                print(f"[Paper] {ticker}: bar-level {exit_reason} (post-entry) "
+                      f"low={_bars_min(bars)} high={_bars_max(bars)}")
+
+        if not is_expired and not stale_data and exit_price is None:
             if direction == "LONG":
                 # 1st: Intraday LOW hit SL → stopped out during the day
                 if daily_low <= sl * _TOLERANCE:
@@ -1428,7 +1670,7 @@ def update_trades(ohlc_data: dict) -> list:
             
             # Update per-market capital (respect TimeFrame for intraday separate capital)
             trade_tf = str(row.get("TimeFrame", "SWING_1d"))
-            if trade_tf == "INTRADAY_1h":
+            if trade_tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
                 capital_key = "INTRADAY"
             else:
                 capital_key = str(row.get("Mode", "US"))
@@ -1460,12 +1702,12 @@ def update_trades(ohlc_data: dict) -> list:
     
     if updated:
         df.to_csv(PAPER_FILE, index=False)
-        open_df = df[df["Status"] == "OPEN"]
-        portfolio["open_positions"] = open_df.to_dict(orient="records")
-        # ── Recalculate total_capital from actual capital_by_market ──
-        # This field was historically never updated after trade closure.
-        portfolio["total_capital"] = sum(portfolio.get("capital_by_market", {}).values())
-        save_portfolio(portfolio)
+        # ── Rebuild portfolio from CSV (single source of truth) ──
+        # Previously the per-market capital/wins/losses were updated incrementally
+        # in the loop above, which could drift when bot.py and live_pnl_updater.py
+        # ran concurrently. Rebuilding from the CSV makes portfolio.json a pure
+        # function of paper_trades.csv, so the two workflows can never disagree.
+        portfolio = rebuild_portfolio_from_csv()
         # NOTE: strategy_stats is updated INSIDE the exit loop above (ONCE per trade)
         # Do NOT re-iterate ALL closed rows here — that would double-count!
     

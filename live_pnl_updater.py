@@ -25,7 +25,7 @@ from config import (
     INTRADAY_CAPITAL,
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
 )
-from paper_trader import initialize_system
+from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until
 from logger import log_error
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -447,11 +447,23 @@ def process_open_trades() -> tuple:
                     exit_reason = f"Expiry {int(mins_held)}m"
                     is_expired = True
             elif trade_tf_live == "INTRADAY_1h":
-                hrs_held = (now - entry_dt).total_seconds() / 3600
-                if hrs_held >= hold_limit:
-                    exit_price = cmp
-                    exit_reason = f"Expiry {int(hrs_held)}h"
-                    is_expired = True
+                if str(row.get("Mode", "")).upper() == "US":
+                    # Session-time MaxHold (parity with paper_trader): only US
+                    # session minutes (13:30-20:00 UTC weekdays) consume the
+                    # budget; overnight/weekend gaps don't expire the position.
+                    entry_utc = entry_dt.astimezone(pytz.utc)
+                    now_utc = now.astimezone(pytz.utc)
+                    if now_utc >= _session_live_until(entry_utc, hold_limit):
+                        exit_price = cmp
+                        sess_h = round(_session_minutes_until(entry_utc, now_utc) / 60.0, 1)
+                        exit_reason = f"Expiry {int(sess_h)}h"
+                        is_expired = True
+                else:
+                    hrs_held = (now - entry_dt).total_seconds() / 3600
+                    if hrs_held >= hold_limit:
+                        exit_price = cmp
+                        exit_reason = f"Expiry {int(hrs_held)}h"
+                        is_expired = True
             else:
                 days_held = (now - entry_dt).days
                 if days_held >= hold_limit:
@@ -521,19 +533,11 @@ def process_open_trades() -> tuple:
             df.at[idx, "Status"] = "CLOSED"
             df.at[idx, "Reason"] = str(row["Reason"]) + f" | {exit_reason}"
             
-            # Update portfolio
-            trade_tf = str(row.get("TimeFrame", "SWING_1d"))
-            capital_key = "INTRADAY" if trade_tf == "INTRADAY_1h" else mode_norm
-            mkt_cap = portfolio.setdefault("capital_by_market", {}).get(capital_key, 100000)
-            portfolio["capital_by_market"][capital_key] = max(0, mkt_cap + pnl)
-            portfolio["total_pnl"] += pnl
-            tpnl_by_mkt = portfolio.setdefault("total_pnl_by_market", {})
-            tpnl_by_mkt[capital_key] = tpnl_by_mkt.get(capital_key, 0) + pnl
-            portfolio["closed_count"] += 1
-            if pnl > 0:
-                portfolio["total_wins"] += 1
-            else:
-                portfolio["total_losses"] += 1
+            # ── CRITICAL: This EXIT is also observed by bot.py's update_trades()
+            # on its next scheduled run. To prevent the two workflows from
+            # double-counting or clobbering portfolio.json, we do NOT mutate
+            # portfolio here — the portfolio is rebuilt from the CSV below
+            # (single source of truth, same as paper_trader.update_trades).
             
             # Audit log
             _log_audit_exit({
@@ -639,10 +643,11 @@ def process_open_trades() -> tuple:
     # Save updated data
     if portfolio_updated:
         df.to_csv(PAPER_FILE, index=False)
-        open_df = df[df["Status"] == "OPEN"]
-        portfolio["open_positions"] = open_df.to_dict(orient="records")
-        save_portfolio(portfolio)
-        print(f"[Live] Portfolio saved — {len(open_df)} open, {portfolio['closed_count']} closed")
+        # Rebuild portfolio from the CSV (single source of truth) so bot.py and
+        # live_pnl_updater.py can never diverge — both compute the same result.
+        portfolio = rebuild_portfolio_from_csv()
+        print(f"[Live] Portfolio rebuilt — {len(portfolio['open_positions'])} open, "
+              f"{portfolio['closed_count']} closed")
     
     # Always log snapshot (append to CSV)
     _log_live_snapshot(portfolio)

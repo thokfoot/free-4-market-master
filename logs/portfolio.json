@@ -1,9 +1,9 @@
 {
   "capital_by_market": {
     "INDIAN": 100000.0,
-    "US": 99775.55999999998,
+    "US": 99775.56,
     "CRYPTO": 100000.0,
-    "INTRADAY": 87769.14909973142
+    "INTRADAY": 112521.63999999996
   },
   "open_positions": [
     {
@@ -18,10 +18,10 @@
       "SL": 686.38,
       "Target": 728.41,
       "MaxHold": 5,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
       "Status": "OPEN",
       "Pattern_Rank": 52,
       "Expected_WinRate": 71.43,
@@ -41,10 +41,10 @@
       "SL": 29218.75,
       "Target": 31007.66,
       "MaxHold": 5,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
       "Status": "OPEN",
       "Pattern_Rank": 49,
       "Expected_WinRate": 76.09,
@@ -64,16 +64,39 @@
       "SL": 183.8,
       "Target": 195.05,
       "MaxHold": 5,
-      "Exit_Price": NaN,
-      "Exit_Time": NaN,
-      "P&L": NaN,
-      "P&L_%": NaN,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
       "Status": "OPEN",
       "Pattern_Rank": 75,
       "Expected_WinRate": 69.57,
       "Pattern_Factors": "Price>SMA50+EMA9<EMA20",
       "Reason": "#75SW Price>SMA50+EMA9<EMA20",
       "Signal_Indicators": "{\"SMA20\": 178.592001, \"Close\": 187.550003, \"EMA50\": 177.843942, \"Open\": 182.520004, \"Ret\": 0.053415, \"Volume\": 11151001.0, \"EMA9\": 177.956007, \"RSI14\": 59.045479, \"High\": 187.705002, \"SMA50\": 183.167201, \"2Red\": 0.0, \"Low\": 181.869995, \"EMA20\": 178.56525}"
+    },
+    {
+      "Date": "2026-08-05",
+      "Time_IST": "02:17:34 IST",
+      "Mode": "US",
+      "Ticker": "XLF",
+      "Direction": "SHORT",
+      "TimeFrame": "INTRADAY_1h",
+      "Entry_Price": 57.86,
+      "Qty": 1513,
+      "SL": 58.44,
+      "Target": 56.7,
+      "MaxHold": 6,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 38,
+      "Expected_WinRate": 60.47,
+      "Pattern_Factors": "RSI>65+2Red",
+      "Reason": "#38ID RSI>65+2Red",
+      "Signal_Indicators": "{\"High\": 57.98, \"Low\": 57.855, \"Volume\": 7199102.0, \"SMA20\": 57.388985, \"Open\": 57.93, \"SMA50\": 57.139006, \"EMA9\": 57.738724, \"EMA50\": 57.115787, \"Ret\": -0.001295, \"2Red\": 1.0, \"EMA20\": 57.484915, \"Close\": 57.860001, \"RSI14\": 66.919848}"
     },
     {
       "Date": "2026-08-05",
@@ -99,15 +122,15 @@
       "Signal_Indicators": "{\"2Red\": 1.0, \"High\": 57.98, \"Low\": 57.855, \"Close\": 57.860001, \"EMA20\": 57.484915, \"Volume\": 7199102.0, \"SMA20\": 57.388985, \"EMA50\": 57.115787, \"SMA50\": 57.139006, \"Open\": 57.93, \"EMA9\": 57.738724, \"RSI14\": 66.919848, \"Ret\": -0.001295}"
     }
   ],
-  "closed_count": 31,
-  "total_wins": 6,
-  "total_losses": 25,
-  "total_pnl": -12455.290900268561,
+  "closed_count": 30,
+  "total_wins": 21,
+  "total_losses": 9,
+  "total_pnl": 12297.200000000003,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
-    "US": -224.44000000001063,
+    "US": -224.44000000000005,
     "CRYPTO": 0.0,
-    "INTRADAY": -12230.850900268553
+    "INTRADAY": 12521.639999999998
   },
-  "total_capital": 387544.7090997314
+  "total_capital": 412297.19999999995
 }

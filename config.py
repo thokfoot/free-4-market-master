@@ -37,6 +37,13 @@ MAX_CONCURRENT = 5              # Max simultaneous open positions
 MAX_CONSECUTIVE_LOSSES = 3        # Max consecutive losses before cooldown
 CONSECUTIVE_LOSS_COOLDOWN_H = 24   # Cooldown in hours after hitting max consecutive losses
 
+# ===== RE-ENTRY GUARD =====
+# Prevent the same ticker+strategy from being re-entered repeatedly while a
+# persistent signal keeps firing (e.g. DIA #36 entered 3x in 90 min and QQQ #5
+# 3x in 2h during US intraday). Only applied to intraday timeframes — swing
+# re-entry after a multi-day gap is a normal cycle.
+MIN_ENTRY_GAP_HOURS = 24
+
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")
 

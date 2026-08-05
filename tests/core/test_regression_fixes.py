@@ -159,8 +159,13 @@ def test_maxhold_expires_after_actual_6h(test_env, monkeypatch):
                     tf="INTRADAY_1h")
     assert t is not None
 
-    # Advance to ~06:00 IST next day (6.6h actual hold) - past MaxHold
-    _set_time(monkeypatch, datetime(2026, 1, 16, 6, 0, 0))
+    # Advance to 23:00 IST next day. Session-time MaxHold: the 6h budget is
+    # consumed only during US session hours (13:30-20:00 UTC weekdays). Entry
+    # 23:22:38 IST = 17:52:38 UTC leaves 127.4 session-min on Jan-15; the
+    # remaining 232.6 min run out at 17:22:38 UTC Jan-16 = 22:52:38 IST.
+    # So 23:00 IST is past MaxHold (a wall-clock 6.6h check at 06:00 IST would
+    # NOT have expired it — that was the old bug).
+    _set_time(monkeypatch, datetime(2026, 1, 16, 23, 0, 0))
 
     ohlc = {"SPY": {"close": 741.50, "high": 742.00, "low": 740.50}}  # inside SL/TP band
     msgs = update_trades(ohlc)
@@ -304,10 +309,12 @@ def test_maxhold_short_expires_at_cmp(test_env, monkeypatch):
                     tf="INTRADAY_1h")
     assert t is not None, "Failed to enter test trade"
 
-    # Advance to 06:00 IST next day (7h actual hold > 6h MaxHold). High is set
-    # ABOVE the SHORT SL so the SHORT SL/TP branch would have matched and
-    # overwritten the expiry exit before the fix.
-    _set_time(monkeypatch, datetime(2026, 1, 16, 6, 0, 0))
+    # Advance to 23:00 IST next day (past session-time MaxHold expiry at
+    # 22:52:38 IST: entry 23:22 IST left 127.4 session-min on Jan-15 and the
+    # remaining budget runs out mid Jan-16 session). High is set ABOVE the
+    # SHORT SL so the SHORT SL/TP branch would have matched and overwritten
+    # the expiry exit before the fix.
+    _set_time(monkeypatch, datetime(2026, 1, 16, 23, 0, 0))
 
     ohlc = {"IWM": {"close": 292.00, "high": 297.00, "low": 291.00}}
     msgs = update_trades(ohlc)
@@ -587,9 +594,13 @@ def test_live_pnl_expired_stale_data_closes_at_cmp_not_sl(test_env, monkeypatch)
     monkeypatch.setattr(lp, "LIVE_STATE_FILE", str(log_dir / "live_pnl_state.json"))
     monkeypatch.setattr(lp, "LIVE_PNL_LOG", str(log_dir / "live_pnl_snapshots.csv"))
 
-    # Check time: 15:50 IST — entry was 09:48:19 IST, MaxHold 6h (expires 15:48:19)
+    # Check time: 01:10 IST on Aug-01. Session-time MaxHold: entry 09:48:19 IST
+    # = 04:18 UTC is PRE-MARKET (US market closed), so the 6h budget only
+    # starts at the 13:30 UTC open and expires 13:30+6h = 19:30 UTC =
+    # 01:00 IST Aug-01. 01:10 IST is past MaxHold. (The old wall-clock expiry
+    # at 15:48 IST — while the market was still closed — was the bug.)
     class FrozenLpDT:
-        _F = datetime(2026, 7, 31, 15, 50, 0)
+        _F = datetime(2026, 8, 1, 1, 10, 0)
 
         @classmethod
         def now(cls, tz=None):
@@ -644,6 +655,76 @@ def test_live_pnl_expired_stale_data_closes_at_cmp_not_sl(test_env, monkeypatch)
     assert "Expiry" in str(closed.iloc[0]["Reason"])
 
     # Position removed from portfolio
+    # NOTE: portfolio.json is rebuilt entirely from paper_trades.csv (single
+    # source of truth) so its counters reflect the CSV, not the old incremental
+    # counts. The test CSV contains exactly this one row, so closed_count==1.
     saved_port = json.loads(open(lp.PORTFOLIO_FILE).read())
     assert len(saved_port.get("open_positions", [])) == 0
-    assert saved_port.get("closed_count") == 20
+    assert saved_port.get("closed_count") == 1
+
+
+# ======================================================================
+# Bug 6: paper_trader bar-level SL/TP (post-entry filter)
+# ======================================================================
+# paper_trader.update_trades() previously received only aggregate
+# {close, high, low, date}, so a SAME-DAY bar before the entry candle could
+# falsely stop out a mid-session position (documented "KNOWN LIMITATION").
+# bot.py now supplies full `bars`; update_trades evaluates SL/TP first-touch
+# only on bars at/after the entry time within the session-time live window.
+
+def test_paper_trader_bars_ignore_pre_entry_low(test_env, monkeypatch):
+    """Regression: a bar BEFORE the entry candle (low below SL) must be ignored."""
+    _set_time(monkeypatch, datetime(2026, 1, 15, 23, 22, 38))
+
+    t = enter_trade("US", "SPY", "LONG", 741.73, "Test SPY LONG",
+                    pattern_rank=31, expected_win_rate=63.16,
+                    pattern_factors="Price>SMA50+EMA20<EMA50+Close<Open",
+                    tf="INTRADAY_1h")
+    assert t is not None
+
+    # Advance into the next morning (market still closed, US session not open).
+    _set_time(monkeypatch, datetime(2026, 1, 16, 1, 14, 16))
+
+    # Entry 23:22:38 IST Jan-15 = 17:52:38 UTC. The 14:00 UTC bar (low 734.00,
+    # below SL 734.31) happened BEFORE entry → must be ignored. The 18:00 UTC
+    # post-entry bar is inside the live window and does not hit SL/TP.
+    bars = [
+        (pd.Timestamp("2026-01-15 14:00:00", tz="UTC"), 742.00, 734.00, 741.00),
+        (pd.Timestamp("2026-01-15 18:00:00", tz="UTC"), 743.00, 738.00, 741.50),
+    ]
+    ohlc = {"SPY": {"close": 741.50, "high": 743.00, "low": 736.00,
+                    "date": "2026-01-16", "bars": bars}}
+    msgs = update_trades(ohlc)
+    assert len(msgs) == 0, f"No exit expected (pre-entry low ignored), got: {msgs}"
+
+    port = load_portfolio()
+    assert len(port.get("open_positions", [])) == 1, "Trade should still be OPEN"
+
+
+def test_paper_trader_bars_exit_on_post_entry_sl(test_env, monkeypatch):
+    """Control: a POST-entry bar hitting SL does trigger the exit at SL."""
+    _set_time(monkeypatch, datetime(2026, 1, 15, 23, 22, 38))
+
+    t = enter_trade("US", "SPY", "LONG", 741.73, "Test SPY LONG",
+                    pattern_rank=31, expected_win_rate=63.16,
+                    pattern_factors="Price>SMA50+EMA20<EMA50+Close<Open",
+                    tf="INTRADAY_1h")
+    assert t is not None
+
+    _set_time(monkeypatch, datetime(2026, 1, 16, 1, 14, 16))
+
+    bars = [
+        (pd.Timestamp("2026-01-15 14:00:00", tz="UTC"), 742.00, 734.00, 741.00),   # pre-entry: ignored
+        (pd.Timestamp("2026-01-15 18:00:00", tz="UTC"), 743.00, 733.50, 741.00),   # post-entry: SL hit
+    ]
+    ohlc = {"SPY": {"close": 741.00, "high": 743.00, "low": 733.50,
+                    "date": "2026-01-16", "bars": bars}}
+    msgs = update_trades(ohlc)
+    assert len(msgs) == 1, f"Expected SL exit, got: {msgs}"
+    assert "SL" in msgs[0]
+
+    df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines="warn")
+    closed = df[df["Status"] == "CLOSED"]
+    assert len(closed) == 1
+    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(734.31, abs=0.05), \
+        f"Exit should be at SL 734.31, got {closed.iloc[0]['Exit_Price']}"

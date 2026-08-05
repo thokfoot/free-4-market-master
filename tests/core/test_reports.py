@@ -21,6 +21,7 @@ import json
 import math
 import pytest
 import pandas as pd
+import paper_trader as _pt
 from paper_trader import (
     _html_escape,
     _pnl_class,
@@ -33,10 +34,6 @@ from paper_trader import (
     load_portfolio,
     update_last_prices,
     _LAST_PRICES,
-    PAPER_FILE,
-    PORTFOLIO_FILE,
-    STRATEGY_STATS_FILE,
-    COLUMNS,
 )
 
 
@@ -461,12 +458,12 @@ class TestGeneratePortfolioReport:
 
         # Now corrupt the P&L values in the CSV
         # Convert to object dtype first to prevent pandas LossySetitemError
-        df = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
+        df = pd.read_csv(_pt.PAPER_FILE, on_bad_lines="warn")
         for col in ["P&L", "P&L_%"]:
             df[col] = df[col].astype(object)
         df.loc[0, "P&L"] = None
         df.loc[0, "P&L_%"] = "nan"
-        df.to_csv(PAPER_FILE, index=False)
+        df.to_csv(_pt.PAPER_FILE, index=False)
 
         report_file = generate_portfolio_report()
         assert os.path.exists(report_file)

@@ -39,6 +39,36 @@ from paper_trader import (
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 
 
+def _ohlc_bars(df):
+    """Normalize a yfinance DataFrame to [(utc_ts, high, low, close), ...].
+
+    Handles MultiIndex columns (auto_adjust=False) and preserves tz-aware
+    UTC bar timestamps so paper_trader can do post-entry bar filtering.
+    """
+    out = []
+    try:
+        for ts, row in df.iterrows():
+            def _v(col):
+                v = row[col]
+                if hasattr(v, "iloc"):
+                    v = v.iloc[0]
+                try:
+                    return float(v)
+                except Exception:
+                    return None
+            hi, lo, cl = _v("High"), _v("Low"), _v("Close")
+            if hi is None or lo is None or cl is None:
+                continue
+            if df.index.tz is None:
+                t = pd.Timestamp(ts).tz_localize("UTC")
+            else:
+                t = pd.Timestamp(ts).tz_convert("UTC")
+            out.append((t, hi, lo, cl))
+    except Exception as e:
+        print(f"[Bot] _ohlc_bars failed: {e}")
+    return out
+
+
 # Portfolio report file
 PORTFOLIO_REPORT_FILE = "logs/portfolio_report.html"
 
@@ -423,7 +453,8 @@ def run_swing_scan() -> dict:
                     lv = float(last["Low"].iloc[0] if hasattr(last["Low"], 'iloc') else last["Low"])
                     current_prices_sw[yf_ticker] = cv
                     ohlc_data_sw[yf_ticker] = {"close": cv, "high": hv, "low": lv,
-                                               "date": str(df.index[-1].date())}
+                                               "date": str(df.index[-1].date()),
+                                               "bars": _ohlc_bars(df)}
                 except:
                     pass
         
@@ -465,6 +496,10 @@ def run_swing_scan() -> dict:
             current_prices[yf_ticker] = st["latest_close"]
             ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"],
                                     "low": st["latest_low"], "date": st.get("latest_date", "")}
+        # Swing ohlc_data carries full daily bars for post-entry bar-level SL/TP
+        for yf_ticker, df in ticker_data.items():
+            if yf_ticker in ohlc_data and df is not None and len(df) > 0:
+                ohlc_data[yf_ticker]["bars"] = _ohlc_bars(df)
     
     closed_msgs = update_trades(ohlc_data)
     print(f"[Swing] Closed: {len(closed_msgs)}")
@@ -592,6 +627,10 @@ def run_intraday_scan() -> dict:
                 "low": st.get("daily_low", st["latest_low"]),
                 "date": st.get("latest_date", ""),
             }
+        # Intraday ohlc_data carries full 1h bars for post-entry bar-level SL/TP
+        for yf_ticker, df in ticker_data.items():
+            if yf_ticker in ohlc_data and df is not None and len(df) > 0:
+                ohlc_data[yf_ticker]["bars"] = _ohlc_bars(df)
     
     closed_msgs = update_trades(ohlc_data)
     print(f"[Intraday] Closed: {len(closed_msgs)}")
