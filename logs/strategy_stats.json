@@ -75,5 +75,12 @@
     "wins": 1,
     "losses": 2,
     "total_pnl": 429.75
+  },
+  "38": {
+    "rank": 38,
+    "factors": "#38ID RSI>65+2Red | Expiry 6h",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -17.51
   }
 }
