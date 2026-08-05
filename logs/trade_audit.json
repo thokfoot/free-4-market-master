@@ -1103,5 +1103,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "RSI>65+2Red",
     "skip_reason": "Duplicate XLF SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-05 17:15:18 IST",
+    "mode": "US",
+    "ticker": "XLF",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI>65+2Red",
+    "skip_reason": "Duplicate XLF SHORT already open"
   }
 ]
