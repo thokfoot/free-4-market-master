@@ -56,18 +56,18 @@ CAP_MAX_QTY_HIGH      = 5000    # entry > 100  (expensive stocks like GOOGL, MRF
 #   US Indices: 0.0002-0.001 (0.02-0.1%)
 #   Indian stocks: 0.0005-0.002 (0.05-0.2%)
 #   Crypto: 0.001-0.003 (0.1-0.3% — less liquid)
-# NOTE: 0.0 = ideal fills (current behavior unchanged)
+# NOTE: Values match strategy_miner backtest cost assumptions (US 0.01%, Crypto 0.1%)
 SLIPPAGE_PCT = {
-    "INDIAN": 0.0,     # 0% — ideal fills
-    "US": 0.0,          # 0% — ideal fills
-    "CRYPTO": 0.0,      # 0% — ideal fills
+    "INDIAN": 0.0005,   # 0.05% — low end of recommended 0.05-0.2%
+    "US": 0.0001,       # 0.01% — matches miner backtest slippage assumption
+    "CRYPTO": 0.001,    # 0.10% — matches miner backtest slippage assumption
 }
 
 # Intraday slippage (typically wider due to 1h candle execution)
 INTRADAY_SLIPPAGE_PCT = {
-    "US": 0.0,
-    "CRYPTO": 0.0,
-    "INDIAN": 0.0,
+    "US": 0.0002,       # 0.02% — slightly wider for 1h candle execution
+    "CRYPTO": 0.001,    # 0.10% — matches miner backtest slippage assumption
+    "INDIAN": 0.0005,   # 0.05%
 }
 
 # ===== GAP-DOWN STRATEGY (Indian 1m Intraday, v5.9+) =====

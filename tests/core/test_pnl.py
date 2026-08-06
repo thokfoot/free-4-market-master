@@ -24,7 +24,7 @@ from paper_trader import (
     round_price, _safe_float, _safe_num,
     _calc_unrealized_pnl, update_last_prices, _get_current_price,
     enter_trade, update_trades, load_portfolio,
-    _load_audit, _load_strategy_stats,
+    _load_audit, _load_strategy_stats, _apply_slippage,
 )
 from tests.fixtures.sample_data import build_ohlc_data
 
@@ -314,8 +314,9 @@ def test_market_charges_us(test_env):
     assert len(msgs) == 1
 
     csv_pnl, _ = _read_closed_pnl(test_env)
-    gross = (target - entry) * qty
-    expected_charges = (entry * qty) * 0.0002
+    actual_exit = _apply_slippage(target, "LONG", "EXIT", "US", "SWING_1d")
+    gross = (actual_exit - entry) * qty
+    expected_charges = round((entry * qty) * 0.0002, 2)
     expected_net = round(gross - expected_charges, 2)
     assert csv_pnl == pytest.approx(expected_net, abs=0.05), (
         f"US net P&L ({csv_pnl}) != expected ({expected_net})"
@@ -337,8 +338,9 @@ def test_market_charges_crypto(test_env):
     assert len(msgs) == 1
 
     csv_pnl, _ = _read_closed_pnl(test_env)
-    gross = (target - entry) * qty
-    expected_charges = (entry * qty) * 0.003
+    actual_exit = _apply_slippage(target, "LONG", "EXIT", "CRYPTO", "SWING_1d")
+    gross = (actual_exit - entry) * qty
+    expected_charges = round((entry * qty) * 0.003, 2)
     expected_net = round(gross - expected_charges, 2)
     assert csv_pnl == pytest.approx(expected_net, abs=0.05)
 
@@ -358,8 +360,9 @@ def test_market_charges_indian(test_env):
     assert len(msgs) == 1
 
     csv_pnl, _ = _read_closed_pnl(test_env)
-    gross = (target - entry) * qty
-    expected_charges = (entry * qty) * 0.0012
+    actual_exit = _apply_slippage(target, "LONG", "EXIT", "INDIAN", "SWING_1d")
+    gross = (actual_exit - entry) * qty
+    expected_charges = round((entry * qty) * 0.0012, 2)
     expected_net = round(gross - expected_charges, 2)
     assert csv_pnl == pytest.approx(expected_net, abs=0.05)
 

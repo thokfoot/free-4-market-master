@@ -62,13 +62,13 @@ def test_long_sl_hit_intraday(test_env):
     assert len(msgs) == 1, f"Expected 1 closed msg, got {len(msgs)}"
     assert "SL Hit" in msgs[0], f"Expected SL Hit, got: {msgs[0]}"
 
-    # Verify exit price = SL (441)
+    # Verify exit price = SL (441) less exit slippage (US swing 0.01%)
     import pandas as pd
     from paper_trader import PAPER_FILE
     df = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
     closed = df[df["Status"] == "CLOSED"]
     assert len(closed) == 1
-    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(441.00, abs=0.01)
+    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(440.96, abs=0.01)
     assert float(closed.iloc[0]["P&L"]) < 0  # Should be a loss
 
 

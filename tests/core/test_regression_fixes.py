@@ -176,11 +176,12 @@ def test_maxhold_expires_after_actual_6h(test_env, monkeypatch):
     # CRITICAL: expiry must exit at CURRENT price (cmp=741.50), NOT the SL
     # price (734.31). Guards the is_expired-overwrite bug where the SHORT
     # else-branch clobbered expiry exits with a bogus "SL Hit (intraday)".
+    # Exit gets LONG exit slippage (US intraday 0.02%) applied on top.
     df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines="warn")
     closed = df[df["Status"] == "CLOSED"]
     assert len(closed) == 1
-    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(741.50, abs=0.05), \
-        f"Exit should be current price 741.50, got {closed.iloc[0]['Exit_Price']}"
+    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(741.35, abs=0.05), \
+        f"Exit should be current price 741.35, got {closed.iloc[0]['Exit_Price']}"
 
 
 def test_maxhold_swing_still_expires_after_5_days(test_env, monkeypatch):
@@ -204,11 +205,12 @@ def test_maxhold_swing_still_expires_after_5_days(test_env, monkeypatch):
     # CRITICAL: expiry must exit at CURRENT price (cmp=505.00), NOT the SL
     # price (490.00). Guards the is_expired-overwrite bug (else-branch
     # clobbered expiry with a bogus SL Hit at the SL price).
+    # Exit gets LONG exit slippage (US swing 0.01%) applied on top.
     df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines="warn")
     closed = df[df["Status"] == "CLOSED"]
     assert len(closed) == 1
-    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(505.00, abs=0.05), \
-        f"Exit should be current price 505.00, got {closed.iloc[0]['Exit_Price']}"
+    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(504.95, abs=0.05), \
+        f"Exit should be current price 504.95, got {closed.iloc[0]['Exit_Price']}"
 
 
 # ======================================================================
@@ -326,8 +328,9 @@ def test_maxhold_short_expires_at_cmp(test_env, monkeypatch):
     closed = df[df["Status"] == "CLOSED"]
     assert len(closed) == 1
     # Exit must be the current price (close=292.00), NOT the SHORT SL (~296).
-    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(292.00, abs=0.05), \
-        f"SHORT expiry should exit at current price 292.00, got {closed.iloc[0]['Exit_Price']}"
+    # SHORT exit pays more: +0.02% intraday slippage on cmp.
+    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(292.06, abs=0.05), \
+        f"SHORT expiry should exit at current price 292.06, got {closed.iloc[0]['Exit_Price']}"
 
 
 
@@ -650,8 +653,8 @@ def test_live_pnl_expired_stale_data_closes_at_cmp_not_sl(test_env, monkeypatch)
     closed = saved_csv[saved_csv["Status"].astype(str) == "CLOSED"]
     assert len(closed) == 1
     exit_px = float(closed.iloc[0]["Exit_Price"])
-    assert exit_px == pytest.approx(741.73, abs=0.05), \
-        f"Expiry should exit at current price 741.73, got {exit_px}"
+    assert exit_px == pytest.approx(741.58, abs=0.05), \
+        f"Expiry should exit at current price 741.58, got {exit_px}"
     assert "Expiry" in str(closed.iloc[0]["Reason"])
 
     # Position removed from portfolio
@@ -726,5 +729,5 @@ def test_paper_trader_bars_exit_on_post_entry_sl(test_env, monkeypatch):
     df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines="warn")
     closed = df[df["Status"] == "CLOSED"]
     assert len(closed) == 1
-    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(734.31, abs=0.05), \
-        f"Exit should be at SL 734.31, got {closed.iloc[0]['Exit_Price']}"
+    assert float(closed.iloc[0]["Exit_Price"]) == pytest.approx(734.16, abs=0.05), \
+        f"Exit should be at SL 734.16, got {closed.iloc[0]['Exit_Price']}"

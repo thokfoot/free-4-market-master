@@ -146,7 +146,8 @@ class TestReplayLongTp:
                         "#1 Test LONG TP", pattern_rank=1, expected_win_rate=62.0)
         assert t is not None
         assert t["Status"] == "OPEN"
-        assert t["Entry_Price"] == 100.0
+        # Entry gets LONG entry slippage (US swing 0.01%): 100 -> 100.01
+        assert t["Entry_Price"] == 100.01
         assert t["SL"] == 98.0
         assert t["Target"] == 104.0
         assert t["Qty"] > 0
@@ -281,7 +282,8 @@ class TestReplayLongSl:
         assert s["total_pnl"] == pytest.approx(pnl, abs=0.02)
 
         exit_price = float(trade["Exit_Price"])
-        assert exit_price == pytest.approx(98.0, abs=0.01), \
+        # Exit at SL=98.00 less LONG exit slippage (US swing 0.01%) = 97.99
+        assert exit_price == pytest.approx(97.99, abs=0.01), \
             f"Expected exit at SL=98.0, got {exit_price}"
 
 
@@ -464,7 +466,8 @@ class TestReplayShortTp:
         assert pnl > 0, f"SHORT TP should have positive P&L, got {pnl}"
 
         exit_price = float(trade["Exit_Price"])
-        assert exit_price == pytest.approx(96.0, abs=0.01)
+        # SHORT exit at TP=96.00 pays more (+0.01% US swing slippage) = 96.01
+        assert exit_price == pytest.approx(96.01, abs=0.01)
 
 
 # ======================================================================
