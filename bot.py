@@ -319,7 +319,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     pnl_icon = "🟢" if total_pnl > 0 else ("🔴" if total_pnl < 0 else "⚪")
     win_icon = "🏆" if win_rate >= 70 else ("👍" if win_rate >= 50 else "👎")
     lines.append(f"{pnl_icon} *P&L:* Rs {total_pnl:+,.0f} | {win_icon} *Win:* {wins}/{total_closed} ({win_rate}%)")
-    lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | *Total:* {total_closed + open_count}")
+    lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | *Total:* {closed_count + open_count}")
     
     # Build full message
     full_msg = "\n".join(lines)
