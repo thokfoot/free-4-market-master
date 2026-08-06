@@ -37,6 +37,7 @@ from paper_trader import (
     initialize_system, check_entry_allowed,
 )
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
+from strategy_report import generate_strategy_report
 
 
 def _ohlc_bars(df):
@@ -1008,6 +1009,13 @@ def main():
     # Portfolio snapshot
     log_portfolio(total_cape, open_positions, closed_cnt, wins, losses, total_pnl,
                   capital_by_market=cap_by_mkt)
+    
+    # Auto-refresh strategy Excel report
+    try:
+        generate_strategy_report()
+    except Exception as e:
+        log_error(f"Strategy Excel report failed: {e}")
+        print(f"[WARN] Strategy Excel report: {e}")
     
     elapsed = time.time() - start_time
     print(f"\n{'='*60}")

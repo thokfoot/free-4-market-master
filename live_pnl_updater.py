@@ -27,6 +27,7 @@ from config import (
 )
 from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until
 from logger import log_error
+from strategy_report import generate_strategy_report
 
 IST = pytz.timezone("Asia/Kolkata")
 LOG_DIR = "logs"
@@ -786,6 +787,13 @@ def main():
             f"Wins: {portfolio.get('total_wins', 0)} | Losses: {portfolio.get('total_losses', 0)}"
         )
         send_telegram(summary)
+    
+    # Auto-refresh strategy Excel report
+    try:
+        generate_strategy_report()
+    except Exception as e:
+        log_error(f"Strategy Excel report failed: {e}")
+        print(f"[WARN] Strategy Excel report: {e}")
     
     print(f"\n{'='*60}")
     print(f"  LIVE P&L UPDATER DONE")

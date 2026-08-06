@@ -19,3 +19,6 @@ htmlcov/
 # Strategy miner: yfinance cache + analysis artifacts (regenerable)
 data/miner_cache/
 logs/miner_*.csv
+
+# Auto-generated Excel strategy report (regenerated every scan/update)
+logs/strategy_report.xlsx
