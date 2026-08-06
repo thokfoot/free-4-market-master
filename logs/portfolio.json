@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 101755.03,
     "CRYPTO": 100000.0,
-    "INTRADAY": 112156.13999999996
+    "INTRADAY": 112149.66999999995
   },
   "open_positions": [
     {
@@ -168,29 +168,6 @@
       "Signal_Indicators": "{\"Open\": 11834.769531, \"2Red\": 0.0, \"Low\": 11834.769531, \"EMA50\": 12060.819678, \"High\": 12258.080078, \"Volume\": 0.0, \"Close\": 12179.259766, \"SMA20\": 11969.362402, \"SMA50\": 12733.155156, \"EMA9\": 11616.389397, \"Ret\": 0.065519, \"RSI14\": 51.036819, \"EMA20\": 11930.761336}"
     },
     {
-      "Date": "2026-08-05",
-      "Time_IST": "21:46:25 IST",
-      "Mode": "CRYPTO",
-      "Ticker": "TRX-USD",
-      "Direction": "SHORT",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 0.3273,
-      "Qty": 10000,
-      "SL": 0.3322,
-      "Target": 0.3175,
-      "MaxHold": 12,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 1,
-      "Expected_WinRate": 47.24,
-      "Pattern_Factors": "EMA9>EMA20+Price>SMA20+RSI<50",
-      "Reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
-      "Signal_Indicators": "{\"Low\": 0.327155, \"Close\": 0.327305, \"EMA9\": 0.327714, \"High\": 0.327798, \"EMA50\": 0.327798, \"2Red\": 1.0, \"SMA20\": 0.327275, \"RSI14\": 45.145799, \"SMA50\": 0.328237, \"Volume\": 11714432.0, \"EMA20\": 0.327706, \"Open\": 0.327798, \"Ret\": -0.00148}"
-    },
-    {
       "Date": "2026-08-06",
       "Time_IST": "01:17:18 IST",
       "Mode": "US",
@@ -306,15 +283,15 @@
       "Signal_Indicators": "{\"Volume\": 9101653.0, \"RSI14\": 59.972956, \"EMA20\": 51.291376, \"EMA9\": 51.578998, \"Low\": 52.474998, \"SMA50\": 51.1821, \"EMA50\": 51.139325, \"High\": 52.959999, \"2Red\": 0.0, \"Close\": 52.724998, \"SMA20\": 51.00325, \"Open\": 52.59, \"Ret\": 0.013942}"
     }
   ],
-  "closed_count": 33,
+  "closed_count": 34,
   "total_wins": 22,
-  "total_losses": 10,
-  "total_pnl": 13911.170000000002,
+  "total_losses": 11,
+  "total_pnl": 13904.700000000003,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 1755.03,
     "CRYPTO": 0.0,
-    "INTRADAY": 12156.139999999998
+    "INTRADAY": 12149.669999999998
   },
-  "total_capital": 413911.17
+  "total_capital": 413904.69999999995
 }

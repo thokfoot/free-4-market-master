@@ -89,5 +89,12 @@
     "wins": 0,
     "losses": 1,
     "total_pnl": -365.5
+  },
+  "1": {
+    "rank": 1,
+    "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -6.47
   }
 }
