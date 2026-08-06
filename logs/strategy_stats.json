@@ -96,5 +96,33 @@
     "wins": 0,
     "losses": 1,
     "total_pnl": -6.47
+  },
+  "49": {
+    "rank": 49,
+    "factors": "#49SW Price>SMA50+EMA9<EMA20 | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -605.18
+  },
+  "75": {
+    "rank": 75,
+    "factors": "#75SW Price>SMA50+EMA9<EMA20 | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1012.37
+  },
+  "43": {
+    "rank": 43,
+    "factors": "#43SW RSI>50+SMA20<SMA50 | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -988.87
+  },
+  "41": {
+    "rank": 41,
+    "factors": "#41SW Price>SMA20+EMA20<EMA50+2Red | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -45.62
   }
 }
