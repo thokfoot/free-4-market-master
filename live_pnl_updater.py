@@ -148,11 +148,34 @@ def _save_audit(audit: list):
         json.dump(audit, f, indent=2)
 
 
+def _format_hold(seconds) -> str:
+    """Format a duration in seconds as a compact hold string (e.g. '1d 2h 3m')."""
+    try:
+        secs = max(0, int(float(seconds)))
+    except (TypeError, ValueError):
+        return ""
+    days, rem = divmod(secs, 86400)
+    hours, rem = divmod(rem, 3600)
+    mins, secs = divmod(rem, 60)
+    if days > 0:
+        return f"{days}d {hours}h {mins}m"
+    if hours > 0:
+        return f"{hours}h {mins}m"
+    if mins > 0:
+        return f"{mins}m {secs}s"
+    return f"{secs}s"
+
+
 def _log_audit_exit(trade_row: dict):
     audit = _load_audit()
+    exit_time = str(trade_row.get("Exit_Time", "")).strip()
+    # Ensure full datetime (%Y-%m-%d %H:%M:%S IST) — time-only entries get today's date
+    if exit_time and "-" not in exit_time:
+        exit_time = f"{datetime.now(IST).strftime('%Y-%m-%d')} {exit_time}"
     audit.append({
         "event": "EXIT (Live)",
-        "datetime": trade_row.get("Exit_Time", ""),
+        "datetime": exit_time,
+        "entry_datetime": trade_row.get("Entry_Time", ""),
         "mode": trade_row.get("Mode", ""),
         "ticker": trade_row.get("Ticker", ""),
         "direction": trade_row.get("Direction", ""),
@@ -161,6 +184,7 @@ def _log_audit_exit(trade_row: dict):
         "qty": trade_row.get("Qty", 0),
         "pnl": trade_row.get("P&L", ""),
         "pnl_pct": trade_row.get("P&L_%", ""),
+        "hold": trade_row.get("Hold", ""),
         "pattern_rank": trade_row.get("Pattern_Rank", ""),
         "expected_win_rate": trade_row.get("Expected_WinRate", ""),
         "pattern_factors": trade_row.get("Pattern_Factors", ""),
@@ -369,7 +393,7 @@ def process_open_trades() -> tuple:
     closed_msgs = []
     update_msgs = []
     now = datetime.now(IST)
-    time_str = now.strftime("%H:%M:%S IST")
+    exit_dt_str = now.strftime("%Y-%m-%d %H:%M:%S IST")
     portfolio_updated = False
     
     for idx, row in df.iterrows():
@@ -527,7 +551,7 @@ def process_open_trades() -> tuple:
 
             # Update CSV
             df.at[idx, "Exit_Price"] = round_price(exit_price)
-            df.at[idx, "Exit_Time"] = time_str
+            df.at[idx, "Exit_Time"] = exit_dt_str
             df.at[idx, "P&L"] = round(pnl, 2)
             df.at[idx, "P&L_%"] = round(pnl_pct, 2)
             df.at[idx, "Status"] = "CLOSED"
@@ -539,9 +563,23 @@ def process_open_trades() -> tuple:
             # portfolio here — the portfolio is rebuilt from the CSV below
             # (single source of truth, same as paper_trader.update_trades).
             
+            # Hold duration (wall-clock time between entry and exit)
+            _entry_dt_full = IST.localize(datetime.strptime(str(row.get("Date", "")), "%Y-%m-%d"))
+            try:
+                _et = str(row.get("Time_IST", ""))[:8]
+                if len(_et) == 8:
+                    _entry_dt_full = IST.localize(datetime.strptime(f"{row.get('Date', '')} {_et}", "%Y-%m-%d %H:%M:%S"))
+            except Exception:
+                pass
+            _hold_secs = max(0, (now - _entry_dt_full).total_seconds())
+            _hold_str = _format_hold(_hold_secs)
+            
             # Audit log
             _log_audit_exit({
-                "Exit_Time": time_str, "Mode": row.get("Mode", ""),
+                "Exit_Time": exit_dt_str,
+                "Entry_Time": f"{row.get('Date', '')} {row.get('Time_IST', '')}",
+                "Hold": _hold_str,
+                "Mode": row.get("Mode", ""),
                 "Ticker": ticker, "Direction": direction,
                 "Entry_Price": entry, "Exit_Price": round_price(exit_price),
                 "Qty": qty, "P&L": round(pnl, 2), "P&L_%": round(pnl_pct, 2),

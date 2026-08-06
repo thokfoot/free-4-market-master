@@ -353,6 +353,61 @@ def test_audit_log_exit_event(test_env):
     assert "reason" in exit_event
 
 
+def test_audit_exit_has_full_datetime_and_hold(test_env):
+    """EXIT audit events must carry a full datetime (%Y-%m-%d ...) and hold duration."""
+    import pandas as pd
+    from paper_trader import PAPER_FILE
+    from datetime import datetime
+    import pytz
+
+    t = _enter_long_swing(test_env)
+    # Record the entry timestamp as written to CSV
+    df = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
+    entry_date = str(df.iloc[0]["Date"])
+    entry_time = str(df.iloc[0]["Time_IST"])
+
+    ohlc = build_ohlc_data("SPY", lambda: {"close": 440.50, "high": 450.00, "low": 442.00})
+    msgs = update_trades(ohlc)
+    assert len(msgs) == 1
+
+    audit = _load_audit()
+    exit_event = audit[-1]
+    assert exit_event["event"] == "EXIT"
+    dt = str(exit_event["datetime"])
+    # Full datetime with a date component (not time-only)
+    assert "-" in dt, f"EXIT datetime missing date: {dt!r}"
+    assert dt.endswith("IST")
+    import re
+    assert re.match(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} IST$", dt), f"Bad datetime format: {dt!r}"
+    # entry_datetime must be populated and hold must be non-empty
+    assert "-" in str(exit_event.get("entry_datetime", "")), (
+        f"entry_datetime missing: {exit_event.get('entry_datetime')!r}")
+    assert exit_event.get("hold"), f"hold should be non-empty, got {exit_event.get('hold')!r}"
+
+    # CSV Exit_Time must also be a full datetime now
+    df2 = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
+    exit_time = str(df2.iloc[0]["Exit_Time"])
+    assert "-" in exit_time, f"CSV Exit_Time missing date: {exit_time!r}"
+
+
+def test_audit_exit_time_only_gets_today_date(test_env):
+    """Legacy time-only Exit_Time in audit rows gets the current date prepended."""
+    from paper_trader import _log_audit_exit
+
+    _log_audit_exit({
+        "Exit_Time": "09:49:25 IST",
+        "Mode": "US", "Ticker": "SPY", "Direction": "LONG",
+        "Entry_Price": 100.0, "Exit_Price": 102.0, "Qty": 1,
+        "P&L": 2.0, "P&L_%": 2.0, "Reason": "Test",
+    })
+    audit = _load_audit()
+    last = audit[-1]
+    dt = str(last["datetime"])
+    # test_env freezes paper_trader.datetime to 2026-01-15
+    assert dt.startswith("2026-01-15"), f"Expected frozen date prepended, got {dt!r}"
+    assert "-" in dt
+
+
 # ======================================================================
 # CSV State After Exit
 # ======================================================================
