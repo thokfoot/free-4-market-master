@@ -842,12 +842,14 @@ def update_strategy_stats(reason: str, pnl: float):
 
 def get_strategy_stats(top_n: int = 5) -> list:
     """
-    Get best and worst strategies by win rate.
+    Get best and worst strategies by average P&L per trade.
+    Both win rate and P&L matter: avg = total_pnl / trades
+    (which equals win_rate*avg_win - (1-win_rate)*avg_loss).
     
     Returns:
         {
-            "top": [{rank, factors, wins, losses, win_rate, total_pnl}, ...],
-            "bottom": [{rank, factors, wins, losses, win_rate, total_pnl}, ...],
+            "top": [{rank, factors, wins, losses, win_rate, total_pnl, avg_pnl}, ...],
+            "bottom": [{rank, factors, wins, losses, win_rate, total_pnl, avg_pnl}, ...],
         }
     """
     stats = _load_strategy_stats()
@@ -858,6 +860,8 @@ def get_strategy_stats(top_n: int = 5) -> list:
     for key, data in stats.items():
         total = data.get("wins", 0) + data.get("losses", 0)
         wr = round(data["wins"] / total * 100, 1) if total > 0 else 0
+        pnl = data.get("total_pnl", 0)
+        avg_pnl = pnl / total if total > 0 else 0
         rows.append({
             "rank": data["rank"],
             "factors": data.get("factors", "")[:50],
@@ -865,16 +869,17 @@ def get_strategy_stats(top_n: int = 5) -> list:
             "losses": data["losses"],
             "total": total,
             "win_rate": wr,
-            "total_pnl": round(data.get("total_pnl", 0), 0),
+            "total_pnl": round(pnl, 0),
+            "avg_pnl": round(avg_pnl, 0),
         })
     
-    # Sort by win rate descending
-    rows.sort(key=lambda x: x["win_rate"], reverse=True)
+    # Sort by average P&L per trade (best first)
+    rows.sort(key=lambda x: x["avg_pnl"], reverse=True)
     top = rows[:top_n]
     
-    # Sort by win rate ascending (worst first)
-    rows.sort(key=lambda x: x["win_rate"])
-    bottom = [r for r in rows if r["total"] >= 2][:top_n]  # Only if 2+ trades
+    # Sort by average P&L per trade (worst first)
+    rows.sort(key=lambda x: x["avg_pnl"])
+    bottom = rows[:top_n]
     
     return {"top": top, "bottom": bottom}
 

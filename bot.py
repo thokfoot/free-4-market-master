@@ -279,11 +279,10 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             lines.append("━━━ *TOP STRATEGIES* ━━━")
             for s in top:
                 icon = "🏆" if s["win_rate"] >= 70 else "👍"
-                pnl_sym = "+" if s["total_pnl"] >= 0 else ""
                 lines.append(
                     f"{icon} #{s['rank']} {s['win_rate']}% "
                     f"({s['wins']}W/{s['losses']}L) "
-                    f"₹{pnl_sym}{s['total_pnl']:,.0f}"
+                    f"₹{s['avg_pnl']:+,.0f}/trd"
                 )
             lines.append("")
         if bottom:
@@ -292,7 +291,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                 lines.append(
                     f"👎 #{s['rank']} {s['win_rate']}% "
                     f"({s['wins']}W/{s['losses']}L) "
-                    f"₹{s['total_pnl']:+,.0f}"
+                    f"₹{s['avg_pnl']:+,.0f}/trd"
                 )
             lines.append("")
     

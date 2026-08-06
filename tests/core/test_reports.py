@@ -5,7 +5,7 @@ Tests for:
     - _html_escape()       — safe HTML escaping with NaN/None handling
     - _pnl_class()         — CSS class for P&L values
     - _extract_rank()      — pattern rank extraction from Reason field
-    - get_strategy_stats() — sorted top/bottom strategies by win rate
+    - get_strategy_stats() — sorted top/bottom strategies by avg P&L per trade
     - generate_portfolio_report() — HTML report with summary, tables, history
 
 Behavioral invariants:
@@ -168,45 +168,71 @@ class TestExtractRank:
 # ======================================================================
 
 class TestGetStrategyStats:
-    """Sorted top/bottom strategies by win rate."""
+    """Sorted top/bottom strategies by average P&L per trade (both WR and P&L matter)."""
 
     def test_empty_stats_returns_empty(self, test_env):
         result = get_strategy_stats()
         assert result == {"top": [], "bottom": []}
 
-    def test_single_strategy_one_trade_no_bottom(self, test_env):
-        """Bottom requires >= 2 trades, so 1-trade strategy appears in top only."""
+    def test_single_strategy_one_trade_appears_in_both(self, test_env):
+        """1-trade strategies appear in top and bottom; avg = total P&L."""
         update_strategy_stats("#1 Test strategy", 500.0)
         result = get_strategy_stats(top_n=5)
         assert len(result["top"]) == 1
         assert result["top"][0]["rank"] == 1
         assert result["top"][0]["win_rate"] == 100.0
-        assert len(result["bottom"]) == 0  # Not enough trades
+        assert result["top"][0]["avg_pnl"] == 500.0
+        assert len(result["bottom"]) == 1  # 1-trade losers must show too
 
     def test_single_strategy_two_trades_both_top_and_bottom(self, test_env):
-        """With >= 2 trades, appears in both top and bottom."""
+        """With 2 trades, appears in both top and bottom."""
         update_strategy_stats("#1 Test strategy", 500.0)
         update_strategy_stats("#1 Test strategy", -200.0)
         result = get_strategy_stats(top_n=5)
         assert len(result["top"]) == 1
         assert result["top"][0]["win_rate"] == 50.0
+        assert result["top"][0]["avg_pnl"] == 150.0
         assert len(result["bottom"]) == 1
         assert result["bottom"][0]["win_rate"] == 50.0
 
+    def test_ranked_by_avg_pnl_not_win_rate(self, test_env):
+        """Higher avg per trade ranks above, even with lower win rate."""
+        update_strategy_stats("#1 High WR", 100.0)   # 2W/0L -> avg +100
+        update_strategy_stats("#1 High WR", 100.0)
+        update_strategy_stats("#2 Big winner", 1000.0)  # 1W/1L -> avg +450
+        update_strategy_stats("#2 Big winner", -100.0)
+        result = get_strategy_stats(top_n=5)
+        # #2 has 50% WR but avg +450 > +100, so it ranks #1
+        assert result["top"][0]["rank"] == 2
+        assert result["top"][1]["rank"] == 1
+        # Worst = lowest avg per trade
+        assert result["bottom"][0]["rank"] == 1
+        assert result["bottom"][1]["rank"] == 2
+
+    def test_one_trade_loser_in_bottom(self, test_env):
+        """A 1-trade loser shows in bottom (no >=2 filter anymore)."""
+        update_strategy_stats("#1 Winner", 200.0)
+        update_strategy_stats("#1 Winner", 200.0)
+        update_strategy_stats("#2 One trade loser", -1000.0)
+        result = get_strategy_stats(top_n=5)
+        bottom_ranks = [r["rank"] for r in result["bottom"]]
+        assert 2 in bottom_ranks
+        assert result["bottom"][0]["rank"] == 2  # worst first
+
     def test_multiple_strategies_correct_sorting(self, test_env):
-        """Top sorted descending by win rate, bottom ascending."""
-        update_strategy_stats("#1 Strategy 1", 100.0)  # 100% WR
+        """Top sorted by avg P&L descending, bottom ascending."""
+        update_strategy_stats("#1 Strategy 1", 100.0)  # avg +150
         update_strategy_stats("#1 Strategy 1", 200.0)
-        update_strategy_stats("#2 Strategy 2", 100.0)  # 50% WR
+        update_strategy_stats("#2 Strategy 2", 100.0)  # avg 0
         update_strategy_stats("#2 Strategy 2", -100.0)
-        update_strategy_stats("#3 Strategy 3", -100.0)  # 0% WR
+        update_strategy_stats("#3 Strategy 3", -100.0)  # avg -150
         update_strategy_stats("#3 Strategy 3", -200.0)
         result = get_strategy_stats(top_n=5)
-        # Top: highest WR first
+        # Top: highest avg first
         assert result["top"][0]["rank"] == 1
         assert result["top"][1]["rank"] == 2
         assert result["top"][2]["rank"] == 3
-        # Bottom: lowest WR first
+        # Bottom: lowest avg first
         assert result["bottom"][0]["rank"] == 3
         assert result["bottom"][1]["rank"] == 2
         assert result["bottom"][2]["rank"] == 1
@@ -221,7 +247,7 @@ class TestGetStrategyStats:
         assert len(result["bottom"]) == 3
 
     def test_ties_maintained(self, test_env):
-        """Strategies with same win rate both appear."""
+        """Strategies with same avg P&L both appear."""
         update_strategy_stats("#1 First", 100.0)
         update_strategy_stats("#1 First", 100.0)
         update_strategy_stats("#2 Second", 100.0)
@@ -237,16 +263,7 @@ class TestGetStrategyStats:
         update_strategy_stats("#1 Test", -200.0)
         result = get_strategy_stats()
         assert result["top"][0]["total_pnl"] == 300.0
-
-    def test_only_two_or_more_trades_in_bottom(self, test_env):
-        """Bottom list filters out strategies with < 2 trades."""
-        update_strategy_stats("#1 One trade only", 100.0)
-        update_strategy_stats("#2 Two trades", 100.0)
-        update_strategy_stats("#2 Two trades", -50.0)
-        result = get_strategy_stats(top_n=5)
-        bottom_ranks = [r["rank"] for r in result["bottom"]]
-        assert 1 not in bottom_ranks  # Only 1 trade
-        assert 2 in bottom_ranks     # 2 trades
+        assert result["top"][0]["avg_pnl"] == 150.0
 
 
 # ======================================================================
