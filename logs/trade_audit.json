@@ -1506,5 +1506,34 @@
     "pattern_factors": "Close>Open+2Red",
     "reason": "#25ID Close>Open+2Red",
     "signal_indicators": "{\"EMA9\": 29560.877392, \"2Red\": 1.0, \"SMA50\": 28521.436641, \"SMA20\": 29416.817383, \"Low\": 29128.048828, \"Volume\": 318341795.0, \"RSI14\": 61.700793, \"Close\": 29465.068359, \"EMA20\": 29350.724387, \"EMA50\": 28898.089489, \"Ret\": -0.000211, \"Open\": 29235.292969, \"High\": 29553.318359}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-06 21:16:19 IST",
+    "entry_datetime": "2026-08-06 20:23:19 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "entry_price": 29470.96,
+    "exit_price": 29164.59,
+    "qty": 3,
+    "pnl": -936.8,
+    "pnl_pct": -1.06,
+    "hold": "53m 0s",
+    "pattern_rank": 25,
+    "expected_win_rate": 70.0,
+    "pattern_factors": "Close>Open+2Red",
+    "reason": "#25ID Close>Open+2Red | SL Hit (intraday)",
+    "signal_indicators": ""
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-06 21:16:30 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price<SMA20+EMA9>EMA20+Close<Open+2Red",
+    "skip_reason": "Duplicate DIA LONG already open"
   }
 ]

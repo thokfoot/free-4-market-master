@@ -124,5 +124,12 @@
     "wins": 0,
     "losses": 1,
     "total_pnl": -45.62
+  },
+  "25": {
+    "rank": 25,
+    "factors": "#25ID Close>Open+2Red | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -936.8
   }
 }
