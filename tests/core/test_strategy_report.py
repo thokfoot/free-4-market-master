@@ -106,6 +106,17 @@ class TestReportFile:
     def test_file_created(self, report_file):
         assert os.path.exists(report_file)
 
+    def test_file_opens_with_openpyxl(self, report_file):
+        _load_wb(report_file)
+
+    def test_deterministic_bytes(self, tmp_path, monkeypatch):
+        """Same data -> byte-identical xlsx (no useless git commits)."""
+        out1 = tmp_path / "r1.xlsx"
+        out2 = tmp_path / "r2.xlsx"
+        sr.generate_strategy_report(str(out1))
+        sr.generate_strategy_report(str(out2))
+        assert open(out1, "rb").read() == open(out2, "rb").read()
+
     def test_summary_sheet_exists(self, report_file):
         wb = _load_wb(report_file)
         assert "Summary" in wb.sheetnames

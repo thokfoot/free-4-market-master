@@ -31,7 +31,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install yfinance pandas pytz requests
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run Gap-Down Scan
         env:

@@ -20,5 +20,3 @@ htmlcov/
 data/miner_cache/
 logs/miner_*.csv
 
-# Auto-generated Excel strategy report (regenerated every scan/update)
-logs/strategy_report.xlsx

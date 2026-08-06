@@ -14,6 +14,7 @@ and after each live P&L check (live_pnl_updater.py main()).
 import glob
 import json
 import os
+import zipfile as _zf
 
 import openpyxl
 from openpyxl.styles import Alignment, Border, Font, PatternFill
@@ -476,7 +477,6 @@ def generate_strategy_report(report_file=None):
         meta.cell(row=1, column=1).font = HDR_FONT
         meta.cell(row=1, column=2).font = HDR_FONT
         meta_items = [
-            ("Generated At", __import__("datetime").datetime.now(__import__("pytz").timezone("Asia/Kolkata")).strftime("%Y-%m-%d %H:%M:%S IST")),
             ("Total Trades (incl. open)", len(trades)),
             ("Closed Trades", len(closed)),
             ("Open Positions", len(trades) - len(closed)),
@@ -497,9 +497,53 @@ def generate_strategy_report(report_file=None):
         meta.column_dimensions["A"].width = 34
         meta.column_dimensions["B"].width = 26
 
-    wb.save(out)
+    # Deterministic metadata: pin created/modified to the latest trade date
+    # so identical data yields byte-identical xlsx (no useless git commits).
+    try:
+        from datetime import datetime as _dt
+        latest = "2026-01-01 00:00:00"
+        for t in trades:
+            dt = str(t.get("Date") or "").strip()
+            if dt and dt > latest:
+                latest = dt
+        dt_obj = _dt.strptime(latest, "%Y-%m-%d")
+        wb.properties.created = dt_obj
+        wb.properties.modified = dt_obj
+        _save_deterministic(wb, out, dt_obj)
+    except (ValueError, TypeError):
+        _save_deterministic(wb, out, None)
     print(f"[StrategyReport] Saved {out} ({len(fired_sum)} fired / {len(not_fired)} never-fired strategies)")
     return out
+
+
+def _save_deterministic(wb, out, dt_obj):
+    """Save workbook, then pin docProps/core.xml to a fixed timestamp.
+
+    openpyxl stamps `modified` at save time, which makes byte output vary
+    between runs. Rewrite core.xml with a deterministic timestamp instead.
+    """
+    import datetime as _dtm
+    import re as _re
+
+    wb.save(out)
+    if dt_obj is None:
+        return
+    stamp = dt_obj.strftime("%Y-%m-%dT%H:%M:%SZ")
+    tmp = out + ".det"
+    dt_tuple = (dt_obj.year, dt_obj.month, dt_obj.day, dt_obj.hour, dt_obj.minute, dt_obj.second)
+    with _zf.ZipFile(out, "r") as zin, _zf.ZipFile(tmp, "w", _zf.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            data = zin.read(item.filename)
+            item.date_time = dt_tuple
+            if item.filename == "docProps/core.xml":
+                text = data.decode("utf-8")
+                text = _re.sub(r"(<dcterms:created[^>]*>)[^<]*(</dcterms:created>)",
+                               rf'\g<1>{stamp}\g<2>', text)
+                text = _re.sub(r"(<dcterms:modified[^>]*>)[^<]*(</dcterms:modified>)",
+                               rf'\g<1>{stamp}\g<2>', text)
+                data = text.encode("utf-8")
+            zout.writestr(item, data)
+    os.replace(tmp, out)
 
 
 if __name__ == "__main__":
