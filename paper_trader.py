@@ -631,7 +631,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  sl_override: float = None,
                  tp_override: float = None,
                  max_hold_override: int = None,
-                 signal_indicators: dict = None) -> dict:
+                 signal_indicators: dict = None,
+                 entry_dt: datetime = None) -> dict:
     """
     Enter a paper trade.
     
@@ -651,11 +652,18 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         signal_indicators: Optional dict of indicator values at signal time
             (e.g. {"Close": 676.32, "SMA20": 670.5, "SMA50": 665.0, ...})
             Saved as JSON string for permanent verifiability.
+        entry_dt: Optional historical entry timestamp (tz-aware). Used by the
+            replay engine to record entries at the time they would have fired
+            during downtime. Defaults to now (IST).
     
     Returns:
         Trade dict or None if rejected
     """
-    now = datetime.now(IST)
+    now = entry_dt if entry_dt is not None else datetime.now(IST)
+    if getattr(now, "tzinfo", None) is None:
+        now = now.replace(tzinfo=IST)
+    else:
+        now = now.astimezone(IST)
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
     portfolio = load_portfolio()

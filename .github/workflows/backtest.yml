@@ -1,0 +1,48 @@
+name: DAILY BACKTESTER v5.10 (Data Integrity)
+
+on:
+  schedule:
+    # Daily at 21:35 UTC (03:05 IST next day) — after the US close (20:00 UTC)
+    # and between live-pnl crypto runs, so it never races the live workflows.
+    - cron: '35 21 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: free4market-v5-backtest
+  cancel-in-progress: false
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run data-integrity backtester
+        run: python replay_engine.py audit
+
+      - name: Commit corrected data
+        run: |
+          git config --local user.email "bot@paper-trade.com"
+          git config --local user.name "paper-trade-bot"
+          git add logs/paper_trades.csv logs/portfolio.json logs/strategy_stats.json \
+                  logs/trade_audit.json logs/replay_report_*.json || true
+          git diff --staged --quiet && echo "No corrections needed" && exit 0
+          git commit -m "backtest audit $(date -u +'%Y-%m-%d %H:%M UTC')"
+          if ! git push; then
+            sleep 2
+            git pull --rebase
+            git push
+          fi
