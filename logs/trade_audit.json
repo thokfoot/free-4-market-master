@@ -1669,5 +1669,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price<SMA20+EMA9>EMA20+Close<Open+2Red",
     "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-07 06:27:28 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price<SMA20+EMA9>EMA20+Close<Open+2Red",
+    "skip_reason": "Duplicate DIA LONG already open"
   }
 ]
