@@ -1719,5 +1719,121 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price<SMA20+EMA9>EMA20+Close<Open+2Red",
     "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "skip_reason": "Duplicate TRX-USD LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "^NYA",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate ^NYA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+SMA20<SMA50",
+    "skip_reason": "Duplicate ^NDX LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "Duplicate OEF LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+SMA20<SMA50",
+    "skip_reason": "Duplicate QQQ LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "XLY",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+RSI>50",
+    "skip_reason": "Duplicate XLY LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "RSI>50+SMA20<SMA50",
+    "skip_reason": "Duplicate XLK LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>EMA9+SMA20<SMA50",
+    "skip_reason": "Duplicate XLC LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-08 00:37:24 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "RSI>50+SMA20<SMA50",
+    "skip_reason": "Duplicate ^SOX LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-08 00:37:34 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "SHORT",
+    "entry_price": 0.3268,
+    "qty": 10000,
+    "sl": 0.332,
+    "target": 0.3173,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"2Red\": 1.0, \"RSI14\": 49.4432, \"Ret\": -0.00037, \"High\": 0.327248, \"Open\": 0.327248, \"EMA20\": 0.327188, \"SMA20\": 0.327116, \"EMA50\": 0.327215, \"Low\": 0.326881, \"Volume\": 8043904.0, \"SMA50\": 0.327131, \"Close\": 0.327127, \"EMA9\": 0.327275}"
   }
 ]
