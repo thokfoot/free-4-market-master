@@ -1,0 +1,46 @@
+name: SEND TG SNAPSHOT (one-off)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Send snapshot message
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'PY'
+          import os, requests
+          token = os.environ.get("TELEGRAM_TOKEN", "")
+          chat = os.environ.get("TELEGRAM_CHAT_ID", "")
+          if not token or not chat:
+              print("Missing TELEGRAM_TOKEN or TELEGRAM_CHAT_ID")
+              raise SystemExit(1)
+          with open("logs/tg_msg_snapshot.txt", encoding="utf-8") as f:
+              msg = f.read().rstrip("\n")
+          url = f"https://api.telegram.org/bot{token}/sendMessage"
+          data = {"chat_id": chat, "text": msg, "parse_mode": "Markdown"}
+          for attempt in range(3):
+              try:
+                  r = requests.post(url, data=data, timeout=15)
+                  resp = r.json() if r.text else {}
+                  if r.status_code == 200 and resp.get("ok"):
+                      print(f"[TG] Sent OK ({len(msg)} chars)")
+                      raise SystemExit(0)
+                  else:
+                      print(f"[TG] Attempt {attempt+1} failed: {resp.get('description', r.text[:200])}")
+                      import time; time.sleep(2)
+              except SystemExit:
+                  raise
+              except Exception as e:
+                  print(f"[TG] Attempt {attempt+1} exception: {e}")
+                  import time; time.sleep(2)
+          print("[TG] All 3 attempts failed")
+          raise SystemExit(1)
+          PY
