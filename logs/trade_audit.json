@@ -1835,5 +1835,23 @@
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
     "signal_indicators": "{\"2Red\": 1.0, \"RSI14\": 49.4432, \"Ret\": -0.00037, \"High\": 0.327248, \"Open\": 0.327248, \"EMA20\": 0.327188, \"SMA20\": 0.327116, \"EMA50\": 0.327215, \"Low\": 0.326881, \"Volume\": 8043904.0, \"SMA50\": 0.327131, \"Close\": 0.327127, \"EMA9\": 0.327275}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-08 13:01:57 IST",
+    "entry_datetime": "2026-08-08 00:37:34 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "SHORT",
+    "entry_price": 0.3268,
+    "exit_price": 0.3275,
+    "qty": 10000,
+    "pnl": -17.02,
+    "pnl_pct": -0.52,
+    "hold": "12h 24m",
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
   }
 ]
