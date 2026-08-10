@@ -139,6 +139,39 @@ def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"
         return None
 
 
+def _post_entry_ohlc(bars, tf, entry_date, max_hold):
+    """Aggregate (close, high, low) over POST-ENTRY bars only (US).
+
+    Mirrors _bars_sl_tp's post-entry filtering (session-time live window) so
+    the aggregate SL/TP fallback can never fire on a same-day pre-entry low
+    (the signal candle's own low, before the entry time). Returns
+    (close, high, low) or None when no post-entry bars exist yet.
+    """
+    try:
+        entry_utc = entry_date.astimezone(pytz.utc)
+        rows = []
+        if tf == "INTRADAY_1h":
+            lu = _session_live_until(entry_utc, max_hold)
+            for ts, hi, lo, cl in bars:
+                if ts < entry_utc:
+                    continue
+                if lu is not None and ts >= lu:
+                    continue
+                rows.append((float(hi), float(lo), float(cl)))
+        else:  # SWING_1d — only bars strictly after the entry session
+            et = pytz.timezone("America/New_York")
+            entry_session = entry_utc.astimezone(et).date()
+            for ts, hi, lo, cl in bars:
+                if pd.Timestamp(ts.date()) <= pd.Timestamp(entry_session):
+                    continue
+                rows.append((float(hi), float(lo), float(cl)))
+        if not rows:
+            return None
+        return (rows[-1][2], max(r[0] for r in rows), min(r[1] for r in rows))
+    except Exception:
+        return None
+
+
 # ── Atomic JSON Writer ───────────────────────────────────────
 def _atomic_write_json(filepath: str, data):
     """
@@ -1493,6 +1526,7 @@ def update_trades(ohlc_data: dict) -> list:
         # prior-session low can never stop out the position. Mirrors the
         # replay engine used to rebuild paper_trades.csv.
         bars = ohlc.get("bars")
+        _skip_aggregate = False
         if not is_expired and bars is not None:
             bar_hit = _bars_sl_tp(bars, trade_tf, entry_date, direction, sl, target,
                                   trade_max_hold, mode=row.get("Mode", "US"))
@@ -1500,8 +1534,22 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_price, exit_reason = bar_hit
                 print(f"[Paper] {ticker}: bar-level {exit_reason} (post-entry) "
                       f"low={_bars_min(bars)} high={_bars_max(bars)}")
+            elif str(row.get("Mode", "US")).upper() == "US":
+                # No post-entry bar-level SL/TP hit. Restrict the aggregate
+                # fallback below to POST-ENTRY bars only — a same-day pre-entry
+                # low (from the signal candle before the entry) can never
+                # trigger a false SL/TP exit. Real case: ^NDX #46 entered
+                # 14:53 UTC Aug 6, SL 29170.42; the pre-entry 13:30 UTC bar's
+                # low 29128.05 caused a false "SL Hit (intraday)".
+                _pe = _post_entry_ohlc(bars, trade_tf, entry_date, trade_max_hold)
+                if _pe is None:
+                    # No post-entry bars yet → no post-entry price action to
+                    # evaluate → hold (skip the aggregate SL/TP block).
+                    _skip_aggregate = True
+                else:
+                    cmp, daily_high, daily_low = _pe
 
-        if not is_expired and not stale_data and exit_price is None:
+        if not is_expired and not stale_data and exit_price is None and not _skip_aggregate:
             if direction == "LONG":
                 # 1st: Intraday LOW hit SL → stopped out during the day
                 if daily_low <= sl * _TOLERANCE:
