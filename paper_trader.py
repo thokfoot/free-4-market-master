@@ -162,9 +162,8 @@ def _post_entry_ohlc(bars, tf, entry_date, max_hold, mode="US"):
         rows = []
         if tf == "INTRADAY_1h":
             if str(mode).upper() == "US":
+                # Original US semantics preserved: None => NO upper bound
                 lu = _session_live_until(entry_utc, max_hold)
-                if lu is None:
-                    lu = entry_utc + pd.Timedelta(hours=max_hold)
             else:
                 lu = entry_utc + pd.Timedelta(hours=max_hold)
             for ts, hi, lo, cl in bars:

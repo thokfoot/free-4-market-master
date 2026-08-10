@@ -194,3 +194,76 @@ def test_india_still_exits_on_post_entry_sl(test_env, monkeypatch):
     msgs = update_trades({"RELIANCE.NS": ohlc})
     assert len(msgs) == 1, f"Expected 1 SL exit, got: {msgs}"
     assert "SL Hit" in msgs[0], f"Expected SL Hit, got: {msgs[0]}"
+
+
+# ======================================================================
+# CRYPTO SWING_1d — session-date parity (replay engine uses NY session)
+# ======================================================================
+
+def test_crypto_swing_no_false_sl_on_entry_session_bar(test_env, monkeypatch):
+    """Crypto swing: the ENTRY-session daily bar's low must not stop out."""
+    # Entered 00:30 IST Aug 6 (= Aug 5 19:00 UTC = Aug 5 15:00 ET session)
+    _set_time(monkeypatch, datetime(2026, 8, 6, 0, 30, 0))
+    t = enter_trade(
+        "CRYPTO", "ETH-USD", "LONG", 3000.0,
+        "Test eth swing", pattern_rank=1, expected_win_rate=66.0,
+        pattern_factors="EMA9>EMA20", tf="SWING_1d",
+        sl_override=2880.0, tp_override=3240.0,
+        max_hold_override=5,
+    )
+    assert t is not None, "Failed to enter crypto swing test trade"
+
+    # Next scan: next day 00:30 IST Aug 7
+    _set_time(monkeypatch, datetime(2026, 8, 7, 0, 30, 0))
+
+    # Aug 5 daily bar low 2850 < SL (entry session — must NOT exit)
+    # Aug 6 daily bar low 2950 > SL (post-entry — above SL, also no exit)
+    bars = [
+        (pd.Timestamp("2026-08-05 00:00:00", tz="UTC"), 3100.0, 2850.0, 3000.0),
+        (pd.Timestamp("2026-08-06 00:00:00", tz="UTC"), 3050.0, 2950.0, 3020.0),
+    ]
+    ohlc = {
+        "close": 3020.0,
+        "high": 3100.0,
+        "low": 2850.0,               # entry-session bar's low — pre-entry
+        "date": "2026-08-07",
+        "bars": bars,
+    }
+
+    msgs = update_trades({"ETH-USD": ohlc})
+    assert len(msgs) == 0, f"No exit expected (crypto swing entry-session low), got: {msgs}"
+
+    df = pd.read_csv(paper_trader.PAPER_FILE, on_bad_lines="warn")
+    assert len(df[df["Status"].astype(str) == "OPEN"]) == 1
+
+
+def test_crypto_swing_still_exits_on_post_entry_sl(test_env, monkeypatch):
+    """Crypto swing: a POST-ENTRY daily bar low touching SL still exits."""
+    _set_time(monkeypatch, datetime(2026, 8, 6, 0, 30, 0))
+    t = enter_trade(
+        "CRYPTO", "ETH-USD", "LONG", 3000.0,
+        "Test eth swing", pattern_rank=1, expected_win_rate=66.0,
+        pattern_factors="EMA9>EMA20", tf="SWING_1d",
+        sl_override=2880.0, tp_override=3240.0,
+        max_hold_override=5,
+    )
+    assert t is not None
+
+    _set_time(monkeypatch, datetime(2026, 8, 7, 0, 30, 0))
+
+    # Aug 6 daily bar low 2870 < SL 2880 (post-entry session) -> genuine SL
+    bars = [
+        (pd.Timestamp("2026-08-05 00:00:00", tz="UTC"), 3100.0, 2850.0, 3000.0),
+        (pd.Timestamp("2026-08-06 00:00:00", tz="UTC"), 3050.0, 2870.0, 2880.0),
+    ]
+    ohlc = {
+        "close": 2880.0,
+        "high": 3100.0,
+        "low": 2850.0,
+        "date": "2026-08-07",
+        "bars": bars,
+    }
+
+    msgs = update_trades({"ETH-USD": ohlc})
+    assert len(msgs) == 1, f"Expected 1 SL exit, got: {msgs}"
+    assert "SL Hit" in msgs[0], f"Expected SL Hit, got: {msgs[0]}"
