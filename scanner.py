@@ -102,6 +102,24 @@ def compute_indicators(df: pd.DataFrame) -> pd.DataFrame:
     # 2Red: 2 consecutive red days
     df["2Red"] = (df["Ret"] < 0) & (df["Ret"].shift(1) < 0)
     
+    # EMA200 (long-term trend)
+    df["EMA200"] = close.ewm(span=200, adjust=False).mean()
+    
+    # Bollinger Bands (20, 2)
+    bb_mid = close.rolling(20).mean()
+    bb_std = close.rolling(20).std()
+    df["BB_lo"] = bb_mid - 2 * bb_std
+    df["BB_hi"] = bb_mid + 2 * bb_std
+    
+    # Prior-N-day highs/lows (breakout: Close vs PRIOR 20/50-day high)
+    df["high20"] = high.rolling(20).max().shift(1)
+    df["high50"] = high.rolling(50).max().shift(1)
+    df["low20"] = low.rolling(20).min().shift(1)
+    df["low50"] = low.rolling(50).min().shift(1)
+    
+    # 2Green: 2 consecutive green days
+    df["2Green"] = (df["Ret"] > 0) & (df["Ret"].shift(1) > 0)
+    
     # Next_Ret (for backtest only, not used for live signal)
     df["Next_Ret"] = close.shift(-1) / close - 1
     
@@ -162,6 +180,13 @@ def explain_signal(df: pd.DataFrame, factors_str: str, direction: str,
             # Check if last 2 candles are red
             if not (last["2Red"] == True):
                 return False, (f"2Red failed (Ret={_safe_ret(df, row_idx)}, "
+                               f"prev={_safe_ret(df, row_idx - 1)})")
+            continue
+
+        if factor == "2Green":
+            # Check if last 2 candles are green
+            if not (last["2Green"] == True):
+                return False, (f"2Green failed (Ret={_safe_ret(df, row_idx)}, "
                                f"prev={_safe_ret(df, row_idx - 1)})")
             continue
 
@@ -243,6 +268,14 @@ def _resolve_value(row: pd.Series, expr: str) -> float:
         "RSI14": "RSI14",
         "Range": "Range",
         "Ret": "Ret",
+        "BB": "BB_lo",
+        "BB_lo": "BB_lo",
+        "BB_hi": "BB_hi",
+        "EMA200": "EMA200",
+        "high20": "high20",
+        "high50": "high50",
+        "low20": "low20",
+        "low50": "low50",
     }
     
     # Check if it's a percentage value (ends with %)
@@ -338,7 +371,8 @@ def scan_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
             last = df.iloc[-1]
             inds = {"Close", "Open", "High", "Low", "Volume",
                     "SMA20", "SMA50", "EMA9", "EMA20", "EMA50",
-                    "RSI14", "Ret", "2Red"}
+                    "RSI14", "Ret", "2Red", "2Green", "EMA200",
+                    "BB_lo", "BB_hi", "high20", "high50", "low20", "low50"}
             snap = {}
             for col in inds:
                 if col in last.index and pd.notna(last[col]):

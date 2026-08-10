@@ -230,6 +230,15 @@ TICKER_MAP = {
     "GIFT Nifty": "^NSEI",  # GIFT = SGX Nifty, use NSE as proxy
 }
 
+# Identity mappings: allow daily-swing strategies to reference each Indian
+# stock / index / crypto coin directly by its yfinance ticker in the CSV
+# Market column (added with the INDIAN + CRYPTO new-strategy deployment).
+for _tk in INDIAN_TICKERS + [
+    "BTC-USD", "ETH-USD", "SOL-USD", "BNB-USD", "XRP-USD",
+    "ADA-USD", "DOGE-USD", "AVAX-USD", "LINK-USD", "TRX-USD",
+]:
+    TICKER_MAP.setdefault(_tk, _tk)
+
 # ===== REGION INFERENCE =====
 # If ticker ends with -USD, it's crypto
 # If ticker starts with ^, it's India or US index
