@@ -1953,5 +1953,105 @@
     "tf": "SWING_1d",
     "pattern_reason": "RSI>50+SMA20<SMA50",
     "skip_reason": "Duplicate ^SOX LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "skip_reason": "Duplicate TRX-USD LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "^NYA",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate ^NYA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+SMA20<SMA50",
+    "skip_reason": "Duplicate ^NDX LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "Duplicate OEF LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+SMA20<SMA50",
+    "skip_reason": "Duplicate QQQ LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "XLY",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+RSI>50",
+    "skip_reason": "Duplicate XLY LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "RSI>50+SMA20<SMA50",
+    "skip_reason": "Duplicate XLK LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>EMA9+SMA20<SMA50",
+    "skip_reason": "Duplicate XLC LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-10 08:38:30 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "RSI>50+SMA20<SMA50",
+    "skip_reason": "Duplicate ^SOX LONG already open"
   }
 ]
