@@ -165,8 +165,9 @@ def test_still_exits_on_post_entry_target(test_env, monkeypatch):
 
 
 def test_non_us_bars_unchanged(test_env, monkeypatch):
-    """Non-US mode with bars: aggregate fallback unchanged (no false holds)."""
-    # Crypto trade — aggregate low must still trigger SL (no bar-level restriction)
+    """Non-US mode with bars: post-entry protection must NOT block real SL."""
+    # Crypto trade — the post-entry 10:00 UTC bar low 0.3200 < SL 0.3215 must
+    # still trigger an SL exit (bar-level check applies to crypto too now)
     _set_time(monkeypatch, datetime(2026, 8, 6, 12, 0, 0))
     t = enter_trade(
         "CRYPTO", "TRX-USD", "LONG", 0.328,

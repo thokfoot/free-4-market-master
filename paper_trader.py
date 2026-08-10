@@ -91,19 +91,26 @@ def _bars_max(bars):
 
 
 def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"):
-    """First-touch SL/TP over post-entry bars (session-time live window).
+    """First-touch SL/TP over post-entry bars (all supported modes).
 
-    bars: iterable of (utc_ts, high, low, close). US only. Mirrors the
-    replay engine so a pre-entry bar (same-day low before the entry candle,
-    prior-session low) can never stop out a position. Returns
-    (exit_price, reason) or None.
+    bars: iterable of (utc_ts, high, low, close). Mirrors the replay
+    engine so a pre-entry bar (same-day low before the entry candle,
+    prior-session low) can never stop out a position, in ANY market.
+    US intraday uses the session-time live window; crypto/India use
+    entry + max_hold hours (24/7-style), matching replay_engine.
+    Returns (exit_price, reason) or None.
     """
     try:
-        if str(mode).upper() != "US":
+        if tf not in ("INTRADAY_1h", "SWING_1d"):
             return None
         entry_utc = entry_date.astimezone(pytz.utc)
         if tf == "INTRADAY_1h":
-            lu = _session_live_until(entry_utc, max_hold)
+            if str(mode).upper() == "US":
+                lu = _session_live_until(entry_utc, max_hold)
+                if lu is None:
+                    return None
+            else:
+                lu = entry_utc + pd.Timedelta(hours=max_hold)
             for ts, hi, lo, _cl in bars:
                 if ts < entry_utc or ts >= lu:
                     continue
@@ -139,19 +146,27 @@ def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"
         return None
 
 
-def _post_entry_ohlc(bars, tf, entry_date, max_hold):
-    """Aggregate (close, high, low) over POST-ENTRY bars only (US).
+def _post_entry_ohlc(bars, tf, entry_date, max_hold, mode="US"):
+    """Aggregate (close, high, low) over POST-ENTRY bars only (all modes).
 
-    Mirrors _bars_sl_tp's post-entry filtering (session-time live window) so
-    the aggregate SL/TP fallback can never fire on a same-day pre-entry low
-    (the signal candle's own low, before the entry time). Returns
-    (close, high, low) or None when no post-entry bars exist yet.
+    Mirrors _bars_sl_tp's post-entry filtering (session-time live window for
+    US, entry + max_hold hours otherwise) so the aggregate SL/TP fallback can
+    never fire on a same-day pre-entry low (the signal candle's own low,
+    before the entry time). Returns (close, high, low) or None when no
+    post-entry bars exist yet.
     """
     try:
+        if tf not in ("INTRADAY_1h", "SWING_1d"):
+            return None
         entry_utc = entry_date.astimezone(pytz.utc)
         rows = []
         if tf == "INTRADAY_1h":
-            lu = _session_live_until(entry_utc, max_hold)
+            if str(mode).upper() == "US":
+                lu = _session_live_until(entry_utc, max_hold)
+                if lu is None:
+                    lu = entry_utc + pd.Timedelta(hours=max_hold)
+            else:
+                lu = entry_utc + pd.Timedelta(hours=max_hold)
             for ts, hi, lo, cl in bars:
                 if ts < entry_utc:
                     continue
@@ -1534,14 +1549,17 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_price, exit_reason = bar_hit
                 print(f"[Paper] {ticker}: bar-level {exit_reason} (post-entry) "
                       f"low={_bars_min(bars)} high={_bars_max(bars)}")
-            elif str(row.get("Mode", "US")).upper() == "US":
+            elif str(row.get("TimeFrame", "SWING_1d")) in ("INTRADAY_1h", "SWING_1d"):
                 # No post-entry bar-level SL/TP hit. Restrict the aggregate
                 # fallback below to POST-ENTRY bars only — a same-day pre-entry
                 # low (from the signal candle before the entry) can never
-                # trigger a false SL/TP exit. Real case: ^NDX #46 entered
-                # 14:53 UTC Aug 6, SL 29170.42; the pre-entry 13:30 UTC bar's
-                # low 29128.05 caused a false "SL Hit (intraday)".
-                _pe = _post_entry_ohlc(bars, trade_tf, entry_date, trade_max_hold)
+                # trigger a false SL/TP exit, in ANY market (US intraday/crypto/
+                # India). Real case: ^NDX #46 entered 14:53 UTC Aug 6,
+                # SL 29170.42; the pre-entry 13:30 UTC bar's low 29128.05
+                # caused a false "SL Hit (intraday)". Mirrors the replay
+                # engine, which filters post-entry bars for all modes.
+                _pe = _post_entry_ohlc(bars, trade_tf, entry_date, trade_max_hold,
+                                       mode=row.get("Mode", "US"))
                 if _pe is None:
                     # No post-entry bars yet → no post-entry price action to
                     # evaluate → hold (skip the aggregate SL/TP block).
