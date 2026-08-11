@@ -90,7 +90,7 @@ jobs:
                             if str(o.get("TimeFrame", "")) in ("GAP_DOWN_1m", "INTRADAY_1h")]
           if not time_sensitive:
               print("[KeepAlive] no time-sensitive positions — stop chain")
-              sys.exit(0)
+              sys.exit(9)
           modes = {str(o.get("Mode", "")).upper() for o in time_sensitive}
           wd = now.weekday(); hh, mm = now.hour, now.minute
           in_india = (wd < 5 and 8 <= hh < 15) or (hh == 15 and mm <= 35)
@@ -99,9 +99,16 @@ jobs:
                    or bool(modes & {"CRYPTO", "INTRADAY"})
           if not active:
               print(f"[KeepAlive] markets closed for {sorted(modes)} — stop chain")
-              sys.exit(0)
+              sys.exit(9)
           print(f"[KeepAlive] {len(time_sensitive)} time-sensitive positions "
                 f"{sorted(modes)} — reschedule in 120s")
           PY
+          # Chain only continues when the python guard said RESCHEDULE.
+          # (2026-08-11 bugfix: sys.exit(0) never stopped the bash script,
+          # so every run dispatched the next one forever — burning minutes.)
+          if [ $? -ne 0 ]; then
+            echo "[KeepAlive] chain stopped"
+            exit 0
+          fi
           sleep 120
           gh workflow run "LIVE P&L v5.10 (Market Hours)"
