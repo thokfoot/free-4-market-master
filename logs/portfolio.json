@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 100805.3,
     "CRYPTO": 99963.86,
-    "INTRADAY": 79853.62999999993
+    "INTRADAY": 79269.96999999993
   },
   "open_positions": [
     {
@@ -212,40 +212,17 @@
       "Pattern_Factors": "Close>Open+Range<1%",
       "Reason": "#5SW Close>Open+Range<1%",
       "Signal_Indicators": "{\"BB_hi\": 114.328202, \"EMA20\": 110.145212, \"high20\": 114.029999, \"Open\": 111.239998, \"EMA200\": 112.120235, \"Volume\": 2138656.0, \"low50\": 105.029999, \"Low\": 110.699997, \"2Red\": 0.0, \"RSI14\": 54.408348, \"EMA9\": 110.582039, \"BB_lo\": 105.636297, \"2Green\": 1.0, \"high50\": 116.839996, \"Close\": 111.464996, \"SMA20\": 109.98225, \"High\": 111.529999, \"EMA50\": 110.809531, \"low20\": 105.254997, \"SMA50\": 110.2619, \"Ret\": 0.001933}"
-    },
-    {
-      "Date": "2026-08-11",
-      "Time_IST": "11:04:17 IST",
-      "Mode": "INDIAN",
-      "Ticker": "RECLTD.NS",
-      "Direction": "LONG",
-      "TimeFrame": "GAP_DOWN_1m",
-      "Entry_Price": 342.92,
-      "Qty": 727,
-      "SL": 341.72,
-      "Target": 346.18,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 997,
-      "Expected_WinRate": 75.0,
-      "Pattern_Factors": "f_gap_down + f_52wk_low",
-      "Reason": "#997ID gap_down_52wk_low",
-      "Signal_Indicators": ""
     }
   ],
-  "closed_count": 61,
+  "closed_count": 62,
   "total_wins": 28,
-  "total_losses": 32,
-  "total_pnl": -19377.21,
+  "total_losses": 33,
+  "total_pnl": -19960.870000000003,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 805.2999999999998,
     "CRYPTO": -36.14,
-    "INTRADAY": -20146.370000000003
+    "INTRADAY": -20730.030000000006
   },
-  "total_capital": 380622.7899999999
+  "total_capital": 380039.1299999999
 }

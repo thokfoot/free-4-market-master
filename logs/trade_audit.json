@@ -2819,5 +2819,23 @@
     "expected_win_rate": 70.0,
     "pattern_factors": "f_gap_down",
     "reason": "#998ID gap_down_single | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-11 11:43:15 IST",
+    "entry_datetime": "2026-08-11 11:04:17 IST",
+    "mode": "INDIAN",
+    "ticker": "RECLTD.NS",
+    "direction": "LONG",
+    "entry_price": 342.92,
+    "exit_price": 342.53,
+    "qty": 727,
+    "pnl": -583.66,
+    "pnl_pct": -0.23,
+    "hold": "38m 58s",
+    "pattern_rank": 997,
+    "expected_win_rate": 75.0,
+    "pattern_factors": "f_gap_down + f_52wk_low",
+    "reason": "#997ID gap_down_52wk_low | Expiry 38m"
   }
 ]
