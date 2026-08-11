@@ -159,5 +159,19 @@
     "wins": 1,
     "losses": 0,
     "total_pnl": 440.05
+  },
+  "997": {
+    "rank": 997,
+    "factors": "#997ID gap_down_52wk_low | Expiry 67m",
+    "wins": 0,
+    "losses": 5,
+    "total_pnl": -15382.7
+  },
+  "998": {
+    "rank": 998,
+    "factors": "#998ID gap_down_single | Expiry 67m",
+    "wins": 0,
+    "losses": 2,
+    "total_pnl": -8561.98
   }
 }
