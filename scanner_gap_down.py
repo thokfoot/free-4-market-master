@@ -64,6 +64,33 @@ def download_1m_data(ticker: str, period_days: int = None) -> pd.DataFrame:
         return None
 
 
+
+def _is_fresh(df: pd.DataFrame, max_staleness_minutes: int = 90) -> bool:
+    """
+    Return True if the last bar of intraday data belongs to the CURRENT
+    IST trading day and is at most max_staleness_minutes old.
+
+    Confirmed root cause 2026-08-11: yfinance 1m data for NSE was a full
+    day behind at 09:53 IST, so the scanner computed the PREVIOUS day's
+    gap (PFC -1.29%, RECLTD -1.74%, ABFRL -4.18% = Aug-10 gaps) and fired
+    signals at Aug-10 prices (entry above the real Aug-11 day high) while
+    the live market had already moved. All 7 stale entries were SL-hit /
+    expired -> Rs 23,945 loss.
+    """
+    if df is None or len(df) == 0:
+        return False
+    last_ts = df.index[-1]
+    if getattr(last_ts, 'tzinfo', None) is None:
+        last_ist = IST.localize(last_ts)
+    else:
+        last_ist = last_ts.astimezone(IST)
+    now_ist = datetime.now(IST)
+    if last_ist.date() != now_ist.date():
+        return False
+    if (now_ist - last_ist).total_seconds() > max_staleness_minutes * 60:
+        return False
+    return True
+
 def calculate_factors(df: pd.DataFrame) -> pd.DataFrame:
     """
     Calculate gap-down and price-level factors for Indian 1m data.
@@ -164,6 +191,11 @@ def scan_gap_down_ticker(ticker: str) -> list:
     """
     df = download_1m_data(ticker, GAP_DOWN_PERIOD_DAYS)
     if df is None or len(df) < GAP_DOWN_MIN_DATA:
+        return []
+    if not _is_fresh(df):
+        last_bar = df.index[-1] if len(df) else '?'
+        print(f"[GapDown] SKIP {ticker}: stale intraday data (last bar {last_bar}), "
+              f"not today's session - no signal fired")
         return []
     
     factors = calculate_factors(df)
