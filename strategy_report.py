@@ -488,7 +488,10 @@ def generate_strategy_report(report_file=None):
             ("Total Charges", round(ctot, 2)),
             ("Net P&L (closed)", round(ntot, 2)),
             ("Strategies Fired", len(fired_sum)),
-            ("Strategies Never Fired", len(not_fired)),
+            # Summary sheet lists 43 fired + 247 never-fired (gap-down 997/998
+            # live in their own GapDown sheet), so the meta count must use
+            # `unfired` (247) - `not_fired` (249) double-counts the GapDown defs.
+            ("Strategies Never Fired", len(unfired)),
             ("Unmatched Trades (no strategy row)", unmatched),
         ]
         for i, (k, v) in enumerate(meta_items, 2):

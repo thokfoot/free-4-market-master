@@ -198,7 +198,10 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     MAX_OPEN_PER_PAGE = 3      # Max open positions per page
     TG_CHAR_LIMIT = 4000       # Telegram max chars per message
     ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
-    total_closed = wins + losses
+    # Win-rate denominator = ALL closed trades (incl. breakeven), matching
+    # strategy_report.xlsx (wins / len(closed)). Fallback to wins+losses
+    # only when closed_count is not supplied.
+    total_closed = closed_count if closed_count and closed_count > 0 else wins + losses
     win_rate = round(wins / total_closed * 100) if total_closed > 0 else 0
     
     # Return arrow & color indicator
