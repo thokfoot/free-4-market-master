@@ -162,16 +162,16 @@
   },
   "997": {
     "rank": 997,
-    "factors": "#997ID gap_down_52wk_low | Expiry 67m",
+    "factors": "#997ID gap_down_52wk_low | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 5,
-    "total_pnl": -15382.7
+    "losses": 9,
+    "total_pnl": -20502.84
   },
   "998": {
     "rank": 998,
-    "factors": "#998ID gap_down_single | Expiry 67m",
+    "factors": "#998ID gap_down_single | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 2,
-    "total_pnl": -8561.98
+    "losses": 4,
+    "total_pnl": -10839.38
   }
 }
