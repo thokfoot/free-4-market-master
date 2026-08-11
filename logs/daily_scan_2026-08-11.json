@@ -2117,6 +2117,90 @@
       },
       "telegram_status": "Failed",
       "duration_sec": 14.8
+    },
+    {
+      "time": "12:02:23 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 7,
+      "patterns_fired": 7,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [
+        {
+          "ticker": "ASIANPAINT.NS",
+          "direction": "LONG",
+          "close": 2748.5,
+          "rank": 997,
+          "win_rate": 75.0,
+          "reason": "Cooldown: ASIANPAINT.NS LONG GAP_DOWN_1m closed <120m ago"
+        },
+        {
+          "ticker": "ULTRACEMCO.NS",
+          "direction": "LONG",
+          "close": 12051.0,
+          "rank": 997,
+          "win_rate": 75.0,
+          "reason": "Cooldown: ULTRACEMCO.NS LONG GAP_DOWN_1m closed <120m ago"
+        },
+        {
+          "ticker": "GRASIM.NS",
+          "direction": "LONG",
+          "close": 3389.0,
+          "rank": 997,
+          "win_rate": 75.0,
+          "reason": "Cooldown: GRASIM.NS LONG GAP_DOWN_1m closed <120m ago"
+        },
+        {
+          "ticker": "PFC.NS",
+          "direction": "LONG",
+          "close": 385.1000061035156,
+          "rank": 997,
+          "win_rate": 75.0,
+          "reason": "Cooldown: PFC.NS LONG GAP_DOWN_1m closed <120m ago"
+        },
+        {
+          "ticker": "RECLTD.NS",
+          "direction": "LONG",
+          "close": 342.75,
+          "rank": 997,
+          "win_rate": 75.0,
+          "reason": "Cooldown: RECLTD.NS LONG GAP_DOWN_1m closed <120m ago"
+        },
+        {
+          "ticker": "KOTAKBANK.NS",
+          "direction": "LONG",
+          "close": 392.5,
+          "rank": 998,
+          "win_rate": 70.0,
+          "reason": "Cooldown: KOTAKBANK.NS LONG GAP_DOWN_1m closed <120m ago"
+        },
+        {
+          "ticker": "ABFRL.NS",
+          "direction": "LONG",
+          "close": 61.02000045776367,
+          "rank": 998,
+          "win_rate": 70.0,
+          "reason": "Cooldown: ABFRL.NS LONG GAP_DOWN_1m closed <120m ago"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100805.3,
+          "CRYPTO": 99963.86,
+          "INTRADAY": 79269.96999999993
+        },
+        "total_capital": 380039.1299999999,
+        "open_count": 9,
+        "total_pnl": -19960.870000000003,
+        "closed_count": 62,
+        "wins": 28,
+        "losses": 33
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 6.8
     }
   ],
   "latest_portfolio": {
@@ -2124,13 +2208,13 @@
       "INDIAN": 100000.0,
       "US": 100805.3,
       "CRYPTO": 99963.86,
-      "INTRADAY": 87251.16999999994
+      "INTRADAY": 79269.96999999993
     },
-    "total_capital": 388020.3299999999,
-    "open_count": 16,
-    "total_pnl": -11979.669999999998,
-    "closed_count": 55,
+    "total_capital": 380039.1299999999,
+    "open_count": 9,
+    "total_pnl": -19960.870000000003,
+    "closed_count": 62,
     "wins": 28,
-    "losses": 26
+    "losses": 33
   }
 }

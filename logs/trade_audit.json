@@ -2837,5 +2837,75 @@
     "expected_win_rate": 75.0,
     "pattern_factors": "f_gap_down + f_52wk_low",
     "reason": "#997ID gap_down_52wk_low | Expiry 38m"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "ASIANPAINT.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_52wk_low",
+    "skip_reason": "Cooldown: ASIANPAINT.NS LONG GAP_DOWN_1m closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "ULTRACEMCO.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_52wk_low",
+    "skip_reason": "Cooldown: ULTRACEMCO.NS LONG GAP_DOWN_1m closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "GRASIM.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_52wk_low",
+    "skip_reason": "Cooldown: GRASIM.NS LONG GAP_DOWN_1m closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "PFC.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_52wk_low",
+    "skip_reason": "Cooldown: PFC.NS LONG GAP_DOWN_1m closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "RECLTD.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_52wk_low",
+    "skip_reason": "Cooldown: RECLTD.NS LONG GAP_DOWN_1m closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "KOTAKBANK.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_single",
+    "skip_reason": "Cooldown: KOTAKBANK.NS LONG GAP_DOWN_1m closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-11 12:02:28 IST",
+    "mode": "INDIAN",
+    "ticker": "ABFRL.NS",
+    "direction": "LONG",
+    "tf": "GAP_DOWN_1m",
+    "pattern_reason": "gap_down_single",
+    "skip_reason": "Cooldown: ABFRL.NS LONG GAP_DOWN_1m closed <120m ago"
   }
 ]
