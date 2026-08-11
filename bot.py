@@ -139,6 +139,46 @@ def send_telegram_document(file_path: str, caption: str = "") -> str:
     return "Failed"
 
 
+
+
+def _intraday_market_split():
+    """Per-market split of the shared INTRADAY capital bucket for Telegram.
+
+    The engine tracks ONE 'INTRADAY' bucket (both INTRADAY_1h and GAP_DOWN_1m
+    draw from it regardless of market). For display we split it into
+    Indian / US / Crypto using:
+        market_capital = INTRADAY_CAPITAL/3 + realized_PnL(market)
+
+    The initial capital is allocated equally across the 3 markets (display
+    assumption) and each market's realized intraday P&L is added on top,
+    so the three values always sum EXACTLY to the real INTRADAY bucket.
+    """
+    result = {"INDIAN": {"capital": 0.0, "pnl": 0.0, "trades": 0},
+              "US": {"capital": 0.0, "pnl": 0.0, "trades": 0},
+              "CRYPTO": {"capital": 0.0, "pnl": 0.0, "trades": 0}}
+    try:
+        df = pd.read_csv("logs/paper_trades.csv", on_bad_lines="warn")
+        idf = df[df["TimeFrame"].astype(str).isin(["INTRADAY_1h", "GAP_DOWN_1m"])]
+        idf = idf[idf["Status"].astype(str).str.upper() == "CLOSED"]
+        for _, r in idf.iterrows():
+            mode = str(r.get("Mode", "US")).upper()
+            if mode == "INDIA":
+                mode = "INDIAN"
+            if mode not in result:
+                continue
+            try:
+                pnl = float(r.get("P&L"))
+            except (TypeError, ValueError):
+                continue
+            result[mode]["pnl"] += pnl
+            result[mode]["trades"] += 1
+    except Exception as e:
+        print(f"[TG] _intraday_market_split error: {e}")
+    base = INTRADAY_CAPITAL / 3.0 if INTRADAY_CAPITAL > 0 else 0
+    for mode in result:
+        result[mode]["capital"] = base + result[mode]["pnl"]
+    return result
+
 def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        closed_msgs: list, cape: float, open_count: int,
                        total_pnl: float, wins: int = 0, losses: int = 0,
@@ -242,6 +282,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             p_dir = "🟢" if pos.get("Direction") == "LONG" else "🔴"
             p_mode = pos.get("Mode", "")
             p_mode_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}.get(p_mode, "")
+            p_tf = str(pos.get("TimeFrame", ""))
+            p_tf_badge = "⚡" if ("INTRADAY" in p_tf or "GAP_DOWN" in p_tf) else "🌙"
             
             # Calculate current/unrealized P&L
             ticker = pos.get("Ticker", "")
@@ -261,7 +303,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                 unrealized_pnl_str = f" | {upnl_icon} P&L: Rs {upnl:+,.0f}"
             
             lines.append(
-                f"{p_dir} `{ticker}` {direction} "
+                f"{p_dir} `{ticker}` {direction} {p_tf_badge}"
                 f"{p_mode_icon}{p_mode}{unrealized_pnl_str}\n"
                 f"┣ Entry: {entry} | Qty: {qty}\n"
                 f"┣ SL: {pos.get('SL','?')} | TGT: {pos.get('Target','?')}\n"
@@ -301,18 +343,28 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     
     # Per-market breakdown table
     if capital_by_market:
-        mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP", "INTRADAY": "⚡IDAY"}
+        mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP"}
+        id_split = _intraday_market_split()
         lines.append("```")
-        lines.append("Market   Capital    Return")
-        lines.append("-" * 30)
-        for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY"]:
+        lines.append("Market    Capital    Return")
+        lines.append("-" * 34)
+        for mkt in ["INDIAN", "US", "CRYPTO"]:
             mcap = capital_by_market.get(mkt, 100000)
-            minit = CAPITAL_BY_MARKET.get(mkt, 100000) if mkt != "INTRADAY" else 100000
+            minit = CAPITAL_BY_MARKET.get(mkt, 100000)
             mret = ((mcap - minit) / minit * 100) if minit > 0 else 0
             label = mkt_short.get(mkt, mkt)
-            lines.append(f"{label:8s} ₹{mcap:>8,.0f}  {mret:+.1f}%")
-        lines.append("-" * 30)
-        lines.append(f"{'TOTAL':8s} ₹{cape:>8,.0f}  {ret_sign}{ret_pct:.1f}%")
+            lines.append(f"{label:8s} ₹{mcap:>9,.0f}  {mret:+.1f}%")
+        # Intraday split by market (display assumption: equal initial split)
+        id_icon = {"INDIAN": "⚡ID-🇮🇳", "US": "⚡ID-🇺🇸", "CRYPTO": "⚡ID-₿"}
+        for mkt in ["INDIAN", "US", "CRYPTO"]:
+            d = id_split.get(mkt)
+            if d is None or d["trades"] == 0:
+                continue
+            icap = d["capital"]
+            ipnl = d["pnl"]
+            lines.append(f"{id_icon[mkt]:8s} ₹{icap:>9,.0f}  {ipnl:+,.0f} ({d['trades']}T)")
+        lines.append("-" * 34)
+        lines.append(f"{'TOTAL':8s} ₹{cape:>9,.0f}  {ret_sign}{ret_pct:.1f}%")
         lines.append("```")
     
     # Stats
