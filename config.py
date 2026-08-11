@@ -99,10 +99,12 @@ GAP_DOWN_MAX_SIGNALS_PER_RUN = 8
 GAP_DOWN_RANK_A = 997   # f_gap_down + f_52wk_low
 GAP_DOWN_RANK_B = 998   # f_gap_down (single)
 
-# Re-entry cooldowns (2026-08-11): after a gap-down/intraday trade
-# closes (SL/expiry), do NOT re-enter the same ticker for this window.
-# Prevents re-entering a falling knife minutes after a stop-out — the
-# same 7 gap-down tickers re-entered 4 min after expiry all SL'd again.
+# Re-entry cooldowns (2026-08-11): block ANY same-ticker GAP_DOWN_1m /
+# INTRADAY_1h re-entry within this window after a stop-out/expiry — not
+# only 'after a stop'. Prevents re-entering a falling knife minutes after
+# a close (the same 7 gap-down tickers re-entered 4 min after expiry all
+# SL'd again, +Rs 7,400). A legit same-day re-gap hours later is also
+# delayed — that trade-off is intentional and tunable here.
 GAP_DOWN_REENTRY_COOLDOWN_MINUTES = 120
 INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
 

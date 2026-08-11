@@ -669,7 +669,8 @@ def run_intraday_scan() -> dict:
                 "ticker": entry["ticker"], "direction": entry["direction"],
                 "close": entry["close"], "rank": entry.get("rank"),
                 "win_rate": entry.get("win_rate"),
-                "reason": check_entry_allowed(entry["ticker"], entry["direction"])
+                "reason": check_entry_allowed(entry["ticker"], entry["direction"],
+                                              tf="INTRADAY_1h")
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[Intraday] New entries: {len(entries)}")
