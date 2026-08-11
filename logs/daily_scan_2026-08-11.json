@@ -2003,6 +2003,120 @@
       },
       "telegram_status": "Failed",
       "duration_sec": 21.9
+    },
+    {
+      "time": "11:04:11 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [
+        "ASIANPAINT.NS",
+        "ULTRACEMCO.NS",
+        "GRASIM.NS",
+        "RECLTD.NS",
+        "PFC.NS",
+        "KOTAKBANK.NS",
+        "ABFRL.NS"
+      ],
+      "market_close": {
+        "ASIANPAINT.NS": 2748.5,
+        "ULTRACEMCO.NS": 12051.0,
+        "GRASIM.NS": 3389.0,
+        "RECLTD.NS": 342.75,
+        "PFC.NS": 385.1000061035156,
+        "KOTAKBANK.NS": 392.5,
+        "ABFRL.NS": 61.02000045776367
+      },
+      "patterns_count": 7,
+      "patterns_fired": 7,
+      "fired_patterns": [],
+      "entries": [
+        {
+          "ticker": "ASIANPAINT.NS",
+          "direction": "LONG",
+          "close": 2748.5,
+          "qty": 90,
+          "sl": 2740.25,
+          "target": 2775.99,
+          "rank": 997,
+          "win_rate": 75.0
+        },
+        {
+          "ticker": "ULTRACEMCO.NS",
+          "direction": "LONG",
+          "close": 12051.0,
+          "qty": 20,
+          "sl": 12014.85,
+          "target": 12171.51,
+          "rank": 997,
+          "win_rate": 75.0
+        },
+        {
+          "ticker": "GRASIM.NS",
+          "direction": "LONG",
+          "close": 3389.0,
+          "qty": 73,
+          "sl": 3378.83,
+          "target": 3422.89,
+          "rank": 997,
+          "win_rate": 75.0
+        },
+        {
+          "ticker": "RECLTD.NS",
+          "direction": "LONG",
+          "close": 342.75,
+          "qty": 727,
+          "sl": 341.72,
+          "target": 346.18,
+          "rank": 997,
+          "win_rate": 75.0
+        },
+        {
+          "ticker": "PFC.NS",
+          "direction": "LONG",
+          "close": 385.1000061035156,
+          "qty": 646,
+          "sl": 383.94,
+          "target": 388.95,
+          "rank": 997,
+          "win_rate": 75.0
+        },
+        {
+          "ticker": "KOTAKBANK.NS",
+          "direction": "LONG",
+          "close": 392.5,
+          "qty": 403,
+          "sl": 390.54,
+          "target": 396.43,
+          "rank": 998,
+          "win_rate": 70.0
+        },
+        {
+          "ticker": "ABFRL.NS",
+          "direction": "LONG",
+          "close": 61.02000045776367,
+          "qty": 2566,
+          "sl": 60.71,
+          "target": 61.63,
+          "rank": 998,
+          "win_rate": 70.0
+        }
+      ],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100805.3,
+          "CRYPTO": 99963.86,
+          "INTRADAY": 87251.16999999994
+        },
+        "total_capital": 388020.3299999999,
+        "open_count": 16,
+        "total_pnl": -11979.669999999998,
+        "closed_count": 55,
+        "wins": 28,
+        "losses": 26
+      },
+      "telegram_status": "Failed",
+      "duration_sec": 14.8
     }
   ],
   "latest_portfolio": {
@@ -2010,13 +2124,13 @@
       "INDIAN": 100000.0,
       "US": 100805.3,
       "CRYPTO": 99963.86,
-      "INTRADAY": 111195.84999999995
+      "INTRADAY": 87251.16999999994
     },
-    "total_capital": 411965.0099999999,
+    "total_capital": 388020.3299999999,
     "open_count": 16,
-    "total_pnl": 11965.01,
-    "closed_count": 48,
+    "total_pnl": -11979.669999999998,
+    "closed_count": 55,
     "wins": 28,
-    "losses": 19
+    "losses": 26
   }
 }
