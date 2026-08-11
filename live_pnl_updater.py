@@ -24,6 +24,8 @@ from config import (
     MAX_HOLD_DAYS, INTRADAY_MAX_HOLD_HOURS,
     INTRADAY_CAPITAL,
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
+    CIRCUIT_BREAKER_ENABLED, CIRCUIT_BREAKER_MAX_CONSEC_LOSSES,
+    CIRCUIT_BREAKER_COOLDOWN_DAYS,
 )
 from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until
 from logger import log_error
@@ -214,15 +216,39 @@ def _load_strategy_stats() -> dict:
 
 
 def _save_strategy_stats(stats: dict):
+    """Save per-strategy tracking atomically (temp file + rename).
+
+    bot.py and live_pnl_updater.py run as separate near-concurrent workflows
+    and both write this shared file (which now also holds circuit-breaker
+    pause state), so a plain write could corrupt it. Mirrors
+    paper_trader._atomic_write_json.
+    """
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(STRATEGY_STATS_FILE, "w") as f:
-        json.dump(stats, f, indent=2)
+    tmp = STRATEGY_STATS_FILE + ".tmp." + str(os.getpid())
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(stats, f, indent=2)
+        os.replace(tmp, STRATEGY_STATS_FILE)
+        print(f"[Atomic] Written {os.path.basename(STRATEGY_STATS_FILE)}")
+    except Exception as e:
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except Exception:
+                pass
+        print(f"[Atomic] WRITE FAILED for {os.path.basename(STRATEGY_STATS_FILE)}: {e}")
+        raise
 
 
 def update_strategy_stats(reason: str, pnl: float):
     """
     Update win/loss tracking for the pattern that generated this trade.
     Called when a trade is closed.
+
+    Mirrors paper_trader.update_strategy_stats (engine parity): maintains
+    the circuit-breaker state per strategy - WIN resets the losing streak
+    and lifts a pause; LOSS increments it and auto-pauses the strategy at
+    CIRCUIT_BREAKER_MAX_CONSEC_LOSSES.
     """
     rank = _extract_rank(reason)
     if rank == 0:
@@ -238,13 +264,30 @@ def update_strategy_stats(reason: str, pnl: float):
             "wins": 0,
             "losses": 0,
             "total_pnl": 0.0,
+            "consec_losses": 0,
+            "paused_since": None,
         }
+    else:
+        stats[key].setdefault("consec_losses", 0)
+        stats[key].setdefault("paused_since", None)
 
     stats[key]["total_pnl"] += pnl
     if pnl > 0:
         stats[key]["wins"] += 1
-    else:
+        stats[key]["consec_losses"] = 0
+        if stats[key].get("paused_since"):
+            stats[key]["paused_since"] = None
+            print(f"[CircuitBreaker] Rank #{rank} resumed on WIN")
+    elif pnl < 0:
         stats[key]["losses"] += 1
+        stats[key]["consec_losses"] = stats[key].get("consec_losses", 0) + 1
+        if (CIRCUIT_BREAKER_ENABLED
+                and stats[key]["consec_losses"] >= CIRCUIT_BREAKER_MAX_CONSEC_LOSSES
+                and not stats[key].get("paused_since")):
+            stats[key]["paused_since"] = datetime.now(IST).strftime("%Y-%m-%d")
+            print(f"[CircuitBreaker] Rank #{rank} PAUSED after "
+                  f"{stats[key]['consec_losses']} consecutive losses")
+
     # Update the reason/factors in case it was truncated
     if len(reason) > len(stats[key]["factors"]):
         stats[key]["factors"] = reason[:80]

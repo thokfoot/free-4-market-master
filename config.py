@@ -107,6 +107,25 @@ GAP_DOWN_RANK_B = 998   # f_gap_down (single)
 # delayed — that trade-off is intentional and tunable here.
 GAP_DOWN_REENTRY_COOLDOWN_MINUTES = 120
 INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
+# ===== CIRCUIT BREAKER (per-strategy loss guard, v5.11) =====
+# A strategy that loses CIRCUIT_BREAKER_MAX_CONSEC_LOSSES trades in a row is
+# auto-paused from NEW entries. It resumes when ANY of these happen:
+#   - it records its next WIN (an open position exits profitable)
+#   - CIRCUIT_BREAKER_COOLDOWN_DAYS days have passed since the pause
+#   - resume_strategy(rank) is called manually
+# The consecutive-loss counter is FORWARD-LOOKING: it starts at 0 when this
+# ships and counts only losses from that point on (historical losses -- e.g.
+# the infra-broken gap-down day -- are deliberately NOT counted, so those
+# strategies get a clean trial protected by this safety net).
+CIRCUIT_BREAKER_ENABLED = True
+CIRCUIT_BREAKER_MAX_CONSEC_LOSSES = 5
+CIRCUIT_BREAKER_COOLDOWN_DAYS = 2
+
+# NOTE: pause state is keyed by strategy rank only (the same bucket
+# strategy_stats.json uses). If one rank number exists in both SWING and
+# INTRADAY files, a pause applies to both. This is the documented trade-off
+# of the existing rank-only strategy identity model.
+
 
 # Indian stock universe for gap-down scanning
 # NIFTY 50 + NIFTY NEXT 50 + BANKNIFTY = 97 tickers

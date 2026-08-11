@@ -583,7 +583,8 @@ def run_swing_scan() -> dict:
                 "ticker": entry["ticker"], "direction": entry["direction"],
                 "close": entry["close"], "rank": entry.get("rank"),
                 "win_rate": entry.get("win_rate"),
-                "reason": check_entry_allowed(entry["ticker"], entry["direction"])
+                "reason": check_entry_allowed(entry["ticker"], entry["direction"],
+                                              pattern_rank=entry.get("rank"))
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[Swing] New entries: {len(entries)}")
@@ -725,7 +726,8 @@ def run_intraday_scan() -> dict:
                 "close": entry["close"], "rank": entry.get("rank"),
                 "win_rate": entry.get("win_rate"),
                 "reason": check_entry_allowed(entry["ticker"], entry["direction"],
-                                              tf="INTRADAY_1h")
+                                              tf="INTRADAY_1h",
+                                              pattern_rank=entry.get("rank"))
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[Intraday] New entries: {len(entries)}")
@@ -843,7 +845,8 @@ def run_gap_down_scan() -> dict:
                         "close": s["entry_price"], "rank": rank_id,
                         "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
                         "reason": check_entry_allowed(s["ticker"], "LONG",
-                                                      tf="GAP_DOWN_1m")
+                                                      tf="GAP_DOWN_1m",
+                                                      pattern_rank=rank_id)
                                   or "Rejected (position sizing / unknown)",
                     })
     except Exception as e:

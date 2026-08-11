@@ -19,6 +19,8 @@ from config import (
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
     GAP_DOWN_REENTRY_COOLDOWN_MINUTES, INTRADAY_REENTRY_COOLDOWN_MINUTES,
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
+    CIRCUIT_BREAKER_ENABLED, CIRCUIT_BREAKER_MAX_CONSEC_LOSSES,
+    CIRCUIT_BREAKER_COOLDOWN_DAYS,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -620,7 +622,8 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
 
 def check_entry_allowed(ticker: str, direction: str,
                         open_positions: list = None,
-                        tf: str = None) -> str:
+                        tf: str = None,
+                        pattern_rank: int = None) -> str:
     """
     Why an entry would currently be rejected, or None if it is allowed.
 
@@ -636,11 +639,38 @@ def check_entry_allowed(ticker: str, direction: str,
 
     Returns:
         None if allowed, else a reason string such as
-        "MAX_CONCURRENT (100) reached" or "Duplicate SPY LONG already open".
+        "MAX_CONCURRENT (100) reached", "Duplicate SPY LONG already open",
+        or "CIRCUIT_BREAKER: Rank #N paused (M consecutive losses)".
     """
     portfolio = load_portfolio() if open_positions is None else None
     positions = (open_positions if open_positions is not None
                  else portfolio.get("open_positions", []))
+
+    # Circuit breaker: a strategy on a losing streak is paused from NEW
+    # entries until it wins, the cooldown elapses, or resume_strategy() is
+    # called. Forward-looking: only losses from deployment count.
+    if CIRCUIT_BREAKER_ENABLED and pattern_rank:
+        stats = _load_strategy_stats()
+        entry_stats = stats.get(str(pattern_rank))
+        if entry_stats and entry_stats.get("paused_since"):
+            paused_date = entry_stats.get("paused_since")
+            try:
+                paused_dt = datetime.strptime(paused_date, "%Y-%m-%d").date()
+                today = datetime.now(IST).date()
+                if (today - paused_dt).days >= CIRCUIT_BREAKER_COOLDOWN_DAYS:
+                    # Cooldown elapsed - auto-resume with a fresh budget
+                    entry_stats["paused_since"] = None
+                    entry_stats["consec_losses"] = 0
+                    _save_strategy_stats(stats)
+                    print(f"[CircuitBreaker] Rank #{pattern_rank} auto-resumed "
+                          f"after {CIRCUIT_BREAKER_COOLDOWN_DAYS}d cooldown")
+                else:
+                    consec = entry_stats.get("consec_losses", 0)
+                    return (f"CIRCUIT_BREAKER: Rank #{pattern_rank} paused "
+                            f"({consec} consecutive losses, paused {paused_date})")
+            except Exception as e:
+                print(f"[CircuitBreaker] Rank #{pattern_rank} corrupt pause "
+                      f"date {paused_date!r} ({e}) - treated as not paused")
 
     # Total active-position cap (swing + intraday combined)
     if len(positions) >= MAX_CONCURRENT:
@@ -753,7 +783,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     # Total active-position cap + duplicate check (single source of truth
     # shared with bot.py so skipped entries get a persisted reason)
-    skip_reason = check_entry_allowed(ticker, direction, open_positions, tf=tf)
+    skip_reason = check_entry_allowed(ticker, direction, open_positions,
+                                      tf=tf, pattern_rank=pattern_rank)
     if skip_reason:
         print(f"[Paper] {skip_reason}, skip {ticker}")
         _log_audit_skip(now, mode, ticker, direction, tf, reason, skip_reason)
@@ -898,14 +929,20 @@ def update_strategy_stats(reason: str, pnl: float):
     """
     Update win/loss tracking for the pattern that generated this trade.
     Called when a trade is closed.
+
+    Also maintains the circuit-breaker state per strategy:
+      - a WIN resets the consecutive-loss counter (and lifts any pause)
+      - a LOSS increments it; at CIRCUIT_BREAKER_MAX_CONSEC_LOSSES the
+        strategy is auto-paused from new entries until it wins again, the
+        cooldown elapses, or resume_strategy(rank) is called.
     """
     rank = _extract_rank(reason)
     if rank == 0:
         return
-    
+
     stats = _load_strategy_stats()
     key = str(rank)
-    
+
     if key not in stats:
         stats[key] = {
             "rank": rank,
@@ -913,21 +950,56 @@ def update_strategy_stats(reason: str, pnl: float):
             "wins": 0,
             "losses": 0,
             "total_pnl": 0.0,
+            "consec_losses": 0,
+            "paused_since": None,
         }
-    
+    else:
+        stats[key].setdefault("consec_losses", 0)
+        stats[key].setdefault("paused_since", None)
+
     stats[key]["total_pnl"] += pnl
     if pnl > 0:
         stats[key]["wins"] += 1
-    else:
+        # A win resets the losing streak and lifts any active pause
+        stats[key]["consec_losses"] = 0
+        if stats[key].get("paused_since"):
+            stats[key]["paused_since"] = None
+            print(f"[CircuitBreaker] Rank #{rank} resumed on WIN")
+    elif pnl < 0:
         stats[key]["losses"] += 1
+        stats[key]["consec_losses"] = stats[key].get("consec_losses", 0) + 1
+        if (CIRCUIT_BREAKER_ENABLED
+                and stats[key]["consec_losses"] >= CIRCUIT_BREAKER_MAX_CONSEC_LOSSES
+                and not stats[key].get("paused_since")):
+            stats[key]["paused_since"] = datetime.now(IST).strftime("%Y-%m-%d")
+            print(f"[CircuitBreaker] Rank #{rank} PAUSED after "
+                  f"{stats[key]['consec_losses']} consecutive losses")
+    # pnl == 0 (breakeven/void cleanup) is neither a win nor a loss - streak unchanged
+
     # Update the reason/factors in case it was truncated
     if len(reason) > len(stats[key]["factors"]):
         stats[key]["factors"] = reason[:80]
-    
+
     _save_strategy_stats(stats)
     total = stats[key]["wins"] + stats[key]["losses"]
     wr = round(stats[key]["wins"] / total * 100, 1) if total > 0 else 0
     print(f"[Strategy] Rank #{rank} updated: {stats[key]['wins']}W/{stats[key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
+
+
+def resume_strategy(rank: int) -> bool:
+    """Manually resume a paused strategy (clears its consecutive-loss state).
+
+    Returns True if a pause was cleared, False if the rank had no pause.
+    """
+    stats = _load_strategy_stats()
+    key = str(rank)
+    if key in stats and stats[key].get("paused_since"):
+        stats[key]["paused_since"] = None
+        stats[key]["consec_losses"] = 0
+        _save_strategy_stats(stats)
+        print(f"[CircuitBreaker] Rank #{rank} manually resumed")
+        return True
+    return False
 
 
 def get_strategy_stats(top_n: int = 5) -> list:
