@@ -44,6 +44,42 @@ LEFT = Alignment(horizontal="left")
 RIGHT = Alignment(horizontal="right")
 
 
+def _resolve_ticker(csv_market: str) -> str:
+    """Map CSV market name to yfinance ticker.
+
+    Exact TICKER_MAP lookup first, then fuzzy substring match - the SAME
+    logic the scanners use (scanner.get_yf_ticker). This resolves aliases
+    like 'XLK_Tech' -> XLK and 'XLF_Fin' -> XLF that strategy_report used
+    to leave unresolved (causing 'Unmatched Trades' in the report).
+    """
+    # Region placeholders are NOT tickers - pass through unchanged.
+    # (Without this guard, 'INDIAN' would fuzzy-match 'DIA' inside it.)
+    if csv_market.upper() in ("INDIAN", "CRYPTO", "US", "INDIA"):
+        return csv_market
+    if csv_market in config.TICKER_MAP:
+        return config.TICKER_MAP[csv_market]
+    for key in config.TICKER_MAP:
+        if key.lower() in csv_market.lower():
+            return config.TICKER_MAP[key]
+    return csv_market
+
+
+def _resolve_tf(file_default: str, csv_tf) -> str:
+    """Map the CSV TF column to an internal TimeFrame.
+
+    1m -> GAP_DOWN_1m, 1h -> INTRADAY_1h, 1d* -> SWING_1d.
+    Falls back to the file default when the column is missing/unparseable.
+    """
+    tf = str(csv_tf or "").strip().lower()
+    if tf.startswith("1m"):
+        return "GAP_DOWN_1m"
+    if tf.startswith("1h"):
+        return "INTRADAY_1h"
+    if tf.startswith("1d"):
+        return "SWING_1d"
+    return file_default
+
+
 def _load_strategy_defs():
     """Return list of strategy defs from both CSV files.
 
@@ -53,7 +89,7 @@ def _load_strategy_defs():
     import csv as _csv
 
     defs = []
-    for path, tf in ((SWING_FILE, "SWING_1d"), (INTRADAY_FILE, "INTRADAY_1h")):
+    for path, file_default in ((SWING_FILE, "SWING_1d"), (INTRADAY_FILE, "INTRADAY_1h")):
         if not os.path.exists(path):
             continue
         with open(path, encoding="utf-8-sig", newline="") as f:
@@ -63,7 +99,8 @@ def _load_strategy_defs():
                 except (KeyError, ValueError, TypeError):
                     continue
                 market = str(row.get("Market", "")).strip()
-                ticker = config.TICKER_MAP.get(market, market)
+                ticker = _resolve_ticker(market)
+                tf = _resolve_tf(file_default, row.get("TF"))
                 region = str(row.get("Region", "")).strip().upper()
                 if region == "INDIA":
                     region = "INDIAN"
@@ -208,6 +245,14 @@ def _match_def(defs, tf, rank, ticker, direction, factors):
              and d["ticker"] == ticker and d["direction"] == direction]
     if by_tk:
         return by_tk[0]
+    # Gap-down strategies (997/998) have Market/Ticker = region placeholder
+    # ('INDIAN') while trades carry real tickers (PFC.NS, ABFRL.NS...).
+    # Match on (tf, rank, direction) so the 14 gap-down trades resolve.
+    if rank in (997, 998):
+        gd = [d for d in defs if d["tf"] == tf and d["rank"] == rank
+              and d["direction"] == direction]
+        if gd:
+            return gd[0]
     return None
 
 
