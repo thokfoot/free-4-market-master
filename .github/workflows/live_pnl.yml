@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: free4market-v5-live
@@ -24,7 +25,7 @@ concurrency:
 jobs:
   live-pnl:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -61,3 +62,46 @@ jobs:
             git pull --rebase
             git push
           fi
+
+      # ── KEEP-ALIVE SELF-RESCHEDULE ──────────────────────────────
+      # GitHub Actions cron is unreliable: 2026-08-11 no scheduled run
+      # fired for 75 min (09:45→11:00 IST) while 7 gap-down scalps were
+      # open — all rode through SL to expiry (~Rs 20,000 needless loss).
+      # This step re-triggers the workflow ~2 min later while any
+      # time-sensitive (GAP_DOWN_1m / INTRADAY_1h) position is open and
+      # its market is active, so SL/TP/expiry checks self-heal instead
+      # of depending on the platform scheduler.
+      - name: Keep-alive reschedule (self-healing SL/expiry)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, sys
+          from datetime import datetime
+          import zoneinfo
+          now = datetime.now(zoneinfo.ZoneInfo("Asia/Kolkata"))
+          try:
+              pf = json.load(open("logs/portfolio.json", encoding="utf-8"))
+              opens = pf.get("open_positions", [])
+          except Exception:
+              opens = []
+          time_sensitive = [o for o in opens
+                            if str(o.get("TimeFrame", "")) in ("GAP_DOWN_1m", "INTRADAY_1h")]
+          if not time_sensitive:
+              print("[KeepAlive] no time-sensitive positions — stop chain")
+              sys.exit(0)
+          modes = {str(o.get("Mode", "")).upper() for o in time_sensitive}
+          wd = now.weekday(); hh, mm = now.hour, now.minute
+          in_india = (wd < 5 and 8 <= hh < 15) or (hh == 15 and mm <= 35)
+          in_us = (wd < 5 and hh >= 18) or hh < 3
+          active = ("INDIAN" in modes and in_india) or ("US" in modes and in_us) \
+                   or bool(modes & {"CRYPTO", "INTRADAY"})
+          if not active:
+              print(f"[KeepAlive] markets closed for {sorted(modes)} — stop chain")
+              sys.exit(0)
+          print(f"[KeepAlive] {len(time_sensitive)} time-sensitive positions "
+                f"{sorted(modes)} — reschedule in 120s")
+          PY
+          sleep 120
+          gh workflow run "LIVE P&L v5.10 (Market Hours)"

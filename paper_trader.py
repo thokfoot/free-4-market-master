@@ -17,6 +17,7 @@ from config import (
     INTRADAY_MAX_HOLD_HOURS,
     CAP_MAX_QTY_ULTRA_LOW, CAP_MAX_QTY_LOW, CAP_MAX_QTY_HIGH,
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
+    GAP_DOWN_REENTRY_COOLDOWN_MINUTES, INTRADAY_REENTRY_COOLDOWN_MINUTES,
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
 )
 
@@ -618,7 +619,8 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
 
 
 def check_entry_allowed(ticker: str, direction: str,
-                        open_positions: list = None) -> str:
+                        open_positions: list = None,
+                        tf: str = None) -> str:
     """
     Why an entry would currently be rejected, or None if it is allowed.
 
@@ -648,6 +650,39 @@ def check_entry_allowed(ticker: str, direction: str,
     for pos in positions:
         if pos["Ticker"] == ticker and pos["Direction"] == direction:
             return f"Duplicate {ticker} {direction} already open"
+
+    # Re-entry cooldown: never re-enter the same ticker shortly after a
+    # same-session stop-out/expiry. (2026-08-11: gap-down re-entered 7
+    # tickers 4 min after expiry — all SL'd again, +Rs 7,400 needless
+    # loss.) Swing re-entries are untouched (fresh daily signal = legit).
+    if tf in ("GAP_DOWN_1m", "INTRADAY_1h"):
+        cooldown_min = (GAP_DOWN_REENTRY_COOLDOWN_MINUTES if tf == "GAP_DOWN_1m"
+                        else INTRADAY_REENTRY_COOLDOWN_MINUTES)
+        if cooldown_min and cooldown_min > 0:
+            try:
+                df = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+                if len(df):
+                    cutoff = datetime.now(IST) - timedelta(minutes=cooldown_min)
+                    for _, row in df.iterrows():
+                        if (str(row.get("Ticker", "")) == ticker
+                                and str(row.get("Direction", "")) == direction
+                                and str(row.get("TimeFrame", "")) == tf
+                                and str(row.get("Status", "")) == "CLOSED"):
+                            exit_str = str(row.get("Exit_Time", "")).strip()
+                            for suffix in (" IST", " UTC"):
+                                if exit_str.endswith(suffix):
+                                    exit_str = exit_str[: -len(suffix)]
+                                    break
+                            exit_dt = pd.to_datetime(exit_str, errors="coerce")
+                            if pd.isna(exit_dt):
+                                continue
+                            if exit_dt.tzinfo is None:
+                                exit_dt = exit_dt.tz_localize(IST)
+                            if exit_dt >= cutoff:
+                                return (f"Cooldown: {ticker} {direction} {tf} "
+                                        f"closed <{cooldown_min}m ago")
+            except Exception:
+                pass  # CSV read issues must never block entries
 
     return None
 
@@ -718,7 +753,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     # Total active-position cap + duplicate check (single source of truth
     # shared with bot.py so skipped entries get a persisted reason)
-    skip_reason = check_entry_allowed(ticker, direction, open_positions)
+    skip_reason = check_entry_allowed(ticker, direction, open_positions, tf=tf)
     if skip_reason:
         print(f"[Paper] {skip_reason}, skip {ticker}")
         _log_audit_skip(now, mode, ticker, direction, tf, reason, skip_reason)

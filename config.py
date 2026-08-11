@@ -99,6 +99,13 @@ GAP_DOWN_MAX_SIGNALS_PER_RUN = 8
 GAP_DOWN_RANK_A = 997   # f_gap_down + f_52wk_low
 GAP_DOWN_RANK_B = 998   # f_gap_down (single)
 
+# Re-entry cooldowns (2026-08-11): after a gap-down/intraday trade
+# closes (SL/expiry), do NOT re-enter the same ticker for this window.
+# Prevents re-entering a falling knife minutes after a stop-out — the
+# same 7 gap-down tickers re-entered 4 min after expiry all SL'd again.
+GAP_DOWN_REENTRY_COOLDOWN_MINUTES = 120
+INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
+
 # Indian stock universe for gap-down scanning
 # NIFTY 50 + NIFTY NEXT 50 + BANKNIFTY = 97 tickers
 INDIAN_TICKERS = [

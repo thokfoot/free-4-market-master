@@ -786,7 +786,8 @@ def run_gap_down_scan() -> dict:
                         "ticker": s["ticker"], "direction": "LONG",
                         "close": s["entry_price"], "rank": rank_id,
                         "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
-                        "reason": check_entry_allowed(s["ticker"], "LONG")
+                        "reason": check_entry_allowed(s["ticker"], "LONG",
+                                                      tf="GAP_DOWN_1m")
                                   or "Rejected (position sizing / unknown)",
                     })
     except Exception as e:
