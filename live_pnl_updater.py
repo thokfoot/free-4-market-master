@@ -87,8 +87,8 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         Slipped price (always worse for the trader).
         When slippage is 0 (default), returns price unchanged.
     """
-    # GAP_DOWN_1m is intraday — use intraday slippage rates
-    is_intraday = (tf in ("INTRADAY_1h", "GAP_DOWN_1m"))
+    # GAP_DOWN_1m / FADE_1h are intraday — use intraday slippage rates
+    is_intraday = (tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m"))
     slip_pct = (
         INTRADAY_SLIPPAGE_PCT.get(mode, 0.0)
         if is_intraday else
@@ -514,7 +514,7 @@ def process_open_trades() -> tuple:
                     exit_price = cmp
                     exit_reason = f"Expiry {int(mins_held)}m"
                     is_expired = True
-            elif trade_tf_live == "INTRADAY_1h":
+            elif trade_tf_live in ("INTRADAY_1h", "FADE_1h"):
                 if str(row.get("Mode", "")).upper() == "US":
                     # Session-time MaxHold (parity with paper_trader): only US
                     # session minutes (13:30-20:00 UTC weekdays) consume the

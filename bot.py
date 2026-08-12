@@ -22,6 +22,8 @@ from config import (
     YF_PERIOD, YF_INTERVAL, get_region, get_market_status,
     INTRADAY_PERIOD, INTRADAY_INTERVAL, INTRADAY_CAPITAL,
     GAP_DOWN_MAX_SIGNALS_PER_RUN, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
+    FADE_ALLOW_SHORT, FADE_SL_PCT, FADE_TP_PCT, FADE_MAX_HOLD_HOURS,
+    FADE_RANK, FADE_MAX_TRADES_PER_DAY,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
 from scanner_intraday import (
@@ -31,10 +33,13 @@ from scanner_intraday import (
 from scanner_gap_down import (
     scan_all_gap_down, get_current_ohlc,
 )
+from scanner_fade import (
+    scan_fade,
+)
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
     generate_portfolio_report, get_strategy_stats,
-    initialize_system, check_entry_allowed,
+    initialize_system, check_entry_allowed, PAPER_FILE,
 )
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 from strategy_report import generate_strategy_report
@@ -749,6 +754,119 @@ def run_intraday_scan() -> dict:
     }
 
 
+def run_fade_scan() -> dict:
+    """Run the NSE 1h FADE scan — SHORT stocks that just shot up 3.5%."""
+    start_time = time.time()
+    now = now_ist()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
+
+    print(f"\n{'='*60}")
+    print(f"  FADE SCAN v5.12 — NSE 1h Big-Player-Exit")
+    print(f"  {date_str} {time_str}")
+    print(f"{'='*60}")
+
+    res = scan_fade()
+    all_signals = res["all_signals"]
+    fired = res["fired_signals"]
+    print(f"[Fade] Signals: {len(all_signals)}, fired: {len(fired)}")
+
+    # 1. Check exits for open FADE_1h positions (using current 1h data)
+    portfolio = load_portfolio()
+    fade_tickers = [p["Ticker"] for p in portfolio.get("open_positions", [])
+                    if p.get("TimeFrame") == "FADE_1h"]
+    ohlc_data = {}
+    current_prices = {}
+    for t in fade_tickers:
+        df = res["ticker_data"].get(t)
+        if df is not None and len(df):
+            last = df.iloc[-1]
+            # pass full 1h bars for post-entry bar-level SL/TP
+            ohlc_data[t] = {
+                "close": float(last["Close"]),
+                "high": float(last["High"]),
+                "low": float(last["Low"]),
+                "date": str(df.index[-1].date()),
+                "bars": _ohlc_bars(df),
+            }
+            current_prices[t] = float(last["Close"])
+    closed_msgs = update_trades(ohlc_data)
+    print(f"[Fade] Closed: {len(closed_msgs)}")
+
+    # 2. Enter new FADE_1h SHORT trades (true PER-DAY cap, not per-run)
+    # The backtest cap2 was per calendar day — count today's FADE_1h entries
+    # (open or already closed) so 6 intraday crons can't stack up to 12/day.
+    today_entries = 0
+    try:
+        if os.path.exists(PAPER_FILE):
+            pt = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            if len(pt):
+                mask = (pt["TimeFrame"].astype(str) == "FADE_1h") & \
+                       (pt["Date"].astype(str) == date_str)
+                today_entries = int(mask.sum())
+    except Exception as e:
+        log_error(f"Fade daily-count check failed: {e}")
+    budget = max(0, FADE_MAX_TRADES_PER_DAY - today_entries)
+    print(f"[Fade] Today's FADE entries so far: {today_entries}/{FADE_MAX_TRADES_PER_DAY} "
+          f"(budget {budget})")
+
+    entries = []
+    skipped_entries = []
+    for s in fired[:budget] if budget > 0 else []:
+        if not FADE_ALLOW_SHORT:
+            skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
+                                    "close": s["close"], "reason": "FADE_ALLOW_SHORT=False"})
+            continue
+        entry_price = s["close"]
+        sl_price = entry_price * (1 + FADE_SL_PCT)
+        tp_price = entry_price * (1 - FADE_TP_PCT)
+        trade = enter_trade(
+            mode="INDIAN", ticker=s["ticker"], direction="SHORT",
+            entry_price=entry_price,
+            reason=s.get("factors", "Fade 1h +3.5% vol2.2x RSI65 prev-high")[:60],
+            pattern_rank=FADE_RANK,
+            expected_win_rate=41.61,
+            pattern_factors=s.get("factors", ""),
+            tf="FADE_1h",
+            sl_override=sl_price,
+            tp_override=tp_price,
+            max_hold_override=FADE_MAX_HOLD_HOURS,
+            signal_indicators=s.get("signal_indicators"),
+        )
+        if trade:
+            entries.append({"ticker": s["ticker"], "direction": "SHORT",
+                            "close": entry_price, "qty": trade["Qty"],
+                            "sl": trade["SL"], "target": trade["Target"],
+                            "rank": FADE_RANK, "win_rate": 41.61})
+            if s["ticker"] not in current_prices:
+                current_prices[s["ticker"]] = entry_price
+        else:
+            skipped_entries.append({
+                "ticker": s["ticker"], "direction": "SHORT",
+                "close": entry_price, "rank": FADE_RANK, "win_rate": 41.61,
+                "reason": check_entry_allowed(s["ticker"], "SHORT", tf="FADE_1h",
+                                              pattern_rank=FADE_RANK)
+                          or "Rejected (position sizing / unknown)",
+            })
+    print(f"[Fade] New entries: {len(entries)}")
+
+    return {
+        "mode": "FADE",
+        "ticker_data": res["ticker_data"],
+        "market_status": {},
+        "current_prices": current_prices,
+        "ohlc_data": ohlc_data,
+        "all_signals": all_signals,
+        "fired_signals": fired,
+        "best_entries": fired,
+        "entries": entries,
+        "skipped_entries": skipped_entries,
+        "closed_msgs": closed_msgs,
+        "scan_errors": res["scan_errors"],
+        "duration": time.time() - start_time,
+    }
+
+
 def run_gap_down_scan() -> dict:
     """Run the GAP-DOWN 1m intraday scan.
     
@@ -899,6 +1017,8 @@ def main():
             mode = "swing"
         elif mode_arg in ("gapdown", "gd", "gap"):
             mode = "gapdown"
+        elif mode_arg in ("fade", "fd"):
+            mode = "fade"
     
     print(f"\n{'='*60}")
     print(f"  FREE 3-Market v5.10 PAPER TRADE BOT")
@@ -924,6 +1044,22 @@ def main():
             log_error(f"Intraday scan failed: {e}")
             print(f"[FATAL] Intraday scan: {e}")
             traceback.print_exc()
+    
+    if mode in ("fade", "both"):
+        # Fade is an India intraday strategy — only scan while India is open
+        # (or within a short window after close for the 3:00-3:30 PM candle).
+        mkt = get_market_status()
+        fade_ok = mkt.get("INDIAN") in ("OPEN", "PRE-OPEN")
+        if fade_ok:
+            try:
+                sr = run_fade_scan()
+                scan_results.append(sr)
+            except Exception as e:
+                log_error(f"Fade scan failed: {e}")
+                print(f"[FATAL] Fade scan: {e}")
+                traceback.print_exc()
+        else:
+            print(f"[Fade] Skipped — India market {mkt.get('INDIAN')}")
     
     if mode == "gapdown":
         try:

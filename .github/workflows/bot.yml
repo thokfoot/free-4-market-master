@@ -1,4 +1,4 @@
-name: FREE 3-Market v5.10 PAPER TRADE (SWING + INTRADAY)
+name: FREE 3-Market v5.12 PAPER TRADE (SWING + INTRADAY + FADE)
 
 on:
   schedule:
@@ -6,6 +6,13 @@ on:
     - cron: '0 1 * * *'
     # India close scan
     - cron: '45 9 * * 1-5'
+    # Fade scans — after each NSE 1h candle closes (10:15-14:15 IST = 4:45-8:45 UTC)
+    - cron: '45 4 * * 1-5'
+    - cron: '45 5 * * 1-5'
+    - cron: '45 6 * * 1-5'
+    - cron: '45 7 * * 1-5'
+    - cron: '45 8 * * 1-5'
+    # 09:45 UTC = India close scan (mode=both: swing + intraday + fade gated on India open)
     # US pre-open scan
     - cron: '30 12 * * 1-5'
     # Intraday scans (US market hours)
@@ -27,6 +34,8 @@ on:
           - both
           - swing
           - intraday
+          - fade
+          - gapdown
 
 permissions:
   contents: write
@@ -55,10 +64,19 @@ jobs:
         id: mode
         run: |
           if [ "${{ github.event_name }}" = "schedule" ]; then
-            # Run BOTH swing + intraday on every scheduled trigger.
-            # This prevents the bug where a delayed cron run picks the wrong mode
-            # based on current hour instead of the intended schedule.
-            echo "mode=both" >> $GITHUB_OUTPUT
+            # Scheduled runs: fade crons run during India hours (bot.py gates
+            # on India market status internally), all others run swing+intraday.
+            HOUR_UTC=$(date -u +'%H')
+            MIN_UTC=$(date -u +'%M')
+            # India 1h fade windows: 04:45-08:45 UTC (10:15-14:15 IST).
+            # 09:45 UTC (15:15 IST) stays mode=both so the daily India-close
+            # swing+intraday scan is preserved (both also includes fade,
+            # gated on India market being open).
+            if [ "$MIN_UTC" = "45" ] && [ "$HOUR_UTC" -ge 4 ] && [ "$HOUR_UTC" -le 8 ]; then
+              echo "mode=fade" >> $GITHUB_OUTPUT
+            else
+              echo "mode=both" >> $GITHUB_OUTPUT
+            fi
           else
             echo "mode=${{ inputs.mode || 'both' }}" >> $GITHUB_OUTPUT
           fi

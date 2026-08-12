@@ -107,6 +107,28 @@ GAP_DOWN_RANK_B = 998   # f_gap_down (single)
 # delayed — that trade-off is intentional and tunable here.
 GAP_DOWN_REENTRY_COOLDOWN_MINUTES = 120
 INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
+
+# ===== NSE 1H FADE STRATEGY (v5.12, 2-year clean-OOS verified) =====
+# "Big Player Exit Fade": stock shoots up 3.5%+ in one 1h candle with volume
+# 2.2x and RSI>=65 breaking previous day's high -> SHORT it (big-player exit).
+# Backtest (Aug 2024-Jul 2026, 1680 NSE stocks): test 3028 signals, win 41.6%,
+# cap2 (1-pos, max 2/day) +4.15%/mo after 0.1% costs, 9/9 test months positive.
+FADE_UNIVERSE_FILE = os.path.join(os.path.dirname(__file__), "data", "nse_fade_universe.csv")
+FADE_PERIOD = "3mo"         # 1h yfinance data window (indicators need >= 40 bars)
+FADE_INTERVAL = "1h"
+FADE_SHOOT_PCT = 3.5         # single completed 1h candle return >= 3.5%
+FADE_VOL_MULT = 2.2          # volume >= 2.2x 20-bar avg volume
+FADE_RSI_MIN = 65.0          # Wilder RSI >= 65 (overbought)
+FADE_GAP_MAX = 1.5           # skip ALL entries if |NIFTY day gap| > 1.5%
+FADE_SL_PCT = 0.013          # 1.3% stop loss (SHORT: entry * 1.013)
+FADE_TP_PCT = 0.039          # 3.9% take profit (SHORT: entry * 0.961) RR 3
+FADE_MAX_TRADES_PER_DAY = 2  # portfolio cap: max 2 fade trades/day
+FADE_MAX_HOLD_HOURS = 5      # intraday: exit by 15:00 IST if no SL/TP
+FADE_RANK = 996              # strategy rank id for stats + circuit breaker
+FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
+FADE_MIN_PRICE = 5.0         # skip penny stocks (< Rs 5) — matches backtest
+# NOTE: India cash market has no intraday shorting — this is a PAPER-TRADE
+# simulation of the validated edge; real execution needs F&O/hedged access.
 # ===== CIRCUIT BREAKER (per-strategy loss guard, v5.11) =====
 # A strategy that loses CIRCUIT_BREAKER_MAX_CONSEC_LOSSES trades in a row is
 # auto-paused from NEW entries. It resumes when ANY of these happen:

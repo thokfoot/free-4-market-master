@@ -104,10 +104,10 @@ def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"
     Returns (exit_price, reason) or None.
     """
     try:
-        if tf not in ("INTRADAY_1h", "SWING_1d"):
+        if tf not in ("INTRADAY_1h", "FADE_1h", "SWING_1d"):
             return None
         entry_utc = entry_date.astimezone(pytz.utc)
-        if tf == "INTRADAY_1h":
+        if tf in ("INTRADAY_1h", "FADE_1h"):
             if str(mode).upper() == "US":
                 lu = _session_live_until(entry_utc, max_hold)
                 if lu is None:
@@ -159,11 +159,11 @@ def _post_entry_ohlc(bars, tf, entry_date, max_hold, mode="US"):
     post-entry bars exist yet.
     """
     try:
-        if tf not in ("INTRADAY_1h", "SWING_1d"):
+        if tf not in ("INTRADAY_1h", "FADE_1h", "SWING_1d"):
             return None
         entry_utc = entry_date.astimezone(pytz.utc)
         rows = []
-        if tf == "INTRADAY_1h":
+        if tf in ("INTRADAY_1h", "FADE_1h"):
             if str(mode).upper() == "US":
                 # Original US semantics preserved: None => NO upper bound
                 lu = _session_live_until(entry_utc, max_hold)
@@ -434,7 +434,7 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         When slippage is 0 (default), returns price unchanged.
     """
     # GAP_DOWN_1m is intraday — use intraday slippage rates
-    is_intraday = (tf in ("INTRADAY_1h", "GAP_DOWN_1m"))
+    is_intraday = (tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m"))
     slip_pct = (
         INTRADAY_SLIPPAGE_PCT.get(mode, 0.0)
         if is_intraday else
@@ -562,7 +562,7 @@ def rebuild_portfolio_from_csv() -> dict:
                 mode = str(r.get("Mode", "US")).upper()
                 if mode == "INDIA":
                     mode = "INDIAN"
-                capital_key = "INTRADAY" if tf in ("INTRADAY_1h", "GAP_DOWN_1m") else mode
+                capital_key = "INTRADAY" if tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m") else mode
 
                 status = str(r.get("Status", "")).strip()
                 if status == "OPEN":
@@ -600,7 +600,7 @@ def rebuild_portfolio_from_csv() -> dict:
 def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
     """Calculate position size based on risk per trade (1% of market capital)."""
     port = load_portfolio()
-    if tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
+    if tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m"):
         mkt_cap = port.get("capital_by_market", {}).get("INTRADAY", INTRADAY_CAPITAL)
         risk_amt = mkt_cap * RISK_PER_TRADE
     else:
@@ -685,7 +685,7 @@ def check_entry_allowed(ticker: str, direction: str,
     # same-session stop-out/expiry. (2026-08-11: gap-down re-entered 7
     # tickers 4 min after expiry — all SL'd again, +Rs 7,400 needless
     # loss.) Swing re-entries are untouched (fresh daily signal = legit).
-    if tf in ("GAP_DOWN_1m", "INTRADAY_1h"):
+    if tf in ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h"):
         cooldown_min = (GAP_DOWN_REENTRY_COOLDOWN_MINUTES if tf == "GAP_DOWN_1m"
                         else INTRADAY_REENTRY_COOLDOWN_MINUTES)
         if cooldown_min and cooldown_min > 0:
@@ -792,7 +792,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     # Calculate SL/TP based on direction AND timeframe
     # Use sl_override/tp_override if provided (gap-down strategies set their own)
-    is_intraday = (tf in ("INTRADAY_1h", "GAP_DOWN_1m"))
+    is_intraday = (tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m"))
     if is_intraday:
         sl_pct = INTRADAY_SL_PCT.get(mode, 0.01)
         tp_pct = INTRADAY_TP_PCT.get(mode, 0.02)
@@ -822,7 +822,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         max_hold = max_hold_override
     
     # For GAP_DOWN_1m, max_hold is stored in MINUTES (not hours/days)
-    # update_trades() handles this via the TimeFrame check
+    # update_trades() handles this via the TimeFrame check. FADE_1h and
+    # INTRADAY_1h store max_hold in HOURS.
     
     # ── Apply entry slippage for realistic fills ──
     actual_entry = _apply_slippage(entry_price, direction, "ENTRY", mode, tf)
@@ -1584,7 +1585,7 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_price = cmp
                 exit_reason = f"Expiry {int(minutes_held)}m"
                 is_expired = True
-        elif trade_tf == "INTRADAY_1h":
+        elif trade_tf in ("INTRADAY_1h", "FADE_1h"):
             if str(row.get("Mode", "")).upper() == "US":
                 # Session-time MaxHold: only US session minutes (13:30-20:00 UTC,
                 # weekdays) count toward the hold budget. Overnight & weekend
@@ -1655,7 +1656,7 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_price, exit_reason = bar_hit
                 print(f"[Paper] {ticker}: bar-level {exit_reason} (post-entry) "
                       f"low={_bars_min(bars)} high={_bars_max(bars)}")
-            elif str(row.get("TimeFrame", "SWING_1d")) in ("INTRADAY_1h", "SWING_1d"):
+            elif str(row.get("TimeFrame", "SWING_1d")) in ("INTRADAY_1h", "FADE_1h", "SWING_1d"):
                 # No post-entry bar-level SL/TP hit. Restrict the aggregate
                 # fallback below to POST-ENTRY bars only — a same-day pre-entry
                 # low (from the signal candle before the entry) can never
@@ -1804,7 +1805,7 @@ def update_trades(ohlc_data: dict) -> list:
             
             # Update per-market capital (respect TimeFrame for intraday separate capital)
             trade_tf = str(row.get("TimeFrame", "SWING_1d"))
-            if trade_tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
+            if trade_tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m"):
                 capital_key = "INTRADAY"
             else:
                 capital_key = str(row.get("Mode", "US"))
