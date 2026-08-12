@@ -23,7 +23,7 @@ from config import (
     INTRADAY_PERIOD, INTRADAY_INTERVAL, INTRADAY_CAPITAL,
     GAP_DOWN_MAX_SIGNALS_PER_RUN, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
     FADE_ALLOW_SHORT, FADE_SL_PCT, FADE_TP_PCT, FADE_MAX_HOLD_HOURS,
-    FADE_RANK, FADE_MAX_TRADES_PER_DAY,
+    FADE_RANK, FADE_MAX_TRADES_PER_DAY, FADE_CAPITAL,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
 from scanner_intraday import (
@@ -182,6 +182,26 @@ def _intraday_market_split():
     base = INTRADAY_CAPITAL / 3.0 if INTRADAY_CAPITAL > 0 else 0
     for mode in result:
         result[mode]["capital"] = base + result[mode]["pnl"]
+    return result
+
+
+def _fade_stats():
+    """FADE bucket stats for Telegram: capital, pnl, trades (own ₹1L bucket)."""
+    result = {"capital": FADE_CAPITAL, "pnl": 0.0, "trades": 0}
+    try:
+        df = pd.read_csv("logs/paper_trades.csv", on_bad_lines="warn")
+        fd = df[df["TimeFrame"].astype(str) == "FADE_1h"]
+        fd = fd[fd["Status"].astype(str).str.upper() == "CLOSED"]
+        for _, r in fd.iterrows():
+            try:
+                pnl = float(r.get("P&L"))
+            except (TypeError, ValueError):
+                continue
+            result["pnl"] += pnl
+            result["trades"] += 1
+    except Exception as e:
+        print(f"[TG] _fade_stats error: {e}")
+    result["capital"] = FADE_CAPITAL + result["pnl"]
     return result
 
 def build_telegram_msg(date_str: str, time_str: str, entries: list,
@@ -376,6 +396,9 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             icap = d["capital"]
             ipnl = d["pnl"]
             lines.append(f"{id_icon[mkt]:8s} ₹{icap:>9,.0f}  {ipnl:+,.0f} ({d['trades']}T)")
+        # FADE bucket (own ₹1L — v5.13)
+        fd = _fade_stats()
+        lines.append(f"{'🔻FADE':8s} ₹{fd['capital']:>9,.0f}  {fd['pnl']:+,.0f} ({fd['trades']}T)")
         lines.append("-" * 34)
         lines.append(f"{'TOTAL':8s} ₹{cape:>9,.0f}  {ret_sign}{ret_pct:.1f}%")
         lines.append("```")
@@ -1108,6 +1131,9 @@ def main():
     # Add intraday capital
     if "INTRADAY" not in cap_by_mkt:
         cap_by_mkt["INTRADAY"] = INTRADAY_CAPITAL
+    # Add FADE bucket (own ₹1L)
+    if "FADE" not in cap_by_mkt:
+        cap_by_mkt["FADE"] = FADE_CAPITAL
     total_cape = sum(cap_by_mkt.values())
     open_positions = portfolio.get("open_positions", [])
     total_pnl = portfolio.get("total_pnl", 0)

@@ -306,10 +306,10 @@ def load_portfolio() -> dict:
         except:
             pass
     return {
-        "capital_by_market": {"INDIAN": 100000, "US": 100000, "CRYPTO": 100000, "INTRADAY": 100000},
+        "capital_by_market": {"INDIAN": 100000, "US": 100000, "CRYPTO": 100000, "INTRADAY": 100000, "FADE": 100000},
         "open_positions": [],
         "closed_count": 0, "total_wins": 0, "total_losses": 0, "total_pnl": 0,
-        "total_pnl_by_market": {"INDIAN": 0, "US": 0, "CRYPTO": 0, "INTRADAY": 0},
+        "total_pnl_by_market": {"INDIAN": 0, "US": 0, "CRYPTO": 0, "INTRADAY": 0, "FADE": 0},
     }
 
 
@@ -759,6 +759,7 @@ def _log_live_snapshot(portfolio: dict):
             "Cap_US": round(cap_by_mkt.get("US", 100000), 0),
             "Cap_CRYPTO": round(cap_by_mkt.get("CRYPTO", 100000), 0),
             "Cap_INTRADAY": round(cap_by_mkt.get("INTRADAY", 100000), 0),
+            "Cap_FADE": round(cap_by_mkt.get("FADE", 100000), 0),
         }
         df_new = pd.DataFrame([row])
         if os.path.exists(LIVE_PNL_LOG):

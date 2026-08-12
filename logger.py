@@ -172,7 +172,7 @@ def log_portfolio(capital: float, open_positions: list, closed_count: int,
         }
         # Add per-market columns
         if capital_by_market:
-            for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY"]:
+            for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY", "FADE"]:
                 row[f"Cap_{mkt}"] = round(capital_by_market.get(mkt, 100000), 0)
         
         df_new = pd.DataFrame([row])
@@ -185,7 +185,7 @@ def log_portfolio(capital: float, open_positions: list, closed_count: int,
         
         mkt_str = ""
         if capital_by_market:
-            mkt_parts = [f"{m}:₹{capital_by_market.get(m,0):,.0f}" for m in ["INDIAN","US","CRYPTO","INTRADAY"]]
+            mkt_parts = [f"{m}:₹{capital_by_market.get(m,0):,.0f}" for m in ["INDIAN","US","CRYPTO","INTRADAY","FADE"]]
             mkt_str = " | " + " ".join(mkt_parts)
         print(f"[Logger] Portfolio: Rs {capital:,.0f} | Return {ret_pct:+.2f}%{mkt_str}")
     except Exception as e:

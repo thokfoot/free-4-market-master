@@ -20,8 +20,10 @@ CAPITAL_BY_MARKET = {
 
 # Intraday gets separate ₹1L (defined BEFORE TOTAL_CAPITAL to avoid NameError)
 INTRADAY_CAPITAL = 100000.0
+# FADE (NSE 1h Big-Player-Exit) gets its OWN ₹1L bucket (v5.13)
+FADE_CAPITAL = 100000.0
 
-TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL  # ₹4,00,000
+TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL  # ₹5,00,000
 CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss

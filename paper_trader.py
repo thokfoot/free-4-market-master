@@ -13,7 +13,7 @@ from config import (
     CAPITAL, CAPITAL_BY_MARKET, TOTAL_CAPITAL, RISK_PER_TRADE,
     SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE,
     CHARGES_PER_MARKET,
-    INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT,
+    INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT, FADE_CAPITAL,
     INTRADAY_MAX_HOLD_HOURS,
     CAP_MAX_QTY_ULTRA_LOW, CAP_MAX_QTY_LOW, CAP_MAX_QTY_HIGH,
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
@@ -461,6 +461,7 @@ def _default_portfolio() -> dict:
     """Return default portfolio with per-market capital."""
     cap = dict(CAPITAL_BY_MARKET)
     cap["INTRADAY"] = INTRADAY_CAPITAL
+    cap["FADE"] = FADE_CAPITAL
     return {
         "capital_by_market": cap,
         "open_positions": [],
@@ -468,7 +469,7 @@ def _default_portfolio() -> dict:
         "total_wins": 0,
         "total_losses": 0,
         "total_pnl": 0,
-        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0, "INTRADAY": 0.0},
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0, "INTRADAY": 0.0, "FADE": 0.0},
         "total_capital": sum(cap.values()),
     }
 
@@ -492,7 +493,7 @@ def load_portfolio() -> dict:
                 total_init = sum(CAPITAL_BY_MARKET.values())
                 ratio = old_cap / total_init if total_init > 0 else 1
                 for mkt in port["capital_by_market"]:
-                    port["capital_by_market"][mkt] = CAPITAL_BY_MARKET[mkt] * ratio
+                    port["capital_by_market"][mkt] = CAPITAL_BY_MARKET.get(mkt, 100000) * ratio
                 # Distribute old PnL
                 old_pnl = float(data.get("total_pnl", 0))
                 if old_pnl != 0 and port["open_positions"]:
@@ -503,6 +504,15 @@ def load_portfolio() -> dict:
                 save_portfolio(port)
                 print(f"[Paper] Migrated portfolio to per-market format")
                 return port
+            # v5.13: migrate old portfolios — ensure FADE bucket exists
+            cbm = data.get("capital_by_market", {})
+            if cbm and "FADE" not in cbm:
+                cbm["FADE"] = FADE_CAPITAL
+                data["total_capital"] = sum(cbm.values())
+            tpm = data.get("total_pnl_by_market", {})
+            if tpm and "FADE" not in tpm:
+                tpm["FADE"] = 0.0
+            save_portfolio(data)
             return data
         except Exception as e:
             print(f"[Paper] Portfolio load error: {e}, using defaults")
@@ -562,7 +572,12 @@ def rebuild_portfolio_from_csv() -> dict:
                 mode = str(r.get("Mode", "US")).upper()
                 if mode == "INDIA":
                     mode = "INDIAN"
-                capital_key = "INTRADAY" if tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m") else mode
+                if tf == "FADE_1h":
+                    capital_key = "FADE"
+                elif tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
+                    capital_key = "INTRADAY"
+                else:
+                    capital_key = mode
 
                 status = str(r.get("Status", "")).strip()
                 if status == "OPEN":
@@ -600,7 +615,10 @@ def rebuild_portfolio_from_csv() -> dict:
 def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
     """Calculate position size based on risk per trade (1% of market capital)."""
     port = load_portfolio()
-    if tf in ("INTRADAY_1h", "FADE_1h", "GAP_DOWN_1m"):
+    if tf == "FADE_1h":
+        mkt_cap = port.get("capital_by_market", {}).get("FADE", FADE_CAPITAL)
+        risk_amt = mkt_cap * RISK_PER_TRADE
+    elif tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
         mkt_cap = port.get("capital_by_market", {}).get("INTRADAY", INTRADAY_CAPITAL)
         risk_amt = mkt_cap * RISK_PER_TRADE
     else:
@@ -1285,10 +1303,11 @@ def generate_portfolio_report(current_prices: dict = None):
   <div class="mkt-row">
 ''')
     # Per-market cards (including INTRADAY)
-    mkt_icons = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿", "INTRADAY": "⚡"}
+    mkt_icons = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿", "INTRADAY": "⚡", "FADE": "🔻"}
     mkt_init_map = dict(CAPITAL_BY_MARKET)
     mkt_init_map["INTRADAY"] = INTRADAY_CAPITAL
-    for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY"]:
+    mkt_init_map["FADE"] = FADE_CAPITAL
+    for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY", "FADE"]:
         mkt_cap = cap_by_mkt.get(mkt, mkt_init_map.get(mkt, 100000))
         mkt_init = mkt_init_map.get(mkt, 100000)
         mkt_ret = ((mkt_cap - mkt_init) / mkt_init * 100) if mkt_init > 0 else 0
