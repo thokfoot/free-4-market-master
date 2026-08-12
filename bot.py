@@ -23,7 +23,7 @@ from config import (
     INTRADAY_PERIOD, INTRADAY_INTERVAL, INTRADAY_CAPITAL,
     GAP_DOWN_MAX_SIGNALS_PER_RUN, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
     FADE_ALLOW_SHORT, FADE_SL_PCT, FADE_TP_PCT, FADE_MAX_HOLD_HOURS,
-    FADE_RANK, FADE_MAX_TRADES_PER_DAY, FADE_CAPITAL,
+    FADE_RANK, FADE_MAX_TRADES_PER_DAY, FADE_CAPITAL, FADE_VARIANTS,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
 from scanner_intraday import (
@@ -785,14 +785,14 @@ def run_intraday_scan() -> dict:
 
 
 def run_fade_scan() -> dict:
-    """Run the NSE 1h FADE scan — SHORT stocks that just shot up 3.5%."""
+    """Run the NSE FADE scan — 5 variants, SHORT stocks that just shot up."""
     start_time = time.time()
     now = now_ist()
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
 
     print(f"\n{'='*60}")
-    print(f"  FADE SCAN v5.12 — NSE 1h Big-Player-Exit")
+    print(f"  FADE SCAN v5.14 — NSE Big-Player-Exit (5 variants)")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
 
@@ -801,17 +801,24 @@ def run_fade_scan() -> dict:
     fired = res["fired_signals"]
     print(f"[Fade] Signals: {len(all_signals)}, fired: {len(fired)}")
 
-    # 1. Check exits for open FADE_1h positions (using current 1h data)
+    # 1. Check exits for open FADE_1h positions (using variant-appropriate bars)
     portfolio = load_portfolio()
-    fade_tickers = [p["Ticker"] for p in portfolio.get("open_positions", [])
-                    if p.get("TimeFrame") == "FADE_1h"]
+    fade_open = [p for p in portfolio.get("open_positions", [])
+                 if p.get("TimeFrame") == "FADE_1h"]
     ohlc_data = {}
     current_prices = {}
-    for t in fade_tickers:
-        df = res["ticker_data"].get(t)
+    for p in fade_open:
+        t = p["Ticker"]
+        rank = int(p.get("Pattern_Rank") or 0)
+        # find the variant's interval for this open position
+        interval = "1h"
+        for v in FADE_VARIANTS:
+            if v["rank"] == rank:
+                interval = v["interval"]
+                break
+        df = res["ticker_data"].get((interval, t))
         if df is not None and len(df):
             last = df.iloc[-1]
-            # pass full 1h bars for post-entry bar-level SL/TP
             ohlc_data[t] = {
                 "close": float(last["Close"]),
                 "high": float(last["High"]),
@@ -823,62 +830,77 @@ def run_fade_scan() -> dict:
     closed_msgs = update_trades(ohlc_data)
     print(f"[Fade] Closed: {len(closed_msgs)}")
 
-    # 2. Enter new FADE_1h SHORT trades (true PER-DAY cap, not per-run)
-    # The backtest cap2 was per calendar day — count today's FADE_1h entries
-    # (open or already closed) so 6 intraday crons can't stack up to 12/day.
-    today_entries = 0
+    # 2. Enter new FADE_1h SHORT trades — TRUE PER-VARIANT PER-DAY caps.
+    # Backtest caps were per calendar day per strategy; count today's entries
+    # per rank (open or already closed) so crons can't stack up beyond cap.
+    today_by_rank = {}
     try:
         if os.path.exists(PAPER_FILE):
             pt = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
             if len(pt):
                 mask = (pt["TimeFrame"].astype(str) == "FADE_1h") & \
                        (pt["Date"].astype(str) == date_str)
-                today_entries = int(mask.sum())
+                for _, row in pt[mask].iterrows():
+                    rk = row.get("Pattern_Rank")
+                    try:
+                        rk = int(rk)
+                    except (TypeError, ValueError):
+                        rk = 0
+                    today_by_rank[rk] = today_by_rank.get(rk, 0) + 1
     except Exception as e:
         log_error(f"Fade daily-count check failed: {e}")
-    budget = max(0, FADE_MAX_TRADES_PER_DAY - today_entries)
-    print(f"[Fade] Today's FADE entries so far: {today_entries}/{FADE_MAX_TRADES_PER_DAY} "
-          f"(budget {budget})")
 
     entries = []
     skipped_entries = []
-    for s in fired[:budget] if budget > 0 else []:
+    for s in fired:
+        rank = int(s.get("rank") or FADE_RANK)
+        variant = next((v for v in FADE_VARIANTS if v["rank"] == rank), None)
+        max_day = variant["max_per_day"] if variant else FADE_MAX_TRADES_PER_DAY
+        used = today_by_rank.get(rank, 0)
+        if used >= max_day:
+            skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
+                                    "close": s["close"], "rank": rank,
+                                    "win_rate": s.get("win_rate"),
+                                    "reason": f"Daily cap reached ({used}/{max_day})"})
+            continue
         if not FADE_ALLOW_SHORT:
             skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
                                     "close": s["close"], "reason": "FADE_ALLOW_SHORT=False"})
             continue
         entry_price = s["close"]
-        sl_price = entry_price * (1 + FADE_SL_PCT)
-        tp_price = entry_price * (1 - FADE_TP_PCT)
+        sl_price = entry_price * (1 + s.get("sl_pct", FADE_SL_PCT))
+        tp_price = entry_price * (1 - s.get("tp_pct", FADE_TP_PCT))
         trade = enter_trade(
             mode="INDIAN", ticker=s["ticker"], direction="SHORT",
             entry_price=entry_price,
-            reason=s.get("factors", "Fade 1h +3.5% vol2.2x RSI65 prev-high")[:60],
-            pattern_rank=FADE_RANK,
-            expected_win_rate=41.61,
+            reason=s.get("factors", variant["factors"] if variant else "Fade")[:60],
+            pattern_rank=rank,
+            expected_win_rate=s.get("win_rate", 41.61),
             pattern_factors=s.get("factors", ""),
             tf="FADE_1h",
             sl_override=sl_price,
             tp_override=tp_price,
-            max_hold_override=FADE_MAX_HOLD_HOURS,
+            max_hold_override=5,
             signal_indicators=s.get("signal_indicators"),
         )
         if trade:
             entries.append({"ticker": s["ticker"], "direction": "SHORT",
                             "close": entry_price, "qty": trade["Qty"],
                             "sl": trade["SL"], "target": trade["Target"],
-                            "rank": FADE_RANK, "win_rate": 41.61, "tf": "FADE_1h"})
+                            "rank": rank, "win_rate": s.get("win_rate"),
+                            "tf": "FADE_1h"})
+            today_by_rank[rank] = used + 1
             if s["ticker"] not in current_prices:
                 current_prices[s["ticker"]] = entry_price
         else:
             skipped_entries.append({
                 "ticker": s["ticker"], "direction": "SHORT",
-                "close": entry_price, "rank": FADE_RANK, "win_rate": 41.61,
+                "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
                 "reason": check_entry_allowed(s["ticker"], "SHORT", tf="FADE_1h",
-                                              pattern_rank=FADE_RANK)
+                                              pattern_rank=rank)
                           or "Rejected (position sizing / unknown)",
             })
-    print(f"[Fade] New entries: {len(entries)}")
+    print(f"[Fade] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
 
     return {
         "mode": "FADE",

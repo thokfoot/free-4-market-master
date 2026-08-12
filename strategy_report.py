@@ -117,10 +117,26 @@ def _load_strategy_defs():
                     "trades": _f(row.get("Trades")),
                     "cost_rt": _f(row.get("Cost%_per_trade_RT") or row.get("Cost%_RT")),
                 })
-    # ── NSE 1h FADE strategy (rank 996, v5.12) — hardcoded def so the
-    # live trades appear properly in the report even though the strategy
-    # is driven by scanner_fade.py instead of a strategies CSV.
-    if getattr(config, "FADE_RANK", None):
+    # ── NSE FADE strategy family (ranks 992-996, v5.14) — hardcoded defs so
+    # the live trades appear properly in the report even though the strategies
+    # are driven by scanner_fade.py instead of a strategies CSV.
+    variants = getattr(config, "FADE_VARIANTS", None)
+    if variants:
+        for v in variants:
+            defs.append({
+                "tf": "FADE_1h",
+                "market": "NSE",
+                "ticker": "NSE",
+                "region": "INDIAN",
+                "rank": v["rank"],
+                "direction": "SHORT",
+                "factors": v.get("factors", "Fade"),
+                "backtest_wr": v.get("win_rate", 0),
+                "backtest_pnl": 4.15,
+                "trades": v.get("trades_count", 0),
+                "cost_rt": 0.10,
+            })
+    elif getattr(config, "FADE_RANK", None):
         defs.append({
             "tf": "FADE_1h",
             "market": "NSE",
@@ -265,8 +281,11 @@ def _match_def(defs, tf, rank, ticker, direction, factors):
     # Gap-down strategies (997/998) have Market/Ticker = region placeholder
     # ('INDIAN') while trades carry real tickers (PFC.NS, ABFRL.NS...).
     # Match on (tf, rank, direction) so the 14 gap-down trades resolve.
-    # Same for FADE (996) — def ticker is 'NSE', trades carry real tickers.
-    if rank in (997, 998) or (getattr(config, "FADE_RANK", None) and rank == config.FADE_RANK):
+    # Same for FADE family (ranks 992-996) — def ticker is 'NSE', trades
+    # carry real tickers.
+    _fade_ranks = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
+    if rank in (997, 998) or rank in _fade_ranks or \
+            (getattr(config, "FADE_RANK", None) and rank == config.FADE_RANK):
         gd = [d for d in defs if d["tf"] == tf and d["rank"] == rank
               and d["direction"] == direction]
         if gd:
@@ -397,8 +416,11 @@ def generate_strategy_report(report_file=None):
     # ── Sort: fired by net desc, then never-fired ──
     fired_sum = [s for s in summary_rows if s["total"] > 0]
     fired_sum.sort(key=lambda s: (s["net"], s["total"]), reverse=True)
+    _fade_ranks = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
+    if getattr(config, "FADE_RANK", None):
+        _fade_ranks.add(config.FADE_RANK)
     unfired = [d for d in not_fired if d["rank"] not in (997, 998)
-               and not (getattr(config, "FADE_RANK", None) and d["rank"] == config.FADE_RANK)]
+               and d["rank"] not in _fade_ranks]
     unfired.sort(key=lambda d: d["backtest_wr"], reverse=True)
 
     # ══════════════ BUILD WORKBOOK ══════════════

@@ -110,23 +110,66 @@ GAP_DOWN_RANK_B = 998   # f_gap_down (single)
 GAP_DOWN_REENTRY_COOLDOWN_MINUTES = 120
 INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
 
-# ===== NSE 1H FADE STRATEGY (v5.12, 2-year clean-OOS verified) =====
-# "Big Player Exit Fade": stock shoots up 3.5%+ in one 1h candle with volume
-# 2.2x and RSI>=65 breaking previous day's high -> SHORT it (big-player exit).
-# Backtest (Aug 2024-Jul 2026, 1680 NSE stocks): test 3028 signals, win 41.6%,
-# cap2 (1-pos, max 2/day) +4.15%/mo after 0.1% costs, 9/9 test months positive.
+# ===== NSE FADE STRATEGY FAMILY (v5.14, 2-year clean-OOS verified) =====
+# "Big Player Exit Fade": stock shoots up fast with volume + RSI -> SHORT it
+# (big-player exit). 5 validated variants (Aug 2024-Jul 2026, 1680 NSE stocks):
+#   S1 1h LIVE      shoot 3.5% vol 2.2x RSI65 prev-high gap1.5 SL1.3/TP3.9 2/day  +199% net
+#   S2 1h BALANCED  shoot 3.5% vol 1.8x RSI60 near-high  no-gap SL1.5/TP3.75 2/day +234% net
+#   S3 1h LOOSE     shoot 3.0% vol 1.2x RSI60 none       no-gap SL1.4/TP3.92 2/day +227% net
+#   S4 1h VOL-HEAVY shoot 4.0% vol 2.2x RSI60 prev-high  no-gap SL1.4/TP3.08 2/day +150% net
+#   S5 15m BEST     shoot 2.0% vol 2.2x RSI75 none       gap0.8  SL1.0/TP3.0  5/day +23% net
+# Each variant has its own rank (992-996) for stats + circuit breaker.
 FADE_UNIVERSE_FILE = os.path.join(os.path.dirname(__file__), "data", "nse_fade_universe.csv")
-FADE_PERIOD = "3mo"         # 1h yfinance data window (indicators need >= 40 bars)
-FADE_INTERVAL = "1h"
-FADE_SHOOT_PCT = 3.5         # single completed 1h candle return >= 3.5%
-FADE_VOL_MULT = 2.2          # volume >= 2.2x 20-bar avg volume
-FADE_RSI_MIN = 65.0          # Wilder RSI >= 65 (overbought)
-FADE_GAP_MAX = 1.5           # skip ALL entries if |NIFTY day gap| > 1.5%
-FADE_SL_PCT = 0.013          # 1.3% stop loss (SHORT: entry * 1.013)
-FADE_TP_PCT = 0.039          # 3.9% take profit (SHORT: entry * 0.961) RR 3
-FADE_MAX_TRADES_PER_DAY = 2  # portfolio cap: max 2 fade trades/day
+
+FADE_VARIANTS = [
+    {"key": "S1", "rank": 996, "interval": "1h",  "period": "3mo",
+     "shoot_pct": 3.5, "vol_mult": 2.2, "rsi_min": 65.0,
+     "gap_max": 1.5, "extra": "prev_high",
+     "sl_pct": 0.013, "tp_pct": 0.039, "max_per_day": 2,
+     "win_rate": 41.6, "trades_count": 3028,
+     "factors": "Fade S1: 1h +3.5% vol2.2x RSI65 prev-high",
+     "name": "Fade 1h LIVE"},
+    {"key": "S2", "rank": 995, "interval": "1h",  "period": "3mo",
+     "shoot_pct": 3.5, "vol_mult": 1.8, "rsi_min": 60.0,
+     "gap_max": None, "extra": "near_high",
+     "sl_pct": 0.015, "tp_pct": 0.0375, "max_per_day": 2,
+     "win_rate": 43.3, "trades_count": 704,
+     "factors": "Fade S2: 1h +3.5% vol1.8x RSI60 near-high",
+     "name": "Fade 1h BALANCED"},
+    {"key": "S3", "rank": 994, "interval": "1h",  "period": "3mo",
+     "shoot_pct": 3.0, "vol_mult": 1.2, "rsi_min": 60.0,
+     "gap_max": None, "extra": "none",
+     "sl_pct": 0.014, "tp_pct": 0.0392, "max_per_day": 2,
+     "win_rate": 43.9, "trades_count": 763,
+     "factors": "Fade S3: 1h +3.0% vol1.2x RSI60",
+     "name": "Fade 1h LOOSE"},
+    {"key": "S4", "rank": 993, "interval": "1h",  "period": "3mo",
+     "shoot_pct": 4.0, "vol_mult": 2.2, "rsi_min": 60.0,
+     "gap_max": None, "extra": "prev_high",
+     "sl_pct": 0.014, "tp_pct": 0.0308, "max_per_day": 2,
+     "win_rate": 41.3, "trades_count": 849,
+     "factors": "Fade S4: 1h +4.0% vol2.2x RSI60 prev-high",
+     "name": "Fade 1h VOL-HEAVY"},
+    {"key": "S5", "rank": 992, "interval": "15m", "period": "60d",
+     "shoot_pct": 2.0, "vol_mult": 2.2, "rsi_min": 75.0,
+     "gap_max": 0.8, "extra": "none",
+     "sl_pct": 0.010, "tp_pct": 0.030, "max_per_day": 5,
+     "win_rate": 39.7, "trades_count": 151,
+     "factors": "Fade S5: 15m +2.0% vol2.2x RSI75",
+     "name": "Fade 15m BEST"},
+]
+# Backward-compat aliases (S1 = live bot defaults)
+FADE_PERIOD = FADE_VARIANTS[0]["period"]
+FADE_INTERVAL = FADE_VARIANTS[0]["interval"]
+FADE_SHOOT_PCT = FADE_VARIANTS[0]["shoot_pct"]
+FADE_VOL_MULT = FADE_VARIANTS[0]["vol_mult"]
+FADE_RSI_MIN = FADE_VARIANTS[0]["rsi_min"]
+FADE_GAP_MAX = FADE_VARIANTS[0]["gap_max"]
+FADE_SL_PCT = FADE_VARIANTS[0]["sl_pct"]
+FADE_TP_PCT = FADE_VARIANTS[0]["tp_pct"]
+FADE_MAX_TRADES_PER_DAY = FADE_VARIANTS[0]["max_per_day"]
 FADE_MAX_HOLD_HOURS = 5      # intraday: exit by 15:00 IST if no SL/TP
-FADE_RANK = 996              # strategy rank id for stats + circuit breaker
+FADE_RANK = FADE_VARIANTS[0]["rank"]
 FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
 FADE_MIN_PRICE = 5.0         # skip penny stocks (< Rs 5) — matches backtest
 # NOTE: India cash market has no intraday shorting — this is a PAPER-TRADE
