@@ -3143,5 +3143,15 @@
     "expected_win_rate": 45.96,
     "pattern_factors": "Price>EMA20+SMA20<SMA50",
     "reason": "#46SW Price>EMA20+SMA20<SMA50 | Expiry 5d"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-12 08:50:23 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "skip_reason": "Duplicate DIA LONG already open"
   }
 ]
