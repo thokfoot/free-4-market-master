@@ -486,7 +486,7 @@ def test_fetch_live_ohlc_filters_pre_entry_bars(test_env, monkeypatch):
         "Volume": [1000] * 10,
     }, index=idx)
 
-    monkeypatch.setattr(lp.yf, "download", lambda *a, **k: df)
+    monkeypatch.setattr(lp.market_data, "download", lambda *a, **k: df)
 
     entry_dt = IST.localize(datetime(2026, 7, 31, 10, 0, 0))
     ohlc = lp.fetch_live_ohlc("^NDX", entry_dt)
@@ -512,7 +512,7 @@ def test_fetch_live_ohlc_no_post_entry_flag(test_env, monkeypatch):
         "Volume": [1000] * 5,
     }, index=idx)
 
-    monkeypatch.setattr(lp.yf, "download", lambda *a, **k: df)
+    monkeypatch.setattr(lp.market_data, "download", lambda *a, **k: df)
 
     entry_dt = IST.localize(datetime(2026, 7, 31, 9, 48, 19))
     ohlc = lp.fetch_live_ohlc("^NDX", entry_dt)

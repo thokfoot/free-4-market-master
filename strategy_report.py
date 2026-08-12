@@ -293,15 +293,19 @@ def _match_def(defs, tf, rank, ticker, direction, factors):
     return None
 
 
+def _suffix(tf):
+    """Strategy suffix used in labels AND sheet names (must stay in sync)."""
+    if tf == "FADE_1h":
+        return "FD"
+    if tf == "INTRADAY_1h":
+        return "ID"
+    if tf == "GAP_DOWN_1m":
+        return "GD"
+    return "SW"
+
+
 def _label(defn):
-    if defn["tf"] == "FADE_1h":
-        suffix = "FD"
-    elif defn["tf"] == "INTRADAY_1h":
-        suffix = "ID"
-    elif defn["tf"] == "GAP_DOWN_1m":
-        suffix = "GD"
-    else:
-        suffix = "SW"
+    suffix = _suffix(defn["tf"])
     return f"#{defn['rank']}{suffix} {defn['ticker']} {defn['direction']}"
 
 
@@ -441,7 +445,7 @@ def generate_strategy_report(report_file=None):
                      s["gross"], s["charges"], s["net"], s["avg_net"]])
         rank_idx += 1
     for d in unfired:
-        rows.append([rank_idx, f"#{d['rank']}{'ID' if d['tf']=='INTRADAY_1h' else 'SW'} {d['ticker']} {d['direction']}",
+        rows.append([rank_idx, f"#{d['rank']}{_suffix(d['tf'])} {d['ticker']} {d['direction']}",
                      d["tf"], d["ticker"], d.get("region", ""), d["direction"], d["factors"],
                      d["backtest_wr"], d["backtest_pnl"], 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0])
         rank_idx += 1
@@ -464,7 +468,7 @@ def generate_strategy_report(report_file=None):
     # ── Sheet 2: Per-strategy trade sheets ──
     for s in fired_sum:
         d = s["defn"]
-        safe = f"#{d['rank']}{'ID' if d['tf']=='INTRADAY_1h' else 'SW'} {d['ticker']}"
+        safe = f"#{d['rank']}{_suffix(d['tf'])} {d['ticker']}"
         for ch in r'[]:*?/\\':
             safe = safe.replace(ch, "")
         safe = safe[:31]
@@ -531,7 +535,7 @@ def generate_strategy_report(report_file=None):
                      "Backtest WR%", "Backtest NetPnL%", "Backtest Trades", "Why Not Fired"]
         nf_rows = []
         for d in unfired:
-            nf_rows.append([f"#{d['rank']}{'ID' if d['tf']=='INTRADAY_1h' else 'SW'}",
+            nf_rows.append([f"#{d['rank']}{_suffix(d['tf'])}",
                             d["tf"], d["market"], d["ticker"], d.get("region", ""),
                             d["direction"], d["factors"], d["backtest_wr"],
                             d["backtest_pnl"], d["trades"], d["reason"]])
