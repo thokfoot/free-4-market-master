@@ -2998,6 +2998,72 @@
       },
       "telegram_status": "Sent",
       "duration_sec": 19.1
+    },
+    {
+      "time": "23:45:45 IST",
+      "mode": "INTRADAY",
+      "tickers_scanned": [
+        "ADA-USD",
+        "AVAX-USD",
+        "BNB-USD",
+        "BTC-USD",
+        "DIA",
+        "DOGE-USD",
+        "ETH-USD",
+        "IWM",
+        "LINK-USD",
+        "QQQ",
+        "SOL-USD",
+        "SPY",
+        "TRX-USD",
+        "XLF",
+        "XLK",
+        "XRP-USD",
+        "^GSPC",
+        "^NDX"
+      ],
+      "market_close": {
+        "ADA-USD": 0.18318000435829163,
+        "AVAX-USD": 6.363999843597412,
+        "BNB-USD": 609.9199829101562,
+        "BTC-USD": 63383.51953125,
+        "DIA": 537.510009765625,
+        "DOGE-USD": 0.07073000073432922,
+        "ETH-USD": 1886.6800537109375,
+        "IWM": 302.5150146484375,
+        "LINK-USD": 8.770999908447266,
+        "QQQ": 725.030029296875,
+        "SOL-USD": 75.93000030517578,
+        "SPY": 773.0900268554688,
+        "TRX-USD": 0.33569929003715515,
+        "XLF": 57.834999084472656,
+        "XLK": 189.24000549316406,
+        "XRP-USD": 1.0099999904632568,
+        "^GSPC": 7753.5,
+        "^NDX": 29803.6953125
+      },
+      "patterns_count": 53,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 101232.46000000002,
+          "CRYPTO": 99963.86,
+          "INTRADAY": 79269.96999999993,
+          "FADE": 100000.0
+        },
+        "total_capital": 480466.2899999999,
+        "open_count": 10,
+        "total_pnl": -19533.71,
+        "closed_count": 66,
+        "wins": 31,
+        "losses": 34
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 13.3
     }
   ],
   "latest_portfolio": {
