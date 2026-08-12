@@ -3263,5 +3263,21 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-12 20:06:12 IST",
+    "mode": "CRYPTO",
+    "ticker": "BTC-USD",
+    "direction": "SHORT",
+    "entry_price": 63716.78,
+    "qty": 1,
+    "sl": 64737.27,
+    "target": 61867.14,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.42,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"EMA20\": 63854.973973, \"Open\": 64067.238281, \"SMA20\": 63745.882617, \"Close\": 63780.558594, \"EMA9\": 63908.365287, \"High\": 64099.988281, \"EMA50\": 64005.891592, \"Low\": 63770.890625, \"Ret\": -0.004462, \"Volume\": 0.0, \"RSI14\": 47.21763, \"2Red\": 1.0, \"SMA50\": 63913.483359}"
   }
 ]
