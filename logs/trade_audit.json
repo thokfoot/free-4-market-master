@@ -3233,5 +3233,15 @@
     "pattern_factors": "Fade S5: 15m +2.0% vol2.2x RSI75",
     "reason": "#992ID Fade S5: 15m +2.0% vol2.2x RSI75",
     "signal_indicators": "{\"Ret1_pct\": 4.0, \"Close\": 150.0, \"RSI14\": 70.0}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-12 15:16:46 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "skip_reason": "Duplicate DIA LONG already open"
   }
 ]
