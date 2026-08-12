@@ -12,7 +12,6 @@ Run: python bot.py
 
 import os, sys, json, time, traceback
 from datetime import datetime
-import yfinance as yf
 import pandas as pd
 import requests
 import pytz
@@ -43,6 +42,7 @@ from paper_trader import (
 )
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 from strategy_report import generate_strategy_report
+import market_data
 
 
 def _ohlc_bars(df):
@@ -302,48 +302,9 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             lines.append(f"*...and {total_closed_count - MAX_CLOSED_PER_PAGE} more*")
         lines.append("")
     
-    # ===== OPEN POSITIONS — Latest First =====
+    # ===== OPEN POSITIONS (count only — holdings detail omitted from TG) =====
     if open_positions and len(open_positions) > 0:
-        lines.append("━━━ *OPEN POSITIONS* ━━━")
-        # Reverse to show newest first
-        reversed_open = list(reversed(open_positions))
-        total_open_count = len(reversed_open)
-        shown_open = reversed_open[:MAX_OPEN_PER_PAGE]
-        for pos in shown_open:
-            p_dir = "🟢" if pos.get("Direction") == "LONG" else "🔴"
-            p_mode = pos.get("Mode", "")
-            p_mode_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}.get(p_mode, "")
-            p_tf = str(pos.get("TimeFrame", ""))
-            p_tf_badge = {"FADE_1h": "⚡FD", "INTRADAY_1h": "⚡ID",
-                          "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙"}.get(p_tf, "")
-            p_tf_tag = f" {p_tf_badge}" if p_tf_badge else ""
-            
-            # Calculate current/unrealized P&L
-            ticker = pos.get("Ticker", "")
-            entry = round_price(pos.get("Entry_Price", 0))
-            qty = int(pos.get("Qty", 0))
-            direction = str(pos.get("Direction", "LONG"))
-            
-            unrealized_pnl_str = ""
-            current_price = current_prices.get(ticker, 0) if current_prices else 0
-            if current_price > 0 and entry > 0:
-                if direction == "LONG":
-                    upnl = (current_price - entry) * qty
-                else:
-                    upnl = (entry - current_price) * qty
-                upnl = 0.0 if abs(upnl) < 0.5 else upnl
-                upnl_icon = "🟢" if upnl > 0 else ("🔴" if upnl < 0 else "⚪")
-                unrealized_pnl_str = f" | {upnl_icon} P&L: Rs {upnl:+,.0f}"
-            
-            lines.append(
-                f"{p_dir} `{ticker}` {direction}{p_tf_tag}"
-                f"{p_mode_icon}{p_mode}{unrealized_pnl_str}\n"
-                f"┣ Entry: {entry} | Qty: {qty}\n"
-                f"┣ SL: {pos.get('SL','?')} | TGT: {pos.get('Target','?')}\n"
-                f"┗ Reason: {str(pos.get('Reason',''))[:50]}"
-            )
-        if total_open_count > MAX_OPEN_PER_PAGE:
-            lines.append(f"*...and {total_open_count - MAX_OPEN_PER_PAGE} more open*")
+        lines.append(f"━━━ *OPEN POSITIONS* ━━━ {len(open_positions)} total")
         lines.append("")
     
     # ===== PER-STRATEGY WIN RATE =====
@@ -491,8 +452,8 @@ def run_swing_scan() -> dict:
         for attempt in range(3):
             try:
                 print(f"[Swing] Downloading {yf_ticker}...", end=" ")
-                df = yf.download(yf_ticker, period=YF_PERIOD, interval=YF_INTERVAL,
-                                 progress=False, auto_adjust=False)
+                df = market_data.download(yf_ticker, interval=YF_INTERVAL,
+                                          period=YF_PERIOD)
                 if df is None or len(df) < 60:
                     print(f"INSUFFICIENT ({len(df) if df is not None else 0} rows)")
                     if attempt < 2: time.sleep(1); continue
@@ -669,8 +630,8 @@ def run_intraday_scan() -> dict:
         for attempt in range(3):
             try:
                 print(f"[Intraday] Downloading {yf_ticker}...", end=" ")
-                df = yf.download(yf_ticker, period=INTRADAY_PERIOD, interval=INTRADAY_INTERVAL,
-                                 progress=False, auto_adjust=False)
+                df = market_data.download(yf_ticker, interval=INTRADAY_INTERVAL,
+                                          period=INTRADAY_PERIOD)
                 if df is None or len(df) < 200:
                     print(f"INSUFFICIENT ({len(df) if df is not None else 0} rows)")
                     if attempt < 2: time.sleep(1); continue
@@ -785,14 +746,14 @@ def run_intraday_scan() -> dict:
 
 
 def run_fade_scan() -> dict:
-    """Run the NSE FADE scan — 5 variants, SHORT stocks that just shot up."""
+    """Run the NSE FADE scan — 35 variants, SHORT stocks that just shot up."""
     start_time = time.time()
     now = now_ist()
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H:%M:%S IST")
 
     print(f"\n{'='*60}")
-    print(f"  FADE SCAN v5.14 — NSE Big-Player-Exit (5 variants)")
+    print(f"  FADE SCAN v5.15 — NSE Big-Player-Exit (35 variants)")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
 

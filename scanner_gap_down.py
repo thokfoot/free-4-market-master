@@ -26,6 +26,7 @@ from config import (
     GAP_DOWN_A_SL_PCT, GAP_DOWN_A_TP_PCT,
     GAP_DOWN_B_SL_PCT, GAP_DOWN_B_TP_PCT,
 )
+import market_data
 
 IST = pytz.timezone("Asia/Kolkata")
 
@@ -40,6 +41,9 @@ def download_1m_data(ticker: str, period_days: int = None) -> pd.DataFrame:
     """
     if period_days is None:
         period_days = GAP_DOWN_PERIOD_DAYS
+    # yfinance first (Ticker().history avoids the cross-contamination bug),
+    # then fall back to market_data (direct Yahoo chart API) when yfinance
+    # is down (JSONDecodeError / cookie issue) or returns empty.    df = None
     try:
         t = yf.Ticker(ticker)
         end = datetime.now()
@@ -47,21 +51,23 @@ def download_1m_data(ticker: str, period_days: int = None) -> pd.DataFrame:
         df = t.history(start=start.strftime("%Y-%m-%d"),
                        end=end.strftime("%Y-%m-%d"),
                        interval="1m", auto_adjust=True)
-        if df is None or df.empty:
-            return None
-        
-        # Flatten MultiIndex columns if present
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-        
-        # Drop duplicates and sort
-        df = df[~df.index.duplicated(keep='first')]
-        df = df.sort_index()
-        
-        return df
     except Exception as e:
-        print(f"[GapDown] Download error {ticker}: {e}")
-        return None
+        print(f"[GapDown] yfinance failed {ticker}: {e} - trying fallback")
+        df = None
+    if df is None or df.empty:
+        df = market_data.download(ticker, interval="1m", period="7d")
+        if df is None or len(df) == 0:
+            return None
+    
+    # Flatten MultiIndex columns if present
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
+    
+    # Drop duplicates and sort
+    df = df[~df.index.duplicated(keep='first')]
+    df = df.sort_index()
+    
+    return df
 
 
 

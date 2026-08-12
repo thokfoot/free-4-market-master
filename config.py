@@ -110,54 +110,300 @@ GAP_DOWN_RANK_B = 998   # f_gap_down (single)
 GAP_DOWN_REENTRY_COOLDOWN_MINUTES = 120
 INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
 
-# ===== NSE FADE STRATEGY FAMILY (v5.14, 2-year clean-OOS verified) =====
+# ===== NSE FADE STRATEGY FAMILY (v5.15, 7.5-year clean-OOS verified, 35 variants) =====
 # "Big Player Exit Fade": stock shoots up fast with volume + RSI -> SHORT it
-# (big-player exit). 5 validated variants (Aug 2024-Jul 2026, 1680 NSE stocks):
-#   S1 1h LIVE      shoot 3.5% vol 2.2x RSI65 prev-high gap1.5 SL1.3/TP3.9 2/day  +199% net
-#   S2 1h BALANCED  shoot 3.5% vol 1.8x RSI60 near-high  no-gap SL1.5/TP3.75 2/day +234% net
-#   S3 1h LOOSE     shoot 3.0% vol 1.2x RSI60 none       no-gap SL1.4/TP3.92 2/day +227% net
-#   S4 1h VOL-HEAVY shoot 4.0% vol 2.2x RSI60 prev-high  no-gap SL1.4/TP3.08 2/day +150% net
-#   S5 15m BEST     shoot 2.0% vol 2.2x RSI75 none       gap0.8  SL1.0/TP3.0  5/day +23% net
-# Each variant has its own rank (992-996) for stats + circuit breaker.
+# (big-player exit). 35 verified variants (2015-2022, 828 NSE stocks, strict
+# train/test split):
+#   S1-S10  = other-AI TOP 10 verified on 7.5yr OOS (all 8/8 yrs positive)
+#   G1-G25  = grid-search combos (3.5-4% shoot + day-high), test net +16..+29/mo
+# Signal (no lookahead): rolling-low shoot over dur_min, volume mult, RSI, gap,
+# optional day-high filter, IST time window. Entry at signal candle close.
+# Each variant has its own rank (900-934) for stats + circuit breaker.
 FADE_UNIVERSE_FILE = os.path.join(os.path.dirname(__file__), "data", "nse_fade_universe.csv")
 
 FADE_VARIANTS = [
-    {"key": "S1", "rank": 996, "interval": "1h",  "period": "3mo",
-     "shoot_pct": 3.5, "vol_mult": 2.2, "rsi_min": 65.0,
-     "gap_max": 1.5, "extra": "prev_high",
-     "sl_pct": 0.013, "tp_pct": 0.039, "max_per_day": 2,
-     "win_rate": 41.6, "trades_count": 3028,
-     "factors": "Fade S1: 1h +3.5% vol2.2x RSI65 prev-high",
-     "name": "Fade 1h LIVE"},
-    {"key": "S2", "rank": 995, "interval": "1h",  "period": "3mo",
-     "shoot_pct": 3.5, "vol_mult": 1.8, "rsi_min": 60.0,
-     "gap_max": None, "extra": "near_high",
-     "sl_pct": 0.015, "tp_pct": 0.0375, "max_per_day": 2,
-     "win_rate": 43.3, "trades_count": 704,
-     "factors": "Fade S2: 1h +3.5% vol1.8x RSI60 near-high",
-     "name": "Fade 1h BALANCED"},
-    {"key": "S3", "rank": 994, "interval": "1h",  "period": "3mo",
-     "shoot_pct": 3.0, "vol_mult": 1.2, "rsi_min": 60.0,
-     "gap_max": None, "extra": "none",
-     "sl_pct": 0.014, "tp_pct": 0.0392, "max_per_day": 2,
-     "win_rate": 43.9, "trades_count": 763,
-     "factors": "Fade S3: 1h +3.0% vol1.2x RSI60",
-     "name": "Fade 1h LOOSE"},
-    {"key": "S4", "rank": 993, "interval": "1h",  "period": "3mo",
-     "shoot_pct": 4.0, "vol_mult": 2.2, "rsi_min": 60.0,
-     "gap_max": None, "extra": "prev_high",
-     "sl_pct": 0.014, "tp_pct": 0.0308, "max_per_day": 2,
-     "win_rate": 41.3, "trades_count": 849,
-     "factors": "Fade S4: 1h +4.0% vol2.2x RSI60 prev-high",
-     "name": "Fade 1h VOL-HEAVY"},
-    {"key": "S5", "rank": 992, "interval": "15m", "period": "60d",
-     "shoot_pct": 2.0, "vol_mult": 2.2, "rsi_min": 75.0,
-     "gap_max": 0.8, "extra": "none",
-     "sl_pct": 0.010, "tp_pct": 0.030, "max_per_day": 5,
-     "win_rate": 39.7, "trades_count": 151,
-     "factors": "Fade S5: 15m +2.0% vol2.2x RSI75",
-     "name": "Fade 15m BEST"},
+    {
+        "key": "S1", "rank": 900, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.0, "dur_min": 45, "vol_mult": 2.2, "rsi_min": 75.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 39.38, "trades_count": 3182,
+        "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+        "name": "Fade S1 15m 2.0%/45m",
+    },
+    {
+        "key": "S2", "rank": 901, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.0, "dur_min": 45, "vol_mult": 3.0, "rsi_min": 75.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 40.54, "trades_count": 4714,
+        "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+        "name": "Fade S2 15m 2.0%/45m",
+    },
+    {
+        "key": "S3", "rank": 902, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 90, "vol_mult": 3.0, "rsi_min": 70.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.036, "dh": False,
+        "max_per_day": 5, "win_rate": 42.84, "trades_count": 2801,
+        "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+        "name": "Fade S3 15m 3.0%/90m",
+    },
+    {
+        "key": "S4", "rank": 903, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 90, "vol_mult": 2.0, "rsi_min": 65.0,
+        "gap_max": 1.0, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 45.41, "trades_count": 3299,
+        "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+        "name": "Fade S4 15m 3.0%/90m",
+    },
+    {
+        "key": "S5", "rank": 904, "interval": "5m", "period": "60d",
+        "shoot_pct": 1.5, "dur_min": 90, "vol_mult": 1.5, "rsi_min": 65.0,
+        "gap_max": 0.5, "win": "1030_1300", "sl_pct": 0.007, "tp_pct": 0.021, "dh": True,
+        "max_per_day": 5, "win_rate": 41.68, "trades_count": 2373,
+        "factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+        "name": "Fade S5 5m 1.5%/90m",
+    },
+    {
+        "key": "S6", "rank": 905, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.5, "dur_min": 60, "vol_mult": 2.5, "rsi_min": 70.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 41.53, "trades_count": 3207,
+        "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+        "name": "Fade S6 15m 2.5%/60m",
+    },
+    {
+        "key": "S7", "rank": 906, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.0, "dur_min": 60, "vol_mult": 2.0, "rsi_min": 70.0,
+        "gap_max": 1.0, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 42.12, "trades_count": 3369,
+        "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+        "name": "Fade S7 15m 2.0%/60m",
+    },
+    {
+        "key": "S8", "rank": 907, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 60, "vol_mult": 2.5, "rsi_min": 70.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 43.76, "trades_count": 3117,
+        "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+        "name": "Fade S8 15m 3.0%/60m",
+    },
+    {
+        "key": "S9", "rank": 908, "interval": "5m", "period": "60d",
+        "shoot_pct": 2.0, "dur_min": 90, "vol_mult": 2.0, "rsi_min": 70.0,
+        "gap_max": 0.5, "win": "1030_1300", "sl_pct": 0.008, "tp_pct": 0.024, "dh": False,
+        "max_per_day": 5, "win_rate": 42.48, "trades_count": 2253,
+        "factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+        "name": "Fade S9 5m 2.0%/90m",
+    },
+    {
+        "key": "S10", "rank": 909, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.0, "dur_min": 30, "vol_mult": 2.2, "rsi_min": 75.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.025, "dh": False,
+        "max_per_day": 5, "win_rate": 41.29, "trades_count": 3652,
+        "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+        "name": "Fade S10 15m 2.0%/30m",
+    },
+    {
+        "key": "G1", "rank": 910, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 30, "vol_mult": 1.5, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.036000000000000004, "dh": True,
+        "max_per_day": 5, "win_rate": 43.46, "trades_count": 1553,
+        "factors": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+        "name": "Fade G1 15m 4.0%/30m",
+    },
+    {
+        "key": "G2", "rank": 911, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 30, "vol_mult": 2.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.0175, "dh": True,
+        "max_per_day": 5, "win_rate": 44.39, "trades_count": 2300,
+        "factors": "Fade G2: 15m +4.0%/30m vol2.5x RSI60 dayhigh",
+        "name": "Fade G2 15m 4.0%/30m",
+    },
+    {
+        "key": "G3", "rank": 912, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 30, "vol_mult": 2.0, "rsi_min": 70.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 39.77, "trades_count": 2122,
+        "factors": "Fade G3: 15m +4.0%/30m vol2.0x RSI70",
+        "name": "Fade G3 15m 4.0%/30m",
+    },
+    {
+        "key": "G4", "rank": 913, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 30, "vol_mult": 1.5, "rsi_min": 70.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.015, "tp_pct": 0.0375, "dh": True,
+        "max_per_day": 5, "win_rate": 43.73, "trades_count": 1443,
+        "factors": "Fade G4: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+        "name": "Fade G4 15m 4.0%/30m",
+    },
+    {
+        "key": "G5", "rank": 914, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 30, "vol_mult": 1.5, "rsi_min": 70.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": True,
+        "max_per_day": 5, "win_rate": 38.93, "trades_count": 1716,
+        "factors": "Fade G5: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+        "name": "Fade G5 15m 4.0%/30m",
+    },
+    {
+        "key": "G6", "rank": 915, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.5, "dur_min": 30, "vol_mult": 2.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.021, "dh": True,
+        "max_per_day": 5, "win_rate": 40.31, "trades_count": 2168,
+        "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+        "name": "Fade G6 15m 2.5%/30m",
+    },
+    {
+        "key": "G7", "rank": 916, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 45, "vol_mult": 2.0, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.015, "tp_pct": 0.03, "dh": True,
+        "max_per_day": 5, "win_rate": 43.98, "trades_count": 1537,
+        "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+        "name": "Fade G7 15m 4.0%/45m",
+    },
+    {
+        "key": "G8", "rank": 917, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 3.0, "rsi_min": 70.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": True,
+        "max_per_day": 5, "win_rate": 42.81, "trades_count": 1628,
+        "factors": "Fade G8: 15m +3.5%/30m vol3.0x RSI70 dayhigh",
+        "name": "Fade G8 15m 3.5%/30m",
+    },
+    {
+        "key": "G9", "rank": 918, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 2.0, "rsi_min": 70.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 42.86, "trades_count": 1939,
+        "factors": "Fade G9: 15m +3.5%/30m vol2.0x RSI70",
+        "name": "Fade G9 15m 3.5%/30m",
+    },
+    {
+        "key": "G10", "rank": 919, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 30, "vol_mult": 2.0, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.025, "dh": True,
+        "max_per_day": 5, "win_rate": 42.09, "trades_count": 1834,
+        "factors": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+        "name": "Fade G10 15m 3.0%/30m",
+    },
+    {
+        "key": "G11", "rank": 920, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 30, "vol_mult": 2.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.015, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 47.68, "trades_count": 1831,
+        "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+        "name": "Fade G11 15m 3.0%/30m",
+    },
+    {
+        "key": "G12", "rank": 921, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 2.0, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.02, "dh": False,
+        "max_per_day": 5, "win_rate": 46.09, "trades_count": 2415,
+        "factors": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+        "name": "Fade G12 15m 3.5%/30m",
+    },
+    {
+        "key": "G13", "rank": 922, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 1.5, "rsi_min": 60.0,
+        "gap_max": 1.0, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 42.24, "trades_count": 1553,
+        "factors": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+        "name": "Fade G13 15m 3.5%/30m",
+    },
+    {
+        "key": "G14", "rank": 923, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 30, "vol_mult": 3.0, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.021, "dh": False,
+        "max_per_day": 5, "win_rate": 38.58, "trades_count": 2553,
+        "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+        "name": "Fade G14 15m 3.0%/30m",
+    },
+    {
+        "key": "G15", "rank": 924, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 45, "vol_mult": 1.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.025, "dh": False,
+        "max_per_day": 5, "win_rate": 41.18, "trades_count": 2183,
+        "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+        "name": "Fade G15 15m 4.0%/45m",
+    },
+    {
+        "key": "G16", "rank": 925, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 2.5, "rsi_min": 70.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.024, "dh": True,
+        "max_per_day": 5, "win_rate": 43.93, "trades_count": 1819,
+        "factors": "Fade G16: 15m +3.5%/30m vol2.5x RSI70 dayhigh",
+        "name": "Fade G16 15m 3.5%/30m",
+    },
+    {
+        "key": "G17", "rank": 926, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 3.0, "rsi_min": 75.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 39.35, "trades_count": 1977,
+        "factors": "Fade G17: 15m +3.5%/30m vol3.0x RSI75",
+        "name": "Fade G17 15m 3.5%/30m",
+    },
+    {
+        "key": "G18", "rank": 927, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 45, "vol_mult": 1.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.036000000000000004, "dh": False,
+        "max_per_day": 5, "win_rate": 41.48, "trades_count": 1707,
+        "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+        "name": "Fade G18 15m 3.5%/45m",
+    },
+    {
+        "key": "G19", "rank": 928, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 90, "vol_mult": 2.0, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": True,
+        "max_per_day": 5, "win_rate": 42.59, "trades_count": 1512,
+        "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+        "name": "Fade G19 15m 3.5%/90m",
+    },
+    {
+        "key": "G20", "rank": 929, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 60, "vol_mult": 2.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
+        "max_per_day": 5, "win_rate": 38.84, "trades_count": 2011,
+        "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+        "name": "Fade G20 15m 4.0%/60m",
+    },
+    {
+        "key": "G21", "rank": 930, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 45, "vol_mult": 2.5, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.021, "dh": False,
+        "max_per_day": 5, "win_rate": 37.55, "trades_count": 2474,
+        "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+        "name": "Fade G21 15m 4.0%/45m",
+    },
+    {
+        "key": "G22", "rank": 931, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.0, "dur_min": 30, "vol_mult": 2.5, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.0175, "dh": True,
+        "max_per_day": 5, "win_rate": 41.98, "trades_count": 2244,
+        "factors": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+        "name": "Fade G22 15m 3.0%/30m",
+    },
+    {
+        "key": "G23", "rank": 932, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 60, "vol_mult": 2.0, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": True,
+        "max_per_day": 5, "win_rate": 39.67, "trades_count": 1525,
+        "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+        "name": "Fade G23 15m 4.0%/60m",
+    },
+    {
+        "key": "G24", "rank": 933, "interval": "15m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 60, "vol_mult": 1.5, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.021, "dh": True,
+        "max_per_day": 5, "win_rate": 36.55, "trades_count": 1899,
+        "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+        "name": "Fade G24 15m 4.0%/60m",
+    },
+    {
+        "key": "G25", "rank": 934, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 60, "vol_mult": 3.0, "rsi_min": 65.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.006999999999999999, "tp_pct": 0.021, "dh": False,
+        "max_per_day": 5, "win_rate": 37.59, "trades_count": 2405,
+        "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+        "name": "Fade G25 15m 3.5%/60m",
+    },
 ]
+
 # Backward-compat aliases (S1 = live bot defaults)
 FADE_PERIOD = FADE_VARIANTS[0]["period"]
 FADE_INTERVAL = FADE_VARIANTS[0]["interval"]
@@ -171,7 +417,7 @@ FADE_MAX_TRADES_PER_DAY = FADE_VARIANTS[0]["max_per_day"]
 FADE_MAX_HOLD_HOURS = 5      # intraday: exit by 15:00 IST if no SL/TP
 FADE_RANK = FADE_VARIANTS[0]["rank"]
 FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
-FADE_MIN_PRICE = 5.0         # skip penny stocks (< Rs 5) — matches backtest
+FADE_MIN_PRICE = 8.0         # skip penny stocks (< Rs 5) — matches backtest
 # NOTE: India cash market has no intraday shorting — this is a PAPER-TRADE
 # simulation of the validated edge; real execution needs F&O/hedged access.
 # ===== CIRCUIT BREAKER (per-strategy loss guard, v5.11) =====

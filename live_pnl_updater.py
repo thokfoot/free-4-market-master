@@ -13,7 +13,6 @@ Designed to work alongside bot.py without conflicts.
 
 import os, sys, json, math, time, traceback
 from datetime import datetime, timedelta
-import yfinance as yf
 import pandas as pd
 import requests
 import pytz
@@ -47,6 +46,7 @@ TG_COOLDOWN = timedelta(minutes=25)  # Don't send update msg more than once per 
 PNL_CHANGE_THRESHOLD_PCT = 0.5  # Send update if unrealized P&L % changes by >0.5% (absolute)
 
 
+import market_data
 def _load_live_state() -> dict:
     """Load persistent state: last TG send time + last P&L per ticker."""
     if os.path.exists(LIVE_STATE_FILE):
@@ -356,8 +356,7 @@ def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
     """
     for attempt in range(3):
         try:
-            df = yf.download(ticker, period="1d", interval="1m",
-                             progress=False, auto_adjust=False)
+            df = market_data.download(ticker, interval="1m", period="1d")
             if df is not None and len(df) > 0:
                 # Handle multi-index columns
                 if isinstance(df.columns, pd.MultiIndex):

@@ -65,6 +65,7 @@ _TOLERANCE = 0.9999  # 0.01% noise guard (same as paper_trader update_trades)
 # Data loading helpers
 # =====================================================================
 
+import market_data
 def _load_trades() -> pd.DataFrame:
     """Load paper_trades.csv with string columns forced to object dtype."""
     if not os.path.exists(pt.PAPER_FILE):
@@ -108,8 +109,8 @@ def _fetch_bars(ticker: str, start_utc, end_utc, interval: str) -> list:
     try:
         buf_start = (pd.Timestamp(start_utc) - pd.Timedelta(days=10)).strftime("%Y-%m-%d")
         buf_end = (pd.Timestamp(end_utc) + pd.Timedelta(days=2)).strftime("%Y-%m-%d")
-        df = yf.download(ticker, start=buf_start, end=buf_end,
-                         interval=interval, auto_adjust=False, progress=False)
+        df = market_data.download(ticker, interval=interval,
+                                 start=buf_start, end=buf_end)
         if df is None or len(df) == 0:
             return []
         if isinstance(df.columns, pd.MultiIndex):
@@ -363,8 +364,8 @@ def _scan_intraday_at(strategies, scan_utc, tickers=None, fetch=True):
         end = (scan + pd.Timedelta(days=2)).strftime("%Y-%m-%d")
         for yf_ticker in tickers:
             try:
-                df = yf.download(yf_ticker, start=start, end=end, interval="1h",
-                                 auto_adjust=False, progress=False)
+                df = market_data.download(yf_ticker, interval="1h",
+                                         start=start, end=end)
                 if df is None or len(df) == 0:
                     continue
                 if isinstance(df.columns, pd.MultiIndex):
