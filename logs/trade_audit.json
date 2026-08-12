@@ -3253,5 +3253,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-12 19:26:07 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "skip_reason": "Duplicate DIA LONG already open"
   }
 ]
