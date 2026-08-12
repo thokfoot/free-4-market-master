@@ -1,5 +1,5 @@
 """
-FREE 3-Market v5.10 — PROFESSIONAL LOGGER
+FREE 3-Market v5.12 — PROFESSIONAL LOGGER
 ==========================================
 Finance Manager Grade Logging System
 - Daily scan logs (JSON per day)

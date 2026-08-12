@@ -224,7 +224,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     
     # ===== HEADER =====
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
-    lines.append(f"🤖 *PAPER TRADE v5.10* | 🇮🇳🇺🇸₿ {date_str} {short_time}")
+    lines.append(f"🤖 *PAPER TRADE v5.12* | 🇮🇳🇺🇸₿ {date_str} {short_time}")
     
     # ===== MARKET STATUS =====
     if market_status:
@@ -257,15 +257,18 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
         lines.append("")
         lines.append("━━━ *NEW TRADES* ━━━")
         for t in entries:
-            action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL"
+            action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL SHORT"
             rank_str = f" #{t.get('rank','')}" if t.get('rank') else ""
+            tf_tag = t.get("tf", "") or ""
+            tf_badge = {"FADE_1h": "⚡FD", "INTRADAY_1h": "⚡ID",
+                        "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW"}.get(tf_tag, "")
+            tf_txt = f" {tf_badge}" if tf_badge else ""
             lines.append(
-                f"{action} `{t['ticker']}`{rank_str}\n"
+                f"{action} `{t['ticker']}`{tf_txt}{rank_str}\n"
                 f"┣ Price: {round_price(t['close'])} | Qty: {t['qty']}\n"
                 f"┣ SL: {t['sl']} | TGT: {t['target']}"
             )
-        lines.append("")
-    
+        lines.append("")    
     # ===== CLOSED TRADES (Daily Trade Summary) — Latest First =====
     if closed_msgs:
         lines.append("━━━ *CLOSED TODAY* ━━━")
@@ -291,7 +294,9 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             p_mode = pos.get("Mode", "")
             p_mode_icon = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿"}.get(p_mode, "")
             p_tf = str(pos.get("TimeFrame", ""))
-            p_tf_badge = "⚡" if ("INTRADAY" in p_tf or "GAP_DOWN" in p_tf) else "🌙"
+            p_tf_badge = {"FADE_1h": "⚡FD", "INTRADAY_1h": "⚡ID",
+                          "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙"}.get(p_tf, "")
+            p_tf_tag = f" {p_tf_badge}" if p_tf_badge else ""
             
             # Calculate current/unrealized P&L
             ticker = pos.get("Ticker", "")
@@ -311,7 +316,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                 unrealized_pnl_str = f" | {upnl_icon} P&L: Rs {upnl:+,.0f}"
             
             lines.append(
-                f"{p_dir} `{ticker}` {direction} {p_tf_badge}"
+                f"{p_dir} `{ticker}` {direction}{p_tf_tag}"
                 f"{p_mode_icon}{p_mode}{unrealized_pnl_str}\n"
                 f"┣ Entry: {entry} | Qty: {qty}\n"
                 f"┣ SL: {pos.get('SL','?')} | TGT: {pos.get('Target','?')}\n"
@@ -582,7 +587,8 @@ def run_swing_scan() -> dict:
         if trade:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
                 "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
-                "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
+                "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate"),
+                "tf": "SWING_1d"})
         else:
             skipped_entries.append({
                 "ticker": entry["ticker"], "direction": entry["direction"],
@@ -724,7 +730,8 @@ def run_intraday_scan() -> dict:
         if trade:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
                 "close": entry["close"], "qty": trade["Qty"], "sl": trade["SL"],
-                "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate")})
+                "target": trade["Target"], "rank": entry.get("rank"), "win_rate": entry.get("win_rate"),
+                "tf": "INTRADAY_1h"})
         else:
             skipped_entries.append({
                 "ticker": entry["ticker"], "direction": entry["direction"],
@@ -837,7 +844,7 @@ def run_fade_scan() -> dict:
             entries.append({"ticker": s["ticker"], "direction": "SHORT",
                             "close": entry_price, "qty": trade["Qty"],
                             "sl": trade["SL"], "target": trade["Target"],
-                            "rank": FADE_RANK, "win_rate": 41.61})
+                            "rank": FADE_RANK, "win_rate": 41.61, "tf": "FADE_1h"})
             if s["ticker"] not in current_prices:
                 current_prices[s["ticker"]] = entry_price
         else:
@@ -953,6 +960,7 @@ def run_gap_down_scan() -> dict:
                         "target": trade["Target"],
                         "rank": rank_id,
                         "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                        "tf": "GAP_DOWN_1m",
                     })
                     # Also add to current_prices for live P&L
                     if s["ticker"] not in current_prices:
