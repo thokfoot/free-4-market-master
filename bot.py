@@ -204,6 +204,127 @@ def _fade_stats():
     result["capital"] = FADE_CAPITAL + result["pnl"]
     return result
 
+
+# ── 14-day country/market summary helpers (v5.16) ─────────────────────
+_SECTION_TREE = {"INDI": "├", "ID-IND": "├", "FADE": "└",
+                 "USA": "├", "ID-US": "└",
+                 "CRYP": "├", "ID-₿": "└"}
+
+
+def _section_of(tf, mode):
+    """Map (TimeFrame, Mode) -> summary section key."""
+    tf = str(tf).upper()
+    mode = str(mode).upper()
+    if mode == "INDIA":
+        mode = "INDIAN"
+    if tf == "FADE_1H":
+        return "FADE"
+    if tf == "SWING_1D":
+        return {"INDIAN": "INDI", "US": "USA", "CRYPTO": "CRYP"}.get(mode, mode)
+    if tf in ("INTRADAY_1H", "GAP_DOWN_1M"):
+        return {"INDIAN": "ID-IND", "US": "ID-US", "CRYPTO": "ID-₿"}.get(mode, "ID-" + mode)
+    return tf
+
+
+def _section_stats(days: int = 14) -> dict:
+    """Per-section {T, W, L, pnl, ret_pct} over the last `days` calendar days
+    (incl. today) from logs/paper_trades.csv. ret_pct = pnl / 1,00,000 (the
+    display assumption used in the Telegram summary)."""
+    sections = {k: {"T": 0, "W": 0, "L": 0, "pnl": 0.0} for k in
+                ("INDI", "ID-IND", "FADE", "USA", "ID-US", "CRYP", "ID-₿")}
+    try:
+        df = pd.read_csv("logs/paper_trades.csv", on_bad_lines="warn")
+        if df is None or len(df) == 0:
+            return sections
+        df = df.copy()
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+        cutoff = df["Date"].max() - pd.Timedelta(days=days - 1)
+        df = df[df["Date"] >= cutoff]
+        for _, r in df.iterrows():
+            key = _section_of(r.get("TimeFrame"), r.get("Mode"))
+            if key not in sections:
+                continue
+            sections[key]["T"] += 1
+            try:
+                pnl = float(r.get("P&L"))
+                if pnl != pnl:  # NaN guard (CSV can contain empty P&L)
+                    pnl = 0.0
+            except (TypeError, ValueError):
+                pnl = 0.0
+            sections[key]["pnl"] += pnl
+            if str(r.get("Status", "")).upper() == "CLOSED":
+                if pnl > 0:
+                    sections[key]["W"] += 1
+                elif pnl < 0:
+                    sections[key]["L"] += 1
+    except Exception as e:
+        print(f"[TG] _section_stats error: {e}")
+    for k in sections:
+        sections[k]["ret_pct"] = sections[k]["pnl"] / 100000.0 * 100.0
+    return sections
+
+
+def _strategy_counts() -> dict:
+    """How many strategies are FED (configured) per summary section."""
+    counts = {"INDI": 0, "ID-IND": 0, "FADE": 0,
+              "USA": 0, "ID-US": 0, "CRYP": 0, "ID-₿": 0}
+    try:
+        sw = pd.read_csv("data/strategies.csv", on_bad_lines="warn")
+        for _, r in sw.iterrows():
+            region = str(r.get("Region", "")).strip().lower()
+            if region == "india":
+                counts["INDI"] += 1
+            elif region == "us":
+                counts["USA"] += 1
+            elif region == "crypto":
+                counts["CRYP"] += 1
+    except Exception:
+        pass
+    try:
+        it = pd.read_csv("data/intraday_strategies.csv", on_bad_lines="warn")
+        for _, r in it.iterrows():
+            region = str(r.get("Region", "")).strip().upper()
+            if region == "INDIAN":
+                counts["ID-IND"] += 1
+            elif region == "US":
+                counts["ID-US"] += 1
+            elif region == "CRYPTO":
+                counts["ID-₿"] += 1
+    except Exception:
+        pass
+    counts["FADE"] = len(FADE_VARIANTS)
+    return counts
+
+
+def _country_summary_lines() -> list:
+    """Country-wise 14-day summary lines (matches user's requested format)
+    with per-section strategy counts appended."""
+    stats = _section_stats()
+    strat = _strategy_counts()
+    lines = []
+    for country, sections, flag in (
+            ("INDIA", ["INDI", "ID-IND", "FADE"], "🇮🇳"),
+            ("USA", ["USA", "ID-US"], "🇺🇸"),
+            ("CRYPTO", ["CRYP", "ID-₿"], "₿")):
+        lines.append(f"{flag} {country} (14 Days):")
+        cT = cW = cL = 0
+        cpnl = 0.0
+        for i, key in enumerate(sections):
+            s = stats[key]
+            cT += s["T"]; cW += s["W"]; cL += s["L"]; cpnl += s["pnl"]
+            tree = _SECTION_TREE.get(key, "├")
+            ret = f"{s['ret_pct']:+.1f}%"
+            line = (f"{tree} {key} [{strat[key]}S]: {s['T']}T | "
+                    f"{s['W']}W/{s['L']}L | {ret}")
+            if s["T"] > 0:
+                sign = "+" if s["pnl"] >= 0 else "-"
+                line += f" | {sign}₹{abs(s['pnl']):,.0f}"
+            lines.append(line)
+        c_ret = cpnl / 200000.0 * 100.0
+        lines.append(f"=> Total: {cT}T | {cW}W/{cL}L | {c_ret:+.1f}%")
+    return lines
+
+
 def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        closed_msgs: list, cape: float, open_count: int,
                        total_pnl: float, wins: int = 0, losses: int = 0,
@@ -331,44 +452,20 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                 )
             lines.append("")
     
-    # ===== CAPITAL SUMMARY =====
-    lines.append("━━━ *PORTFOLIO* ━━━")
-    lines.append(f"{arrow} *Capital:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%)")
-    
-    # Per-market breakdown table
-    if capital_by_market:
-        mkt_short = {"INDIAN": "🇮🇳IND", "US": "🇺🇸USA", "CRYPTO": "₿CRYP"}
-        id_split = _intraday_market_split()
-        lines.append("```")
-        lines.append("Market    Capital    Return")
-        lines.append("-" * 34)
-        for mkt in ["INDIAN", "US", "CRYPTO"]:
-            mcap = capital_by_market.get(mkt, 100000)
-            minit = CAPITAL_BY_MARKET.get(mkt, 100000)
-            mret = ((mcap - minit) / minit * 100) if minit > 0 else 0
-            label = mkt_short.get(mkt, mkt)
-            lines.append(f"{label:8s} ₹{mcap:>9,.0f}  {mret:+.1f}%")
-        # Intraday split by market (display assumption: equal initial split)
-        id_icon = {"INDIAN": "⚡ID-🇮🇳", "US": "⚡ID-🇺🇸", "CRYPTO": "⚡ID-₿"}
-        for mkt in ["INDIAN", "US", "CRYPTO"]:
-            d = id_split.get(mkt)
-            if d is None or d["trades"] == 0:
-                continue
-            icap = d["capital"]
-            ipnl = d["pnl"]
-            lines.append(f"{id_icon[mkt]:8s} ₹{icap:>9,.0f}  {ipnl:+,.0f} ({d['trades']}T)")
-        # FADE bucket (own ₹1L — v5.13)
-        fd = _fade_stats()
-        lines.append(f"{'🔻FADE':8s} ₹{fd['capital']:>9,.0f}  {fd['pnl']:+,.0f} ({fd['trades']}T)")
-        lines.append("-" * 34)
-        lines.append(f"{'TOTAL':8s} ₹{cape:>9,.0f}  {ret_sign}{ret_pct:.1f}%")
-        lines.append("```")
-    
-    # Stats
+    # ===== CAPITAL SUMMARY (country-wise, v5.16) =====
     pnl_icon = "🟢" if total_pnl > 0 else ("🔴" if total_pnl < 0 else "⚪")
     win_icon = "🏆" if win_rate >= 70 else ("👍" if win_rate >= 50 else "👎")
-    lines.append(f"{pnl_icon} *P&L:* Rs {total_pnl:+,.0f} | {win_icon} *Win:* {wins}/{total_closed} ({win_rate}%)")
-    lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | *Total:* {closed_count + open_count}")
+    lines.append("━━━ *PORTFOLIO* ━━━")
+    lines.append(f"{arrow} *Capital:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%)")
+    lines.append("")
+    for cl in _country_summary_lines():
+        lines.append(cl)
+    lines.append("")
+    lines.append(f"💰 *TOTAL:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%) | "
+                 f"{pnl_icon} *P&L:* Rs {total_pnl:+,.0f} | {win_icon} *Win:* "
+                 f"{wins}/{total_closed} ({win_rate}%)")
+    lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | "
+                 f"*Total:* {closed_count + open_count}")
     
     # Build full message
     full_msg = "\n".join(lines)

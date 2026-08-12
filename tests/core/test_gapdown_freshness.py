@@ -19,6 +19,16 @@ import scanner_gap_down as sgd
 IST = pytz.timezone("Asia/Kolkata")
 
 
+def _today_minutes_ago(minutes):
+    """Timestamp `minutes` ago, clamped to today - robust near midnight IST
+    (00:00-00:05 the naive now-X would fall on yesterday and fail)."""
+    now = datetime.now(IST)
+    ts = now - timedelta(minutes=minutes)
+    if ts.date() != now.date():
+        ts = now.replace(hour=0, minute=1, second=0, microsecond=0)
+    return ts
+
+
 def _df_with_last_bar(dt_ist):
     """Build a minimal 1m OHLCV frame ending at the given IST timestamp."""
     idx = pd.DatetimeIndex([dt_ist - timedelta(minutes=2), dt_ist])
@@ -36,8 +46,7 @@ def _df_with_last_bar(dt_ist):
 
 
 def test_fresh_today_data_passes():
-    now = datetime.now(IST)
-    df = _df_with_last_bar(now - timedelta(minutes=5))
+    df = _df_with_last_bar(_today_minutes_ago(5))
     assert sgd._is_fresh(df) is True
 
 
@@ -76,6 +85,6 @@ def test_utc_index_normalized_to_ist():
 
 
 def test_naive_index_localized_as_ist():
-    now = datetime.now(IST).replace(tzinfo=None)
-    df = _df_with_last_bar(now - timedelta(minutes=3))
+    now = _today_minutes_ago(3).replace(tzinfo=None)
+    df = _df_with_last_bar(now)
     assert sgd._is_fresh(df) is True
