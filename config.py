@@ -22,8 +22,10 @@ CAPITAL_BY_MARKET = {
 INTRADAY_CAPITAL = 100000.0
 # FADE (NSE 1h Big-Player-Exit) gets its OWN ₹1L bucket (v5.13)
 FADE_CAPITAL = 100000.0
+# US FADE (5m Big-Player-Exit on US large-caps) own ₹1L bucket (v5.18)
+US_FADE_CAPITAL = 100000.0
 
-TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL  # ₹5,00,000
+TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL + US_FADE_CAPITAL  # ₹6,00,000
 CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss
@@ -444,6 +446,62 @@ FADE_VARIANTS = [
         "name": "Fade H5 15m legacy S5",
     },
 ]
+
+# ===== US FADE STRATEGY FAMILY (v5.18, 5m clean-OOS verified, 5 variants) =====
+# "Big Player Exit Fade" on US large-caps (129-stock universe). Verified on
+# real 5m candles May-Jul 2026 (87 days, 129 stocks): all 5 combos positive
+# AFTER 0.1% costs with the VWAP-below filter (extra=1) — +6.4 to +11.1 net/mo
+# full-period, +2.6 to +5.9 net/mo at cap5 (max 5 trades/day).
+# NOTE: US 1h 2-year OOS (730 days) FAILED after costs — treat US fade as
+# experimental, keep per-day caps low. Ranks 870-874 (free range).
+US_FADE_UNIVERSE_FILE = os.path.join(os.path.dirname(__file__), "data", "us_fade_universe.csv")
+
+US_FADE_VARIANTS = [
+    {
+        "key": "U1", "rank": 870, "interval": "5m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 90, "vol_mult": 1.8, "rsi_min": 70.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.010, "tp_pct": 0.025, "vwap": True,
+        "max_per_day": 2, "win_rate": 42.7, "trades_count": 82,
+        "factors": "US Fade U1: 5m +4.0%/90m vol1.8x RSI70 gap0.8 vwap-below",
+        "name": "US Fade U1 5m 4.0%/90m",
+    },
+    {
+        "key": "U2", "rank": 871, "interval": "5m", "period": "60d",
+        "shoot_pct": 4.0, "dur_min": 20, "vol_mult": 1.5, "rsi_min": 65.0,
+        "gap_max": 1.5, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.030, "vwap": True,
+        "max_per_day": 2, "win_rate": 40.4, "trades_count": 89,
+        "factors": "US Fade U2: 5m +4.0%/20m vol1.5x RSI65 gap1.5 vwap-below",
+        "name": "US Fade U2 5m 4.0%/20m",
+    },
+    {
+        "key": "U3", "rank": 872, "interval": "5m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 60, "vol_mult": 1.5, "rsi_min": 70.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.010, "tp_pct": 0.030, "vwap": True,
+        "max_per_day": 2, "win_rate": 35.8, "trades_count": 106,
+        "factors": "US Fade U3: 5m +3.5%/60m vol1.5x RSI70 gap0.8 vwap-below",
+        "name": "US Fade U3 5m 3.5%/60m",
+    },
+    {
+        "key": "U4", "rank": 873, "interval": "5m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 20, "vol_mult": 2.2, "rsi_min": 75.0,
+        "gap_max": 1.2, "win": "0930_1500", "sl_pct": 0.010, "tp_pct": 0.022, "vwap": True,
+        "max_per_day": 2, "win_rate": 45.1, "trades_count": 71,
+        "factors": "US Fade U4: 5m +3.5%/20m vol2.2x RSI75 gap1.2 vwap-below",
+        "name": "US Fade U4 5m 3.5%/20m",
+    },
+    {
+        "key": "U5", "rank": 874, "interval": "5m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 15, "vol_mult": 1.5, "rsi_min": 75.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.010, "tp_pct": 0.020, "vwap": True,
+        "max_per_day": 2, "win_rate": 45.6, "trades_count": 79,
+        "factors": "US Fade U5: 5m +3.5%/15m vol1.5x RSI75 gap0.8 vwap-below",
+        "name": "US Fade U5 5m 3.5%/15m",
+    },
+]
+
+US_FADE_MAX_HOLD_HOURS = 6      # intraday: exit by ~15:30 ET if no SL/TP
+US_FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
+US_FADE_MIN_PRICE = 8.0         # skip penny stocks — matches backtest
 
 # Backward-compat aliases (S1 = live bot defaults)
 FADE_PERIOD = FADE_VARIANTS[0]["period"]

@@ -23,6 +23,7 @@ from config import (
     GAP_DOWN_MAX_SIGNALS_PER_RUN, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
     FADE_ALLOW_SHORT, FADE_SL_PCT, FADE_TP_PCT, FADE_MAX_HOLD_HOURS,
     FADE_RANK, FADE_MAX_TRADES_PER_DAY, FADE_CAPITAL, FADE_VARIANTS,
+    US_FADE_VARIANTS, US_FADE_CAPITAL, US_FADE_ALLOW_SHORT, US_FADE_MAX_HOLD_HOURS,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
 from scanner_intraday import (
@@ -34,6 +35,9 @@ from scanner_gap_down import (
 )
 from scanner_fade import (
     scan_fade,
+)
+from scanner_fade_us import (
+    scan_fade_us,
 )
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
@@ -206,7 +210,7 @@ def _fade_stats():
 
 
 # ── 14-day country/market summary helpers (v5.16) ─────────────────────
-_SECTION_TREE = {"INDI": "├", "ID-IND": "├", "FADE": "└",
+_SECTION_TREE = {"INDI": "├", "ID-IND": "├", "FADE": "├", "US-FD": "└",
                  "USA": "├", "ID-US": "└",
                  "CRYP": "├", "ID-₿": "└"}
 
@@ -219,6 +223,8 @@ def _section_of(tf, mode):
         mode = "INDIAN"
     if tf == "FADE_1H":
         return "FADE"
+    if tf == "US_FADE_5M":
+        return "US-FD"
     if tf == "SWING_1D":
         return {"INDIAN": "INDI", "US": "USA", "CRYPTO": "CRYP"}.get(mode, mode)
     if tf in ("INTRADAY_1H", "GAP_DOWN_1M"):
@@ -231,7 +237,7 @@ def _section_stats(days: int = 14) -> dict:
     (incl. today) from logs/paper_trades.csv. ret_pct = pnl / 1,00,000 (the
     display assumption used in the Telegram summary)."""
     sections = {k: {"T": 0, "W": 0, "L": 0, "pnl": 0.0} for k in
-                ("INDI", "ID-IND", "FADE", "USA", "ID-US", "CRYP", "ID-₿")}
+                ("INDI", "ID-IND", "FADE", "US-FD", "USA", "ID-US", "CRYP", "ID-₿")}
     try:
         df = pd.read_csv("logs/paper_trades.csv", on_bad_lines="warn")
         if df is None or len(df) == 0:
@@ -266,7 +272,7 @@ def _section_stats(days: int = 14) -> dict:
 
 def _strategy_counts() -> dict:
     """How many strategies are FED (configured) per summary section."""
-    counts = {"INDI": 0, "ID-IND": 0, "FADE": 0,
+    counts = {"INDI": 0, "ID-IND": 0, "FADE": 0, "US-FD": 0,
               "USA": 0, "ID-US": 0, "CRYP": 0, "ID-₿": 0}
     try:
         sw = pd.read_csv("data/strategies.csv", on_bad_lines="warn")
@@ -293,6 +299,7 @@ def _strategy_counts() -> dict:
     except Exception:
         pass
     counts["FADE"] = len(FADE_VARIANTS)
+    counts["US-FD"] = len(US_FADE_VARIANTS)
     return counts
 
 
@@ -316,7 +323,7 @@ def _country_summary_lines() -> list:
     lines = []
     for country, sections, flag in (
             ("INDIA", ["INDI", "ID-IND", "FADE"], "🇮🇳"),
-            ("USA", ["USA", "ID-US"], "🇺🇸"),
+            ("USA", ["USA", "ID-US", "US-FD"], "🇺🇸"),
             ("CRYPTO", ["CRYP", "ID-₿"], "₿")):
         cT = cW = cL = 0
         cpnl = 0.0
@@ -430,7 +437,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL SHORT"
             rank_str = f" #{t.get('rank','')}" if t.get('rank') else ""
             tf_tag = t.get("tf", "") or ""
-            tf_badge = {"FADE_1h": "⚡FD", "INTRADAY_1h": "⚡ID",
+            tf_badge = {"FADE_1h": "⚡FD", "US_FADE_5m": "🌎FD",
+                        "INTRADAY_1h": "⚡ID",
                         "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW"}.get(tf_tag, "")
             tf_txt = f" {tf_badge}" if tf_badge else ""
             lines.append(f"{action} `{t['ticker']}`{tf_txt}{rank_str} "
@@ -937,6 +945,131 @@ def run_fade_scan() -> dict:
         "duration": time.time() - start_time,
     }
 
+def run_fade_us_scan() -> dict:
+    """Run the US FADE scan — 5 verified 5m variants, SHORT US large-caps."""
+    start_time = time.time()
+    now = now_ist()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
+
+    print(f"\n{'='*60}")
+    print(f"  US FADE SCAN v5.18 — Big-Player-Exit (5 variants, 129 US stocks)")
+    print(f"  {date_str} {time_str}")
+    print(f"{'='*60}")
+
+    res = scan_fade_us()
+    all_signals = res["all_signals"]
+    fired = res["fired_signals"]
+    print(f"[FadeUS] Signals: {len(all_signals)}, fired: {len(fired)}")
+
+    # 1. Check exits for open US_FADE_5m positions (5m bars)
+    portfolio = load_portfolio()
+    usfade_open = [p for p in portfolio.get("open_positions", [])
+                   if p.get("TimeFrame") == "US_FADE_5m"]
+    ohlc_data = {}
+    current_prices = {}
+    for p in usfade_open:
+        t = p["Ticker"]
+        df = res["ticker_data"].get(("5m", t))
+        if df is not None and len(df):
+            last = df.iloc[-1]
+            ohlc_data[t] = {
+                "close": float(last["Close"]),
+                "high": float(last["High"]),
+                "low": float(last["Low"]),
+                "date": str(df.index[-1].date()),
+                "bars": _ohlc_bars(df),
+            }
+            current_prices[t] = float(last["Close"])
+    closed_msgs = update_trades(ohlc_data)
+    print(f"[FadeUS] Closed: {len(closed_msgs)}")
+
+    # 2. Enter new US_FADE_5m SHORT trades — per-variant per-day caps.
+    today_by_rank = {}
+    try:
+        if os.path.exists(PAPER_FILE):
+            pt = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            if len(pt):
+                mask = (pt["TimeFrame"].astype(str) == "US_FADE_5m") &                        (pt["Date"].astype(str) == date_str)
+                for _, row in pt[mask].iterrows():
+                    rk = row.get("Pattern_Rank")
+                    try:
+                        rk = int(rk)
+                    except (TypeError, ValueError):
+                        rk = 0
+                    today_by_rank[rk] = today_by_rank.get(rk, 0) + 1
+    except Exception as e:
+        log_error(f"US Fade daily-count check failed: {e}")
+
+    entries = []
+    skipped_entries = []
+    for s in fired:
+        rank = int(s.get("rank") or 870)
+        variant = next((v for v in US_FADE_VARIANTS if v["rank"] == rank), None)
+        max_day = variant["max_per_day"] if variant else 2
+        used = today_by_rank.get(rank, 0)
+        if used >= max_day:
+            skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
+                                    "close": s["close"], "rank": rank,
+                                    "win_rate": s.get("win_rate"),
+                                    "reason": f"Daily cap reached ({used}/{max_day})"})
+            continue
+        if not US_FADE_ALLOW_SHORT:
+            skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
+                                    "close": s["close"], "reason": "US_FADE_ALLOW_SHORT=False"})
+            continue
+        entry_price = s["close"]
+        sl_price = entry_price * (1 + s.get("sl_pct", 0.010))
+        tp_price = entry_price * (1 - s.get("tp_pct", 0.025))
+        trade = enter_trade(
+            mode="US", ticker=s["ticker"], direction="SHORT",
+            entry_price=entry_price,
+            reason=s.get("factors", variant["factors"] if variant else "US Fade")[:60],
+            pattern_rank=rank,
+            expected_win_rate=s.get("win_rate", 42.0),
+            pattern_factors=s.get("factors", ""),
+            tf="US_FADE_5m",
+            sl_override=sl_price,
+            tp_override=tp_price,
+            max_hold_override=US_FADE_MAX_HOLD_HOURS,
+            signal_indicators=s.get("signal_indicators"),
+        )
+        if trade:
+            entries.append({"ticker": s["ticker"], "direction": "SHORT",
+                            "close": entry_price, "qty": trade["Qty"],
+                            "sl": trade["SL"], "target": trade["Target"],
+                            "rank": rank, "win_rate": s.get("win_rate"),
+                            "tf": "US_FADE_5m"})
+            today_by_rank[rank] = used + 1
+            if s["ticker"] not in current_prices:
+                current_prices[s["ticker"]] = entry_price
+        else:
+            skipped_entries.append({
+                "ticker": s["ticker"], "direction": "SHORT",
+                "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
+                "reason": check_entry_allowed(s["ticker"], "SHORT", tf="US_FADE_5m",
+                                              pattern_rank=rank)
+                          or "Rejected (position sizing / unknown)",
+            })
+    print(f"[FadeUS] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
+
+    return {
+        "mode": "US_FADE",
+        "ticker_data": res["ticker_data"],
+        "market_status": {},
+        "current_prices": current_prices,
+        "ohlc_data": ohlc_data,
+        "all_signals": all_signals,
+        "fired_signals": fired,
+        "best_entries": fired,
+        "entries": entries,
+        "skipped_entries": skipped_entries,
+        "closed_msgs": closed_msgs,
+        "scan_errors": res.get("errors", 0),
+        "duration": time.time() - start_time,
+    }
+
+
 
 def run_gap_down_scan() -> dict:
     """Run the GAP-DOWN 1m intraday scan.
@@ -1132,6 +1265,20 @@ def main():
                 traceback.print_exc()
         else:
             print(f"[Fade] Skipped — India market {mkt.get('INDIAN')}")
+
+        # US FADE (v5.18): 5 verified 5m variants on 129 US large-caps.
+        # Scan while US market is open (7PM-1:30AM IST) — 5m candles.
+        usfade_ok = mkt.get("US") in ("OPEN", "PRE-OPEN")
+        if usfade_ok:
+            try:
+                sr = run_fade_us_scan()
+                scan_results.append(sr)
+            except Exception as e:
+                log_error(f"US Fade scan failed: {e}")
+                print(f"[FATAL] US Fade scan: {e}")
+                traceback.print_exc()
+        else:
+            print(f"[FadeUS] Skipped — US market {mkt.get('US')}")
     
     if mode == "gapdown":
         try:
@@ -1175,6 +1322,9 @@ def main():
     # Add FADE bucket (own ₹1L)
     if "FADE" not in cap_by_mkt:
         cap_by_mkt["FADE"] = FADE_CAPITAL
+    # Add US FADE bucket (own ₹1L, v5.18)
+    if "US_FADE" not in cap_by_mkt:
+        cap_by_mkt["US_FADE"] = US_FADE_CAPITAL
     total_cape = sum(cap_by_mkt.values())
     open_positions = portfolio.get("open_positions", [])
     total_pnl = portfolio.get("total_pnl", 0)
