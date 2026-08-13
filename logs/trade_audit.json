@@ -4126,5 +4126,25 @@
     "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "signal_indicators": "{\"Close\": 469.5, \"Volume\": 701679, \"VolAvg20\": 17275.0, \"RSI14\": 74.4, \"Shoot_pct\": 2.29, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-13 14:41:42 IST",
+    "mode": "INDIAN",
+    "ticker": "PRECWIRE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Duplicate PRECWIRE.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-13 14:41:42 IST",
+    "mode": "INDIAN",
+    "ticker": "PRECWIRE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate PRECWIRE.NS SHORT already open"
   }
 ]
