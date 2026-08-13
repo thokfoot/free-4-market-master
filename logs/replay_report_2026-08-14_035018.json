@@ -1,0 +1,12 @@
+{
+  "generated": "2026-08-13 22:20:07.606404+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-08-13 22:20:07.606404+00:00"
+  },
+  "exits_closed": [],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}
