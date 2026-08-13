@@ -4,7 +4,7 @@
     "US": 101232.46000000002,
     "CRYPTO": 99963.86,
     "INTRADAY": 79368.62999999993,
-    "FADE": 95879.28,
+    "FADE": 95344.95999999999,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0
   },
@@ -310,29 +310,6 @@
     },
     {
       "Date": "2026-08-13",
-      "Time_IST": "12:18:37 IST",
-      "Mode": "INDIAN",
-      "Ticker": "BDL.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 1372.21,
-      "Qty": 95,
-      "SL": 1382.51,
-      "Target": 1344.07,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 1373.2, \"Volume\": 245983, \"VolAvg20\": 30020.0, \"RSI14\": 70.6, \"Shoot_pct\": 2.12, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
-    },
-    {
-      "Date": "2026-08-13",
       "Time_IST": "14:28:59 IST",
       "Mode": "INDIAN",
       "Ticker": "PRECWIRE.NS",
@@ -355,18 +332,18 @@
       "Signal_Indicators": "{\"Close\": 469.5, \"Volume\": 701679, \"VolAvg20\": 17275.0, \"RSI14\": 74.4, \"Shoot_pct\": 2.29, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
     }
   ],
-  "closed_count": 76,
+  "closed_count": 77,
   "total_wins": 34,
-  "total_losses": 41,
-  "total_pnl": -23555.77,
+  "total_losses": 42,
+  "total_pnl": -24090.09,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 1232.4599999999998,
     "CRYPTO": -36.14,
     "INTRADAY": -20631.370000000006,
-    "FADE": -4120.72,
+    "FADE": -4655.04,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 0.0
   },
-  "total_capital": 676444.23
+  "total_capital": 675909.9099999999
 }
