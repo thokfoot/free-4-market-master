@@ -5,7 +5,7 @@
 
 ---
 
-## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 14:37 IST)
+## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 15:57 IST)
 
 ### Portfolio (from logs/portfolio.json)
 | Bucket | Capital |
@@ -16,7 +16,8 @@
 | INTRADAY | ₹79,369 |
 | FADE | ₹95,490 |
 | US_FADE | ₹100,000 |
-| **TOTAL** | **₹576,055** |
+| LONG_BOUNCE | ₹100,000 |
+| **TOTAL** | **₹676,055** |
 
 - Total P&L: **₹-23,945** | Open: 17 | Closed: 74 | Wins 33 / Losses 40
 
@@ -41,6 +42,30 @@
 ---
 
 ## 📜 SESSION HISTORY (most recent first)
+### 2026-08-13 15:57 IST — LONG-BOUNCE paper trade added (v5.19)
+
+- Added verified LONG-bounce config to paper trade: scanner_long.py (5m drop 3.5%/90m vol2.5x RSI<=45 gap<=1.5 below-VWAP&down 10:30-12:30 IST, direction LONG), config.py LONG_BOUNCE_VARIANTS (L1 rank 935) + LONG_BOUNCE_CAPITAL 1L (TOTAL now 7L), bot.py run_long_bounce_scan wired into both/fade mode (runs when India open), TG summary LONG section (1S), paper_trader LONG_BOUNCE_5m tf + bucket everywhere (SL below/TP above, own 1L), strategy_report LB suffix + defs. Tests: 4 new test_long_bounce.py + 343 total pass. Scanner dry-run clean. Committed+pushed.
+
+---
+
+### 2026-08-13 15:40 IST — verify_18f.py - dusre-AI 18-factor DIP LONG claims busted
+
+- Their 18F combo (3%/60m/vol2.2/RSI<30 + vw2+div+hammer+niftyUp+bb+red3+atr2x+rel15) = 1 TRADE in 800 stocks x 58 days (net -0.6%) - unactionable, their 76% win/7.45%/mo built on ~0 events. RSI<30 (their core) HURTS bounce (23.8% base -> 21.5%). Top100 claim BACKWARDS: my configs ALL800 +56.0%/+39.5% vs TOP100 +5.8%/-4.1% vs TOP50 +0.6%/-0.0% - large-caps kill DIP LONG edge. Bounce prob absolute is definition-sensitive (18-99% depending on same-day/every-bar vs unique events); relative: only vol2x(+4.8pp) VWAP-2%(+3.8pp) RSI-Div(+0.7pp) help, RSI30(-2.3pp) Hammer(-1.7pp) hurt. Keep my verified config B (3.5/90/vol2.5/RSI45+belowVWAP&down 70T +56.0% 54.3% win).
+
+---
+
+### 2026-08-13 15:32 IST — LONG-bounce NSE + US comparison (run_long_grids.py)
+
+- US tested now (us_fade_data_5m.npz, 129 stocks, 60 days, same schema). NSE best: C2(3.0/20/vol1.5/RSI35)+VWAP<=-2% = 157T +62.4% net; robust OOS-A(C1+belowVWAP&down): test 72.7% win +30.5%. US best: C2+rel15 = 136T +19.1% net (win 51.5%, base +17.9%) - MUCH weaker edge, large-cap universe. US OOS-B(C2+vw2): train +6.3% test +1.6%. Conclusion: LONG-bounce strong on NSE small/mid, weak on US large-cap. Files: long_grid_ext.py (module), run_long_grids.py, us_fade_data_ext_*.csv, long_grids_both.log
+
+---
+
+### 2026-08-13 15:23 IST — LONG-bounce extended factor check (long_grid_ext/combo/oos)
+
+- Verified dusre-AI ke 10 factors + 9 naye factor families on real 5m data. Single-factor sweep (60 cfg) + 2/3-way combos (~110 cfg) + OOS 38/20 split. Result: no new factor robustly beats original best (C1 3.5/90/vol2.5/RSI45/gap1.5/1030_1230 + below_vwap&vwap_down bool) - that config OOS: train 45.8% win/+25.5, test 72.7% win/+30.5 (BETTER OOS). vw2/rel15/vw15 help on some cores but config-dependent. hammer/bb_low/red3/voldl/rsidiv hurt in real SL/TP sim. Files: long_grid_ext.py, long_grid_ext_factors.csv, long_grid_ext_combos.csv, long_grid_oos.py
+
+---
+
 ### 2026-08-13 14:37 IST — Re-check found + fixed union-merge duplicates (13 Aug)
 
 - Second check found: union-merge (git merge=union) created duplicate trade rows when bot + live_pnl both exited the SAME trade concurrently (each wrote own reason string: 'Target Hit' vs '🎯 Target Hit (live)'). GARUDA +2511 and PVP -1122 appeared 2x - P&L double-counted (FADE net showed -5508, real -4510). FIXED: .ai/dedupe_csv.py dedupes by trade identity (Date/Time/Ticker/Direction/Entry/Qty/Exit/Status, ignores Reason); commit_logs.sh runs it after merge. Cleaned paper_trades.csv 96->91. SPY 5x verified distinct (different qty). 339 tests pass, CI green. GARUDA = first FADE WIN +2511 Target Hit! FADE today: 7 closed, net -4510 (expected pattern: 36-47% win rate RR 1:3).

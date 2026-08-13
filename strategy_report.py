@@ -152,6 +152,22 @@ def _load_strategy_defs():
                 "trades": v.get("trades_count", 0),
                 "cost_rt": 0.10,
             })
+    long_variants = getattr(config, "LONG_BOUNCE_VARIANTS", None)
+    if long_variants:
+        for v in long_variants:
+            defs.append({
+                "tf": "LONG_BOUNCE_5m",
+                "market": "NSE",
+                "ticker": "NSE",
+                "region": "INDIAN",
+                "rank": v["rank"],
+                "direction": "LONG",
+                "factors": v.get("factors", "Long Bounce"),
+                "backtest_wr": v.get("win_rate", 0),
+                "backtest_pnl": 56.0,
+                "trades": v.get("trades_count", 0),
+                "cost_rt": 0.10,
+            })
     elif getattr(config, "FADE_RANK", None):
         defs.append({
             "tf": "FADE_1h",
@@ -301,7 +317,8 @@ def _match_def(defs, tf, rank, ticker, direction, factors):
     # carry real tickers.
     _fade_ranks = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
     _usfade_ranks = {v["rank"] for v in getattr(config, "US_FADE_VARIANTS", [])}
-    if rank in (997, 998) or rank in _fade_ranks or rank in _usfade_ranks or \
+    _long_ranks = {v["rank"] for v in getattr(config, "LONG_BOUNCE_VARIANTS", [])}
+    if rank in (997, 998) or rank in _fade_ranks or rank in _usfade_ranks or rank in _long_ranks or \
             (getattr(config, "FADE_RANK", None) and rank == config.FADE_RANK):
         gd = [d for d in defs if d["tf"] == tf and d["rank"] == rank
               and d["direction"] == direction]
@@ -314,6 +331,8 @@ def _suffix(tf):
     """Strategy suffix used in labels AND sheet names (must stay in sync)."""
     if tf == "FADE_1h":
         return "FD"
+    if tf == "LONG_BOUNCE_5m":
+        return "LB"
     if tf == "US_FADE_5m":
         return "USFD"
     if tf == "INTRADAY_1h":
@@ -422,6 +441,7 @@ def generate_strategy_report(report_file=None):
     not_fired = []
     _fade_ranks_pre = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
     _fade_ranks_pre |= {v["rank"] for v in getattr(config, "US_FADE_VARIANTS", [])}
+    _fade_ranks_pre |= {v["rank"] for v in getattr(config, "LONG_BOUNCE_VARIANTS", [])}
     if getattr(config, "FADE_RANK", None):
         _fade_ranks_pre.add(config.FADE_RANK)
     for d in defs:

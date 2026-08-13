@@ -5,7 +5,8 @@
     "CRYPTO": 99963.86,
     "INTRADAY": 79368.62999999993,
     "FADE": 95489.79999999999,
-    "US_FADE": 100000.0
+    "US_FADE": 100000.0,
+    "LONG_BOUNCE": 100000.0
   },
   "open_positions": [
     {
@@ -412,5 +413,5 @@
     "FADE": -4510.2,
     "US_FADE": 0.0
   },
-  "total_capital": 576054.75
+  "total_capital": 676054.75
 }

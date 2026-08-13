@@ -24,8 +24,11 @@ INTRADAY_CAPITAL = 100000.0
 FADE_CAPITAL = 100000.0
 # US FADE (5m Big-Player-Exit on US large-caps) own ₹1L bucket (v5.18)
 US_FADE_CAPITAL = 100000.0
+# LONG-BOUNCE (NSE 5m dip-buy, verified v5.19) own ₹1L bucket
+LONG_BOUNCE_CAPITAL = 100000.0
 
-TOTAL_CAPITAL = sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL + US_FADE_CAPITAL  # ₹6,00,000
+TOTAL_CAPITAL = (sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL
+                 + US_FADE_CAPITAL + LONG_BOUNCE_CAPITAL)  # ₹7,00,000  # ₹6,00,000
 CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss
@@ -501,7 +504,38 @@ US_FADE_VARIANTS = [
 
 US_FADE_MAX_HOLD_HOURS = 6      # intraday: exit by ~15:30 ET if no SL/TP
 US_FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
-US_FADE_MIN_PRICE = 8.0         # skip penny stocks — matches backtest
+US_FADE_MIN_PRICE = 8.0
+# ── LONG-BOUNCE (v5.19): verified NSE 5m dip-buy — 1 variant ────────────────
+# Verified on real NSE 5m data (800 stocks x 58 days): drop 3.5%/90m + vol 2.5x
+# + RSI<=45 + below-VWAP & VWAP-down + NIFTY gap<=1.5 + 10:30-12:30 IST.
+#   70 trades, 54.3% win, +56.0% net; OOS last-20-days 72.7% win +30.5%.
+# Universe = same volatile small-cap list as NSE FADE (All800 >> Top100 verified).
+LONG_BOUNCE_UNIVERSE_FILE = FADE_UNIVERSE_FILE
+LONG_BOUNCE_VARIANTS = [
+    {
+        "key": "L1", "rank": 935, "interval": "5m", "period": "60d",
+        "drop_pct": 3.5, "dur_min": 90, "vol_mult": 2.5, "rsi_max": 45.0,
+        "gap_max": 1.5, "win": "1030_1230", "sl_pct": 0.015, "tp_pct": 0.0375,
+        "vwap": True, "vwap_down": True, "max_per_day": 5,
+        "win_rate": 54.3, "trades_count": 70,
+        "factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
+        "name": "Long Bounce L1 5m 3.5%/90m",
+    },
+]
+LONG_BOUNCE_RANK = LONG_BOUNCE_VARIANTS[0]["rank"]
+LONG_BOUNCE_INTERVAL = LONG_BOUNCE_VARIANTS[0]["interval"]
+LONG_BOUNCE_PERIOD = LONG_BOUNCE_VARIANTS[0]["period"]
+LONG_BOUNCE_DROP_PCT = LONG_BOUNCE_VARIANTS[0]["drop_pct"]
+LONG_BOUNCE_DUR_MIN = LONG_BOUNCE_VARIANTS[0]["dur_min"]
+LONG_BOUNCE_VOL_MULT = LONG_BOUNCE_VARIANTS[0]["vol_mult"]
+LONG_BOUNCE_RSI_MAX = LONG_BOUNCE_VARIANTS[0]["rsi_max"]
+LONG_BOUNCE_GAP_MAX = LONG_BOUNCE_VARIANTS[0]["gap_max"]
+LONG_BOUNCE_SL_PCT = LONG_BOUNCE_VARIANTS[0]["sl_pct"]
+LONG_BOUNCE_TP_PCT = LONG_BOUNCE_VARIANTS[0]["tp_pct"]
+LONG_BOUNCE_MAX_TRADES_PER_DAY = LONG_BOUNCE_VARIANTS[0]["max_per_day"]
+LONG_BOUNCE_MAX_HOLD_HOURS = 6      # intraday: exit by ~15:00 IST if no SL/TP
+LONG_BOUNCE_MIN_PRICE = 10.0
+         # skip penny stocks — matches backtest
 
 # Backward-compat aliases (S1 = live bot defaults)
 FADE_PERIOD = FADE_VARIANTS[0]["period"]
