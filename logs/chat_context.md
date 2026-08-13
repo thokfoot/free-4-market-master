@@ -5,7 +5,7 @@
 
 ---
 
-## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 12:29 IST)
+## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 12:30 IST)
 
 ### Portfolio (from logs/portfolio.json)
 | Bucket | Capital |
@@ -14,11 +14,11 @@
 | US | ₹101,232 |
 | CRYPTO | ₹99,964 |
 | INTRADAY | ₹79,369 |
-| FADE | ₹98,777 |
+| FADE | ₹95,306 |
 | US_FADE | ₹100,000 |
-| **TOTAL** | **₹579,342** |
+| **TOTAL** | **₹575,871** |
 
-- Total P&L: **₹-20,658** | Open: 22 | Closed: 68 | Wins 32 / Losses 35
+- Total P&L: **₹-24,129** | Open: 19 | Closed: 71 | Wins 32 / Losses 38
 
 ---
 
@@ -41,6 +41,14 @@
 ---
 
 ## 📜 SESSION HISTORY (most recent first)
+### 2026-08-13 12:30 IST — Chat-log system created
+
+- logs/chat_context.md stores full project state
+- python .ai/update_chat_log.py refreshes snapshot or appends entries
+- Committed ea6cc5b + pushed (remote verified)
+
+---
+
 
 ### 2026-08-13 — Session: FADE fixes + alerts + health check
 1. **FADE backtest-spec fixes (v5.18, commit 9105363):**
