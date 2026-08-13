@@ -1,0 +1,50 @@
+name: FADE SCAN (5-min)
+
+on:
+  schedule:
+    # India market hours 09:15-15:30 IST = 03:45-10:00 UTC. Every 5 min.
+    - cron: '*/5 3-9 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: free4market-fade-scan
+  cancel-in-progress: false
+
+jobs:
+  fade-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run FADE scan
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python bot.py --mode=fade 2>&1 | grep -vE 'Failed download|JSONDecodeError|Expecting value' || true
+
+      - name: Commit logs
+        run: |
+          git config --local user.email "fade-scan@paper-trade.com"
+          git config --local user.name "fade-scan-bot"
+          git add logs/ data/ *.csv *.json *.html *.xlsx 2>/dev/null || true
+          git diff --staged --quiet && echo "No changes to commit" && exit 0
+          git commit -m "fade scan $(date -u +'%Y-%m-%d %H:%M UTC')"
+          if ! git push; then
+            sleep 2
+            git pull --rebase
+            git push
+          fi

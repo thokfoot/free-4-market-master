@@ -894,7 +894,7 @@ def run_fade_scan() -> dict:
             skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
                                     "close": s["close"], "reason": "FADE_ALLOW_SHORT=False"})
             continue
-        entry_price = s["close"]
+        entry_price = s.get("entry_price") or s["close"]
         sl_price = entry_price * (1 + s.get("sl_pct", FADE_SL_PCT))
         tp_price = entry_price * (1 - s.get("tp_pct", FADE_TP_PCT))
         trade = enter_trade(
@@ -1018,7 +1018,7 @@ def run_fade_us_scan() -> dict:
             skipped_entries.append({"ticker": s["ticker"], "direction": "SHORT",
                                     "close": s["close"], "reason": "US_FADE_ALLOW_SHORT=False"})
             continue
-        entry_price = s["close"]
+        entry_price = s.get("entry_price") or s["close"]
         sl_price = entry_price * (1 + s.get("sl_pct", 0.010))
         tp_price = entry_price * (1 - s.get("tp_pct", 0.025))
         trade = enter_trade(

@@ -39,8 +39,9 @@ IST = pytz.timezone("Asia/Kolkata")
 BAR_SECONDS = {"1h": 3600, "15m": 900, "5m": 300, "1m": 60}
 # bar minutes per interval (for rolling-low shoot over dur_min)
 BAR_MINUTES = {"1h": 60, "15m": 15, "5m": 5, "1m": 1}
-# variant time windows in UTC minutes: 240-570 = 09:30-15:00 IST, 300-420 = 10:30-13:00 IST
-WINDOWS = {"0930_1500": (240, 570), "1030_1300": (300, 420)}
+# variant time windows in UTC minutes: 240-570 = 09:30-15:00 IST, 300-450 = 10:30-13:00 IST
+# (450 = 13:00 IST = 07:30 UTC — backtest spec says 10:30-13:00, fix from 420=12:30)
+WINDOWS = {"0930_1500": (240, 570), "1030_1300": (300, 450)}
 
 
 def wilder_rsi(close: pd.Series, period: int = 14) -> pd.Series:
@@ -95,10 +96,17 @@ def compute_fade_indicators(df: pd.DataFrame) -> pd.DataFrame:
     if isinstance(df.columns, pd.MultiIndex):
         df.columns = df.columns.get_level_values(0)
     df = df[~df.index.duplicated(keep="first")].sort_index()
-    df["VolAvg20"] = df["Volume"].rolling(20).mean()
+    df["_date"] = df.index.date
+    # Backtest spec: "avg(volume last 20 bars same timeframe, EXCLUDING current day)"
+    # Live rolling(20).mean() would include today's bars — that overstates baseline
+    # early in the day and understates the true prior-day volume level. Replicate the
+    # backtest exactly: baseline = mean of last 20 bars from PRIOR trading days only.
+    df["_dnum"] = pd.factorize(df["_date"])[0]  # 0=first day, 1=second, ...
+    _prior_vol = {d: df.loc[df["_dnum"] < d, "Volume"].tail(20).mean()
+                  for d in sorted(df["_dnum"].unique())}
+    df["VolAvg20"] = df["_dnum"].map(lambda d: _prior_vol.get(d, np.nan))
     df["RSI14"] = wilder_rsi(df["Close"])
     # per calendar day running high (cummax — no lookahead)
-    df["_date"] = df.index.date
     df["DayHighRun"] = df.groupby("_date")["High"].cummax()
     df["NearDayHigh98"] = df["Close"] >= df["DayHighRun"] * 0.98   # within 2% of running day high
     # previous day's high (from previous calendar day's full max)
@@ -246,6 +254,13 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
             sig_idx = _signal_candle_index(df, interval)
             last = df.iloc[sig_idx]
             close = float(last["Close"])
+            # Backtest: "SHORT next bar Open after signal (no delay)". The next
+            # completed candle after the signal candle has already opened when the
+            # scanner runs — use its OPEN as the fill price (no lookahead).
+            if sig_idx + 1 < len(df):
+                entry_price = float(df.iloc[sig_idx + 1]["Open"])
+            else:
+                entry_price = close
             if not np.isfinite(close) or close < FADE_MIN_PRICE:
                 continue
             vol_avg = last.get("VolAvg20", np.nan)
@@ -273,6 +288,7 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
                 "ticker": t, "direction": "SHORT",
                 "factors": v["factors"], "win_rate": v["win_rate"],
                 "trades_count": v["trades_count"], "close": close,
+                "entry_price": entry_price,
                 "interval": interval,
                 "sl_pct": v["sl_pct"], "tp_pct": v["tp_pct"],
                 "max_hold_hours": 5,

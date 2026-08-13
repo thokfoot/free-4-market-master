@@ -230,6 +230,11 @@ def scan_fade_us(limit: int = None, dry: bool = False) -> dict:
             sig_idx = _signal_candle_index(df, interval)
             last = df.iloc[sig_idx]
             close = float(last["Close"])
+            # Backtest: "SHORT next bar Open after signal" — fill at next bar's OPEN.
+            if sig_idx + 1 < len(df):
+                entry_price = float(df.iloc[sig_idx + 1]["Open"])
+            else:
+                entry_price = close
             if not np.isfinite(close) or close < US_FADE_MIN_PRICE:
                 continue
             vol_avg = last.get("VolAvg20", np.nan)
@@ -262,6 +267,7 @@ def scan_fade_us(limit: int = None, dry: bool = False) -> dict:
                 "ticker": t, "direction": "SHORT",
                 "factors": v["factors"], "win_rate": v["win_rate"],
                 "trades_count": v["trades_count"], "close": close,
+                "entry_price": entry_price,
                 "interval": interval,
                 "sl_pct": v["sl_pct"], "tp_pct": v["tp_pct"],
                 "max_hold_hours": US_FADE_MAX_HOLD_HOURS,
