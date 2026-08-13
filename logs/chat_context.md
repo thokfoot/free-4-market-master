@@ -5,7 +5,7 @@
 
 ---
 
-## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 14:04 IST)
+## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 14:20 IST)
 
 ### Portfolio (from logs/portfolio.json)
 | Bucket | Capital |
@@ -14,11 +14,11 @@
 | US | ₹101,232 |
 | CRYPTO | ₹99,964 |
 | INTRADAY | ₹79,369 |
-| FADE | ₹95,306 |
+| FADE | ₹94,101 |
 | US_FADE | ₹100,000 |
-| **TOTAL** | **₹575,871** |
+| **TOTAL** | **₹574,666** |
 
-- Total P&L: **₹-24,129** | Open: 19 | Closed: 71 | Wins 32 / Losses 38
+- Total P&L: **₹-25,334** | Open: 18 | Closed: 72 | Wins 32 / Losses 39
 
 ---
 
@@ -41,6 +41,12 @@
 ---
 
 ## 📜 SESSION HISTORY (most recent first)
+### 2026-08-13 14:20 IST — Fixed git push conflict issue (13 Aug)
+
+- Found real issue: scheduled FADE SCAN run (07:57 UTC) FAILED - git push conflict when bot/fade/gapdown/live_pnl workflows commit same logs simultaneously. Commit 70204cf was lost. No trade data lost (0 entries in that run). FIXED: (1) daily_scan files now mode-specific (daily_scan_{MODE}_{date}.json) - no JSON conflict between workflows; (2) .gitattributes *.csv merge=union - concurrent paper_trades.csv appends both survive; (3) shared .ai/commit_logs.sh robust commit (retry+rebase+merge fallback) used by all 4 workflows. 339 tests pass, CI green. KERNEX pending item CLOSED (SL hit -1.72%). FADE closed trades: 4/4 losses -4694 (expected: 36-47% win rate, RR 1:3).
+
+---
+
 ### 2026-08-13 14:04 IST — FADE trade verification complete (13 Aug)
 
 - Re-verified all FADE trades from independent data: (1) 10/10 fired signals valid at exact time (entry price = next-bar open, no lookahead); (2) 4 closed trades SL exits verified; (3) 37 skipped entries all 'Duplicate already open' = valid 1-stock-1-trade rule; (4) MODISONLTD H3 mystery solved - cut by per-variant daily cap (H3=2/day), weakest shoot lost; (5) G24 not firing was correct - AVROIND not near day-high (0.9492 < 0.98). Fixed logging gap: cap-cut signals now recorded in skipped_entries. Committed b768fb9/c2e6dc5, 339 tests pass.
