@@ -296,9 +296,21 @@ def _strategy_counts() -> dict:
     return counts
 
 
+def _compact_pnl(pnl: float) -> str:
+    """Compact P&L for a section line: `-31.9k` for thousands, `-₹36` below."""
+    sign = "+" if pnl >= 0 else "-"
+    a = abs(pnl)
+    if a >= 1000:
+        return f"{sign}{a/1000:.1f}k"
+    return f"{sign}₹{a:.0f}"
+
+
 def _country_summary_lines() -> list:
-    """Country-wise 14-day summary lines (matches user's requested format)
-    with per-section strategy counts appended."""
+    """Country-wise 14-day summary — compact 2-line blocks with strategy counts.
+
+    Line 1 (country total):  🇮🇳 INDIA (14D) [64S]: 14T | 0W/14L | -16.0% | -₹31,926
+    Line 2 (sections):       ├ INDI [27S]: 0T | ID-IND [2S]: 14T -31.9k | FADE [35S]: 0T
+    """
     stats = _section_stats()
     strat = _strategy_counts()
     lines = []
@@ -306,22 +318,29 @@ def _country_summary_lines() -> list:
             ("INDIA", ["INDI", "ID-IND", "FADE"], "🇮🇳"),
             ("USA", ["USA", "ID-US"], "🇺🇸"),
             ("CRYPTO", ["CRYP", "ID-₿"], "₿")):
-        lines.append(f"{flag} {country} (14 Days):")
         cT = cW = cL = 0
         cpnl = 0.0
-        for i, key in enumerate(sections):
+        total_s = sum(strat.get(k, 0) for k in sections)
+        sec_parts = []
+        for key in sections:
             s = stats[key]
             cT += s["T"]; cW += s["W"]; cL += s["L"]; cpnl += s["pnl"]
-            tree = _SECTION_TREE.get(key, "├")
-            ret = f"{s['ret_pct']:+.1f}%"
-            line = (f"{tree} {key} [{strat[key]}S]: {s['T']}T | "
-                    f"{s['W']}W/{s['L']}L | {ret}")
-            if s["T"] > 0:
-                sign = "+" if s["pnl"] >= 0 else "-"
-                line += f" | {sign}₹{abs(s['pnl']):,.0f}"
-            lines.append(line)
+            seg = f"{key} [{strat[key]}S]: {s['T']}T"
+            if s["T"] > 0 and s["pnl"] != 0:
+                if country == "USA":
+                    seg += " " + f"{s['ret_pct']:+.1f}%"
+                else:
+                    seg += " " + _compact_pnl(s["pnl"])
+            sec_parts.append(seg)
         c_ret = cpnl / 200000.0 * 100.0
-        lines.append(f"=> Total: {cT}T | {cW}W/{cL}L | {c_ret:+.1f}%")
+        pnl_sign = "+" if cpnl >= 0 else "-"
+        if abs(c_ret) < 0.05:
+            ret_txt = "-0%" if cpnl < 0 else "0%"
+        else:
+            ret_txt = f"{c_ret:+.1f}%"
+        lines.append(f"{flag} {country} (14D) [{total_s}S]: {cT}T | {cW}W/{cL}L | "
+                     f"{ret_txt} | {pnl_sign}₹{abs(cpnl):,.0f}")
+        lines.append("├ " + " | ".join(sec_parts))
     return lines
 
 
@@ -336,67 +355,77 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
                        scan_summary: dict = None,
                        current_prices: dict = None) -> list:
     """
-    Professional Telegram message(s) with everything embedded.
-    Returns a LIST of message strings (pages) for pagination.
-    Shows newest trades first.
+    Compact single-message Telegram summary (v5.17).
+
+    🤖 v5.17 | 13 Aug 02:52 | IND 🟡 PRE | US 🔴 | ₿ 🟢
+    📡 Data 39/444 ⚠️ | 6843 Strats 💤 | 6 Err 🔴
+    [🟢 BUY ... new-trade one-liners, only when entries fire]
+
+    🇮🇳 INDIA (14D) [64S]: 14T | 0W/14L | -16.0% | -₹31,926
+    ├ INDI [27S]: 0T | ID-IND [2S]: 14T -31.9k | FADE [35S]: 0T
+    🇺🇸 USA (14D) [211S]: 48T | 25W/11L | +6.1% | +₹12,145
+    ├ USA [172S]: 27T +0.5% | ID-US [39S]: 21T +11.6%
+    ₿ CRYPTO (14D) [41S]: 7T | 1W/3L | -0% | -₹59
+    ├ CRYP [29S]: 4T -₹36 | ID-₿ [12S]: 3T -₹23
+
+    💰 4.80L (-3.91%) | P&L -19.5k | Win 31/66 (47%) | Open 14
+    🏆 #52 +1979/trd | 👎 #998 -2710/trd
+
+    Returns a list of message strings (usually 1 page).
     """
-    MAX_CLOSED_PER_PAGE = 5   # Max closed trades per page
-    MAX_OPEN_PER_PAGE = 3      # Max open positions per page
-    TG_CHAR_LIMIT = 4000       # Telegram max chars per message
+    TG_CHAR_LIMIT = 4000
     ret_pct = ((cape - CAPITAL) / CAPITAL) * 100 if CAPITAL > 0 else 0
-    # Win-rate denominator = ALL closed trades (incl. breakeven), matching
-    # strategy_report.xlsx (wins / len(closed)). Fallback to wins+losses
-    # only when closed_count is not supplied.
     total_closed = closed_count if closed_count and closed_count > 0 else wins + losses
     win_rate = round(wins / total_closed * 100) if total_closed > 0 else 0
-    
-    # Return arrow & color indicator
+
     if ret_pct > 0:
-        arrow = "🟢"
         ret_sign = "+"
-    elif ret_pct < 0:
-        arrow = "🔴"
-        ret_sign = ""
     else:
-        arrow = "⚪"
         ret_sign = ""
-    
+
     lines = []
-    
+
     # ===== HEADER =====
+    try:
+        short_date = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d %b")
+    except Exception:
+        short_date = date_str
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
-    lines.append(f"🤖 *PAPER TRADE v5.12* | 🇮🇳🇺🇸₿ {date_str} {short_time}")
-    
-    # ===== MARKET STATUS =====
+    header = f"🤖 v5.17 | {short_date} {short_time}"
     if market_status:
-        lines.append("")
-        lines.append(market_status.get("message", ""))
-    
-    # ===== SCAN SUMMARY (always shown) =====
+        mkt_icon = {"OPEN": "🟢", "PRE-OPEN": "🟡 PRE", "CLOSED": "🔴",
+                    "WEEKEND": "⛔", "HOLIDAY": "🎉", "24/7": "🟢"}
+        parts = []
+        for key, name in (("INDIAN", "IND"), ("US", "US"), ("CRYPTO", "₿")):
+            st = market_status.get(key, "")
+            parts.append(f"{name} {mkt_icon.get(st, st)}")
+        header += " | " + " | ".join(parts)
+    lines.append(header)
+
+    # ===== SCAN SUMMARY (one line) =====
     if scan_summary:
         scanned = scan_summary.get("tickers_ok", 0)
         total_t = scan_summary.get("tickers_total", 0)
         strats_total = scan_summary.get("strategies_total", 0)
         strats_fired = scan_summary.get("strategies_fired", 0)
         errors = scan_summary.get("errors", 0)
-        summary_parts = []
+        parts = []
         if total_t > 0:
-            ok_icon = "✅" if errors == 0 else "⚠️"
-            summary_parts.append(f"📡 {ok_icon} Data {scanned}/{total_t} ok")
+            icon = "✅" if errors == 0 else "⚠️"
+            parts.append(f"📡 Data {scanned}/{total_t} {icon}")
         if strats_total > 0:
             if strats_fired > 0:
-                summary_parts.append(f"🎯 {strats_fired}/{strats_total} fired")
+                parts.append(f"🎯 {strats_fired}/{strats_total} Strats")
             else:
-                summary_parts.append(f"💤 0/{strats_total} strategies")
+                parts.append(f"{strats_total} Strats 💤")
         if errors > 0:
-            summary_parts.append(f"🔴 {errors} errors")
-        if summary_parts:
-            lines.append("  " + " | ".join(summary_parts))
-    
-    # ===== NEW TRADE ENTRIES =====
+            parts.append(f"{errors} Err 🔴")
+        if parts:
+            lines.append(" | ".join(parts))
+
+    # ===== NEW TRADES (compact one-liners, only when entries fire) =====
     if entries:
         lines.append("")
-        lines.append("━━━ *NEW TRADES* ━━━")
         for t in entries:
             action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL SHORT"
             rank_str = f" #{t.get('rank','')}" if t.get('rank') else ""
@@ -404,99 +433,31 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             tf_badge = {"FADE_1h": "⚡FD", "INTRADAY_1h": "⚡ID",
                         "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW"}.get(tf_tag, "")
             tf_txt = f" {tf_badge}" if tf_badge else ""
-            lines.append(
-                f"{action} `{t['ticker']}`{tf_txt}{rank_str}\n"
-                f"┣ Price: {round_price(t['close'])} | Qty: {t['qty']}\n"
-                f"┣ SL: {t['sl']} | TGT: {t['target']}"
-            )
-        lines.append("")    
-    # ===== CLOSED TRADES (Daily Trade Summary) — Latest First =====
-    if closed_msgs:
-        lines.append("━━━ *CLOSED TODAY* ━━━")
-        # Reverse to show newest first
-        reversed_closed = list(reversed(closed_msgs))
-        total_closed_count = len(reversed_closed)
-        shown_closed = reversed_closed[:MAX_CLOSED_PER_PAGE]
-        for c in shown_closed:
-            lines.append(f"✅ {c}")
-        if total_closed_count > MAX_CLOSED_PER_PAGE:
-            lines.append(f"*...and {total_closed_count - MAX_CLOSED_PER_PAGE} more*")
-        lines.append("")
-    
-    # ===== OPEN POSITIONS (count only — holdings detail omitted from TG) =====
-    if open_positions and len(open_positions) > 0:
-        lines.append(f"━━━ *OPEN POSITIONS* ━━━ {len(open_positions)} total")
-        lines.append("")
-    
-    # ===== PER-STRATEGY WIN RATE =====
-    if strategy_stats:
-        top = strategy_stats.get("top", [])
-        bottom = strategy_stats.get("bottom", [])
-        if top:
-            lines.append("━━━ *TOP STRATEGIES* ━━━")
-            for s in top:
-                icon = "🏆" if s["win_rate"] >= 70 else "👍"
-                lines.append(
-                    f"{icon} #{s['rank']} {s['win_rate']}% "
-                    f"({s['wins']}W/{s['losses']}L) "
-                    f"₹{s['avg_pnl']:+,.0f}/trd"
-                )
-            lines.append("")
-        if bottom:
-            lines.append("━━━ *WORST STRATEGIES* ━━━")
-            for s in bottom:
-                lines.append(
-                    f"👎 #{s['rank']} {s['win_rate']}% "
-                    f"({s['wins']}W/{s['losses']}L) "
-                    f"₹{s['avg_pnl']:+,.0f}/trd"
-                )
-            lines.append("")
-    
-    # ===== CAPITAL SUMMARY (country-wise, v5.16) =====
-    pnl_icon = "🟢" if total_pnl > 0 else ("🔴" if total_pnl < 0 else "⚪")
-    win_icon = "🏆" if win_rate >= 70 else ("👍" if win_rate >= 50 else "👎")
-    lines.append("━━━ *PORTFOLIO* ━━━")
-    lines.append(f"{arrow} *Capital:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%)")
+            lines.append(f"{action} `{t['ticker']}`{tf_txt}{rank_str} "
+                         f"@ {round_price(t['close'])} SL {t['sl']} TGT {t['target']}")
+
+    # ===== COUNTRY SUMMARY (14D) with strategy counts =====
     lines.append("")
-    for cl in _country_summary_lines():
-        lines.append(cl)
+    lines.extend(_country_summary_lines())
+
+    # ===== BOTTOM LINE + BEST/WORST =====
+    pnl_sign = "+" if total_pnl >= 0 else "-"
+    cap_lakhs = cape / 100000.0
     lines.append("")
-    lines.append(f"💰 *TOTAL:* Rs {cape:,.0f} ({ret_sign}{ret_pct:.2f}%) | "
-                 f"{pnl_icon} *P&L:* Rs {total_pnl:+,.0f} | {win_icon} *Win:* "
-                 f"{wins}/{total_closed} ({win_rate}%)")
-    lines.append(f"📊 *Open:* {open_count} | *Closed:* {closed_count} | "
-                 f"*Total:* {closed_count + open_count}")
-    
-    # Build full message
+    lines.append(f"💰 {cap_lakhs:.2f}L ({ret_sign}{ret_pct:.2f}%) | "
+                 f"P&L {pnl_sign}{abs(total_pnl)/1000:.1f}k | "
+                 f"Win {wins}/{total_closed} ({win_rate}%) | Open {open_count}")
+    if strategy_stats and strategy_stats.get("top") and strategy_stats.get("bottom"):
+        t = strategy_stats["top"][0]
+        b = strategy_stats["bottom"][0]
+        lines.append(f"🏆 #{t['rank']} {t['avg_pnl']:+.0f}/trd | "
+                     f"👎 #{b['rank']} {b['avg_pnl']:+.0f}/trd")
+
     full_msg = "\n".join(lines)
-    
-    # Split into pages if too long (by section boundaries)
-    sections = full_msg.split("\n━━━ *")
-    
-    pages = []
-    current_page = sections[0] if sections else ""
-    
-    for i, section in enumerate(sections[1:], 1):
-        section_with_header = "\n━━━ *" + section
-        if len(current_page) + len(section_with_header) > TG_CHAR_LIMIT:
-            pages.append(current_page.strip())
-            current_page = section_with_header
-        else:
-            current_page += section_with_header
-    
-    if current_page.strip():
-        pages.append(current_page.strip())
-    
-    # If still over limit (a single section is too long), truncate last page
-    pages = [p[:TG_CHAR_LIMIT] if len(p) > TG_CHAR_LIMIT else p for p in pages]
-    
-    # Add page indicator (Page 1/3) to each page except if only 1 page
-    if len(pages) > 1:
-        pages[0] = pages[0] + f"\n\n—— *Page 1/{len(pages)}* ——"
-        for i in range(1, len(pages)):
-            pages[i] = pages[i] + f"\n\n—— *Page {i+1}/{len(pages)}* ——"
-    
-    return pages
+    if len(full_msg) > TG_CHAR_LIMIT:
+        full_msg = full_msg[:TG_CHAR_LIMIT]
+    return [full_msg]
+
 
 def _save_swing_scan_date(date_str: str):
     """Save the date of the last completed swing scan."""
