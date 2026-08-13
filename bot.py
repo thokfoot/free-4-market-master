@@ -1200,6 +1200,45 @@ def run_gap_down_scan() -> dict:
     }
 
 
+
+MARKET_STATE_FILE = os.path.join("logs", "market_status_state.json")
+
+def check_market_transitions(mkt_status: dict) -> list:
+    """Detect market open/close transitions since last run and return alert lines.
+
+    Stores last-known status per market in logs/market_status_state.json so a
+    state change (e.g. PRE-OPEN -> OPEN, OPEN -> CLOSED) fires one Telegram alert
+    instead of spamming the same status on every 5-min scan.
+    """
+    alerts = []
+    try:
+        os.makedirs("logs", exist_ok=True)
+        last = {}
+        if os.path.exists(MARKET_STATE_FILE):
+            try:
+                with open(MARKET_STATE_FILE, "r", encoding="utf-8") as f:
+                    last = json.load(f)
+            except Exception:
+                last = {}
+        icons = {"OPEN": "🟢", "PRE-OPEN": "🟡 PRE", "CLOSED": "🔴",
+                 "WEEKEND": "⛔", "HOLIDAY": "🎉", "24/7": "🟢"}
+        names = {"INDIAN": "🇮🇳 India", "US": "🇺🇸 US", "CRYPTO": "₿ Crypto"}
+        for key in ("INDIAN", "US", "CRYPTO"):
+            st = mkt_status.get(key, "")
+            prev = last.get(key, "")
+            if prev and st and st != prev and key != "CRYPTO":
+                # Only alert on meaningful transitions (open/close/pre-open)
+                if "OPEN" in st or "OPEN" in prev or "PRE-OPEN" in prev:
+                    alerts.append(
+                        f"{names[key]} {icons.get(st, st)} ({st}) — was {prev}"
+                    )
+            last[key] = st
+        with open(MARKET_STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(last, f)
+    except Exception as e:
+        print(f"[Bot] Market transition check failed: {e}")
+    return alerts
+
 def main():
     """Main bot entry point. Supports --mode swing (default), intraday, both, or gapdown."""
     start_time = time.time()
@@ -1337,6 +1376,14 @@ def main():
     
     # Market status & stats
     mkt_status = get_market_status()
+    # ── Market open/close transition alerts (only on actual state change) ──
+    try:
+        _mkt_alerts = check_market_transitions(mkt_status)
+        if _mkt_alerts:
+            _mkt_msg = "🔔 *MARKET STATUS*\n" + "\n".join(_mkt_alerts)
+            send_telegram(_mkt_msg)
+    except Exception as _e:
+        print(f"[Bot] Transition alert failed: {_e}")
     strat_stats = get_strategy_stats(top_n=5)
     
     # Total signals count across all scans
@@ -1349,31 +1396,39 @@ def main():
         "errors": total_errors,
     }
     
-    # Telegram — now returns list of pages (paginated, newest first)
-    tg_pages = build_telegram_msg(
-        date_str, time_str, all_entries, all_closed,
-        total_cape, len(open_positions), total_pnl,
-        wins, losses, closed_cnt,
-        capital_by_market=cap_by_mkt,
-        open_positions=open_positions,
-        market_status=mkt_status,
-        strategy_stats=strat_stats,
-        scan_summary=scan_summary,
-        current_prices=current_prices,
-    )
-    tg_status_list = []
-    for page_idx, page_msg in enumerate(tg_pages):
-        status = send_telegram(page_msg)
-        tg_status_list.append(status)
-        if page_idx < len(tg_pages) - 1:
-            time.sleep(0.5)  # Small delay between pages
-    tg_status = "/".join(tg_status_list) if tg_status_list else "NoPages"
+    # ── Telegram gating: 5-min fade/gapdown scans only message on events.
+    #    Scheduled both/swing/intraday runs always send the summary. ──
+    _high_freq = mode in ("fade", "gapdown")
+    _meaningful = bool(all_entries) or bool(all_closed) or total_fired > 0
+    if _high_freq and not _meaningful:
+        tg_status = "Skipped (no events)"
+        print(f"[Bot] No events — skipping Telegram (mode={mode})")
+    else:
+        # Telegram — now returns list of pages (paginated, newest first)
+        tg_pages = build_telegram_msg(
+            date_str, time_str, all_entries, all_closed,
+            total_cape, len(open_positions), total_pnl,
+            wins, losses, closed_cnt,
+            capital_by_market=cap_by_mkt,
+            open_positions=open_positions,
+            market_status=mkt_status,
+            strategy_stats=strat_stats,
+            scan_summary=scan_summary,
+            current_prices=current_prices,
+        )
+        tg_status_list = []
+        for page_idx, page_msg in enumerate(tg_pages):
+            status = send_telegram(page_msg)
+            tg_status_list.append(status)
+            if page_idx < len(tg_pages) - 1:
+                time.sleep(0.5)  # Small delay between pages
+        tg_status = "/".join(tg_status_list) if tg_status_list else "NoPages"
     
-    # Portfolio report document
-    if os.path.exists(PORTFOLIO_REPORT_FILE):
-        doc_caption = f"📊 *Full Portfolio Report* — {date_str}\n"
-        doc_caption += "Download & open in browser for beautiful formatted view"
-        send_telegram_document(PORTFOLIO_REPORT_FILE, caption=doc_caption)
+        # Portfolio report document
+        if os.path.exists(PORTFOLIO_REPORT_FILE):
+            doc_caption = f"📊 *Full Portfolio Report* — {date_str}\n"
+            doc_caption += "Download & open in browser for beautiful formatted view"
+            send_telegram_document(PORTFOLIO_REPORT_FILE, caption=doc_caption)
     
     # Log scan data
     fired_patterns = []
