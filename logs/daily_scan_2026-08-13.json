@@ -1800,6 +1800,1258 @@
       },
       "telegram_status": "Sent",
       "duration_sec": 8.7
+    },
+    {
+      "time": "12:17:04 IST",
+      "mode": "FADE",
+      "tickers_scanned": [
+        "MANAKSTEEL.NS",
+        "GARUDA.NS",
+        "LT.NS",
+        "PRECWIRE.NS",
+        "AVROIND.NS",
+        "PVP.NS",
+        "SALSTEEL.NS",
+        "BDL.NS",
+        "RPEL.NS",
+        "KERNEX.NS"
+      ],
+      "market_close": {
+        "MANAKSTEEL.NS": 86.87999725341797,
+        "GARUDA.NS": 187.10000610351562,
+        "LT.NS": 4046.89990234375,
+        "PRECWIRE.NS": 463.04998779296875,
+        "AVROIND.NS": 9.399999618530273,
+        "PVP.NS": 35.97999954223633,
+        "SALSTEEL.NS": 68.8499984741211,
+        "BDL.NS": 1372.9000244140625,
+        "RPEL.NS": 1364.0,
+        "KERNEX.NS": 2351.699951171875
+      },
+      "patterns_count": 7760,
+      "patterns_fired": 43,
+      "fired_patterns": [
+        {
+          "rank": 900,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+          "win_rate": 39.38,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.11,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.11,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 15.62,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 84935,
+            "VolAvg20": 35144.0,
+            "RSI14": 71.3,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 15.62,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 904,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+          "win_rate": 41.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 71247,
+            "VolAvg20": 11657.0,
+            "RSI14": 74.2,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 904,
+          "market": "NSE",
+          "ticker": "SALSTEEL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+          "win_rate": 41.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 68.7,
+            "Volume": 31097,
+            "VolAvg20": 18345.0,
+            "RSI14": 69.6,
+            "Shoot_pct": 2.4,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 904,
+          "market": "NSE",
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+          "win_rate": 41.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1364.3,
+            "Volume": 5179,
+            "VolAvg20": 683.0,
+            "RSI14": 67.0,
+            "Shoot_pct": 1.7,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 904,
+          "market": "NSE",
+          "ticker": "BDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+          "win_rate": 41.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1373.2,
+            "Volume": 245983,
+            "VolAvg20": 30020.0,
+            "RSI14": 70.6,
+            "Shoot_pct": 2.12,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 84935,
+            "VolAvg20": 35144.0,
+            "RSI14": 71.3,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 907,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 43.76,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 908,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+          "win_rate": 42.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 71247,
+            "VolAvg20": 11657.0,
+            "RSI14": 74.2,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 908,
+          "market": "NSE",
+          "ticker": "BDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+          "win_rate": 42.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1373.2,
+            "Volume": 245983,
+            "VolAvg20": 30020.0,
+            "RSI14": 70.6,
+            "Shoot_pct": 2.12,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 912,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G3: 15m +4.0%/30m vol2.0x RSI70",
+          "win_rate": 39.77,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 918,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G9: 15m +3.5%/30m vol2.0x RSI70",
+          "win_rate": 42.86,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 920,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+          "win_rate": 47.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 920,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+          "win_rate": 47.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 4.65,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 921,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+          "win_rate": 46.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 922,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+          "win_rate": 42.24,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 922,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+          "win_rate": 42.24,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 4.65,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 923,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+          "win_rate": 38.58,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 923,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+          "win_rate": 38.58,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 4.65,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.11,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 6.04,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 926,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G17: 15m +3.5%/30m vol3.0x RSI75",
+          "win_rate": 39.35,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 7.8,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 84935,
+            "VolAvg20": 35144.0,
+            "RSI14": 71.3,
+            "Shoot_pct": 3.57,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.11,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 6.04,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 84935,
+            "VolAvg20": 35144.0,
+            "RSI14": 71.3,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 6.04,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.11,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2354.0,
+            "Volume": 571830,
+            "VolAvg20": 20442.0,
+            "RSI14": 60.8,
+            "Shoot_pct": 6.04,
+            "NearDayHigh": false,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 996,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+          "win_rate": 41.6,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 569244,
+            "VolAvg20": 46313.0,
+            "RSI14": 69.7,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 995,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+          "win_rate": 43.3,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 531256,
+            "VolAvg20": 253669.0,
+            "RSI14": 64.7,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 994,
+          "market": "NSE",
+          "ticker": "MODISONLTD.NS",
+          "direction": "SHORT",
+          "factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
+          "win_rate": 43.9,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 320.0,
+            "Volume": 44535,
+            "VolAvg20": 14488.0,
+            "RSI14": 72.1,
+            "Shoot_pct": 3.06,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 994,
+          "market": "NSE",
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
+          "win_rate": 43.9,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 35.97,
+            "Volume": 531256,
+            "VolAvg20": 253669.0,
+            "RSI14": 64.7,
+            "Shoot_pct": 3.96,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 994,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
+          "win_rate": 43.9,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 569244,
+            "VolAvg20": 46313.0,
+            "RSI14": 69.7,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 993,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+          "win_rate": 41.3,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 569244,
+            "VolAvg20": 46313.0,
+            "RSI14": 69.7,
+            "Shoot_pct": 11.64,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        },
+        {
+          "rank": 992,
+          "market": "NSE",
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "factors": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
+          "win_rate": 39.7,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 9.4,
+            "Volume": 350985,
+            "VolAvg20": 15027.0,
+            "RSI14": 86.0,
+            "Shoot_pct": 3.75,
+            "NearDayHigh": false,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.02
+          }
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "qty": 10975,
+          "sl": 9.49,
+          "target": 9.12,
+          "rank": 900,
+          "win_rate": 39.38,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "qty": 2195,
+          "sl": 36.41,
+          "target": 34.9,
+          "rank": 903,
+          "win_rate": 45.41,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "SALSTEEL.NS",
+          "direction": "SHORT",
+          "close": 68.8499984741211,
+          "qty": 1936,
+          "sl": 69.33,
+          "target": 67.4,
+          "rank": 904,
+          "win_rate": 41.68,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "BDL.NS",
+          "direction": "SHORT",
+          "close": 1372.9000244140625,
+          "qty": 95,
+          "sl": 1382.51,
+          "target": 1344.07,
+          "rank": 904,
+          "win_rate": 41.68,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "close": 1364.0,
+          "qty": 96,
+          "sl": 1373.55,
+          "target": 1335.36,
+          "rank": 904,
+          "win_rate": 41.68,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "qty": 27,
+          "sl": 2386.98,
+          "target": 2281.15,
+          "rank": 920,
+          "win_rate": 47.68,
+          "tf": "FADE_1h"
+        }
+      ],
+      "skipped_entries": [
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 901,
+          "win_rate": 40.54,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 902,
+          "win_rate": 42.84,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 904,
+          "win_rate": 41.68,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 907,
+          "win_rate": 43.76,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 908,
+          "win_rate": 42.48,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "BDL.NS",
+          "direction": "SHORT",
+          "close": 1372.9000244140625,
+          "rank": 908,
+          "win_rate": 42.48,
+          "reason": "Duplicate BDL.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 909,
+          "win_rate": 41.29,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 912,
+          "win_rate": 39.77,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 918,
+          "win_rate": 42.86,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 920,
+          "win_rate": 47.68,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 921,
+          "win_rate": 46.09,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 922,
+          "win_rate": 42.24,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "rank": 922,
+          "win_rate": 42.24,
+          "reason": "Duplicate KERNEX.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 923,
+          "win_rate": 38.58,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "rank": 923,
+          "win_rate": 38.58,
+          "reason": "Duplicate KERNEX.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 924,
+          "win_rate": 41.18,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "rank": 924,
+          "win_rate": 41.18,
+          "reason": "Duplicate KERNEX.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 926,
+          "win_rate": 39.35,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate KERNEX.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate KERNEX.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 930,
+          "win_rate": 37.55,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "KERNEX.NS",
+          "direction": "SHORT",
+          "close": 2351.699951171875,
+          "rank": 930,
+          "win_rate": 37.55,
+          "reason": "Duplicate KERNEX.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 996,
+          "win_rate": 41.6,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 995,
+          "win_rate": 43.3,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 994,
+          "win_rate": 43.9,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "PVP.NS",
+          "direction": "SHORT",
+          "close": 35.97999954223633,
+          "rank": 994,
+          "win_rate": 43.9,
+          "reason": "Duplicate PVP.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 993,
+          "win_rate": 41.3,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        },
+        {
+          "ticker": "AVROIND.NS",
+          "direction": "SHORT",
+          "close": 9.399999618530273,
+          "rank": 992,
+          "win_rate": 39.7,
+          "reason": "Duplicate AVROIND.NS SHORT already open"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 101232.46000000002,
+          "CRYPTO": 99963.86,
+          "INTRADAY": 79368.62999999993,
+          "FADE": 98776.64,
+          "US_FADE": 100000.0
+        },
+        "total_capital": 579341.59,
+        "open_count": 22,
+        "total_pnl": -20658.41,
+        "closed_count": 68,
+        "wins": 32,
+        "losses": 35
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 95.4
     }
   ],
   "latest_portfolio": {
@@ -1808,14 +3060,14 @@
       "US": 101232.46000000002,
       "CRYPTO": 99963.86,
       "INTRADAY": 79368.62999999993,
-      "FADE": 100000.0,
+      "FADE": 98776.64,
       "US_FADE": 100000.0
     },
-    "total_capital": 580564.95,
-    "open_count": 17,
-    "total_pnl": -19435.05,
-    "closed_count": 67,
+    "total_capital": 579341.59,
+    "open_count": 22,
+    "total_pnl": -20658.41,
+    "closed_count": 68,
     "wins": 32,
-    "losses": 34
+    "losses": 35
   }
 }

@@ -197,5 +197,14 @@
     "total_pnl": 194.6,
     "consec_losses": 0,
     "paused_since": null
+  },
+  "933": {
+    "rank": 933,
+    "factors": "#933ID Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1223.36,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }
