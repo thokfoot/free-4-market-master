@@ -172,6 +172,8 @@ def _variant_fired(last, v: dict, gap: float, shoot_val: float, utc_min: int) ->
         return False
     if v.get("dh") and not bool(last.get("NearDayHigh98", False)):
         return False
+    if v.get("ph") and not bool(last.get("BrkPrevHigh", False)):
+        return False
     if v.get("gap_max") is not None:
         if not np.isfinite(gap) or abs(gap) > v["gap_max"]:
             return False
@@ -259,6 +261,7 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
                 else f"Vol {vol/vol_avg:.1f}x (<{v['vol_mult']})" if np.isfinite(vol_avg) and vol_avg > 0 and vol < vol_avg * v["vol_mult"]
                 else f"RSI {rsi:.0f} (<{v['rsi_min']})" if np.isfinite(rsi) and rsi < v["rsi_min"]
                 else f"No day-high" if v.get("dh") and not bool(last.get("NearDayHigh98", False))
+                else f"No prev-high break" if v.get("ph") and not bool(last.get("BrkPrevHigh", False))
                 else f"Gap skip {gap:+.2f}%" if v.get("gap_max") is not None and np.isfinite(gap) and abs(gap) > v["gap_max"]
                 else f"Window skip (UTC {utc_min // 60:02d}:{utc_min % 60:02d})"
                 if not (WINDOWS.get(v.get("win", "0930_1500"), (240, 570))[0] <= utc_min <

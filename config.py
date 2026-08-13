@@ -402,6 +402,47 @@ FADE_VARIANTS = [
         "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
         "name": "Fade G25 15m 3.5%/60m",
     },
+    # ── Legacy 1h FADE family (v5.12-v5.14, re-added per user request) ──
+    {
+        "key": "H1", "rank": 996, "interval": "1h", "period": "3mo",
+        "shoot_pct": 3.5, "dur_min": 60, "vol_mult": 2.2, "rsi_min": 65.0,
+        "gap_max": 1.5, "win": "0930_1500", "sl_pct": 0.013, "tp_pct": 0.039, "dh": False, "ph": True,
+        "max_per_day": 2, "win_rate": 41.6, "trades_count": 3028,
+        "factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+        "name": "Fade H1 1h 3.5% prev-high",
+    },
+    {
+        "key": "H2", "rank": 995, "interval": "1h", "period": "3mo",
+        "shoot_pct": 3.5, "dur_min": 60, "vol_mult": 1.8, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.015, "tp_pct": 0.0375, "dh": True, "ph": False,
+        "max_per_day": 2, "win_rate": 43.3, "trades_count": 704,
+        "factors": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+        "name": "Fade H2 1h 3.5% near-high",
+    },
+    {
+        "key": "H3", "rank": 994, "interval": "1h", "period": "3mo",
+        "shoot_pct": 3.0, "dur_min": 60, "vol_mult": 1.2, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.014, "tp_pct": 0.0392, "dh": False, "ph": False,
+        "max_per_day": 2, "win_rate": 43.9, "trades_count": 763,
+        "factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
+        "name": "Fade H3 1h 3.0% loose",
+    },
+    {
+        "key": "H4", "rank": 993, "interval": "1h", "period": "3mo",
+        "shoot_pct": 4.0, "dur_min": 60, "vol_mult": 2.2, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.014, "tp_pct": 0.0308, "dh": False, "ph": True,
+        "max_per_day": 2, "win_rate": 41.3, "trades_count": 849,
+        "factors": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+        "name": "Fade H4 1h 4.0% prev-high",
+    },
+    {
+        "key": "H5", "rank": 992, "interval": "15m", "period": "60d",
+        "shoot_pct": 2.0, "dur_min": 15, "vol_mult": 2.2, "rsi_min": 75.0,
+        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.010, "tp_pct": 0.030, "dh": False, "ph": False,
+        "max_per_day": 5, "win_rate": 39.7, "trades_count": 151,
+        "factors": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
+        "name": "Fade H5 15m legacy S5",
+    },
 ]
 
 # Backward-compat aliases (S1 = live bot defaults)
