@@ -401,13 +401,24 @@ def generate_strategy_report(report_file=None):
         if (d["tf"], d["rank"], d["ticker"], d["direction"]) in groups:
             fired_keys.add((d["tf"], d["rank"], d["ticker"]))
     not_fired = []
+    _fade_ranks_pre = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
+    if getattr(config, "FADE_RANK", None):
+        _fade_ranks_pre.add(config.FADE_RANK)
     for d in defs:
         key = (d["tf"], d["rank"], d["ticker"], d["direction"])
         if key in groups:
             continue
         ticker = d["ticker"]
         rk = d["rank"]
-        if ticker not in scanned:
+        if rk in _fade_ranks_pre:
+            # FADE family: def ticker is the 'NSE' placeholder; signals carry real
+            # NSE tickers, so match on rank+direction only.
+            if any(r == rk and str(dir_).upper() == str(d["direction"]).upper()
+                   for (r, _, dir_) in fired):
+                reason = "Fired in scan but never entered"
+            else:
+                reason = "Fade universe scanned - pattern never matched"
+        elif ticker not in scanned:
             reason = "Ticker never scanned in any run"
         elif (rk, ticker, d["direction"]) in fired:
             sk = [s for s in skipped if s["ticker"] == ticker and s["rank"] == rk
@@ -423,8 +434,7 @@ def generate_strategy_report(report_file=None):
     _fade_ranks = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
     if getattr(config, "FADE_RANK", None):
         _fade_ranks.add(config.FADE_RANK)
-    unfired = [d for d in not_fired if d["rank"] not in (997, 998)
-               and d["rank"] not in _fade_ranks]
+    unfired = [d for d in not_fired if d["rank"] not in (997, 998)]
     unfired.sort(key=lambda d: d["backtest_wr"], reverse=True)
 
     # ══════════════ BUILD WORKBOOK ══════════════
