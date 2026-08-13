@@ -3052,6 +3052,35 @@
       },
       "telegram_status": "Sent",
       "duration_sec": 95.4
+    },
+    {
+      "time": "13:29:37 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 0,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 101232.46000000002,
+          "CRYPTO": 99963.86,
+          "INTRADAY": 79368.62999999993,
+          "FADE": 95305.85999999999,
+          "US_FADE": 100000.0
+        },
+        "total_capital": 575870.8099999999,
+        "open_count": 19,
+        "total_pnl": -24129.19,
+        "closed_count": 71,
+        "wins": 32,
+        "losses": 38
+      },
+      "telegram_status": "Skipped (no events)",
+      "duration_sec": 7.4
     }
   ],
   "latest_portfolio": {
@@ -3060,14 +3089,14 @@
       "US": 101232.46000000002,
       "CRYPTO": 99963.86,
       "INTRADAY": 79368.62999999993,
-      "FADE": 98776.64,
+      "FADE": 95305.85999999999,
       "US_FADE": 100000.0
     },
-    "total_capital": 579341.59,
-    "open_count": 22,
-    "total_pnl": -20658.41,
-    "closed_count": 68,
+    "total_capital": 575870.8099999999,
+    "open_count": 19,
+    "total_pnl": -24129.19,
+    "closed_count": 71,
     "wins": 32,
-    "losses": 35
+    "losses": 38
   }
 }
