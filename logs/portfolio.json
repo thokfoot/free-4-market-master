@@ -4,7 +4,7 @@
     "US": 101232.46000000002,
     "CRYPTO": 99963.86,
     "INTRADAY": 79368.62999999993,
-    "FADE": 95305.85999999999,
+    "FADE": 94100.79999999999,
     "US_FADE": 100000.0
   },
   "open_positions": [
@@ -421,42 +421,19 @@
       "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
       "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
       "Signal_Indicators": "{\"Close\": 1373.2, \"Volume\": 245983, \"VolAvg20\": 30020.0, \"RSI14\": 70.6, \"Shoot_pct\": 2.12, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
-    },
-    {
-      "Date": "2026-08-13",
-      "Time_IST": "12:18:37 IST",
-      "Mode": "INDIAN",
-      "Ticker": "RPEL.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 1363.32,
-      "Qty": 96,
-      "SL": 1373.55,
-      "Target": 1335.36,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 1364.3, \"Volume\": 5179, \"VolAvg20\": 683.0, \"RSI14\": 67.0, \"Shoot_pct\": 1.7, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
     }
   ],
-  "closed_count": 71,
+  "closed_count": 72,
   "total_wins": 32,
-  "total_losses": 38,
-  "total_pnl": -24129.19,
+  "total_losses": 39,
+  "total_pnl": -25334.25,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 1232.4599999999998,
     "CRYPTO": -36.14,
     "INTRADAY": -20631.370000000006,
-    "FADE": -4694.139999999999,
+    "FADE": -5899.2,
     "US_FADE": 0.0
   },
-  "total_capital": 575870.8099999999
+  "total_capital": 574665.75
 }
