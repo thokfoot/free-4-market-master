@@ -5,7 +5,7 @@
 
 ---
 
-## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 12:30 IST)
+## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 14:04 IST)
 
 ### Portfolio (from logs/portfolio.json)
 | Bucket | Capital |
@@ -41,6 +41,12 @@
 ---
 
 ## 📜 SESSION HISTORY (most recent first)
+### 2026-08-13 14:04 IST — FADE trade verification complete (13 Aug)
+
+- Re-verified all FADE trades from independent data: (1) 10/10 fired signals valid at exact time (entry price = next-bar open, no lookahead); (2) 4 closed trades SL exits verified; (3) 37 skipped entries all 'Duplicate already open' = valid 1-stock-1-trade rule; (4) MODISONLTD H3 mystery solved - cut by per-variant daily cap (H3=2/day), weakest shoot lost; (5) G24 not firing was correct - AVROIND not near day-high (0.9492 < 0.98). Fixed logging gap: cap-cut signals now recorded in skipped_entries. Committed b768fb9/c2e6dc5, 339 tests pass.
+
+---
+
 ### 2026-08-13 12:30 IST — Chat-log system created
 
 - logs/chat_context.md stores full project state
