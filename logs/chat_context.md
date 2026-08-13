@@ -5,7 +5,7 @@
 
 ---
 
-## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 14:20 IST)
+## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 14:37 IST)
 
 ### Portfolio (from logs/portfolio.json)
 | Bucket | Capital |
@@ -14,11 +14,11 @@
 | US | ₹101,232 |
 | CRYPTO | ₹99,964 |
 | INTRADAY | ₹79,369 |
-| FADE | ₹94,101 |
+| FADE | ₹95,490 |
 | US_FADE | ₹100,000 |
-| **TOTAL** | **₹574,666** |
+| **TOTAL** | **₹576,055** |
 
-- Total P&L: **₹-25,334** | Open: 18 | Closed: 72 | Wins 32 / Losses 39
+- Total P&L: **₹-23,945** | Open: 17 | Closed: 74 | Wins 33 / Losses 40
 
 ---
 
@@ -41,6 +41,12 @@
 ---
 
 ## 📜 SESSION HISTORY (most recent first)
+### 2026-08-13 14:37 IST — Re-check found + fixed union-merge duplicates (13 Aug)
+
+- Second check found: union-merge (git merge=union) created duplicate trade rows when bot + live_pnl both exited the SAME trade concurrently (each wrote own reason string: 'Target Hit' vs '🎯 Target Hit (live)'). GARUDA +2511 and PVP -1122 appeared 2x - P&L double-counted (FADE net showed -5508, real -4510). FIXED: .ai/dedupe_csv.py dedupes by trade identity (Date/Time/Ticker/Direction/Entry/Qty/Exit/Status, ignores Reason); commit_logs.sh runs it after merge. Cleaned paper_trades.csv 96->91. SPY 5x verified distinct (different qty). 339 tests pass, CI green. GARUDA = first FADE WIN +2511 Target Hit! FADE today: 7 closed, net -4510 (expected pattern: 36-47% win rate RR 1:3).
+
+---
+
 ### 2026-08-13 14:20 IST — Fixed git push conflict issue (13 Aug)
 
 - Found real issue: scheduled FADE SCAN run (07:57 UTC) FAILED - git push conflict when bot/fade/gapdown/live_pnl workflows commit same logs simultaneously. Commit 70204cf was lost. No trade data lost (0 entries in that run). FIXED: (1) daily_scan files now mode-specific (daily_scan_{MODE}_{date}.json) - no JSON conflict between workflows; (2) .gitattributes *.csv merge=union - concurrent paper_trades.csv appends both survive; (3) shared .ai/commit_logs.sh robust commit (retry+rebase+merge fallback) used by all 4 workflows. 339 tests pass, CI green. KERNEX pending item CLOSED (SL hit -1.72%). FADE closed trades: 4/4 losses -4694 (expected: 36-47% win rate, RR 1:3).
