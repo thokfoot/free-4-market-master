@@ -4146,5 +4146,41 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "skip_reason": "Duplicate PRECWIRE.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-13 16:52:46 IST",
+    "entry_datetime": "2026-08-13 11:37:26 IST",
+    "mode": "INDIAN",
+    "ticker": "MANAKSTEEL.NS",
+    "direction": "SHORT",
+    "entry_price": 86.84,
+    "exit_price": 85.46,
+    "qty": 925,
+    "pnl": 1177.6,
+    "pnl_pct": 1.47,
+    "hold": "5h 15m",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-13 16:52:46 IST",
+    "entry_datetime": "2026-08-13 11:37:26 IST",
+    "mode": "INDIAN",
+    "ticker": "LT.NS",
+    "direction": "SHORT",
+    "entry_price": 4052.97,
+    "exit_price": 4072.74,
+    "qty": 32,
+    "pnl": -788.12,
+    "pnl_pct": -0.61,
+    "hold": "5h 15m",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | Expiry 5h"
   }
 ]

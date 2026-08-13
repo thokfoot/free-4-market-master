@@ -4,7 +4,7 @@
     "US": 101232.46000000002,
     "CRYPTO": 99963.86,
     "INTRADAY": 79368.62999999993,
-    "FADE": 95489.79999999999,
+    "FADE": 95879.28,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0
   },
@@ -310,52 +310,6 @@
     },
     {
       "Date": "2026-08-13",
-      "Time_IST": "11:37:26 IST",
-      "Mode": "INDIAN",
-      "Ticker": "MANAKSTEEL.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 86.84,
-      "Qty": 925,
-      "SL": 87.92,
-      "Target": 84.27,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 903,
-      "Expected_WinRate": 45.41,
-      "Pattern_Factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Signal_Indicators": "{\"Close\": 86.88, \"Volume\": 20981, \"VolAvg20\": 5402.0, \"RSI14\": 66.2, \"Shoot_pct\": 3.22, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": -0.02}"
-    },
-    {
-      "Date": "2026-08-13",
-      "Time_IST": "11:37:26 IST",
-      "Mode": "INDIAN",
-      "Ticker": "LT.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 4052.97,
-      "Qty": 32,
-      "SL": 4083.38,
-      "Target": 3969.84,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 4055.0, \"Volume\": 135458, \"VolAvg20\": 27788.0, \"RSI14\": 80.1, \"Shoot_pct\": 1.63, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
-    },
-    {
-      "Date": "2026-08-13",
       "Time_IST": "12:18:37 IST",
       "Mode": "INDIAN",
       "Ticker": "BDL.NS",
@@ -401,17 +355,18 @@
       "Signal_Indicators": "{\"Close\": 469.5, \"Volume\": 701679, \"VolAvg20\": 17275.0, \"RSI14\": 74.4, \"Shoot_pct\": 2.29, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.02}"
     }
   ],
-  "closed_count": 74,
-  "total_wins": 33,
-  "total_losses": 40,
-  "total_pnl": -23945.25,
+  "closed_count": 76,
+  "total_wins": 34,
+  "total_losses": 41,
+  "total_pnl": -23555.77,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 1232.4599999999998,
     "CRYPTO": -36.14,
     "INTRADAY": -20631.370000000006,
-    "FADE": -4510.2,
-    "US_FADE": 0.0
+    "FADE": -4120.72,
+    "US_FADE": 0.0,
+    "LONG_BOUNCE": 0.0
   },
-  "total_capital": 676054.75
+  "total_capital": 676444.23
 }
