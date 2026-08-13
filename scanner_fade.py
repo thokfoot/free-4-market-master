@@ -215,6 +215,7 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
     period_map = {v["interval"]: v["period"] for v in FADE_VARIANTS}
     ticker_data = {}
     scan_errors = 0
+    skipped_entries = []
     for interval in intervals_needed:
         period = period_map.get(interval, "60d")
         with ThreadPoolExecutor(max_workers=8) as pool:
@@ -306,11 +307,19 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
         # rank fired by signal strength; per-run bound = variant daily cap
         v_fired = [s for s in v_signals if s["fired"]]
         v_fired.sort(key=lambda s: -abs(s["signal_indicators"].get("Shoot_pct") or 0))
+        cap_cut = v_fired[v["max_per_day"]:]
         v_fired = v_fired[:v["max_per_day"]]
         signals.extend(v_signals)
         fired.extend(v_fired)
+        for c in cap_cut:
+            skipped_entries.append({
+                "ticker": c["ticker"], "direction": "SHORT",
+                "close": c["close"], "rank": c["rank"],
+                "win_rate": c.get("win_rate"),
+                "reason": f"Variant daily cap ({v['key']} #{v['rank']}: {v['max_per_day']}/day) - stronger signals took slots",
+            })
         print(f"[Fade] {v['key']} #{v['rank']} {v['interval']}: "
-              f"signals {len(v_signals)}, fired {len(v_fired)} (per-run cap {v['max_per_day']})")
+              f"signals {len(v_signals)}, fired {len(v_fired)}, cap-cut {len(cap_cut)} (per-run cap {v['max_per_day']})")
 
     if dry:
         print("[Fade] DRY RUN — no entries will be made")
@@ -325,7 +334,7 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
         "fired_signals": fired,
         "best_entries": fired,
         "entries": [],
-        "skipped_entries": [],
+        "skipped_entries": skipped_entries,
         "closed_msgs": [],
         "scan_errors": scan_errors,
         "duration": (datetime.now(IST) - start).total_seconds(),
