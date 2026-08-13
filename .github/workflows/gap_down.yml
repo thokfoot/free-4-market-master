@@ -43,8 +43,4 @@ jobs:
 
       - name: Commit logs
         run: |
-          git config --local user.email "bot@gapdown.v5"
-          git config --local user.name "GapDown Bot"
-          git add logs/
-          git diff --staged --quiet || git commit -m "gapdown scan $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          bash .ai/commit_logs.sh "gapdown scan $(date -u +'%Y-%m-%d %H:%M UTC')"

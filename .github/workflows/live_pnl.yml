@@ -52,16 +52,7 @@ jobs:
 
       - name: Commit logs
         run: |
-          git config --local user.email "bot@paper-trade.com"
-          git config --local user.name "paper-trade-bot"
-          git add logs/
-          git diff --staged --quiet && echo "No changes to commit" && exit 0
-          git commit -m "live pnl $(date -u +'%Y-%m-%d %H:%M UTC')"
-          if ! git push; then
-            sleep 2
-            git pull --rebase
-            git push
-          fi
+          bash .ai/commit_logs.sh "live pnl $(date -u +'%Y-%m-%d %H:%M UTC')"
 
       # ── KEEP-ALIVE SELF-RESCHEDULE ──────────────────────────────
       # GitHub Actions cron is unreliable: 2026-08-11 no scheduled run

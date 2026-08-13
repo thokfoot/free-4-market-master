@@ -1,0 +1,3 @@
+# CSV logs are append-only across concurrent workflows (bot/fade/gapdown/live_pnl).
+# Union-merge so concurrent appends BOTH survive instead of git conflicts.
+*.csv merge=union

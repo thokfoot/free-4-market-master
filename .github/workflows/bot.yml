@@ -76,13 +76,4 @@ jobs:
 
       - name: Commit logs
         run: |
-          git config --local user.email "bot@paper-trade.com"
-          git config --local user.name "paper-trade-bot"
-          git add logs/ || true
-          git diff --staged --quiet && echo "No changes to commit" && exit 0
-          git commit -m "v5.10 scan $(date -u +'%Y-%m-%d %H:%M UTC') mode=${{ steps.mode.outputs.mode }}"
-          if ! git push; then
-            sleep 2
-            git pull --rebase
-            git push
-          fi
+          bash .ai/commit_logs.sh "v5.12 scan $(date -u +'%Y-%m-%d %H:%M UTC')"

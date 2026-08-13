@@ -74,7 +74,11 @@ def log_scan(scan_data: dict):
       - telegram_status
     """
     date_str = scan_data.get("date", now_ist().strftime("%Y-%m-%d"))
-    scan_file = os.path.join(LOG_DIR, f"daily_scan_{date_str}.json")
+    mode_str = str(scan_data.get("mode", "")).upper() or "SCAN"
+    # Mode-specific file (daily_scan_{MODE}_{date}.json) so concurrent
+    # workflows (BOTH/FADE/GAPDOWN) never write the same JSON - prevents
+    # git push conflicts between scheduled workflows.
+    scan_file = os.path.join(LOG_DIR, f"daily_scan_{mode_str}_{date_str}.json")
     
     # Try to load existing — fail gracefully if corrupted
     existing = _safe_read_json(scan_file) or {}
