@@ -206,5 +206,32 @@
     "total_pnl": -1223.36,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "900": {
+    "rank": 900,
+    "factors": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1163.63,
+    "consec_losses": 1,
+    "paused_since": null
+  },
+  "904": {
+    "rank": 904,
+    "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1214.35,
+    "consec_losses": 1,
+    "paused_since": null
+  },
+  "920": {
+    "rank": 920,
+    "factors": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1092.8,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }
