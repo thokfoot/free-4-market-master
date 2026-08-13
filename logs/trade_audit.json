@@ -4216,5 +4216,23 @@
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
     "signal_indicators": "{\"Low\": 63371.941406, \"Volume\": 623003648.0, \"2Red\": 0.0, \"EMA20\": 63611.818313, \"Ret\": 0.00326, \"SMA50\": 63656.751172, \"SMA20\": 63543.019141, \"EMA9\": 63614.341905, \"RSI14\": 49.860262, \"High\": 63637.871094, \"Close\": 63621.640625, \"EMA50\": 63731.383884, \"Open\": 63414.898438}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-13 19:31:07 IST",
+    "entry_datetime": "2026-08-13 14:28:59 IST",
+    "mode": "INDIAN",
+    "ticker": "PRECWIRE.NS",
+    "direction": "SHORT",
+    "entry_price": 469.57,
+    "exit_price": 466.33,
+    "qty": 193,
+    "pnl": 515.98,
+    "pnl_pct": 0.57,
+    "hold": "5h 2m",
+    "pattern_rank": 906,
+    "expected_win_rate": 42.12,
+    "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry 5h"
   }
 ]

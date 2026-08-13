@@ -242,5 +242,14 @@
     "total_pnl": 55.169999999999845,
     "consec_losses": 0,
     "paused_since": null
+  },
+  "906": {
+    "rank": 906,
+    "factors": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry 5h",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 515.98,
+    "consec_losses": 0,
+    "paused_since": null
   }
 }
