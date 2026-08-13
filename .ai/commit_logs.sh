@@ -34,6 +34,11 @@ for attempt in 1 2 3 4 5; do
     git checkout --ours . 2>/dev/null || true
     git add -A 2>/dev/null || true
   }
+  # Union-merge can leave exact duplicate rows in CSVs that get updated
+  # in-place (paper_trades.csv exits). Remove them before committing so
+  # P&L is never double-counted.
+  git ls-files -z '*.csv' 2>/dev/null | xargs -0 -r python .ai/dedupe_csv.py 2>/dev/null || true
+  git add -A 2>/dev/null || true
   git commit -qm "$MSG (merged)" || true
   git push origin HEAD 2>/dev/null && { echo "[commit-log] pushed OK after merge"; exit 0; }
   sleep 3
