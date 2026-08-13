@@ -3383,5 +3383,23 @@
     "tf": "SWING_1d",
     "pattern_reason": "2Red+EMA20>EMA50+Price>SMA50",
     "skip_reason": "Duplicate XLY LONG already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-13 08:06:22 IST",
+    "entry_datetime": "2026-08-12 20:06:12 IST",
+    "mode": "CRYPTO",
+    "ticker": "BTC-USD",
+    "direction": "SHORT",
+    "entry_price": 63716.78,
+    "exit_price": 63426.97,
+    "qty": 1,
+    "pnl": 98.66,
+    "pnl_pct": 0.15,
+    "hold": "12h 0m",
+    "pattern_rank": 1,
+    "expected_win_rate": 47.42,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
   }
 ]
