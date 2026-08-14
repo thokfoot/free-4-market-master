@@ -406,7 +406,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     except Exception:
         short_date = date_str
     short_time = time_str.split(":")[0] + ":" + time_str.split(":")[1]
-    header = f"🤖 v5.17 | {short_date} {short_time}"
+    header = f"🤖 v5.20 | {short_date} {short_time}"
     if market_status:
         mkt_icon = {"OPEN": "🟢", "PRE-OPEN": "🟡 PRE", "CLOSED": "🔴",
                     "WEEKEND": "⛔", "HOLIDAY": "🎉", "24/7": "🟢"}
@@ -827,7 +827,7 @@ def run_fade_scan() -> dict:
     time_str = now.strftime("%H:%M:%S IST")
 
     print(f"\n{'='*60}")
-    print(f"  FADE SCAN v5.15 — NSE Big-Player-Exit (35 variants)")
+    print(f"  FADE SCAN v5.15 — NSE Big-Player-Exit ({len(FADE_VARIANTS)} variants)")
     print(f"  {date_str} {time_str}")
     print(f"{'='*60}")
 

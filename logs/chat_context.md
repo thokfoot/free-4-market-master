@@ -5,7 +5,7 @@
 
 ---
 
-## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 15:57 IST)
+## 📌 CURRENT SNAPSHOT (last updated: 2026-08-13 19:18 IST)
 
 ### Portfolio (from logs/portfolio.json)
 | Bucket | Capital |
@@ -42,6 +42,31 @@
 ---
 
 ## 📜 SESSION HISTORY (most recent first)
+### 2026-08-13 19:18 IST — CRYPTO BACKTEST (FADE + LONG-BOUNCE): Binance se 8 coins (BTC/ETH/SOL/BNB/XRP/DOGE/ADA/LINK) x 60 din (Jun 14 - Aug 13) 5m+15m data download kiya (crypto_fade_data_*.npz). crypto_prep.py me ek real bug mila-fix kiya: Binance pagination empty-page pe infinite loop (cur advance nahi hota) -> fix + resume-safe parquet cache.
+RESULTS (wahi fade_grid/long_grid_ext engines, crypto windows 24h/asia/us/eu, no time-exit 24/7):
+- FADE (shoot-up->SHORT): 12000 combos, top 5m configs net/m +5..10% (e.g. 1.0%/15m/vol2.2/RSI70/24h: 108T 41.7% +9.4/m). OOS split me test side <30 trades -> unreliable.
+- LONG-BOUNCE (drop->LONG): 116640 combos, top base 2.0%/90m/vol2.0/RSI35/24h SL1.5/TP4.5: 26T 50% +19.8% (2mo). OOS: train 21T +18.1%, test 5T +1.7% -> edge OOS me bahut weak/chhota.
+VERDICT: Crypto me edge weak + sample chhota (8 coins x 60d, OOS me 4-7 trades). NSE (56%/58d) jaisa robust edge nahi. Paper trade me add karne se pehle zyada coins + zyada months chahiye. Files: crypto_prep.py, crypto_runner.py, crypto_long_results.csv.
+
+
+---
+
+### 2026-08-13 16:18 IST — DATA VERIFY 13-Aug: Aaj ke 11 FADE entries ka pura signal-level verification fresh independent fetch (market_data DIRECT Yahoo) se kiya.
+- 11/11 entries ke stored Signal_Indicators (Close/Volume/RSI14/Shoot_pct) bilkul match karte hain fresh data se.
+- VolAvg20 ka mismatch jo pahle dikha tha wo CODE VERSION difference hai, bug nahi: 11:37 IST ke 4 runs OLD code (rolling20 incl today, 5d window) se, 12:18+ ke 7 runs NEW code (prior-day baseline) se — exact timing volavg fix commit (11:49 IST) se consistent.
+- Saare entries ka RelVol threshold ke upar tha (MANAKSTEEL 3.94x/2.0, GARUDA 1.88x/1.5, LT 4.87x/1.5, PRECWIRE 1.66x/1.5, PVP/SALSTEEL/BDL/RPEL/KERNEX/AVROIND sab pass).
+- Exits verified: GARUDA Target Hit @184.3 (day range me), saare SL hits day high ke andar, exit prices valid. MANAKSTEEL/LT/BDL/PRECWIRE(2nd) OPEN hain.
+- No lookahead, no data issue. Paper trade records accurate.
+
+
+---
+
+### 2026-08-13 16:01 IST — Paper trade health check after LONG-BOUNCE deploy (v5.19)
+
+- CHECKED: CI all green (LONG-BOUNCE push CI 46s pass, FADE scan + live P&L schedules passing). Portfolio: 7 buckets, LONG_BOUNCE 1L present, total 6.76L, P&L -23,945, 17 open (13 US swing LONG + 4 FADE SHORT today: MANAKSTEEL/LT/BDL/PRECWIRE). paper_trades.csv: 0 LONG_BOUNCE rows (correct - window 10:30-12:30 IST, deploy after close; fires tomorrow). fade_scan.yml runs bot --mode=fade which includes LONG (India open). TG msg builds with 'LONG [1S]: 0T' line. strategy_report: LONG def rank 935 wr 54.3 suffix LB, excel generated (49 fired/278 never-fired). All verified OK, no pending issues.
+
+---
+
 ### 2026-08-13 15:57 IST — LONG-BOUNCE paper trade added (v5.19)
 
 - Added verified LONG-bounce config to paper trade: scanner_long.py (5m drop 3.5%/90m vol2.5x RSI<=45 gap<=1.5 below-VWAP&down 10:30-12:30 IST, direction LONG), config.py LONG_BOUNCE_VARIANTS (L1 rank 935) + LONG_BOUNCE_CAPITAL 1L (TOTAL now 7L), bot.py run_long_bounce_scan wired into both/fade mode (runs when India open), TG summary LONG section (1S), paper_trader LONG_BOUNCE_5m tf + bucket everywhere (SL below/TP above, own 1L), strategy_report LB suffix + defs. Tests: 4 new test_long_bounce.py + 343 total pass. Scanner dry-run clean. Committed+pushed.
@@ -145,3 +170,6 @@
 - Wants Excel + portfolio updated promptly
 - Wants chat context saved so new session resumes seamlessly
 - Frustrated by repeated issues → wants honesty + confidence, not false promises
+
+## 2026-08-14 — TG MSG DATA VERIFICATION
+^DJT announced but trade LOST (no commit — ephemeral runner, commit step failed). BTC expiry math internally consistent (slippage model). Data 39/739 = live runner fetch failures (local 40/40 OK). V1 not deployed (41 local vs 40 live). Fixes pending: deploy V1, timeout bump, data dedupe.

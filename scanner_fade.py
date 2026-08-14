@@ -41,7 +41,8 @@ BAR_SECONDS = {"1h": 3600, "15m": 900, "5m": 300, "1m": 60}
 BAR_MINUTES = {"1h": 60, "15m": 15, "5m": 5, "1m": 1}
 # variant time windows in UTC minutes: 240-570 = 09:30-15:00 IST, 300-450 = 10:30-13:00 IST
 # (450 = 13:00 IST = 07:30 UTC — backtest spec says 10:30-13:00, fix from 420=12:30)
-WINDOWS = {"0930_1500": (240, 570), "1030_1300": (300, 450)}
+WINDOWS = {"0930_1500": (240, 570), "1030_1300": (300, 450),
+            "1000_1300": (270, 450)}   # 10:00-12:59 IST = 04:30-07:29 UTC
 
 
 def wilder_rsi(close: pd.Series, period: int = 14) -> pd.Series:
@@ -156,11 +157,20 @@ def _download(ticker: str, interval: str, period: str) -> pd.DataFrame:
     return None
 
 
-def _shoot_series(df: pd.DataFrame, dur_min: int, interval: str) -> pd.Series:
-    """rolling-low shoot: (close - min(low last dur_min)) / min(low) * 100."""
+def _shoot_series(df: pd.DataFrame, dur_min: int, interval: str,
+                mode: str = "roll_low") -> pd.Series:
+    """Shoot % over dur_min.
+
+    mode="roll_low"  (default): (close - min(low last dur_min)) / min(low) * 100
+    mode="close_close":         (close - close N bars ago) / close N bars ago * 100
+                                (matches the raw-verified V1 backtest definition)
+    """
     dur_bars = max(1, int(np.ceil(dur_min / BAR_MINUTES.get(interval, 15))))
-    low_min = df["Low"].rolling(dur_bars, min_periods=1).min()
     with np.errstate(invalid="ignore", divide="ignore"):
+        if mode == "close_close":
+            prev = df["Close"].shift(dur_bars)
+            return (df["Close"] - prev) / prev * 100.0
+        low_min = df["Low"].rolling(dur_bars, min_periods=1).min()
         return (df["Close"] - low_min) / low_min * 100.0
 
 
@@ -243,11 +253,16 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
         dur_bars = max(1, int(np.ceil(v["dur_min"] / BAR_MINUTES.get(v["interval"], 15))))
         for (interval, t), df in ticker_data.items():
             if interval == v["interval"]:
-                key = (interval, dur_bars, t)
+                mode = v.get("shoot_mode", "roll_low")
+                key = (interval, dur_bars, mode, t)
                 if key not in shoot_cache:
-                    low_min = df["Low"].rolling(dur_bars, min_periods=1).min()
                     with np.errstate(invalid="ignore", divide="ignore"):
-                        shoot_cache[key] = ((df["Close"] - low_min) / low_min * 100.0).to_numpy()
+                        if mode == "close_close":
+                            prev = df["Close"].shift(dur_bars)
+                            shoot_cache[key] = ((df["Close"] - prev) / prev * 100.0).to_numpy()
+                        else:
+                            low_min = df["Low"].rolling(dur_bars, min_periods=1).min()
+                            shoot_cache[key] = ((df["Close"] - low_min) / low_min * 100.0).to_numpy()
         v_signals = []
         for (interval, t), df in ticker_data.items():
             if interval != v["interval"]:
@@ -267,7 +282,7 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
             vol_avg = last.get("VolAvg20", np.nan)
             rsi = last.get("RSI14", np.nan)
             vol = float(last["Volume"])
-            shoot_val = float(shoot_cache[(interval, dur_bars, t)][sig_idx])
+            shoot_val = float(shoot_cache[(interval, dur_bars, v.get("shoot_mode", "roll_low"), t)][sig_idx])
             utc_min = _utc_minutes(df.index[sig_idx])
             is_fired = _variant_fired(last, v, gap, shoot_val, utc_min)
 

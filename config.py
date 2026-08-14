@@ -407,6 +407,20 @@ FADE_VARIANTS = [
         "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
         "name": "Fade G25 15m 3.5%/60m",
     },
+    # ── V1: INDEPENDENTLY RAW-VERIFIED 1h FADE (v5.19) ──
+    # Fresh-code raw-parquet verification (indep_verify_raw.py): shoot 3% vs
+    # prev 1h close, vol 2.2x, RSI>=70, prev-day-high break, SL1.5/TP3.75,
+    # 10:00-12:59 IST, 0.1% costs -> OOS window (last 8 mo of 2-yr data):
+    # realistic 1-pos-at-a-time +187.3% (333 trades, win 44.3%, maxDD -19.3%).
+    {
+        "key": "V1", "rank": 991, "interval": "1h", "period": "3mo",
+        "shoot_pct": 3.0, "dur_min": 15, "vol_mult": 2.2, "rsi_min": 70.0,
+        "gap_max": None, "win": "1000_1300", "sl_pct": 0.015, "tp_pct": 0.0375,
+        "dh": False, "ph": True, "shoot_mode": "close_close",
+        "max_per_day": 2, "win_rate": 44.3, "trades_count": 333,
+        "factors": "Fade V1: 1h +3.0% prev-close vol2.2x RSI70 prev-high (raw-verified)",
+        "name": "Fade V1 1h 3.0% raw-verified",
+    },
     # ── Legacy 1h FADE family (v5.12-v5.14, re-added per user request) ──
     {
         "key": "H1", "rank": 996, "interval": "1h", "period": "3mo",
