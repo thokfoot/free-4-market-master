@@ -94,3 +94,27 @@ Verified: py_compile OK, parallel functional test 12/12 in 13s, pytest 343 passe
 - B: 2nd call = CACHE hit, no network
 - C: all providers fail → STALE fallback returns data (runner scenario fixed)
 - pytest 343 passed
+
+## 2026-08-14 — "Data 39/739" header metric bug fix
+
+User saw: `🤖 v5.20 | 14 Aug 09:23 | 📡 Data 39/739 ⚠️ | 8063 Strats 💤 | 9 Err 🔴`
+
+Investigation:
+- Real data health in that run (gh run 31768138469): Swing 36/36, Intraday 18/18,
+  Fade 15m/1h/5m 195/198 each, Long 100/100 → ~97% healthy. Only TATAMOTORS/
+  ZOMATO/LTIM fail (Yahoo 404, verified earlier).
+- Header metric bug: numerator = len(merged current_prices) = 39 (only swing+
+  intraday contribute prices; fade/long only add open positions), denominator =
+  sum(len(ticker_data)) = 739 (fade/long key by (interval, ticker) → 195 x 3
+  intervals inflates). So 39/739 looked like 5% data success — wrong.
+- "9 Err" = fade scan_errors accumulate across 3 intervals (3 tickers x 3).
+
+Fix (bot.py):
+- Track ok_tickers = unique tickers with data (dedupe (interval, ticker) tuple keys)
+- scan_summary: tickers_ok = len(ok_tickers), tickers_total = len(ok_tickers) + errors
+- daily_scan log tickers_scanned = sorted(ok_tickers)
+- Result: header now shows e.g. "Data 231/240 ✅" instead of "39/739"
+
+Also confirmed: ^DJT trade IS recorded (logs/paper_trades.csv line 94, entered
+08:51:44 IST @ 21930.29, OPEN) — earlier "lost trade" was re-entered by the
+08:51 scheduled run; live P&L 09:55 tracks it (Live 21928.13, P&L -4). Good.

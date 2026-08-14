@@ -1524,6 +1524,7 @@ def main():
     total_errors = 0
     total_tickers = 0
     current_prices = {}
+    ok_tickers = set()  # unique tickers with data (fade/long use (interval, ticker) keys)
     
     for sr in scan_results:
         all_entries.extend(sr["entries"])
@@ -1534,6 +1535,9 @@ def main():
         total_errors += sr["scan_errors"]
         total_tickers += len(sr["ticker_data"])
         current_prices.update(sr["current_prices"])
+        for _k in sr["ticker_data"]:
+            _t = _k[1] if isinstance(_k, tuple) else _k
+            ok_tickers.add(_t)
     
     # Load portfolio
     portfolio = load_portfolio()
@@ -1575,8 +1579,8 @@ def main():
     # Total signals count across all scans
     total_strategies = sum(len(sr["all_signals"]) for sr in scan_results)
     scan_summary = {
-        "tickers_ok": len(current_prices),
-        "tickers_total": total_tickers,
+        "tickers_ok": len(ok_tickers),
+        "tickers_total": len(ok_tickers) + total_errors,
         "strategies_total": total_strategies,
         "strategies_fired": total_fired,
         "errors": total_errors,
@@ -1635,7 +1639,7 @@ def main():
     scan_data = {
         "date": date_str, "time": time_str,
         "mode": mode.upper(),
-        "tickers_scanned": list(current_prices.keys()),
+        "tickers_scanned": sorted(ok_tickers),
         "market_close": {t: c for t, c in current_prices.items()},
         "patterns_checked": len(all_signals),
         "patterns_fired": total_fired,
