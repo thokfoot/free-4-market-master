@@ -170,3 +170,5 @@ Files: indep_bt_results.csv, indep_verify_bt.py
 - Alignment fix: 0W/0L (L ke aage extra space remove)
 - TG PERFORMANCE ab ALL-TIME (14D hata diya) + running days count + har section ka return %
 - US +12.4k ab hamesha dikhega (14D window shift se confuse nahi hoga)
+- Telegram me ab strategy_report.xlsx bhi send hota hai (download button) — sirf tab jab file change hui (naya trade)
+- send_telegram_document me xlsx mime support add kiya

@@ -131,10 +131,11 @@ def send_telegram_document(file_path: str, caption: str = "") -> str:
     
     api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument"
     
+    mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"         if file_path.lower().endswith(".xlsx") else "text/html"
     for attempt in range(3):
         try:
             with open(file_path, "rb") as f:
-                files = {"document": (os.path.basename(file_path), f, "text/html")}
+                files = {"document": (os.path.basename(file_path), f, mime)}
                 data = {"chat_id": TELEGRAM_CHAT_ID, "caption": caption, "parse_mode": "Markdown"}
                 r = requests.post(api_url, data=data, files=files, timeout=30)
             resp = r.json() if r.text else {}
@@ -1700,9 +1701,29 @@ def main():
     log_portfolio(total_cape, open_positions, closed_cnt, wins, losses, total_pnl,
                   capital_by_market=cap_by_mkt)
     
-    # Auto-refresh strategy Excel report
+    # Auto-refresh strategy Excel report + send to Telegram only when it
+    # changed (new/updated trades) — otherwise every 15-min run would spam.
     try:
-        generate_strategy_report()
+        xlsx_path = generate_strategy_report()
+        if xlsx_path and os.path.exists(xlsx_path):
+            mtime = os.path.getmtime(xlsx_path)
+            marker = os.path.join("logs", "_last_xlsx_sent.txt")
+            last_sent = None
+            try:
+                if os.path.exists(marker):
+                    with open(marker) as f:
+                        last_sent = float(f.read().strip())
+            except Exception:
+                last_sent = None
+            if last_sent is None or mtime > last_sent + 1:
+                xlsx_caption = f"📊 *Strategy Report (Excel)* — {date_str}\n"
+                xlsx_caption += "Download for full per-strategy & per-trade breakdown"
+                send_telegram_document(xlsx_path, caption=xlsx_caption)
+                try:
+                    with open(marker, "w") as f:
+                        f.write(str(mtime))
+                except Exception:
+                    pass
     except Exception as e:
         log_error(f"Strategy Excel report failed: {e}")
         print(f"[WARN] Strategy Excel report: {e}")
