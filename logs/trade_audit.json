@@ -5039,5 +5039,45 @@
     "expected_win_rate": 42.48,
     "pattern_factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
     "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 13:50:50 IST",
+    "mode": "INDIAN",
+    "ticker": "APEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "Cooldown: APEX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 13:50:50 IST",
+    "mode": "INDIAN",
+    "ticker": "APEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: APEX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 13:50:50 IST",
+    "mode": "INDIAN",
+    "ticker": "APEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: APEX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 13:50:50 IST",
+    "mode": "INDIAN",
+    "ticker": "APEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: APEX.NS SHORT FADE_1h closed <120m ago"
   }
 ]
