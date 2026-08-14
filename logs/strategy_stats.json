@@ -238,9 +238,9 @@
     "rank": 903,
     "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | SL Hit (intraday)",
     "wins": 1,
-    "losses": 3,
-    "total_pnl": -2119.3900000000003,
-    "consec_losses": 2,
+    "losses": 4,
+    "total_pnl": -2464.0400000000004,
+    "consec_losses": 3,
     "paused_since": null
   },
   "906": {
@@ -256,9 +256,9 @@
     "rank": 902,
     "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 1,
-    "total_pnl": -1084.27,
-    "consec_losses": 1,
+    "losses": 2,
+    "total_pnl": -1583.51,
+    "consec_losses": 2,
     "paused_since": null
   },
   "908": {

@@ -5280,5 +5280,41 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
     "skip_reason": "Cooldown: GSLSU.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 16:04:16 IST",
+    "entry_datetime": "2026-08-14 10:49:40 IST",
+    "mode": "INDIAN",
+    "ticker": "UNIVASTU.NS",
+    "direction": "SHORT",
+    "entry_price": 159.92,
+    "exit_price": 160.77,
+    "qty": 479,
+    "pnl": -499.24,
+    "pnl_pct": -0.65,
+    "hold": "5h 14m",
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 16:04:16 IST",
+    "entry_datetime": "2026-08-14 10:49:40 IST",
+    "mode": "INDIAN",
+    "ticker": "APOLLOHOSP.NS",
+    "direction": "SHORT",
+    "entry_price": 8892.55,
+    "exit_price": 8924.96,
+    "qty": 8,
+    "pnl": -344.65,
+    "pnl_pct": -0.48,
+    "hold": "5h 14m",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry 5h"
   }
 ]
