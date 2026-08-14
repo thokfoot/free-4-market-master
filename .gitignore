@@ -20,3 +20,7 @@ htmlcov/
 data/miner_cache/
 logs/miner_*.csv
 
+
+# OHLC cache (managed by GitHub actions/cache, NOT committed)
+data/ohlc_cache.json
+data/ohlc_cache.json.tmp

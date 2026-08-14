@@ -76,3 +76,21 @@ Fix applied:
 1. bot.py: swing + intraday downloads parallelized (ThreadPoolExecutor 10 workers, per-ticker 3 retries, error logged) — sequential → ~5-8x faster.
 2. fade_scan.yml: */5 -> */15 (3x less Yahoo volume; 15m variants don't need 5-min freshness, sirf S5/S9 5m variants up to 10 min late).
 Verified: py_compile OK, parallel functional test 12/12 in 13s, pytest 343 passed.
+
+## 2026-08-14 — Data reliability fix (final): persistent OHLC cache
+
+**Problem:** Even after parallel downloads + reduced fade frequency, last live run still showed Data 39/739 — runner's shared IP Yahoo rate-limit is brutal.
+
+**Fix (commit pending):**
+- `market_data.py`: persistent cache layer — `data/ohlc_cache.json` (gitignored, managed by GitHub actions/cache)
+  - Fresh cache hit (< TTL per interval) → zero network
+  - All 3 providers fail → STALE fallback (bounded, up to 7d for 1d/1h) so scans still evaluate
+  - RLock fix (deadlock), atomic tmp+replace save
+- 4 workflows (bot, fade_scan, gap_down, live_pnl): GitHub actions/cache restore/save ohlc-cache steps
+- `.gitignore`: ohlc_cache.json excluded from git (no repo bloat)
+
+**Functional tests passed:**
+- A: fresh fetch populates cache (35 bars)
+- B: 2nd call = CACHE hit, no network
+- C: all providers fail → STALE fallback returns data (runner scenario fixed)
+- pytest 343 passed

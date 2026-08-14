@@ -21,8 +21,7 @@ Provider selection is automatic: try yfinance; on ANY failure (exception,
 empty frame, JSONDecodeError) fall through to the next provider. When a
 fallback is used, a warning is printed so the bot log shows the source.
 """
-import os
-import time
+import os, json, threading, time
 import pandas as pd
 import numpy as np
 
@@ -154,15 +153,97 @@ def _days(period: str) -> int:
     return 60
 
 
+# ─────────────────────────────────────────────────────────────
+# Persistent OHLC cache — survives GitHub ephemeral runners via
+# the actions/cache "ohlc-cache" steps (NOT committed to git).
+#   * fresh hit  -> no network call
+#   * success    -> cache updated (bounded to last N bars)
+#   * all-fail   -> last cached bars returned as STALE fallback
+#                   (rate-limited runner IPs still get data)
+# ─────────────────────────────────────────────────────────────
+_CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "data", "ohlc_cache.json")
+_CACHE_TTL_SEC = {"1d": 26*3600, "1h": 75*60, "30m": 40*60, "15m": 20*60,
+                  "10m": 14*60, "5m": 8*60, "3m": 5*60, "1m": 5*60}
+_CACHE_MAX_STALE = {"1d": 7*86400, "1h": 86400, "30m": 12*3600, "15m": 4*3600,
+                    "10m": 3*3600, "5m": 2*3600, "3m": 3600, "1m": 1800}
+_CACHE_MAX_BARS = 210
+_cache = None
+_cache_lock = threading.RLock()  # reentrant: _load_cache() called inside with-lock
+_cache_last_save = 0.0
+
+
+def _load_cache() -> dict:
+    global _cache
+    with _cache_lock:
+        if _cache is not None:
+            return _cache
+        _cache = {}
+        try:
+            if os.path.exists(_CACHE_FILE):
+                with open(_CACHE_FILE, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, dict):
+                    _cache = {k: v for k, v in data.items()
+                              if isinstance(v, dict) and v.get("bars")}
+        except Exception:
+            _cache = {}
+        return _cache
+
+
+def _save_cache():
+    global _cache_last_save
+    try:
+        os.makedirs(os.path.dirname(_CACHE_FILE), exist_ok=True)
+        tmp = _CACHE_FILE + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(_cache, f, separators=(",", ":"))
+        os.replace(tmp, _CACHE_FILE)
+        _cache_last_save = time.time()
+    except Exception as e:
+        print(f"[MarketData] cache save failed: {e}")
+
+
+def _df_to_bars(df) -> list:
+    bars = []
+    for ts, row in df.iterrows():
+        bars.append([str(ts), float(row["Open"]), float(row["High"]),
+                     float(row["Low"]), float(row["Close"]), float(row["Volume"])])
+    return bars[-_CACHE_MAX_BARS:]
+
+
+def _bars_to_df(bars, interval) -> pd.DataFrame:
+    idx = pd.to_datetime([b[0] for b in bars], utc=True)
+    return pd.DataFrame([b[1:] for b in bars],
+                        columns=["Open", "High", "Low", "Close", "Volume"],
+                        index=idx).sort_index()
+
+
 def download(ticker: str, interval: str = "15m", period: str = "60d",
              start=None, end=None) -> pd.DataFrame:
-    """Download OHLCV with automatic provider fallback.
+    """Download OHLCV with automatic provider fallback + persistent cache.
 
-    Accepts yfinance-style kwargs: `period` ("5d", "60d", "3mo") OR
-    `start`/`end` (dates/timestamps, replay/backfill usage). Returns a
-    normalized yfinance-like DataFrame (Open/High/Low/Close/Volume, tz-aware
-    UTC index) or an empty DataFrame when every provider fails — never raises.
+    The cache (data/ohlc_cache.json) is restored/saved by the GitHub Actions
+    "ohlc-cache" steps. A fresh cache hit avoids the network entirely; when
+    every provider fails, the last cached bars are returned as a STALE
+    fallback (bounded by _CACHE_MAX_STALE) so scans still evaluate on
+    rate-limited shared runner IPs (was: 39/739 tickers OK).
     """
+    cache_key = f"{ticker}|{interval}|{period}"
+    ttl = _CACHE_TTL_SEC.get(interval, 600)
+    cache = _load_cache()
+    now = time.time()
+    entry = cache.get(cache_key)
+
+    # ── 0) fresh cache hit (period-based calls only; replay uses start/end) ──
+    if start is None and end is None and entry and entry.get("bars"):
+        if (now - entry.get("ts", 0)) < ttl:
+            df = _bars_to_df(entry["bars"], interval)
+            if len(df) > 0:
+                print(f"[MarketData] {ticker} {interval}: CACHE hit ({len(df)} bars)")
+                return df
+
+    df = None
     # ── 1) yfinance ──
     try:
         import yfinance as yf
@@ -174,27 +255,46 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
                 kw["end"] = pd.Timestamp(end).strftime("%Y-%m-%d")
         else:
             kw["period"] = period
-        df = yf.download(ticker, **kw)
-        if df is not None and len(df) > 0:
-            if isinstance(df.columns, pd.MultiIndex):
-                df.columns = df.columns.get_level_values(0)
-            df = df[~df.index.duplicated(keep="first")].sort_index()
-            return df[["Open", "High", "Low", "Close", "Volume"]]
+        d = yf.download(ticker, **kw)
+        if d is not None and len(d) > 0:
+            if isinstance(d.columns, pd.MultiIndex):
+                d.columns = d.columns.get_level_values(0)
+            d = d[~d.index.duplicated(keep="first")].sort_index()
+            df = d[["Open", "High", "Low", "Close", "Volume"]]
     except Exception as e:
         print(f"[MarketData] yfinance failed for {ticker}: {type(e).__name__} {str(e)[:80]}")
 
     # ── 2) direct Yahoo chart API (bypasses yfinance crumb bug) ──
-    df = _yahoo_chart_direct(ticker, interval, period, start=start, end=end)
-    if df is not None and len(df) > 0:
-        print(f"[MarketData] {ticker} {interval}: used DIRECT Yahoo chart API "
-              f"({len(df)} bars)")
-        return df
+    if df is None or len(df) == 0:
+        df = _yahoo_chart_direct(ticker, interval, period, start=start, end=end)
+        if df is not None and len(df) > 0:
+            print(f"[MarketData] {ticker} {interval}: used DIRECT Yahoo chart API "
+                  f"({len(df)} bars)")
 
     # ── 3) Binance (crypto only) ──
-    df = _binance_crypto(ticker, interval, period)
+    if df is None or len(df) == 0:
+        df = _binance_crypto(ticker, interval, period)
+        if df is not None and len(df) > 0:
+            print(f"[MarketData] {ticker} {interval}: used BINANCE API ({len(df)} bars)")
+
+    # ── 4) persist successful download to cache ──
     if df is not None and len(df) > 0:
-        print(f"[MarketData] {ticker} {interval}: used BINANCE API ({len(df)} bars)")
+        try:
+            with _cache_lock:
+                c = _load_cache()
+                c[cache_key] = {"ts": time.time(), "bars": _df_to_bars(df)}
+                if time.time() - _cache_last_save >= 30:
+                    _save_cache()
+        except Exception as e:
+            print(f"[MarketData] cache update failed: {e}")
         return df
+
+    # ── 5) stale cache fallback (rate-limited runner) ──
+    if entry and entry.get("bars") and (now - entry.get("ts", 0)) < _CACHE_MAX_STALE.get(interval, 6*3600):
+        stale = _bars_to_df(entry["bars"], interval)
+        if len(stale) > 0:
+            print(f"[MarketData] {ticker} {interval}: STALE cache fallback ({len(stale)} bars)")
+            return stale
 
     print(f"[MarketData] ALL providers failed for {ticker} {interval} {period}")
     return _empty(interval)
