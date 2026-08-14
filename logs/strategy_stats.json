@@ -96,9 +96,9 @@
     "rank": 1,
     "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | Expiry 5d",
     "wins": 3,
-    "losses": 3,
-    "total_pnl": 341.6099999999999,
-    "consec_losses": 0,
+    "losses": 4,
+    "total_pnl": 136.2399999999999,
+    "consec_losses": 1,
     "paused_since": null
   },
   "49": {

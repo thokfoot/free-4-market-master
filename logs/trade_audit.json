@@ -4234,5 +4234,23 @@
     "expected_win_rate": 42.12,
     "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 07:29:09 IST",
+    "entry_datetime": "2026-08-13 19:26:46 IST",
+    "mode": "CRYPTO",
+    "ticker": "BTC-USD",
+    "direction": "SHORT",
+    "entry_price": 63558.02,
+    "exit_price": 63572.72,
+    "qty": 1,
+    "pnl": -205.37,
+    "pnl_pct": -0.32,
+    "hold": "12h 2m",
+    "pattern_rank": 1,
+    "expected_win_rate": 47.42,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
   }
 ]
