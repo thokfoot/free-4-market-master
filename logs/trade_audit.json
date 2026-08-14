@@ -5370,5 +5370,15 @@
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
     "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry Square Off 15:30 IST"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 22:57:59 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "skip_reason": "Duplicate DIA LONG already open"
   }
 ]
