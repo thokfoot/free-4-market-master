@@ -220,9 +220,9 @@
     "rank": 904,
     "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)",
     "wins": 2,
-    "losses": 5,
-    "total_pnl": -13.409999999999854,
-    "consec_losses": 0,
+    "losses": 6,
+    "total_pnl": -1087.55,
+    "consec_losses": 1,
     "paused_since": null
   },
   "920": {
@@ -268,6 +268,15 @@
     "losses": 2,
     "total_pnl": -2240.6,
     "consec_losses": 2,
+    "paused_since": null
+  },
+  "996": {
+    "rank": 996,
+    "factors": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf Target Hit (live)",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 2573.46,
+    "consec_losses": 0,
     "paused_since": null
   }
 }

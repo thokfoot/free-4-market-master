@@ -5079,5 +5079,41 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "skip_reason": "Cooldown: APEX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 14:19:40 IST",
+    "entry_datetime": "2026-08-14 10:49:40 IST",
+    "mode": "INDIAN",
+    "ticker": "OFSS.NS",
+    "direction": "SHORT",
+    "entry_price": 11665.16,
+    "exit_price": 11758.58,
+    "qty": 10,
+    "pnl": -1074.14,
+    "pnl_pct": -0.92,
+    "hold": "3h 30m",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 14:19:40 IST",
+    "entry_datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "entry_price": 32.55,
+    "exit_price": 31.32,
+    "qty": 2153,
+    "pnl": 2573.46,
+    "pnl_pct": 3.67,
+    "hold": "2h 47m",
+    "pattern_rank": 996,
+    "expected_win_rate": 41.6,
+    "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf Target Hit (live)"
   }
 ]
