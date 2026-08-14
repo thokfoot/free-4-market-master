@@ -218,11 +218,11 @@
   },
   "904": {
     "rank": 904,
-    "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | SL Hit (intraday)",
-    "wins": 1,
+    "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)",
+    "wins": 2,
     "losses": 5,
-    "total_pnl": -2394.0,
-    "consec_losses": 3,
+    "total_pnl": -13.409999999999854,
+    "consec_losses": 0,
     "paused_since": null
   },
   "920": {
@@ -250,6 +250,24 @@
     "losses": 0,
     "total_pnl": 515.98,
     "consec_losses": 0,
+    "paused_since": null
+  },
+  "902": {
+    "rank": 902,
+    "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1084.27,
+    "consec_losses": 1,
+    "paused_since": null
+  },
+  "908": {
+    "rank": 908,
+    "factors": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 2,
+    "total_pnl": -2240.6,
+    "consec_losses": 2,
     "paused_since": null
   }
 }
