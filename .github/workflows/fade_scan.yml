@@ -3,7 +3,7 @@ name: FADE SCAN (5-min)
 on:
   schedule:
     # India market hours 09:15-15:30 IST = 03:45-10:00 UTC. Every 5 min.
-    - cron: '*/5 3-9 * * 1-5'
+    - cron: '*/15 3-9 * * 1-5'
   workflow_dispatch:
 
 permissions:

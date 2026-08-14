@@ -11,6 +11,7 @@ Run: python bot.py
 """
 
 import os, sys, json, time, traceback
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 import pandas as pd
 import requests
@@ -519,29 +520,36 @@ def run_swing_scan() -> dict:
     tickers = unique_tickers(strategies)
     print(f"[Swing] {len(tickers)} unique tickers")
     
-    # 3. Download data
+    # 3. Download data (parallel — sequential was too slow on GitHub runners)
     ticker_data = {}
     scan_errors = 0
-    for yf_ticker in tickers:
+
+    def _fetch_one_sw(yf_ticker):
         for attempt in range(3):
             try:
-                print(f"[Swing] Downloading {yf_ticker}...", end=" ")
                 df = market_data.download(yf_ticker, interval=YF_INTERVAL,
                                           period=YF_PERIOD)
-                if df is None or len(df) < 60:
-                    print(f"INSUFFICIENT ({len(df) if df is not None else 0} rows)")
-                    if attempt < 2: time.sleep(1); continue
-                    break
-                df = compute_indicators(df)
-                ticker_data[yf_ticker] = df
-                print(f"OK ({len(df)} rows)")
-                break
+                if df is not None and len(df) >= 60:
+                    return yf_ticker, compute_indicators(df), None
+                if attempt < 2:
+                    time.sleep(1)
             except Exception as e:
-                print(f"ERROR: {e}")
-                if attempt < 2: time.sleep(2); continue
+                if attempt < 2:
+                    time.sleep(2)
+                else:
+                    return yf_ticker, None, str(e)
+        return yf_ticker, None, "insufficient data"
+
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futs = {pool.submit(_fetch_one_sw, t): t for t in tickers}
+        for fut in as_completed(futs):
+            t, df, err = fut.result()
+            if df is not None:
+                ticker_data[t] = df
+                print(f"[Swing] OK {t} ({len(df)} rows)")
+            else:
                 scan_errors += 1
-                log_error(f"Swing download failed {yf_ticker}: {e}")
-    
+                log_error(f"Swing download failed {t}: {err}")
     print(f"[Swing] Data: {len(ticker_data)}/{len(tickers)} tickers, {scan_errors} errors")
     
     # 4. Check if we already ran a full SWING scan today
@@ -697,29 +705,36 @@ def run_intraday_scan() -> dict:
     tickers = intraday_ut(strategies)
     print(f"[Intraday] {len(tickers)} unique tickers")
     
-    # 3. Download 1h data
+    # 3. Download 1h data (parallel — sequential was too slow on GitHub runners)
     ticker_data = {}
     scan_errors = 0
-    for yf_ticker in tickers:
+
+    def _fetch_one_id(yf_ticker):
         for attempt in range(3):
             try:
-                print(f"[Intraday] Downloading {yf_ticker}...", end=" ")
                 df = market_data.download(yf_ticker, interval=INTRADAY_INTERVAL,
                                           period=INTRADAY_PERIOD)
-                if df is None or len(df) < 200:
-                    print(f"INSUFFICIENT ({len(df) if df is not None else 0} rows)")
-                    if attempt < 2: time.sleep(1); continue
-                    break
-                df = compute_indicators_1h(df)
-                ticker_data[yf_ticker] = df
-                print(f"OK ({len(df)} rows, {df.index[-1].date()})")
-                break
+                if df is not None and len(df) >= 200:
+                    return yf_ticker, compute_indicators_1h(df), None
+                if attempt < 2:
+                    time.sleep(1)
             except Exception as e:
-                print(f"ERROR: {e}")
-                if attempt < 2: time.sleep(2); continue
+                if attempt < 2:
+                    time.sleep(2)
+                else:
+                    return yf_ticker, None, str(e)
+        return yf_ticker, None, "insufficient data"
+
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futs = {pool.submit(_fetch_one_id, t): t for t in tickers}
+        for fut in as_completed(futs):
+            t, df, err = fut.result()
+            if df is not None:
+                ticker_data[t] = df
+                print(f"[Intraday] OK {t} ({len(df)} rows, {df.index[-1].date()})")
+            else:
                 scan_errors += 1
-                log_error(f"Intraday download failed {yf_ticker}: {e}")
-    
+                log_error(f"Intraday download failed {t}: {err}")
     print(f"[Intraday] Data: {len(ticker_data)}/{len(tickers)} tickers, {scan_errors} errors")
     
     # 4. Market status

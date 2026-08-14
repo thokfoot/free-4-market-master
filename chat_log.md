@@ -69,3 +69,10 @@ Root cause of ^DJT loss: GitHub Actions ephemeral runner — bot added trade + s
 1. Timeouts: bot.yml 10→20, fade_scan.yml 12→20, gap_down.yml 10→20 (20 min).
 2. New _commit_state_now() helper (bot.py + live_pnl_updater.py): commits state files via .ai/commit_logs.sh IMMEDIATELY after scans/trade-closes, BEFORE any TG send — so entries/exits survive even if the job dies after.
 Verified: py_compile OK, imports OK, call placed before TG send in both files.
+
+## 2026-08-14 — DATA RELIABILITY FIX (user: "Data reliability fix")
+Root cause of live "Data 39/739": GitHub runner pe Yahoo rate-limit + swing/intraday scans SEQUENTIAL downloads (230 tickers, 3 retries each) → too slow (10-min timeout me ~39 tickers hi mil paaye). Local: 40/40 OK.
+Fix applied:
+1. bot.py: swing + intraday downloads parallelized (ThreadPoolExecutor 10 workers, per-ticker 3 retries, error logged) — sequential → ~5-8x faster.
+2. fade_scan.yml: */5 -> */15 (3x less Yahoo volume; 15m variants don't need 5-min freshness, sirf S5/S9 5m variants up to 10 min late).
+Verified: py_compile OK, parallel functional test 12/12 in 13s, pytest 343 passed.
