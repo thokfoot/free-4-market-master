@@ -374,7 +374,7 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     Compact single-message Telegram summary (v5.17).
 
     🤖 v5.17 | 13 Aug 02:52 | IND 🟡 PRE | US 🔴 | ₿ 🟢
-    📡 Data 39/444 ⚠️ | 6843 Strats 💤 | 6 Err 🔴
+    📡 Data 231/240 ✅ | 8063 Strats 💤 | 3 Err 🔴
     [🟢 BUY ... new-trade one-liners, only when entries fire]
 
     🇮🇳 INDIA (14D) [64S]: 14T | 0W/14L | -16.0% | -₹31,926
@@ -573,7 +573,7 @@ def run_swing_scan() -> dict:
             "best_entries": [],
             "entries": [],
             "closed_msgs": [],
-            "scan_errors": 0,
+            "scan_errors": scan_errors,
             "duration": time.time() - start_time,
         }
         current_prices_sw = {}

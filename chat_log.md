@@ -118,3 +118,17 @@ Fix (bot.py):
 Also confirmed: ^DJT trade IS recorded (logs/paper_trades.csv line 94, entered
 08:51:44 IST @ 21930.29, OPEN) — earlier "lost trade" was re-entered by the
 08:51 scheduled run; live P&L 09:55 tracks it (Live 21928.13, P&L -4). Good.
+
+## 2026-08-14 — Follow-up fixes from review
+
+1. **FADE "9 Err" inflation** (scanner_fade.py): same 3 Yahoo-failing tickers
+   (TATAMOTORS/ZOMATO/LTIM — verified 404 on query1 AND query2, genuine Yahoo-side)
+   were counted per-interval (3 x 3 intervals = 9). Now `failed_tickers` set counts
+   UNIQUE tickers -> header shows 3 Err instead of 9.
+2. **Swing skip-path scan_errors=0** (bot.py): when swing already scanned today,
+   the exit-check branch hardcoded scan_errors=0, hiding real download errors.
+   Now carries the actual count.
+3. **Stale docstring** (bot.py): example header updated to realistic format.
+4. Header metric fix (previous commit b8a2555) already live: unique-ticker counts.
+
+Verified: imports OK, py_compile OK, pytest 343 passed.

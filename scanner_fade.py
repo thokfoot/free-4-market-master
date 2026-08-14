@@ -224,7 +224,7 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
     intervals_needed = sorted({v["interval"] for v in FADE_VARIANTS})
     period_map = {v["interval"]: v["period"] for v in FADE_VARIANTS}
     ticker_data = {}
-    scan_errors = 0
+    failed_tickers = set()  # unique tickers that failed ANY interval (dedupe across 15m/1h/5m)
     skipped_entries = []
     for interval in intervals_needed:
         period = period_map.get(interval, "60d")
@@ -237,11 +237,12 @@ def scan_fade(limit: int = None, dry: bool = False) -> dict:
                     if df is not None and len(df) > 40:
                         ticker_data[(interval, t)] = compute_fade_indicators(df)
                     else:
-                        scan_errors += 1
+                        failed_tickers.add(t)
                 except Exception:
-                    scan_errors += 1
+                    failed_tickers.add(t)
         print(f"[Fade] {interval} data OK: {len([1 for (i, _) in ticker_data if i == interval])} "
-              f"/{len(universe)}, errors {scan_errors}")
+              f"/{len(universe)}, errors {len(failed_tickers)}")
+    scan_errors = len(failed_tickers)
 
     # ── per-variant signal detection on last COMPLETED candle (no lookahead) ──
     signals = []
