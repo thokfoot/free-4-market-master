@@ -523,8 +523,10 @@ def generate_strategy_report(report_file=None):
             safe = safe.replace(ch, "")
         safe = safe[:31]
         t_header = ["Date", "Time_IST", "Mode", "Ticker", "Direction", "Entry", "Qty",
-                    "Exit", "Hold/Exit_Time", "Gross P&L", "Charges", "Net P&L",
-                    "P&L%", "Status", "Reason"]
+                    "SL", "Target", "MaxHold", "Exit", "Hold/Exit_Time",
+                    "Gross P&L", "Charges", "Net P&L", "P&L%", "Status",
+                    "Pattern_Rank", "Expected_WinRate", "Pattern_Factors",
+                    "Signal_Indicators", "Reason"]
         t_rows = []
         gr_tot = ch_tot = net_tot = 0.0
         grp_trades = groups[(d["tf"], d["rank"], d["ticker"], d["direction"])]["trades"]
@@ -536,8 +538,11 @@ def generate_strategy_report(report_file=None):
                 net_tot += n
                 t_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"), t.get("Ticker"),
                                t.get("Direction"), _f(t.get("Entry_Price")), _f(t.get("Qty")),
+                               _f(t.get("SL")), _f(t.get("Target")), t.get("MaxHold"),
                                _f(t.get("Exit_Price")), t.get("Exit_Time"), round(g, 2),
                                round(c, 2), round(n, 2), _f(t.get("P&L_%")), t.get("Status"),
+                               t.get("Pattern_Rank"), t.get("Expected_WinRate"),
+                               t.get("Pattern_Factors"), t.get("Signal_Indicators"),
                                t.get("Reason")])
             else:
                 entry = _f(t.get("Entry_Price"))
@@ -554,23 +559,28 @@ def generate_strategy_report(report_file=None):
                     gross = net = pnl_pct = 0.0
                     pnl_lbl = "—"
                 t_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"), t.get("Ticker"),
-                               t.get("Direction"), entry, qty, None, t.get("Exit_Time"),
+                               t.get("Direction"), entry, qty, _f(t.get("SL")),
+                               _f(t.get("Target")), t.get("MaxHold"), None, t.get("Exit_Time"),
                                round(gross, 2), round(charges, 2), pnl_lbl,
                                round(pnl_pct, 2) if isinstance(pnl_pct, float) else pnl_pct,
-                               t.get("Status"), t.get("Reason")])
-        t_rows.append(["", "", "", "", "", "", "", "", "TOTAL", round(gr_tot, 2),
-                       round(ch_tot, 2), round(net_tot, 2), "", "", ""])
+                               t.get("Status"), t.get("Pattern_Rank"),
+                               t.get("Expected_WinRate"), t.get("Pattern_Factors"),
+                               t.get("Signal_Indicators"), t.get("Reason")])
+        t_rows.append(["", "", "", "", "", "", "", "", "", "", "", "TOTAL",
+                       round(gr_tot, 2), round(ch_tot, 2), round(net_tot, 2), "", "",
+                       "", "", "", "", ""])
         tws = _write_sheet(wb, safe, t_header, t_rows,
-                           widths=[12, 12, 9, 11, 10, 10, 8, 10, 18, 11, 10, 12, 9, 9, 50],
-                           center_cols=(3, 4, 5, 8, 14),
-                           num_cols=(6, 7, 10, 11, 12))
+                           widths=[12, 12, 9, 11, 10, 10, 8, 10, 10, 8, 10, 18, 11, 10, 12, 9, 9,
+                                   9, 10, 45, 40, 50],
+                           center_cols=(3, 4, 5, 9, 12, 18),
+                           num_cols=(6, 7, 8, 9, 13, 14, 15, 16))
         tot_row = len(t_rows) + 1
-        for c in range(1, 16):
+        for c in range(1, len(t_header) + 1):
             tws.cell(row=tot_row, column=c).fill = TOT_FILL
             tws.cell(row=tot_row, column=c).font = Font(bold=True)
         # color net P&L column
         for r in range(2, tot_row):
-            cell = tws.cell(row=r, column=12)
+            cell = tws.cell(row=r, column=15)
             v = cell.value
             if isinstance(v, (int, float)):
                 cell.fill = GRN if v > 0 else (RED if v < 0 else NONE_FILL)
@@ -646,6 +656,34 @@ def generate_strategy_report(report_file=None):
             meta.cell(row=i, column=2, value=v)
         meta.column_dimensions["A"].width = 34
         meta.column_dimensions["B"].width = 26
+
+    # ── All Trades RAW — every column from paper_trades.csv, for independent
+    #    verification against real market data by any AI / human. ──
+    try:
+        import csv as _csv
+        raw_header = None
+        raw_rows = []
+        with open(PAPER_FILE, encoding="utf-8-sig", newline="") as f:
+            rd = _csv.DictReader(f)
+            raw_header = rd.fieldnames
+            for r in rd:
+                raw_rows.append([r.get(h, "") for h in raw_header])
+        if raw_header:
+            widths = [min(max(len(str(h)) + 2, 12), 45) for h in raw_header]
+            raw_ws = _write_sheet(wb, "All Trades RAW", raw_header, raw_rows,
+                                  widths=widths, center_cols=())
+            # freeze header row
+            raw_ws.freeze_panes = "A2"
+            # color Net P&L-ish columns red/green where numeric
+            for i, h in enumerate(raw_header, 1):
+                if str(h).strip().lower() in ("p&l", "p&l_%", "net p&l"):
+                    for r in range(2, len(raw_rows) + 2):
+                        cell = raw_ws.cell(row=r, column=i)
+                        v = cell.value
+                        if isinstance(v, (int, float)):
+                            cell.fill = GRN if v > 0 else (RED if v < 0 else YEL)
+    except Exception as e:
+        print(f"[StrategyReport] RAW sheet failed: {e}")
 
     # Deterministic metadata: pin created/modified to the latest trade date
     # so identical data yields byte-identical xlsx (no useless git commits).

@@ -172,3 +172,7 @@ Files: indep_bt_results.csv, indep_verify_bt.py
 - US +12.4k ab hamesha dikhega (14D window shift se confuse nahi hoga)
 - Telegram me ab strategy_report.xlsx bhi send hota hai (download button) — sirf tab jab file change hui (naya trade)
 - send_telegram_document me xlsx mime support add kiya
+- strategy_report.xlsx me full trade stats add: SL, Target, MaxHold, Pattern_Rank,
+  Expected_WinRate, Pattern_Factors, Signal_Indicators (har per-strategy sheet me)
+- Naya sheet "All Trades RAW" — paper_trades.csv ke saare 21 columns (103 trades),
+  kisi bhi AI/insaan ke liye independent verification
