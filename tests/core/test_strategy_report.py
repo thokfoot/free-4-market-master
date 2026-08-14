@@ -147,22 +147,30 @@ class TestReportFile:
         reasons = {ws.cell(row=r, column=11).value for r in range(2, ws.max_row + 1)}
         assert reasons, "every never-fired strategy needs a reason"
 
-    def test_every_fired_strategy_has_trade_sheet(self, report_file):
+    def test_all_trades_sheet_has_every_fired_trade(self, report_file):
+        """Single combined 'All Trades' sheet contains every fired trade
+        (one row per trade) — replaces the old per-strategy sheets."""
         wb = _load_wb(report_file)
+        assert "All Trades" in wb.sheetnames
         ws = wb["Summary"]
-        fired_labels = []
-        for r in range(2, ws.max_row + 1):
-            if (ws.cell(row=r, column=10).value or 0) > 0:
-                label = ws.cell(row=r, column=2).value or ""
-                # label like "#36ID DIA LONG"
-                fired_labels.append(" ".join(label.split()[:2]))
-        for lbl in fired_labels:
-            assert lbl in wb.sheetnames, f"missing trade sheet for {lbl}"
+        fired = sum(1 for r in range(2, ws.max_row + 1)
+                    if (ws.cell(row=r, column=10).value or 0) > 0)
+        assert fired > 0, "expected at least one fired strategy"
+        # All Trades sheet must have a TOTAL row with closed+open counts
+        at = wb["All Trades"]
+        last = at.cell(row=at.max_row, column=6).value
+        assert last == "TOTAL"
+        assert "trades (" in str(at.cell(row=at.max_row, column=18).value)
 
-    def test_portfolio_sheet_reconciles(self, report_file):
+    def test_all_trades_total_reconciles(self, report_file):
+        """All Trades TOTAL row: Net P&L == Gross - Charges."""
         wb = _load_wb(report_file)
-        assert "Portfolio" in wb.sheetnames
-        ws = wb["Portfolio"]
-        kv = {ws.cell(row=r, column=1).value: ws.cell(row=r, column=2).value
-              for r in range(2, ws.max_row + 1)}
-        assert kv["Net P&L (closed)"] == pytest.approx(kv["Gross P&L (closed, pre-charges)"] - kv["Total Charges"], abs=0.01)
+        assert "All Trades" in wb.sheetnames
+        ws = wb["All Trades"]
+        tot = ws.max_row
+        assert ws.cell(row=tot, column=6).value == "TOTAL"
+        gross = ws.cell(row=tot, column=14).value
+        charges = ws.cell(row=tot, column=15).value
+        net = ws.cell(row=tot, column=16).value
+        assert gross is not None and charges is not None and net is not None
+        assert net == pytest.approx(gross - charges, abs=0.01)

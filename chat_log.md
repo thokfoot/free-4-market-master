@@ -176,3 +176,6 @@ Files: indep_bt_results.csv, indep_verify_bt.py
   Expected_WinRate, Pattern_Factors, Signal_Indicators (har per-strategy sheet me)
 - Naya sheet "All Trades RAW" — paper_trades.csv ke saare 21 columns (103 trades),
   kisi bhi AI/insaan ke liye independent verification
+- Excel ab sirf 2 sheets: Summary + All Trades (single full-data sheet, 23 cols)
+- 52 per-strategy sheets + RAW + Portfolio meta hata diya — sab ek sheet me
+- Telegram me yahi ek file jati hai (57 KB, pehle 157 KB)

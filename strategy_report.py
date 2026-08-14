@@ -515,175 +515,86 @@ def generate_strategy_report(report_file=None):
     for r in range(len(fired_sum) + 2, len(rows) + 2):
         ws.cell(row=r, column=17).fill = GRY
 
-    # ── Sheet 2: Per-strategy trade sheets ──
-    for s in fired_sum:
-        d = s["defn"]
-        safe = f"#{d['rank']}{_suffix(d['tf'])} {d['ticker']}"
-        for ch in r'[]:*?/\\':
-            safe = safe.replace(ch, "")
-        safe = safe[:31]
-        t_header = ["Date", "Time_IST", "Mode", "Ticker", "Direction", "Entry", "Qty",
-                    "SL", "Target", "MaxHold", "Exit", "Hold/Exit_Time",
-                    "Gross P&L", "Charges", "Net P&L", "P&L%", "Status",
-                    "Pattern_Rank", "Expected_WinRate", "Pattern_Factors",
-                    "Signal_Indicators", "Reason"]
-        t_rows = []
-        gr_tot = ch_tot = net_tot = 0.0
-        grp_trades = groups[(d["tf"], d["rank"], d["ticker"], d["direction"])]["trades"]
-        for t in grp_trades:
-            if str(t.get("Status", "")).upper() == "CLOSED":
-                g, c, n = _gross_net(t)
-                gr_tot += g
-                ch_tot += c
-                net_tot += n
-                t_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"), t.get("Ticker"),
-                               t.get("Direction"), _f(t.get("Entry_Price")), _f(t.get("Qty")),
-                               _f(t.get("SL")), _f(t.get("Target")), t.get("MaxHold"),
-                               _f(t.get("Exit_Price")), t.get("Exit_Time"), round(g, 2),
-                               round(c, 2), round(n, 2), _f(t.get("P&L_%")), t.get("Status"),
-                               t.get("Pattern_Rank"), t.get("Expected_WinRate"),
-                               t.get("Pattern_Factors"), t.get("Signal_Indicators"),
-                               t.get("Reason")])
-            else:
-                entry = _f(t.get("Entry_Price"))
-                qty = _f(t.get("Qty"))
-                rate = _charge_rate(t.get("Mode"))
-                charges = round(entry * qty * rate, 2)
-                cur = closes.get(t.get("Ticker"))
-                if cur is not None:
-                    gross = round((cur - entry) * qty, 2) if t.get("Direction") == "LONG" else round((entry - cur) * qty, 2)
-                    net = round(gross - charges, 2)
-                    pnl_pct = round(net / (entry * qty) * 100, 2) if entry * qty else 0.0
-                    pnl_lbl = f"~{net:.2f} (unrealized)"
-                else:
-                    gross = net = pnl_pct = 0.0
-                    pnl_lbl = "—"
-                t_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"), t.get("Ticker"),
-                               t.get("Direction"), entry, qty, _f(t.get("SL")),
-                               _f(t.get("Target")), t.get("MaxHold"), None, t.get("Exit_Time"),
-                               round(gross, 2), round(charges, 2), pnl_lbl,
-                               round(pnl_pct, 2) if isinstance(pnl_pct, float) else pnl_pct,
-                               t.get("Status"), t.get("Pattern_Rank"),
-                               t.get("Expected_WinRate"), t.get("Pattern_Factors"),
-                               t.get("Signal_Indicators"), t.get("Reason")])
-        t_rows.append(["", "", "", "", "", "", "", "", "", "", "", "TOTAL",
-                       round(gr_tot, 2), round(ch_tot, 2), round(net_tot, 2), "", "",
-                       "", "", "", "", ""])
-        tws = _write_sheet(wb, safe, t_header, t_rows,
-                           widths=[12, 12, 9, 11, 10, 10, 8, 10, 10, 8, 10, 18, 11, 10, 12, 9, 9,
-                                   9, 10, 45, 40, 50],
-                           center_cols=(3, 4, 5, 9, 12, 18),
-                           num_cols=(6, 7, 8, 9, 13, 14, 15, 16))
-        tot_row = len(t_rows) + 1
-        for c in range(1, len(t_header) + 1):
-            tws.cell(row=tot_row, column=c).fill = TOT_FILL
-            tws.cell(row=tot_row, column=c).font = Font(bold=True)
-        # color net P&L column
-        for r in range(2, tot_row):
-            cell = tws.cell(row=r, column=15)
-            v = cell.value
-            if isinstance(v, (int, float)):
-                cell.fill = GRN if v > 0 else (RED if v < 0 else NONE_FILL)
-        if net_tot > 0:
-            tws.cell(row=tot_row, column=12).fill = GRN
-        elif net_tot < 0:
-            tws.cell(row=tot_row, column=12).fill = RED
-
-    # ── Sheet 3: Never fired + why ──
-    if unfired:
-        nf_header = ["Rank", "TF", "Market", "Ticker", "Region", "Direction", "Factors",
-                     "Backtest WR%", "Backtest NetPnL%", "Backtest Trades", "Why Not Fired"]
-        nf_rows = []
-        for d in unfired:
-            nf_rows.append([f"#{d['rank']}{_suffix(d['tf'])}",
-                            d["tf"], d["market"], d["ticker"], d.get("region", ""),
-                            d["direction"], d["factors"], d["backtest_wr"],
-                            d["backtest_pnl"], d["trades"], d["reason"]])
-        _write_sheet(wb, "Never Fired", nf_header, nf_rows,
-                     widths=[8, 12, 13, 11, 9, 9, 52, 10, 12, 10, 42],
-                     center_cols=(1, 2, 5, 6, 8, 9, 10))
-        # highlight gapdown ranks separately
-        gd_rows = [d for d in not_fired if d["rank"] in (997, 998)]
-        if gd_rows:
-            gd_header = ["Rank", "TF", "Market", "Ticker", "Region", "Direction", "Factors",
-                         "Backtest WR%", "Backtest NetPnL%", "Backtest Trades", "Why Not Fired"]
-            gd_rows_out = []
-            for d in gd_rows:
-                gd_rows_out.append([f"#{d['rank']}", d["tf"], d["market"], d["ticker"],
-                                    d.get("region", ""), d["direction"], d["factors"],
-                                    d["backtest_wr"], d["backtest_pnl"], d["trades"], d["reason"]])
-            _write_sheet(wb, "GapDown", gd_header, gd_rows_out,
-                         widths=[8, 12, 13, 11, 9, 9, 52, 10, 12, 10, 42],
-                         center_cols=(1, 2, 5, 6, 8, 9, 10))
-
-    # ── Sheet 4: Portfolio meta ──
-    if os.path.exists(PAPER_FILE):
-        closed = [t for t in trades if str(t.get("Status", "")).upper() == "CLOSED"]
-        gtot = ctot = ntot = 0.0
-        for t in closed:
+    # ── Sheet 2: ALL TRADES (single full-data sheet, combined) ──
+    # One row per trade with every column from paper_trades.csv PLUS
+    # Gross/Charges/Net breakdown. This single sheet is what gets sent
+    # to Telegram for independent verification by any AI / human.
+    all_header = ["Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame",
+                  "Entry", "Qty", "SL", "Target", "MaxHold", "Exit",
+                  "Hold/Exit_Time", "Gross P&L", "Charges", "Net P&L", "P&L%",
+                  "Status", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors",
+                  "Signal_Indicators", "Reason"]
+    all_rows = []
+    gr_tot = ch_tot = net_tot = 0.0
+    n_open = 0
+    for t in trades:
+        g = c = n = 0.0
+        pnl_lbl = 0.0
+        if str(t.get("Status", "")).upper() == "CLOSED":
             g, c, n = _gross_net(t)
-            gtot += g
-            ctot += c
-            ntot += n
-        wins = sum(1 for t in closed if _f(t.get("P&L")) > 0)
-        losses = sum(1 for t in closed if _f(t.get("P&L")) < 0)
-        breakeven = len(closed) - wins - losses
-        meta = wb.create_sheet("Portfolio")
-        meta.cell(row=1, column=1, value="Metric").fill = HDR_FILL
-        meta.cell(row=1, column=2, value="Value").fill = HDR_FILL
-        meta.cell(row=1, column=1).font = HDR_FONT
-        meta.cell(row=1, column=2).font = HDR_FONT
-        meta_items = [
-            ("Total Trades (incl. open)", len(trades)),
-            ("Closed Trades", len(closed)),
-            ("Open Positions", len(trades) - len(closed)),
-            ("Wins", wins),
-            ("Losses", losses),
-            ("Breakeven (0 P&L)", breakeven),
-            ("Win Rate %", round(wins / len(closed) * 100, 1) if closed else 0.0),
-            ("Gross P&L (closed, pre-charges)", round(gtot, 2)),
-            ("Total Charges", round(ctot, 2)),
-            ("Net P&L (closed)", round(ntot, 2)),
-            ("Strategies Fired", len(fired_sum)),
-            # Summary sheet lists 43 fired + 247 never-fired (gap-down 997/998
-            # live in their own GapDown sheet), so the meta count must use
-            # `unfired` (247) - `not_fired` (249) double-counts the GapDown defs.
-            ("Strategies Never Fired", len(unfired)),
-            ("Unmatched Trades (no strategy row)", unmatched),
-        ]
-        for i, (k, v) in enumerate(meta_items, 2):
-            meta.cell(row=i, column=1, value=k)
-            meta.cell(row=i, column=2, value=v)
-        meta.column_dimensions["A"].width = 34
-        meta.column_dimensions["B"].width = 26
-
-    # ── All Trades RAW — every column from paper_trades.csv, for independent
-    #    verification against real market data by any AI / human. ──
-    try:
-        import csv as _csv
-        raw_header = None
-        raw_rows = []
-        with open(PAPER_FILE, encoding="utf-8-sig", newline="") as f:
-            rd = _csv.DictReader(f)
-            raw_header = rd.fieldnames
-            for r in rd:
-                raw_rows.append([r.get(h, "") for h in raw_header])
-        if raw_header:
-            widths = [min(max(len(str(h)) + 2, 12), 45) for h in raw_header]
-            raw_ws = _write_sheet(wb, "All Trades RAW", raw_header, raw_rows,
-                                  widths=widths, center_cols=())
-            # freeze header row
-            raw_ws.freeze_panes = "A2"
-            # color Net P&L-ish columns red/green where numeric
-            for i, h in enumerate(raw_header, 1):
-                if str(h).strip().lower() in ("p&l", "p&l_%", "net p&l"):
-                    for r in range(2, len(raw_rows) + 2):
-                        cell = raw_ws.cell(row=r, column=i)
-                        v = cell.value
-                        if isinstance(v, (int, float)):
-                            cell.fill = GRN if v > 0 else (RED if v < 0 else YEL)
-    except Exception as e:
-        print(f"[StrategyReport] RAW sheet failed: {e}")
+            gr_tot += g
+            ch_tot += c
+            net_tot += n
+        else:
+            n_open += 1
+            entry = _f(t.get("Entry_Price"))
+            qty = _f(t.get("Qty"))
+            rate = _charge_rate(t.get("Mode"))
+            c = round(entry * qty * rate, 2)
+            cur = closes.get(t.get("Ticker"))
+            if cur is not None:
+                g = round((cur - entry) * qty, 2) if t.get("Direction") == "LONG" \
+                    else round((entry - cur) * qty, 2)
+                n = round(g - c, 2)
+                pnl_lbl = f"~{n:.2f} (unrealized)"
+        all_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"),
+                         t.get("Ticker"), t.get("Direction"), t.get("TimeFrame"),
+                         _f(t.get("Entry_Price")), _f(t.get("Qty")),
+                         _f(t.get("SL")), _f(t.get("Target")), t.get("MaxHold"),
+                         _f(t.get("Exit_Price")), t.get("Exit_Time"),
+                         round(g, 2), round(c, 2), n if isinstance(n, str) else round(n, 2),
+                         _f(t.get("P&L_%")), t.get("Status"),
+                         t.get("Pattern_Rank"), t.get("Expected_WinRate"),
+                         t.get("Pattern_Factors"), t.get("Signal_Indicators"),
+                         t.get("Reason")])
+    # sort: newest first
+    def _sort_key(r):
+        try:
+            return str(r[0] or "") + " " + str(r[1] or "")
+        except Exception:
+            return ""
+    all_rows.sort(key=_sort_key, reverse=True)
+    all_rows.append(["", "", "", "", "", "TOTAL", "", "", "", "", "", "",
+                     "", round(gr_tot, 2), round(ch_tot, 2), round(net_tot, 2),
+                     "", f"{len(trades)} trades ({len(trades) - n_open} closed / {n_open} open)",
+                     "", "", "", "", ""])
+    all_ws = _write_sheet(wb, "All Trades", all_header, all_rows,
+                          widths=[12, 12, 9, 12, 10, 13, 11, 8, 10, 10, 8, 11,
+                                  18, 11, 10, 12, 9, 12, 9, 10, 45, 40, 50],
+                          center_cols=(3, 4, 5, 6, 9, 10, 12, 18, 19),
+                          num_cols=(7, 8, 9, 10, 14, 15, 16, 17))
+    all_ws.freeze_panes = "A2"
+    all_ws.auto_filter.ref = f"A1:{get_column_letter(len(all_header))}{len(all_rows)}"
+    tot_row = len(all_rows) + 1
+    for c in range(1, len(all_header) + 1):
+        all_ws.cell(row=tot_row, column=c).fill = TOT_FILL
+        all_ws.cell(row=tot_row, column=c).font = Font(bold=True)
+    # color Net P&L column (16)
+    for r in range(2, tot_row):
+        cell = all_ws.cell(row=r, column=16)
+        v = cell.value
+        if isinstance(v, (int, float)):
+            cell.fill = GRN if v > 0 else (RED if v < 0 else NONE_FILL)
+    # color P&L% column (17)
+    for r in range(2, tot_row):
+        cell = all_ws.cell(row=r, column=17)
+        v = cell.value
+        if isinstance(v, (int, float)):
+            cell.fill = GRN if v > 0 else (RED if v < 0 else NONE_FILL)
+    if net_tot > 0:
+        all_ws.cell(row=tot_row, column=16).fill = GRN
+    elif net_tot < 0:
+        all_ws.cell(row=tot_row, column=16).fill = RED
 
     # Deterministic metadata: pin created/modified to the latest trade date
     # so identical data yields byte-identical xlsx (no useless git commits).
