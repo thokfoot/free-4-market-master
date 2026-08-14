@@ -1630,7 +1630,23 @@ def update_trades(ohlc_data: dict) -> list:
         trade_max_hold = int(mh) if pd.notna(mh) else MAX_HOLD_DAYS
         is_expired = False
         
-        if trade_tf == "GAP_DOWN_1m":
+        # ── INDIA SAME-DAY SQUARE OFF (15:30 IST market close) ──────────
+        # Strategy spec: "Time exit at 15:00/15:30 IST same day". Indian
+        # intraday positions MUST square off at market close — NOT hold a
+        # full wall-clock MaxHold past the close (e.g. 11:32 entry + 5h =
+        # 16:32 IST, which is AFTER the 15:30 close and produced the
+        # post-close "Expiry 5h" exits at 17:03 IST). Price used = last
+        # close (cmp) — same price as exiting at 15:30, just on time.
+        _mode_upper = str(row.get("Mode", "")).upper()
+        _is_india_intraday = (
+            _mode_upper == "INDIAN"
+            and trade_tf in ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h", "LONG_BOUNCE_5m")
+        )
+        if _is_india_intraday and now.time() >= datetime.strptime("15:30", "%H:%M").time():
+            exit_price = cmp
+            exit_reason = "Expiry Square Off 15:30 IST"
+            is_expired = True
+        elif trade_tf == "GAP_DOWN_1m":
             # 5-minute holding period for gap-down trades
             minutes_held = (now - entry_date).total_seconds() / 60
             if minutes_held >= trade_max_hold:

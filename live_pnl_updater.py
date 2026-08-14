@@ -507,13 +507,25 @@ def process_open_trades() -> tuple:
                 hold_limit = INTRADAY_MAX_HOLD_HOURS.get(str(row.get("Mode", "")).upper(), 6)
             else:
                 hold_limit = MAX_HOLD_DAYS
-            if trade_tf_live == "GAP_DOWN_1m":
+            # ── INDIA SAME-DAY SQUARE OFF (15:30 IST market close) ──
+            # Parity with paper_trader.update_trades: Indian intraday positions
+            # square off at market close, not a wall-clock MaxHold past close.
+            _mode_live = str(row.get("Mode", "")).upper()
+            _is_india_intraday = (
+                _mode_live == "INDIAN"
+                and trade_tf_live in ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h", "LONG_BOUNCE_5m", "US_FADE_5m")
+            )
+            if _is_india_intraday and now.time() >= datetime.strptime("15:30", "%H:%M").time():
+                exit_price = cmp
+                exit_reason = "Expiry Square Off 15:30 IST"
+                is_expired = True
+            elif trade_tf_live == "GAP_DOWN_1m":
                 mins_held = (now - entry_dt).total_seconds() / 60
                 if mins_held >= hold_limit:
                     exit_price = cmp
                     exit_reason = f"Expiry {int(mins_held)}m"
                     is_expired = True
-            elif trade_tf_live in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m"):
+            elif trade_tf_live in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m"):
                 if str(row.get("Mode", "")).upper() == "US":
                     # Session-time MaxHold (parity with paper_trader): only US
                     # session minutes (13:30-20:00 UTC weekdays) consume the

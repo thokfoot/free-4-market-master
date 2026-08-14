@@ -26,7 +26,7 @@ PORTFOLIO_FILE = f"{LOG_DIR}/portfolio.json"
 
 # Only these intraday frames need a fast self-healing loop. Swing positions
 # (multi-day holds, wider SL) are covered by the regular cron scans.
-TIME_SENSITIVE_TFS = ("GAP_DOWN_1m", "INTRADAY_1h")
+TIME_SENSITIVE_TFS = ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m")
 
 
 def should_reschedule(opens, now) -> tuple:
