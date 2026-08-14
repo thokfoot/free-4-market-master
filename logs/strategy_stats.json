@@ -238,9 +238,9 @@
     "rank": 903,
     "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | SL Hit (intraday)",
     "wins": 1,
-    "losses": 2,
-    "total_pnl": -1033.7600000000002,
-    "consec_losses": 1,
+    "losses": 3,
+    "total_pnl": -2119.3900000000003,
+    "consec_losses": 2,
     "paused_since": null
   },
   "906": {
