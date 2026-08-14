@@ -24,3 +24,4 @@ Date,Time,Mode,Tickers_Scanned,Errors,Patterns_Total,Patterns_Fired,New_Entries,
 2026-08-14,13:21:11 IST,GAPDOWN,0.0,0.0,0.0,0.0,0.0,0.0,21.0,673024.0,-26976.0,Skipped (no events)
 2026-08-14,13:48:39 IST,FADE,585.0,3.0,7954.0,4.0,0.0,0.0,21.0,673024.0,-26976.0,Sent
 2026-08-14,13:48:39 IST,LONG_BOUNCE,100.0,0.0,95.0,0.0,0.0,0.0,21.0,673024.0,-26976.0,Sent
+2026-08-14,14:31:14 IST,GAPDOWN,0.0,0.0,0.0,0.0,0.0,0.0,19.0,674523.0,-25477.0,Skipped (no events)
