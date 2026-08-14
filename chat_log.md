@@ -168,3 +168,5 @@ Files: indep_bt_results.csv, indep_verify_bt.py
 - Performance table: har subsection me ab W/L bhi (INDI [27S] 0T 0W/0L)
 - Live GitHub run 31774776996 verified: naya format production me sent (998 chars, 3 FADE entries)
 - Alignment fix: 0W/0L (L ke aage extra space remove)
+- TG PERFORMANCE ab ALL-TIME (14D hata diya) + running days count + har section ka return %
+- US +12.4k ab hamesha dikhega (14D window shift se confuse nahi hoga)

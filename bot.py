@@ -240,10 +240,10 @@ def _section_of(tf, mode):
     return tf
 
 
-def _section_stats(days: int = 14) -> dict:
-    """Per-section {T, W, L, pnl, ret_pct} over the last `days` calendar days
-    (incl. today) from logs/paper_trades.csv. ret_pct = pnl / 1,00,000 (the
-    display assumption used in the Telegram summary)."""
+def _section_stats() -> dict:
+    """Per-section {T, W, L, pnl, ret_pct} ALL-TIME from logs/paper_trades.csv
+    (no rolling window). ret_pct = pnl / 1,00,000 (the display assumption used
+    in the Telegram summary)."""
     sections = {k: {"T": 0, "W": 0, "L": 0, "pnl": 0.0} for k in
                 ("INDI", "ID-IND", "FADE", "LONG", "US-FD", "USA", "ID-US", "CRYP", "ID-₿")}
     try:
@@ -252,8 +252,6 @@ def _section_stats(days: int = 14) -> dict:
             return sections
         df = df.copy()
         df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-        cutoff = df["Date"].max() - pd.Timedelta(days=days - 1)
-        df = df[df["Date"] >= cutoff]
         for _, r in df.iterrows():
             key = _section_of(r.get("TimeFrame"), r.get("Mode"))
             if key not in sections:
@@ -321,15 +319,31 @@ def _compact_pnl(pnl: float) -> str:
     return f"{sign}₹{a:.0f}"
 
 
-def _country_summary_lines() -> list:
-    """Country-wise 14-day summary — separated blocks, one subsection per line.
+def _running_days() -> int:
+    """Total running days of the paper trade (first trade date -> today)."""
+    try:
+        df = pd.read_csv("logs/paper_trades.csv", on_bad_lines="warn")
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+        df = df.dropna(subset=["Date"])
+        if len(df) == 0:
+            return 0
+        first = df["Date"].min()
+        last = pd.Timestamp.utcnow().tz_localize(None)
+        return max(1, (last - first).days + 1)
+    except Exception:
+        return 0
 
-    ━━━ 🇮🇳 INDIA (14D) ━━━ [71S]
-      32T | 3W/22L | -18.0% | -₹36,065
-      ├ INDI   [27S]   0T
-      ├ ID-IND [ 2S]  14T   -31.9k
-      ├ FADE   [41S]  18T    -4.1k
-      └ LONG   [ 1S]   0T
+
+def _country_summary_lines() -> list:
+    """Country-wise ALL-TIME summary — separated blocks, one subsection per line,
+    with per-section return % of P&L.
+
+    ━━━ 🇮🇳 INDIA ━━━ [71S]
+      P&L -₹37,154 (-18.6%) | 35T | 3W/23L
+      ├ INDI    [27S]   0T  0W/0L       0.0%
+      ├ ID-IND  [ 2S]  14T  0W/14L   -31.9k  -31.9%
+      ├ FADE    [41S]  21T  3W/9L    -5.2k   -5.2%
+      └ LONG    [ 1S]   0T  0W/0L       0.0%
     """
     stats = _section_stats()
     strat = _strategy_counts()
@@ -348,10 +362,9 @@ def _country_summary_lines() -> list:
             tree = "└" if i == len(sections) - 1 else "├"
             seg = f"{tree} {key:<7} [{strat[key]:>2}S] {s['T']:>3}T {s['W']:>2}W/{s['L']}L"
             if s["T"] > 0 and s["pnl"] != 0:
-                if country == "USA":
-                    seg += f"   {s['ret_pct']:+.1f}%"
-                else:
-                    seg += "   " + _compact_pnl(s["pnl"])
+                seg += f"   {_compact_pnl(s['pnl']):>7}  {s['ret_pct']:+.1f}%"
+            else:
+                seg += "       0.0%"
             sec_lines.append("  " + seg)
         c_ret = cpnl / 200000.0 * 100.0
         pnl_sign = "+" if cpnl >= 0 else "-"
@@ -359,8 +372,8 @@ def _country_summary_lines() -> list:
             ret_txt = "-0%" if cpnl < 0 else "0%"
         else:
             ret_txt = f"{c_ret:+.1f}%"
-        lines.append(f"━━━ {flag} {country} (14D) ━━━ [{total_s}S]")
-        lines.append(f"  {cT}T | {cW}W/{cL}L | {ret_txt} | {pnl_sign}₹{abs(cpnl):,.0f}")
+        lines.append(f"━━━ {flag} {country} ━━━ [{total_s}S]")
+        lines.append(f"  P&L {pnl_sign}₹{abs(cpnl):,.0f} ({ret_txt}) | {cT}T | {cW}W/{cL}L")
         lines.extend(sec_lines)
     return lines
 
@@ -382,12 +395,10 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
     📡 Data 231/240 ✅ | 8063 Strats 💤 | 3 Err 🔴
     [🟢 BUY ... new-trade one-liners, only when entries fire]
 
-    🇮🇳 INDIA (14D) [64S]: 14T | 0W/14L | -16.0% | -₹31,926
-    ├ INDI [27S]: 0T | ID-IND [2S]: 14T -31.9k | FADE [35S]: 0T
-    🇺🇸 USA (14D) [211S]: 48T | 25W/11L | +6.1% | +₹12,145
-    ├ USA [172S]: 27T +0.5% | ID-US [39S]: 21T +11.6%
-    ₿ CRYPTO (14D) [41S]: 7T | 1W/3L | -0% | -₹59
-    ├ CRYP [29S]: 4T -₹36 | ID-₿ [12S]: 3T -₹23
+    🇮🇳 INDIA [64S]: P&L -₹36,065 (-18.0%) | 14T | 0W/14L
+    ├ INDI [27S] 0T 0W/0L 0.0% | ID-IND [2S] 14T 0W/14L -31.9k -31.9%
+    🇺🇸 USA [211S]: P&L +₹12,145 (+6.1%) | 48T | 25W/11L
+    ₿ CRYPTO [41S]: P&L -₹59 (0%) | 7T | 1W/3L
 
     💰 4.80L (-3.91%) | P&L -19.5k | Win 31/66 (47%) | Open 14
     🏆 #52 +1979/trd | 👎 #998 -2710/trd
@@ -462,7 +473,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
 
     # ===== COUNTRY SUMMARY (14D) with strategy counts =====
     lines.append("")
-    lines.append("━━━ PERFORMANCE (14D) ━━━")
+    rd = _running_days()
+    lines.append(f"━━━ PERFORMANCE (ALL-TIME • {rd} days) ━━━")
     lines.extend(_country_summary_lines())
 
     # ===== BOTTOM LINE + BEST/WORST =====
