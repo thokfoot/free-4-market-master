@@ -5352,5 +5352,23 @@
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
     "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 19:13:27 IST",
+    "entry_datetime": "2026-08-14 14:52:37 IST",
+    "mode": "INDIAN",
+    "ticker": "BDL.NS",
+    "direction": "SHORT",
+    "entry_price": 1413.29,
+    "exit_price": 1398.7,
+    "qty": 52,
+    "pnl": 670.54,
+    "pnl_pct": 0.91,
+    "hold": "4h 20m",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry Square Off 15:30 IST"
   }
 ]
