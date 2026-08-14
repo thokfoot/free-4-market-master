@@ -346,7 +346,7 @@ def _country_summary_lines() -> list:
             s = stats[key]
             cT += s["T"]; cW += s["W"]; cL += s["L"]; cpnl += s["pnl"]
             tree = "└" if i == len(sections) - 1 else "├"
-            seg = f"{tree} {key:<7} [{strat[key]:>2}S] {s['T']:>3}T"
+            seg = f"{tree} {key:<7} [{strat[key]:>2}S] {s['T']:>3}T {s['W']:>2}W/{s['L']:<2}L"
             if s["T"] > 0 and s["pnl"] != 0:
                 if country == "USA":
                     seg += f"   {s['ret_pct']:+.1f}%"

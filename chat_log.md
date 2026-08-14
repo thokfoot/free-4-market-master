@@ -165,3 +165,4 @@ Files: indep_bt_results.csv, indep_verify_bt.py
   total line, subsections apni-apni line pe (├/└ tree + aligned columns)
 - `━━━ PORTFOLIO ━━━` bottom line
 - Tests: 343 passed | py_compile OK
+- Performance table: har subsection me ab W/L bhi (INDI [27S] 0T 0W/0L)
