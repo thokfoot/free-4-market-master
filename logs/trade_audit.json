@@ -4706,5 +4706,65 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
     "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:50:20 IST",
+    "mode": "INDIAN",
+    "ticker": "BHARTIARTL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "skip_reason": "Duplicate BHARTIARTL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:50:20 IST",
+    "mode": "INDIAN",
+    "ticker": "BHARTIARTL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+    "skip_reason": "Duplicate BHARTIARTL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:50:20 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:50:20 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:50:20 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:50:20 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
   }
 ]
