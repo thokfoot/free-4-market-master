@@ -5316,5 +5316,41 @@
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
     "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 17:03:17 IST",
+    "entry_datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "BHARTIARTL.NS",
+    "direction": "SHORT",
+    "entry_price": 1994.0,
+    "exit_price": 1993.1,
+    "qty": 63,
+    "pnl": -93.8,
+    "pnl_pct": -0.07,
+    "hold": "5h 30m",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 17:03:17 IST",
+    "entry_datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "TATAPOWER.NS",
+    "direction": "SHORT",
+    "entry_price": 389.51,
+    "exit_price": 382.24,
+    "qty": 324,
+    "pnl": 2203.71,
+    "pnl_pct": 1.75,
+    "hold": "5h 30m",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | Expiry 5h"
   }
 ]
