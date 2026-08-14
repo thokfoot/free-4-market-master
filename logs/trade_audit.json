@@ -4608,5 +4608,103 @@
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
     "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "BHARTIARTL.NS",
+    "direction": "SHORT",
+    "entry_price": 1994.0,
+    "qty": 63,
+    "sl": 2008.96,
+    "target": 1953.11,
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "signal_indicators": "{\"Close\": 1995.0, \"Volume\": 167372, \"VolAvg20\": 102971.0, \"RSI14\": 86.3, \"Shoot_pct\": 2.7, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.14}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "TATAPOWER.NS",
+    "direction": "SHORT",
+    "entry_price": 389.51,
+    "qty": 324,
+    "sl": 392.43,
+    "target": 381.52,
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "signal_indicators": "{\"Close\": 389.55, \"Volume\": 197746, \"VolAvg20\": 57938.0, \"RSI14\": 76.6, \"Shoot_pct\": 2.1, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.14}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "BHARTIARTL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate BHARTIARTL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "TATAPOWER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+    "skip_reason": "Duplicate TATAPOWER.NS SHORT already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "entry_price": 32.55,
+    "qty": 2153,
+    "sl": 32.99,
+    "target": 31.3,
+    "pattern_rank": 996,
+    "expected_win_rate": 41.6,
+    "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "signal_indicators": "{\"Close\": 32.57, \"Volume\": 90214, \"VolAvg20\": 11878.0, \"RSI14\": 83.4, \"Shoot_pct\": 4.93, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.14}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 11:32:34 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
   }
 ]
