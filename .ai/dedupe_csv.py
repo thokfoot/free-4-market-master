@@ -10,6 +10,13 @@ physical trade logged twice (only the Reason column differs) -> keep first.
 Rows with different qty/entry/exit are legitimately distinct trades (e.g.
 same ticker traded 3x with qty 116/119/121) -> untouched.
 
+SAFETY: data/ strategy files (strategies.csv, intraday_strategies.csv,
+*_fade_universe.csv) are NEVER deduped. They are read-only config for the
+bot, and some of their columns (e.g. Direction) overlap with the trade
+identity key, which would collapse the whole strategy list to 2 rows
+(2026-08-14: dedupe ran on all *.csv after a fallback merge and truncated
+strategies.csv 228 -> 2, cutting the live scanner from 228 to 2 strategies).
+
 Usage: python .ai/dedupe_csv.py [file...]
 """
 import sys
@@ -19,8 +26,16 @@ import pandas as pd
 KEY_COLS = ["Date", "Time_IST", "Ticker", "Direction", "Entry_Price",
             "Qty", "Exit_Price", "Status"]
 
+# Strategy/universe definition files — read-only config, never trade logs.
+# Never dedupe them (see SAFETY note above).
+PROTECTED_PREFIXES = ("data/",)
+
 
 def dedupe(path: str) -> int:
+    norm = path.replace("\\", "/")
+    if norm.startswith(PROTECTED_PREFIXES):
+        print(f"[dedupe] skip (protected) {path}")
+        return 0
     try:
         df = pd.read_csv(path, on_bad_lines="warn")
     except Exception as e:
