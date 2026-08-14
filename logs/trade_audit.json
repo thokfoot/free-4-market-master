@@ -4766,5 +4766,71 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
     "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-14 12:10:59 IST",
+    "mode": "INDIAN",
+    "ticker": "ECOSMOBLTY.NS",
+    "direction": "SHORT",
+    "entry_price": 121.94,
+    "qty": 1041,
+    "sl": 122.85,
+    "target": 119.44,
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "signal_indicators": "{\"Close\": 122.0, \"Volume\": 1904, \"VolAvg20\": 598.0, \"RSI14\": 73.1, \"Shoot_pct\": 7.38, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": -0.14}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 12:10:59 IST",
+    "mode": "INDIAN",
+    "ticker": "ECOSMOBLTY.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+    "skip_reason": "Duplicate ECOSMOBLTY.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 12:10:59 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 12:10:59 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 12:10:59 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-14 12:10:59 IST",
+    "mode": "INDIAN",
+    "ticker": "GSLSU.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Duplicate GSLSU.NS SHORT already open"
   }
 ]
