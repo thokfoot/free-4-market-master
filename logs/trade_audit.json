@@ -4590,5 +4590,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
     "skip_reason": "Duplicate IDEA.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-14 11:29:00 IST",
+    "entry_datetime": "2026-08-14 10:49:40 IST",
+    "mode": "INDIAN",
+    "ticker": "ARIES.NS",
+    "direction": "SHORT",
+    "entry_price": 405.3,
+    "exit_price": 410.58,
+    "qty": 189,
+    "pnl": -1088.93,
+    "pnl_pct": -1.42,
+    "hold": "39m 20s",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
   }
 ]

@@ -4,7 +4,7 @@
     "US": 101232.46000000002,
     "CRYPTO": 99963.86,
     "INTRADAY": 79163.25999999994,
-    "FADE": 95860.93999999999,
+    "FADE": 94772.01,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0
   },
@@ -381,29 +381,6 @@
       "Date": "2026-08-14",
       "Time_IST": "10:49:40 IST",
       "Mode": "INDIAN",
-      "Ticker": "ARIES.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 405.3,
-      "Qty": 189,
-      "SL": 410.37,
-      "Target": 393.33,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 903,
-      "Expected_WinRate": 45.41,
-      "Pattern_Factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Signal_Indicators": "{\"Close\": 405.15, \"Volume\": 4827, \"VolAvg20\": 2164.0, \"RSI14\": 66.7, \"Shoot_pct\": 4.39, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.14}"
-    },
-    {
-      "Date": "2026-08-14",
-      "Time_IST": "10:49:40 IST",
-      "Mode": "INDIAN",
       "Ticker": "IDEA.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -493,18 +470,18 @@
       "Signal_Indicators": "{\"Close\": 11667.0, \"Volume\": 11241, \"VolAvg20\": 2028.0, \"RSI14\": 75.3, \"Shoot_pct\": 3.07, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": -0.14}"
     }
   ],
-  "closed_count": 79,
+  "closed_count": 80,
   "total_wins": 35,
-  "total_losses": 43,
-  "total_pnl": -23779.48,
+  "total_losses": 44,
+  "total_pnl": -24868.41,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 1232.4599999999998,
     "CRYPTO": -36.14,
     "INTRADAY": -20836.740000000005,
-    "FADE": -4139.0599999999995,
+    "FADE": -5227.99,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 0.0
   },
-  "total_capital": 676220.52
+  "total_capital": 675131.59
 }
