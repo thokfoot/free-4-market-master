@@ -57,7 +57,7 @@
     "^NYA": 0.51,
     "XLB": 0.57,
     "OEF": 0.53,
-    "ETH-USD": -0.04,
+    "ETH-USD": -0.03,
     "XLI": 0.52,
     "XLP": 1.42,
     "RECLTD.NS": -0.12,
@@ -72,11 +72,11 @@
     "^DJT": -0.01,
     "APEX.NS": 0.92,
     "UNIVASTU.NS": -0.48,
-    "IDEA.NS": -0.43,
-    "APOLLOHOSP.NS": 0.23,
-    "OFSS.NS": -0.1,
-    "BHARTIARTL.NS": -0.18,
+    "IDEA.NS": -0.5,
+    "APOLLOHOSP.NS": 0.19,
+    "OFSS.NS": -0.13,
+    "BHARTIARTL.NS": -0.15,
     "TATAPOWER.NS": 1.17,
-    "GSLSU.NS": 0.8
+    "GSLSU.NS": 0.77
   }
 }
