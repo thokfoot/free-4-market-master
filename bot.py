@@ -1375,6 +1375,26 @@ def check_market_transitions(mkt_status: dict) -> list:
         print(f"[Bot] Market transition check failed: {e}")
     return alerts
 
+def _commit_state_now():
+    """Ephemeral-runner safeguard: commit state files IMMEDIATELY after trades
+    change, so entries/exits survive even if the job is killed before the
+    workflow's final 'Commit logs' step (e.g. timeout / push failure). Without
+    this, a trade announced on Telegram but never committed is lost forever
+    (^DJT entry 2026-08-14 02:53 IST was announced but never recorded)."""
+    try:
+        import os, subprocess, time as _time
+        base = os.path.dirname(os.path.abspath(__file__))
+        script = os.path.join(base, ".ai", "commit_logs.sh")
+        if not os.path.exists(script):
+            print("[Commit] commit_logs.sh not found - skipping mid-run commit")
+            return
+        msg = "state " + _time.strftime("%Y-%m-%d %H:%M UTC", _time.gmtime())
+        r = subprocess.run(["bash", script, msg], capture_output=True, text=True, timeout=150)
+        out = (r.stdout or "").strip().splitlines()
+        print(f"[Commit] mid-run commit rc={r.returncode} | {out[-1] if out else ''}")
+    except Exception as e:
+        print(f"[Commit] mid-run commit failed (non-fatal): {e}")
+
 def main():
     """Main bot entry point. Supports --mode swing (default), intraday, both, or gapdown."""
     start_time = time.time()
@@ -1546,6 +1566,10 @@ def main():
         "strategies_fired": total_fired,
         "errors": total_errors,
     }
+
+    # ── Ephemeral-runner safeguard: persist entries/exits NOW, before any
+    #    Telegram send or job timeout can lose them. ──
+    _commit_state_now()
     
     # ── Telegram gating: 5-min fade/gapdown scans only message on events.
     #    Scheduled both/swing/intraday runs always send the summary. ──

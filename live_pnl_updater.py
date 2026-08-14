@@ -772,6 +772,24 @@ def _log_live_snapshot(portfolio: dict):
 
 
 # ── Main ──────────────────────────────────────────────────────
+def _commit_state_now():
+    """Ephemeral-runner safeguard: commit state files IMMEDIATELY after trades
+    change, so entries/exits survive even if the job is killed before the
+    workflow's final 'Commit logs' step (timeout / push failure)."""
+    try:
+        import os, subprocess, time as _time
+        base = os.path.dirname(os.path.abspath(__file__))
+        script = os.path.join(base, ".ai", "commit_logs.sh")
+        if not os.path.exists(script):
+            print("[Commit] commit_logs.sh not found - skipping mid-run commit")
+            return
+        msg = "state " + _time.strftime("%Y-%m-%d %H:%M UTC", _time.gmtime())
+        r = subprocess.run(["bash", script, msg], capture_output=True, text=True, timeout=150)
+        out = (r.stdout or "").strip().splitlines()
+        print(f"[Commit] mid-run commit rc={r.returncode} | {out[-1] if out else ''}")
+    except Exception as e:
+        print(f"[Commit] mid-run commit failed (non-fatal): {e}")
+
 def main():
     print(f"\n{'='*60}")
     print(f"  LIVE P&L UPDATER v5.10")
@@ -788,6 +806,9 @@ def main():
     start = time.time()
     closed_msgs, update_msgs = process_open_trades()
     elapsed = time.time() - start
+
+    # ── Ephemeral-runner safeguard: persist closes NOW (see _commit_state_now). ──
+    _commit_state_now()
     
     print(f"\n[Live] Check complete — {elapsed:.1f}s")
     print(f"[Live] Closed: {len(closed_msgs)} | Updates: {len(update_msgs)}")

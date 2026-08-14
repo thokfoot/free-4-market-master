@@ -63,3 +63,9 @@ User ne 14 Aug 02:53 IST wali TG message ke data pe doubt kiya (^DJT BUY, BTC ex
 - Deploy V1 (commit+push config/scanner_fade/bot version bump)
 - Lost-trade fix: bot.yml timeout 10→20min + immediate post-scan commit
 - Data reliability: dedupe downloads / reduce per-run load
+
+## 2026-08-14 — LOST-TRADE FIX (user: "Lost-trade fix apply karo")
+Root cause of ^DJT loss: GitHub Actions ephemeral runner — bot added trade + sent TG alert, but final "Commit logs" step never ran (job timeout/push fail) → state destroyed. Fix applied:
+1. Timeouts: bot.yml 10→20, fade_scan.yml 12→20, gap_down.yml 10→20 (20 min).
+2. New _commit_state_now() helper (bot.py + live_pnl_updater.py): commits state files via .ai/commit_logs.sh IMMEDIATELY after scans/trade-closes, BEFORE any TG send — so entries/exits survive even if the job dies after.
+Verified: py_compile OK, imports OK, call placed before TG send in both files.
