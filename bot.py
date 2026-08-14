@@ -322,10 +322,14 @@ def _compact_pnl(pnl: float) -> str:
 
 
 def _country_summary_lines() -> list:
-    """Country-wise 14-day summary — compact 2-line blocks with strategy counts.
+    """Country-wise 14-day summary — separated blocks, one subsection per line.
 
-    Line 1 (country total):  🇮🇳 INDIA (14D) [64S]: 14T | 0W/14L | -16.0% | -₹31,926
-    Line 2 (sections):       ├ INDI [27S]: 0T | ID-IND [2S]: 14T -31.9k | FADE [35S]: 0T
+    ━━━ 🇮🇳 INDIA (14D) ━━━ [71S]
+      32T | 3W/22L | -18.0% | -₹36,065
+      ├ INDI   [27S]   0T
+      ├ ID-IND [ 2S]  14T   -31.9k
+      ├ FADE   [41S]  18T    -4.1k
+      └ LONG   [ 1S]   0T
     """
     stats = _section_stats()
     strat = _strategy_counts()
@@ -337,26 +341,27 @@ def _country_summary_lines() -> list:
         cT = cW = cL = 0
         cpnl = 0.0
         total_s = sum(strat.get(k, 0) for k in sections)
-        sec_parts = []
-        for key in sections:
+        sec_lines = []
+        for i, key in enumerate(sections):
             s = stats[key]
             cT += s["T"]; cW += s["W"]; cL += s["L"]; cpnl += s["pnl"]
-            seg = f"{key} [{strat[key]}S]: {s['T']}T"
+            tree = "└" if i == len(sections) - 1 else "├"
+            seg = f"{tree} {key:<7} [{strat[key]:>2}S] {s['T']:>3}T"
             if s["T"] > 0 and s["pnl"] != 0:
                 if country == "USA":
-                    seg += " " + f"{s['ret_pct']:+.1f}%"
+                    seg += f"   {s['ret_pct']:+.1f}%"
                 else:
-                    seg += " " + _compact_pnl(s["pnl"])
-            sec_parts.append(seg)
+                    seg += "   " + _compact_pnl(s["pnl"])
+            sec_lines.append("  " + seg)
         c_ret = cpnl / 200000.0 * 100.0
         pnl_sign = "+" if cpnl >= 0 else "-"
         if abs(c_ret) < 0.05:
             ret_txt = "-0%" if cpnl < 0 else "0%"
         else:
             ret_txt = f"{c_ret:+.1f}%"
-        lines.append(f"{flag} {country} (14D) [{total_s}S]: {cT}T | {cW}W/{cL}L | "
-                     f"{ret_txt} | {pnl_sign}₹{abs(cpnl):,.0f}")
-        lines.append("├ " + " | ".join(sec_parts))
+        lines.append(f"━━━ {flag} {country} (14D) ━━━ [{total_s}S]")
+        lines.append(f"  {cT}T | {cW}W/{cL}L | {ret_txt} | {pnl_sign}₹{abs(cpnl):,.0f}")
+        lines.extend(sec_lines)
     return lines
 
 
@@ -439,28 +444,32 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
         if parts:
             lines.append(" | ".join(parts))
 
-    # ===== NEW TRADES (compact one-liners, only when entries fire) =====
+    # ===== NEW TRADES (section block, only when entries fire) =====
     if entries:
         lines.append("")
+        lines.append(f"🆕 NEW TRADES ({len(entries)})")
         for t in entries:
             action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL SHORT"
-            rank_str = f" #{t.get('rank','')}" if t.get('rank') else ""
+            rank_str = f"#{t.get('rank','')}" if t.get('rank') else ""
             tf_tag = t.get("tf", "") or ""
             tf_badge = {"FADE_1h": "⚡FD", "US_FADE_5m": "🌎FD",
                         "INTRADAY_1h": "⚡ID",
                         "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW"}.get(tf_tag, "")
             tf_txt = f" {tf_badge}" if tf_badge else ""
-            lines.append(f"{action} `{t['ticker']}`{tf_txt}{rank_str} "
-                         f"@ {round_price(t['close'])} SL {t['sl']} TGT {t['target']}")
+            rank_txt = f" {rank_str}" if rank_str else ""
+            lines.append(f"{action} `{t['ticker']}`{tf_txt}{rank_txt}")
+            lines.append(f"    Entry {round_price(t['close'])}  |  SL {t['sl']}  |  TGT {t['target']}")
 
     # ===== COUNTRY SUMMARY (14D) with strategy counts =====
     lines.append("")
+    lines.append("━━━ PERFORMANCE (14D) ━━━")
     lines.extend(_country_summary_lines())
 
     # ===== BOTTOM LINE + BEST/WORST =====
     pnl_sign = "+" if total_pnl >= 0 else "-"
     cap_lakhs = cape / 100000.0
     lines.append("")
+    lines.append("━━━ PORTFOLIO ━━━")
     lines.append(f"💰 {cap_lakhs:.2f}L ({ret_sign}{ret_pct:.2f}%) | "
                  f"P&L {pnl_sign}{abs(total_pnl)/1000:.1f}k | "
                  f"Win {wins}/{total_closed} ({win_rate}%) | Open {open_count}")

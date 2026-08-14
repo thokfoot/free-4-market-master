@@ -132,3 +132,36 @@ Also confirmed: ^DJT trade IS recorded (logs/paper_trades.csv line 94, entered
 4. Header metric fix (previous commit b8a2555) already live: unique-ticker counts.
 
 Verified: imports OK, py_compile OK, pytest 343 passed.
+
+## 2026-08-14 — Independent re-verification of unified backtest (fresh data)
+
+User asked to recheck independently + fetch fresh data + match results.
+
+Method: Wrote indep_verify_bt.py — FULLY independent implementation:
+  - Own indicator math (SMA/EMA/RSI-Wilder/BB/Range/Ret/2Red/high20...) — no scanner.py reuse
+  - Own factor parser (COL map + regex) — no explain_signal reuse
+  - Fresh data via direct Yahoo chart API (market_data._yahoo_chart_direct) — cache bypassed
+  - Same walk-forward: signal bar t close -> enter t+1 open, SL/TP intrabar, time exit, per-market costs
+
+MATCH RESULT (279 strategies with trades):
+  - identical trades: 99.64%
+  - net% identical (<=0.01pt): 96.77%
+  - net% within 1pt: 99.64%
+  - avg |net diff|: 0.008 pts | max: 2.02 pts
+  - Only 1 strategy differs >0.5pt: QQQ #66 (50T +14.7% vs 51T +12.7%) — 1 boundary-day trade
+  - Family totals identical: SWING 12890/12891 trades, 200/200 profitable, sum +3572/+3570
+    INTRADAY 338/338, 37/37 profitable, +48.6/+48.6
+
+Bug caught during verification: my first indep script had SHORT P&L computed with
+LONG formula (mirrored sign) — fixed; also initial rank-keyed comparison collided on
+duplicate factors (rank 45 vs 25 both "Close>Open+2Red") — fixed with rank+ticker key.
+
+CONCLUSION: Previous unified backtest results are CONFIRMED reproducible.
+Files: indep_bt_results.csv, indep_verify_bt.py
+
+## 2026-08-14 — TG message visual redesign (v5.20)
+- Sections ab clear blocks me: `━━━ NEW TRADES ━━━` (per-trade 2-line card: action+ticker+badge+rank, then Entry|SL|TGT line)
+- `━━━ PERFORMANCE (14D) ━━━` — har country ka apna `━━━ 🇮🇳 INDIA ━━━ [71S]` header,
+  total line, subsections apni-apni line pe (├/└ tree + aligned columns)
+- `━━━ PORTFOLIO ━━━` bottom line
+- Tests: 343 passed | py_compile OK
