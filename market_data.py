@@ -293,7 +293,7 @@ def _bars_to_df(bars, interval) -> pd.DataFrame:
 
 
 def download(ticker: str, interval: str = "15m", period: str = "60d",
-             start=None, end=None) -> pd.DataFrame:
+             start=None, end=None, force_refresh: bool = False) -> pd.DataFrame:
     """Download OHLCV with automatic provider fallback + persistent cache.
 
     The cache (data/ohlc_cache.json) is restored/saved by the GitHub Actions
@@ -309,7 +309,9 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
     entry = cache.get(cache_key)
 
     # ── 0) fresh cache hit (period-based calls only; replay uses start/end) ──
-    if start is None and end is None and entry and entry.get("bars"):
+    # force_refresh=True (IPO daily scan) always goes to the network so a
+    # listing-dip cross is never masked by a stale cache entry.
+    if not force_refresh and start is None and end is None and entry and entry.get("bars"):
         if (now - entry.get("ts", 0)) < ttl:
             df = _bars_to_df(entry["bars"], interval)
             if len(df) > 0:

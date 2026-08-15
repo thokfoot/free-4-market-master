@@ -41,11 +41,12 @@ import market_data
 IST = pytz.timezone("Asia/Kolkata")
 
 
-def _download(ticker: str, interval: str, period: str) -> pd.DataFrame:
+def _download(ticker: str, interval: str, period: str, force: bool = False) -> pd.DataFrame:
     import time as _time
     for attempt in range(3):
         try:
-            df = market_data.download(ticker, interval=interval, period=period)
+            df = market_data.download(ticker, interval=interval, period=period,
+                                       force_refresh=force)
             if df is not None and len(df) > 0:
                 return df
         except Exception:
@@ -138,7 +139,7 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
     for interval in intervals_needed:
         period = period_map.get(interval, "730d")
         with ThreadPoolExecutor(max_workers=8) as pool:
-            futs = {pool.submit(_download, u["ticker"], interval, period): u for u in universe}
+            futs = {pool.submit(_download, u["ticker"], interval, period, True): u for u in universe}
             for fut in as_completed(futs):
                 u = futs[fut]
                 try:
@@ -299,8 +300,57 @@ def _fetch_listed_this_year(year: int) -> list:
     return []
 
 
+def _chart_probe(sym: str) -> bool:
+    """True if Yahoo chart API has real bars for this symbol."""
+    import requests as _req
+    try:
+        r = _req.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}",
+                     params={"range": "3mo", "interval": "1d"},
+                     headers=_UA, timeout=8)
+        res = r.json().get("chart", {}).get("result")
+        return bool(res and res[0].get("timestamp"))
+    except Exception:
+        return False
+
+
+def _name_candidates(name: str) -> list:
+    """Derive plausible NSE ticker symbols from a company name."""
+    import re as _re
+    n = name.upper()
+    for w in (" LTD.", " LIMITED", " LTD", " PVT.", " PVT", " PRIVATE LIMITED",
+              " INDIA", " INDIAN", " INDUSTRIES", " INDUSTRY", " VENTURES",
+              " TECHNOLOGIES", " TECHNOLOGY", " SYSTEMS", " SYSTEM",
+              " CORPORATION", " ENTERPRISES", " ENTERPRISE", " HOLDINGS",
+              " HOLDING", " GLOBAL", " GROUP", " &", " AND", " THE",
+              " COMPANY", " CO", " LIMITED", " INTERNATIONAL"):
+        n = n.replace(w, " ")
+    tokens = [t for t in _re.sub(r"[^A-Z0-9 ]+", "", n).split() if t]
+    if not tokens:
+        return []
+    clean = "".join(tokens)
+    cands = [clean, tokens[0]]
+    if len(clean) > 10:
+        cands.append(clean[:10])
+    if len(tokens) >= 2:
+        cands.append(tokens[0] + tokens[1][:2])
+    if len(tokens) >= 2:
+        cands.append("".join(t[:1] for t in tokens[:4]))
+    out = []
+    for c in cands:
+        if c and c not in out:
+            out.append(c)
+    return out
+
+
 def _ysearch_symbol(name: str) -> str:
-    """Resolve a company name to a Yahoo .NS symbol (best-effort)."""
+    """Resolve a company name to a Yahoo .NS symbol (best-effort).
+
+    Tries, in order:
+      1. Yahoo finance search (existing, matches most listed names)
+      2. BSE (.BO) twin of the searched name -> same ticker on .NS
+      3. Name-derived ticker candidates probed against the chart API
+    (Fix A v5.23: catches new listings Yahoo search has not indexed yet.)
+    """
     import requests as _req
     queries = [name]
     for suf in (" Ltd.", " Limited", " Ltd", " Private Limited"):
@@ -309,6 +359,7 @@ def _ysearch_symbol(name: str) -> str:
             break
     queries.append(name.split(" Ltd.")[0].split(" Limited")[0])
     seen = set()
+    bo_sym = None
     for q in queries:
         q = q.strip()
         if not q or q in seen:
@@ -325,8 +376,21 @@ def _ysearch_symbol(name: str) -> str:
                 sym = qq.get("symbol", "")
                 if sym.endswith(".NS") and qq.get("quoteType") == "EQUITY":
                     return sym
+                if sym.endswith(".BO") and qq.get("quoteType") == "EQUITY" \
+                        and bo_sym is None:
+                    bo_sym = sym
         except Exception:
             continue
+    # BSE twin -> NSE (mainboard IPOs list on both, ticker usually same)
+    if bo_sym:
+        ns = bo_sym[:-3] + ".NS"
+        if _chart_probe(ns):
+            return ns
+    # Name-derived candidates (new listings search has not indexed)
+    for cand in _name_candidates(name):
+        ns = cand + ".NS"
+        if _chart_probe(ns):
+            return ns
     return None
 
 
@@ -390,7 +454,7 @@ def discover_new_ipos() -> list:
             continue
         # validate freshness with real data
         try:
-            df = _download(sym, "1d", "730d")
+            df = _download(sym, "1d", "730d", force=True)
             df = _norm(df)
             if df is None or len(df) == 0:
                 print(f"[IPO] Discovery: no data for {sym} — skipped")
