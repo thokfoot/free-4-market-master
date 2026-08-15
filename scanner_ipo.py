@@ -246,3 +246,188 @@ if __name__ == "__main__":
     for s in res["all_signals"]:
         print(f"  [{'FIRE' if s['fired'] else 'wait'}] {s['ticker']:20s} {s['direction']:5s} "
               f"#{s['rank']} close={s['close']:.2f} - {s['reason']}")
+
+
+# ── AUTO-DISCOVERY of new IPO listings (v5.21) ─────────────────────────────
+# Every weekday the bot fetches Chittorgarh's mainboard performance tracker
+# (server-rendered HTML, current year). Companies NOT already in the watchlist
+# are classified by their Listing Day Gain:
+#     >= +30%  -> DIP  (premium listing; -10% dip-buy edge, 11/11 verified)
+#     <  0%    -> SHORT (negative opening; day-2 short edge, 70-80% verified)
+# The Yahoo symbol is resolved and validated against fresh 1d data (must have
+# listed within the last 60 sessions). Newly listed IPOs are appended to
+# data/ipo_watchlist.csv automatically; the scanner's no-backfill + once-per-IPO
+# logic then handles entry timing (DIP waits for the -10% cross, SHORT fires on
+# the day-2 bar).
+IPO_TRACKER_URL = "https://www.chittorgarh.com/ipo/ipo_perf_tracker.asp?year={}"
+IPO_DISCOVERY_MAX_AGE_DAYS = 60
+_UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+
+
+def _fetch_listed_this_year(year: int) -> list:
+    """[(company_name, listing_day_gain_pct), ...] from the mainboard tracker."""
+    import requests as _req
+    import re as _re
+    try:
+        r = _req.get(IPO_TRACKER_URL.format(year), headers=_UA, timeout=25)
+        if r.status_code != 200:
+            print(f"[IPO] Tracker HTTP {r.status_code}")
+            return []
+        tables = _re.findall(r"<table[^>]*>.*?</table>", r.text, _re.S)
+        for t in tables:
+            rows = _re.findall(r"<tr[^>]*>(.*?)</tr>", t, _re.S)
+            if len(rows) <= 3:
+                continue
+            out = []
+            for row in rows[1:]:
+                cells = _re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, _re.S)
+                cells = [_re.sub(r"<[^>]+>", "", c).strip() for c in cells]
+                if len(cells) < 2 or not cells[0]:
+                    continue
+                name = cells[0]
+                gain = None
+                try:
+                    gain = float(cells[1].replace("%", "").replace(",", "").strip())
+                except (TypeError, ValueError):
+                    gain = None
+                out.append((name, gain))
+            if out:
+                return out
+    except Exception as e:
+        print(f"[IPO] Tracker fetch error: {e}")
+    return []
+
+
+def _ysearch_symbol(name: str) -> str:
+    """Resolve a company name to a Yahoo .NS symbol (best-effort)."""
+    import requests as _req
+    queries = [name]
+    for suf in (" Ltd.", " Limited", " Ltd", " Private Limited"):
+        if name.endswith(suf):
+            queries.append(name[: -len(suf)])
+            break
+    queries.append(name.split(" Ltd.")[0].split(" Limited")[0])
+    seen = set()
+    for q in queries:
+        q = q.strip()
+        if not q or q in seen:
+            continue
+        seen.add(q)
+        try:
+            r = _req.get(
+                "https://query1.finance.yahoo.com/v1/finance/search",
+                params={"q": q, "quotesCount": 5},
+                headers=_UA, timeout=12)
+            if r.status_code != 200:
+                continue
+            for qq in r.json().get("quotes", []):
+                sym = qq.get("symbol", "")
+                if sym.endswith(".NS") and qq.get("quoteType") == "EQUITY":
+                    return sym
+        except Exception:
+            continue
+    return None
+
+
+def _norm_name(name: str) -> str:
+    import re as _re
+    n = name.lower()
+    for suf in (" ltd.", " ltd", " limited", " private", " &", " and "):
+        n = n.replace(suf, " ")
+    return _re.sub(r"[^a-z0-9]+", "", n)
+
+
+def discover_new_ipos() -> list:
+    """Detect newly listed mainboard IPOs and append them to the watchlist.
+
+    Runs at most once per calendar day (state stored in data/ipo_state.json).
+    Returns a list of dicts {ticker, strategy, name, listing_date, gain}.
+    """
+    import csv as _csv
+    from datetime import datetime as _dt, timedelta as _td
+
+    state = _load_state()
+    disc = state.get("_discovery", {})
+    today = _dt.now(IST).strftime("%Y-%m-%d")
+    if disc.get("last") == today:
+        return []  # already ran today
+
+    year = _dt.now(IST).year
+    listed = _fetch_listed_this_year(year)
+    if not listed:
+        # record anyway so we don't hammer the tracker every run
+        state["_discovery"] = {"last": today, "added": state.get("_discovery", {}).get("added", 0)}
+        _save_state(state)
+        return []
+
+    # existing watchlist (name-normalized + tickers)
+    existing_names = set()
+    existing_tickers = set()
+    for u in load_ipo_universe():
+        existing_names.add(_norm_name(u["name"]))
+        existing_tickers.add(u["ticker"])
+
+    added = []
+    for name, gain in listed:
+        if gain is None:
+            continue
+        nname = _norm_name(name)
+        if nname in existing_names:
+            continue
+        if gain >= 30.0:
+            strat = "DIP"
+        elif gain < 0.0:
+            strat = "SHORT"
+        else:
+            continue  # flat/weak listings have no verified edge
+        sym = _ysearch_symbol(name)
+        if not sym:
+            print(f"[IPO] Discovery: no Yahoo symbol for '{name}' (gain {gain:+.1f}%) — skipped")
+            continue
+        if sym in existing_tickers:
+            existing_names.add(nname)
+            continue
+        # validate freshness with real data
+        try:
+            df = _download(sym, "1d", "730d")
+            df = _norm(df)
+            if df is None or len(df) == 0:
+                print(f"[IPO] Discovery: no data for {sym} — skipped")
+                continue
+            first_date = pd.Timestamp(df.index[0]).date()
+            age = (pd.Timestamp(today).date() - first_date).days
+            if age > IPO_DISCOVERY_MAX_AGE_DAYS:
+                print(f"[IPO] Discovery: {sym} listed {first_date} ({age}d ago) — too old, skipped")
+                continue
+        except Exception as e:
+            print(f"[IPO] Discovery: {sym} data error {e} — skipped")
+            continue
+        listing_date = str(first_date)
+        added.append({"ticker": sym, "strategy": strat, "name": name,
+                      "listing_date": listing_date, "gain": gain})
+
+    if added:
+        rows = []
+        if os.path.exists(IPO_UNIVERSE_FILE):
+            with open(IPO_UNIVERSE_FILE, "r", encoding="utf-8") as f:
+                rows = list(_csv.DictReader(f))
+        seen = set()
+        for r in rows:
+            seen.add((str(r.get("strategy", "")).upper(), str(r.get("ticker", "")).strip()))
+        with open(IPO_UNIVERSE_FILE, "a", newline="", encoding="utf-8") as f:
+            w = _csv.writer(f)
+            if not rows:
+                w.writerow(["strategy", "ticker", "name", "listing_date", "notes"])
+            for a in added:
+                key = (a["strategy"], a["ticker"])
+                if key in seen:
+                    continue
+                w.writerow([a["strategy"], a["ticker"], a["name"], a["listing_date"],
+                            f"auto {a['gain']:+.1f}%"])
+                seen.add(key)
+                print(f"[IPO] Discovery ADDED: {a['strategy']} {a['ticker']} "
+                      f"({a['name']}) listed {a['listing_date']} gain {a['gain']:+.1f}%")
+
+    state["_discovery"] = {"last": today, "added": len(added)}
+    _save_state(state)
+    return added

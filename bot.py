@@ -47,7 +47,7 @@ from scanner_long import (
     scan_long,
 )
 from scanner_ipo import (
-    scan_ipo,
+    scan_ipo, discover_new_ipos,
 )
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
@@ -1137,6 +1137,16 @@ def run_ipo_scan() -> dict:
     print(f"  IPO SCAN v5.21 - daily 1d listing-edge (DIP long + SHORT)")
     print(f"  {date_str} {time_str}")
     print("=" * 60)
+
+    # 0. Auto-discover newly listed mainboard IPOs (once per day).
+    try:
+        added = discover_new_ipos()
+        if added:
+            print(f"[IPO] Auto-discovered {len(added)} new listings: "
+                  f"{[a['ticker'] for a in added]}")
+    except Exception as e:
+        log_error(f"IPO discovery failed: {e}")
+        print(f"[FATAL] IPO discovery: {e}")
 
     res = scan_ipo()
     all_signals = res["all_signals"]
