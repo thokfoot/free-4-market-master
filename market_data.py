@@ -8,7 +8,12 @@ Single entry point for OHLCV downloads with a resilient provider chain:
                       bypasses yfinance's crumb/cookie session bug that causes
                       JSONDecodeError / 'symbol may be delisted' when Yahoo
                       rate-limits or invalidates the session cookie)
-  3. Binance klines  (crypto only — tickers ending in -USD, e.g. BTC-USD ->
+  3. Yahoo chart API host rotation (query1 <-> query2 + rotating UAs —
+                      defeats shared-runner IP rate limiting, the #1 cause of
+                      partial scans like 'Data 39/739')
+  4. Nasdaq API (US stocks/ETFs daily OHLCV — api.nasdaq.com, no key,
+                      full OHLCV, used when Yahoo is fully down for 1d bars)
+  5. Binance klines  (crypto only — tickers ending in -USD, e.g. BTC-USD ->
                       BTCUSDT; free public API, no key required)
 
 Every provider returns a normalized DataFrame with columns
@@ -31,6 +36,14 @@ UA = {
     "Accept": "application/json,text/plain,*/*",
     "Accept-Language": "en-US,en;q=0.9",
 }
+# Rotating user-agents: shared runner IPs get rate-limited by Yahoo far less
+# when each request presents a different client fingerprint.
+_UA_POOL = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+]
 
 # period string -> (range, interval) mapping for the direct chart API
 # yfinance 'period' (e.g. "60d") works as-is for the chart 'range' param.
@@ -71,7 +84,6 @@ def _yahoo_chart_direct(ticker: str, interval: str, period: str = None,
     adjusted (adjust=true) so split days never look like -90% crashes.
     """
     import requests
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
     params = {"interval": interval,
               "includePrePost": "false", "events": "div,splits", "adjust": "true"}
     if start is not None or end is not None:
@@ -81,18 +93,79 @@ def _yahoo_chart_direct(ticker: str, interval: str, period: str = None,
             params["period2"] = int(pd.Timestamp(end).timestamp())
     else:
         params["range"] = period or "60d"
-    for attempt in range(3):
-        try:
-            r = requests.get(url, params=params, headers=UA, timeout=20)
-            if r.status_code != 200:
+    # Rotate query1 <-> query2 hosts AND user-agents: on shared GitHub runner
+    # IPs a single host+UA gets rate-limited hard (the old 39/739 partial
+    # scans). Each host gets 3 attempts with a fresh UA per attempt.
+    for host in ("query1", "query2"):
+        url = f"https://{host}.finance.yahoo.com/v8/finance/chart/{ticker}"
+        for attempt in range(3):
+            try:
+                hdr = dict(UA)
+                hdr["User-Agent"] = _UA_POOL[(attempt + int(time.time())) % 4]
+                r = requests.get(url, params=params, headers=hdr, timeout=20)
+                if r.status_code != 200:
+                    time.sleep(1.0)
+                    continue
+                df = _normalize(r.json(), interval)
+                if df is not None and len(df) > 0:
+                    return df
+            except Exception:
                 time.sleep(1.0)
-                continue
-            df = _normalize(r.json(), interval)
-            if df is not None and len(df) > 0:
-                return df
-        except Exception:
-            time.sleep(1.0)
     return _empty(interval)
+
+
+def _nasdaq_daily(ticker: str, period: str = "60d") -> pd.DataFrame:
+    """US stock/ETF daily OHLCV from api.nasdaq.com (no key, full OHLCV).
+
+    Used as a non-Yahoo 1d fallback when both Yahoo providers fail. Covers
+    plain US symbols (AAPL, QQQ, SPY, ...); NOT applicable to India (.NS),
+    crypto (-USD) or indices (^ prefix).
+    """
+    import requests, re as _re
+    try:
+        from datetime import datetime as _dt, timedelta as _td
+        match = _re.search(r"(\d+)[dD]", period or "")
+        days = int(match.group(1)) if match else 60
+        fromdate = (_dt.utcnow() - _td(days=days)).strftime("%Y-%m-%d")
+        rows_all = []
+        for assetclass in ("stocks", "etfs"):
+            try:
+                r = requests.get(
+                    "https://api.nasdaq.com/api/quote/%s/historical" % ticker,
+                    params={"assetclass": assetclass, "fromdate": fromdate, "limit": 9999},
+                    headers={"User-Agent": UA["User-Agent"],
+                             "Accept": "application/json, text/plain, */*"},
+                    timeout=20)
+                if r.status_code != 200:
+                    continue
+                tbl = (r.json().get("data") or {}).get("tradesTable") or {}
+                rows_all.extend(tbl.get("rows") or [])
+                if rows_all:
+                    break
+            except Exception:
+                continue
+        if not rows_all:
+            return _empty("1d")
+        recs = []
+        for row in rows_all:
+            try:
+                dt = pd.to_datetime(row.get("date"), format="%m/%d/%Y", utc=True)
+                o = float(str(row.get("open", "")).replace("$", "").replace(",", ""))
+                h = float(str(row.get("high", "")).replace("$", "").replace(",", ""))
+                lo = float(str(row.get("low", "")).replace("$", "").replace(",", ""))
+                c = float(str(row.get("close", "")).replace("$", "").replace(",", ""))
+                v = int(float(str(row.get("volume", "0")).replace(",", "").replace("N/A", "0") or 0))
+                if o > 0 and h > 0 and lo > 0 and c > 0:
+                    recs.append({"Date": dt, "Open": o, "High": h, "Low": lo,
+                                 "Close": c, "Volume": v})
+            except (TypeError, ValueError):
+                continue
+        if not recs:
+            return _empty("1d")
+        df = pd.DataFrame(recs).set_index("Date").sort_index()
+        return df[["Open", "High", "Low", "Close", "Volume"]]
+    except Exception:
+        return _empty("1d")
 
 
 def _binance_crypto(ticker: str, interval: str, period: str) -> pd.DataFrame:
@@ -270,6 +343,12 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
         if df is not None and len(df) > 0:
             print(f"[MarketData] {ticker} {interval}: used DIRECT Yahoo chart API "
                   f"({len(df)} bars)")
+
+    # ── 2.5) Nasdaq API (US stocks/ETFs, 1d only, non-Yahoo source) ──
+    if df is None or len(df) == 0 and interval == "1d"             and not ticker.endswith(".NS") and "-USD" not in ticker             and not ticker.startswith("^"):
+        df = _nasdaq_daily(ticker, period)
+        if df is not None and len(df) > 0:
+            print(f"[MarketData] {ticker} {interval}: used NASDAQ API ({len(df)} bars)")
 
     # ── 3) Binance (crypto only) ──
     if df is None or len(df) == 0:

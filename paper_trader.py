@@ -413,6 +413,30 @@ def round_price(price):
     return round(p, 8)
 
 
+def _price_slip_multiplier(price: float, mode: str = "INDIAN") -> float:
+    """Price/volatility-adaptive slippage multiplier (v5.22).
+
+    Only INDIAN small-caps (fade universe: MANAKSTEEL, AVROIND, IDEA ...) and
+    low-priced altcoins trade on wide relative spreads — a flat 0.05% is
+    optimistic for them and overstates paper P&L. US large-caps/ETFs
+    (SPY, XLK, QQQ) are mega-liquid; widening their slippage by price would
+    be wrong, so US always stays at 1.0x. Tiers:
+      price < 20   -> 3.0x  (penny / micro caps, widest spread)
+      price < 100  -> 2.0x  (small caps)
+      price < 500  -> 1.5x  (mid caps)
+      else         -> 1.0x  (large caps / liquid)
+    """
+    if mode == "US" or price <= 0:
+        return 1.0
+    if price < 20:
+        return 3.0
+    if price < 100:
+        return 2.0
+    if price < 500:
+        return 1.5
+    return 1.0
+
+
 def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str) -> float:
     """
     Apply realistic fill slippage to a price.
@@ -441,6 +465,8 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         if is_intraday else
         SLIPPAGE_PCT.get(mode, 0.0)
     )
+    # Price-adaptive: cheap thin small-caps pay wider relative spread (v5.22)
+    slip_pct *= _price_slip_multiplier(price, mode)
     if slip_pct <= 0:
         return price
     

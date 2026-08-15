@@ -1580,6 +1580,116 @@ def _commit_state_now():
     except Exception as e:
         print(f"[Commit] mid-run commit failed (non-fatal): {e}")
 
+def sweep_open_positions() -> list:
+    """Universal exit-sweeper (v5.22).
+
+    Runs AFTER every scanner so SL/TP/MaxHold exits are guaranteed EVEN IF a
+    scanner crashed or its data failed to load. Each scanner only checks exits
+    for its own open positions with its own data; if run_fade_scan dies, FADE
+    positions would not be checked in that run. This pass independently
+    fetches fresh OHLC for EVERY open position and calls update_trades once.
+    """
+    try:
+        portfolio = load_portfolio()
+        open_positions = portfolio.get("open_positions", [])
+        if not open_positions:
+            return []
+        print(f"[Sweep] Universal exit-sweep: {len(open_positions)} open positions")
+
+        # TimeFrame -> default interval for fresh-data fetch. Variant ranks
+        # override with their own interval (FADE has 5m/15m/1h variants).
+        tf_interval = {
+            "SWING_1d": "1d", "INTRADAY_1h": "1h", "FADE_1h": "1h",
+            "US_FADE_5m": "5m", "LONG_BOUNCE_5m": "5m",
+            "GAP_DOWN_1m": "1m", "IPO_1d": "1d",
+        }
+        rank_interval = {}
+        for v in FADE_VARIANTS:
+            rank_interval[int(v["rank"])] = v["interval"]
+        for v in US_FADE_VARIANTS:
+            rank_interval[int(v["rank"])] = v["interval"]
+        for v in LONG_BOUNCE_VARIANTS:
+            rank_interval[int(v["rank"])] = v["interval"]
+        for v in IPO_VARIANTS:
+            rank_interval[int(v["rank"])] = v["interval"]
+
+        ohlc_data = {}
+        period_map = {"1d": "10d", "1h": "10d", "15m": "5d", "5m": "5d", "1m": "2d"}
+        for p in open_positions:
+            ticker = str(p.get("Ticker", ""))
+            tf = str(p.get("TimeFrame", "SWING_1d"))
+            if not ticker:
+                continue
+            rank = int(p.get("Pattern_Rank") or 0)
+            interval = rank_interval.get(rank) or tf_interval.get(tf, "1d")
+            period = period_map.get(interval, "5d")
+            try:
+                df = market_data.download(ticker, interval=interval, period=period)
+                if df is not None and len(df) > 0:
+                    last = df.iloc[-1]
+                    ohlc_data[ticker] = {
+                        "close": float(last["Close"]),
+                        "high": float(last["High"]),
+                        "low": float(last["Low"]),
+                        "date": str(df.index[-1].date()),
+                        "bars": _ohlc_bars(df),
+                    }
+            except Exception as e:
+                print(f"[Sweep] data fail {ticker} {interval}: {str(e)[:80]}")
+        if not ohlc_data:
+            print("[Sweep] No fresh data — skipping")
+            return []
+        closed_msgs = update_trades(ohlc_data)
+        if closed_msgs:
+            print(f"[Sweep] Closed {len(closed_msgs)} position(s) via universal sweep")
+        return closed_msgs
+    except Exception as e:
+        log_error(f"Sweep failed: {e}")
+        return []
+
+
+def reconcile_portfolio() -> list:
+    """Reconciliation watchdog (v5.22): detect portfolio.json drift vs the
+    single source of truth (paper_trades.csv) and auto-heal.
+
+    rebuild_portfolio_from_csv() recomputes capital/P&L/wins/losses entirely
+    from the CSV. We compare its result against the currently-saved portfolio;
+    if they diverge (double-counting, lost update, race between bot.py and
+    live_pnl_updater.py), we alert and keep the rebuilt (authoritative) copy.
+    Returns alert messages (already sent).
+    """
+    try:
+        import paper_trader as _pt
+        port_now = load_portfolio()
+        rebuilt = _pt.rebuild_portfolio_from_csv()  # saves authoritative copy
+
+        drift = []
+        for key in ("total_pnl", "closed_count", "total_wins", "total_losses"):
+            a = float(port_now.get(key, 0) or 0)
+            b = float(rebuilt.get(key, 0) or 0)
+            if abs(a - b) > 1.0:
+                drift.append(f"{key}: {a:.2f} -> {b:.2f}")
+        # capital_by_market drift
+        cm_old = port_now.get("capital_by_market", {})
+        cm_new = rebuilt.get("capital_by_market", {})
+        for k in set(list(cm_old) + list(cm_new)):
+            a = float(cm_old.get(k, 0) or 0)
+            b = float(cm_new.get(k, 0) or 0)
+            if abs(a - b) > 1.0:
+                drift.append(f"cap[{k}]: {a:.0f} -> {b:.0f}")
+
+        if drift:
+            msg = "[PORTFOLIO RECONCILED] - drift found & auto-healed:\n" + "\n".join(drift)
+            send_telegram(msg)
+            print(f"[Reconcile] Drift detected & healed: {drift}")
+            return [msg]
+        print("[Reconcile] Portfolio consistent with trade log")
+        return []
+    except Exception as e:
+        log_error(f"Reconcile failed: {e}")
+        return []
+
+
 def main():
     """Main bot entry point. Supports --mode swing (default), intraday, both, or gapdown."""
     start_time = time.time()
@@ -1690,9 +1800,36 @@ def main():
             log_error(f"GapDown scan failed: {e}")
             print(f"[FATAL] GapDown scan: {e}")
             traceback.print_exc()
-    
+
+    # ── Universal exit-sweeper (v5.22): run after ALL scanners so exits are
+    #    guaranteed even if a scanner crashed. Independent fresh-data fetch. ──
+    sweep_closed = []
+    try:
+        sweep_closed = sweep_open_positions()
+        if sweep_closed:
+            print(f"[Bot] Universal sweep closed {len(sweep_closed)} trade(s)")
+    except Exception as e:
+        log_error(f"Universal sweep failed: {e}")
+
+    # ── Reconciliation watchdog (v5.22): once per day, compare portfolio.json
+    #    vs paper_trades.csv (source of truth); auto-heal on drift. ──
+    try:
+        _rec_file = os.path.join("logs", "last_reconcile.txt")
+        _last_rec = ""
+        if os.path.exists(_rec_file):
+            _last_rec = open(_rec_file, encoding="utf-8").read().strip()
+        if _last_rec != date_str:
+            reconcile_portfolio()
+            with open(_rec_file, "w", encoding="utf-8") as f:
+                f.write(date_str)
+    except Exception as e:
+        log_error(f"Reconcile scheduling failed: {e}")
+
     if not scan_results:
         print(f"[Bot] No scans completed successfully")
+        if sweep_closed:
+            for _m in sweep_closed:
+                send_telegram(_m)
         return
     
     # Merge results from all scans
@@ -1718,6 +1855,10 @@ def main():
         for _k in sr["ticker_data"]:
             _t = _k[1] if isinstance(_k, tuple) else _k
             ok_tickers.add(_t)
+    
+    # Merge universal-sweep closures into the closed list for Telegram/logging
+    if sweep_closed:
+        all_closed.extend(sweep_closed)
     
     # Load portfolio
     portfolio = load_portfolio()

@@ -66,6 +66,21 @@ def _save_live_state(state: dict):
 
 
 # ── Helpers (standalone copies so no import cycles) ─────────────
+def _price_slip_multiplier(price: float, mode: str = "INDIAN") -> float:
+    """Price/volatility-adaptive slippage multiplier (v5.22) — mirrors
+    paper_trader._price_slip_multiplier. Only INDIAN small-caps and low-priced
+    altcoins trade on wide relative spreads; US large-caps/ETFs stay at 1.0x."""
+    if mode == "US" or price <= 0:
+        return 1.0
+    if price < 20:
+        return 3.0
+    if price < 100:
+        return 2.0
+    if price < 500:
+        return 1.5
+    return 1.0
+
+
 def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str) -> float:
     """
     Apply realistic fill slippage to a price (mirrors paper_trader._apply_slippage).
@@ -94,6 +109,8 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         if is_intraday else
         SLIPPAGE_PCT.get(mode, 0.0)
     )
+    # Price-adaptive: cheap thin small-caps pay wider relative spread (v5.22)
+    slip_pct *= _price_slip_multiplier(price, mode)
     if slip_pct <= 0:
         return price
 
