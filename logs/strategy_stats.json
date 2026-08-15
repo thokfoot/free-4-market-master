@@ -39,9 +39,11 @@
   "32": {
     "rank": 32,
     "factors": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
-    "wins": 1,
+    "wins": 2,
     "losses": 1,
-    "total_pnl": 372.8699999999999
+    "total_pnl": 392.4999999999999,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "13": {
     "rank": 13,
@@ -60,9 +62,11 @@
   "5": {
     "rank": 5,
     "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
-    "wins": 3,
+    "wins": 5,
     "losses": 0,
-    "total_pnl": 2349.4
+    "total_pnl": 3721.84,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "6": {
     "rank": 6,
@@ -96,9 +100,9 @@
     "rank": 1,
     "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | Expiry 5d",
     "wins": 3,
-    "losses": 4,
-    "total_pnl": 136.2399999999999,
-    "consec_losses": 1,
+    "losses": 5,
+    "total_pnl": 120.7499999999999,
+    "consec_losses": 2,
     "paused_since": null
   },
   "49": {
@@ -139,10 +143,10 @@
   "4": {
     "rank": 4,
     "factors": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
-    "wins": 1,
+    "wins": 2,
     "losses": 1,
-    "total_pnl": 1004.2800000000001,
-    "consec_losses": 1,
+    "total_pnl": 1437.46,
+    "consec_losses": 0,
     "paused_since": null
   },
   "50": {
