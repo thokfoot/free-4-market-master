@@ -1,0 +1,18 @@
+strategy,ticker,name,listing_date,notes
+DIP,TATATECH.NS,Tata Technologies,2023-11-30,listing +100% open
+DIP,IREDA.NS,IREDA,2023-11-29,listing +56% open
+DIP,BLS.NS,BLS International,2023-12-22,listing +25% open
+DIP,JSWINFRA.NS,JSW Infrastructure,2023-10-03,listing +83% open
+DIP,SWIGGY.NS,Swiggy,2024-11-13,listing +8% open
+DIP,NTPCGREEN.NS,NTPC Green,2024-11-27,listing +3% open
+DIP,DOMS.NS,DOMS Industries,2023-12-20,listing +77% open
+DIP,SANSTAR.NS,Sanstar,2024-07-19,listing +30% open
+DIP,BAJAJHFL.NS,Bajaj Housing Finance,2024-09-16,listing +114% open
+DIP,PREMIERENE.NS,Premier Energies,2024-09-03,listing +120% open
+DIP,FIRSTCRY.NS,Brainbees (FirstCry),2024-08-13,listing +40% open
+SHORT,CSM.NS,CSM Technologies,2026-07-06,negative opening mainboard
+SHORT,INNOVISION.NS,Innovision,2026-03-23,negative opening mainboard
+SHORT,SRTL.NS,Shree Ram Twistex,2026-03-02,negative opening mainboard
+SHORT,FRACTAL.NS,Fractal Analytics,2026-02-16,negative opening mainboard
+SHORT,AMAGI.NS,Amagi Media,2026-01-21,negative opening mainboard
+SHORT,OMPOWER.NS,Om Power Transmission,2026-04-17,negative opening mainboard

@@ -168,6 +168,22 @@ def _load_strategy_defs():
                 "trades": v.get("trades_count", 0),
                 "cost_rt": 0.10,
             })
+    ipo_variants = getattr(config, "IPO_VARIANTS", None)
+    if ipo_variants:
+        for v in ipo_variants:
+            defs.append({
+                "tf": "IPO_1d",
+                "market": "NSE",
+                "ticker": "NSE",
+                "region": "INDIAN",
+                "rank": v["rank"],
+                "direction": v["direction"],
+                "factors": v.get("factors", "IPO edge"),
+                "backtest_wr": v.get("win_rate", 0),
+                "backtest_pnl": 5.0,
+                "trades": v.get("trades_count", 0),
+                "cost_rt": 0.10,
+            })
     elif getattr(config, "FADE_RANK", None):
         defs.append({
             "tf": "FADE_1h",

@@ -27,6 +27,7 @@ from config import (
     US_FADE_VARIANTS, US_FADE_CAPITAL, US_FADE_ALLOW_SHORT, US_FADE_MAX_HOLD_HOURS,
     LONG_BOUNCE_VARIANTS, LONG_BOUNCE_CAPITAL, LONG_BOUNCE_SL_PCT, LONG_BOUNCE_TP_PCT,
     LONG_BOUNCE_MAX_HOLD_HOURS, LONG_BOUNCE_MAX_TRADES_PER_DAY, LONG_BOUNCE_RANK,
+    IPO_CAPITAL, IPO_VARIANTS, IPO_DIP_RANK, IPO_SHORT_RANK,
 )
 from scanner import load_strategies, unique_tickers, compute_indicators, scan_strategies, get_best_entries
 from scanner_intraday import (
@@ -44,6 +45,9 @@ from scanner_fade_us import (
 )
 from scanner_long import (
     scan_long,
+)
+from scanner_ipo import (
+    scan_ipo,
 )
 from paper_trader import (
     enter_trade, update_trades, load_portfolio, round_price,
@@ -232,6 +236,8 @@ def _section_of(tf, mode):
         return "FADE"
     if tf == "LONG_BOUNCE_5M":
         return "LONG"
+    if tf == "IPO_1D":
+        return "IPO"
     if tf == "US_FADE_5M":
         return "US-FD"
     if tf == "SWING_1D":
@@ -246,7 +252,7 @@ def _section_stats() -> dict:
     (no rolling window). ret_pct = pnl / 1,00,000 (the display assumption used
     in the Telegram summary)."""
     sections = {k: {"T": 0, "W": 0, "L": 0, "pnl": 0.0} for k in
-                ("INDI", "ID-IND", "FADE", "LONG", "US-FD", "USA", "ID-US", "CRYP", "ID-₿")}
+                ("INDI", "ID-IND", "FADE", "LONG", "IPO", "US-FD", "USA", "ID-US", "CRYP", "ID-₿")}
     try:
         df = pd.read_csv("logs/paper_trades.csv", on_bad_lines="warn")
         if df is None or len(df) == 0:
@@ -279,7 +285,7 @@ def _section_stats() -> dict:
 
 def _strategy_counts() -> dict:
     """How many strategies are FED (configured) per summary section."""
-    counts = {"INDI": 0, "ID-IND": 0, "FADE": 0, "LONG": 0, "US-FD": 0,
+    counts = {"INDI": 0, "ID-IND": 0, "FADE": 0, "LONG": 0, "IPO": 0, "US-FD": 0,
               "USA": 0, "ID-US": 0, "CRYP": 0, "ID-₿": 0}
     try:
         sw = pd.read_csv("data/strategies.csv", on_bad_lines="warn")
@@ -307,6 +313,7 @@ def _strategy_counts() -> dict:
         pass
     counts["FADE"] = len(FADE_VARIANTS)
     counts["LONG"] = len(LONG_BOUNCE_VARIANTS)
+    counts["IPO"] = len(IPO_VARIANTS)
     counts["US-FD"] = len(US_FADE_VARIANTS)
     return counts
 
@@ -350,7 +357,7 @@ def _country_summary_lines() -> list:
     strat = _strategy_counts()
     lines = []
     for country, sections, flag in (
-            ("INDIA", ["INDI", "ID-IND", "FADE", "LONG"], "🇮🇳"),
+            ("INDIA", ["INDI", "ID-IND", "FADE", "LONG", "IPO"], "🇮🇳"),
             ("USA", ["USA", "ID-US", "US-FD"], "🇺🇸"),
             ("CRYPTO", ["CRYP", "ID-₿"], "₿")):
         cT = cW = cL = 0
@@ -466,7 +473,8 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
             tf_tag = t.get("tf", "") or ""
             tf_badge = {"FADE_1h": "⚡FD", "US_FADE_5m": "🌎FD",
                         "INTRADAY_1h": "⚡ID",
-                        "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW"}.get(tf_tag, "")
+                        "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW",
+                        "IPO_1d": "📌IPO"}.get(tf_tag, "")
             tf_txt = f" {tf_badge}" if tf_badge else ""
             rank_txt = f" {rank_str}" if rank_str else ""
             lines.append(f"{action} `{t['ticker']}`{tf_txt}{rank_txt}")
@@ -1118,6 +1126,136 @@ def run_long_bounce_scan() -> dict:
     }
 
 
+def run_ipo_scan() -> dict:
+    """Run the IPO EDGE scan — daily 1d DIP (LONG) + SHORT variants."""
+    start_time = time.time()
+    now = now_ist()
+    date_str = now.strftime("%Y-%m-%d")
+    time_str = now.strftime("%H:%M:%S IST")
+
+    print("=" * 60)
+    print(f"  IPO SCAN v5.21 - daily 1d listing-edge (DIP long + SHORT)")
+    print(f"  {date_str} {time_str}")
+    print("=" * 60)
+
+    res = scan_ipo()
+    all_signals = res["all_signals"]
+    fired = res["fired_signals"]
+    print(f"[IPO] Signals: {len(all_signals)}, fired: {len(fired)}")
+
+    # 1. Check exits for open IPO_1d positions
+    portfolio = load_portfolio()
+    ipo_open = [p for p in portfolio.get("open_positions", [])
+                if p.get("TimeFrame") == "IPO_1d"]
+    ohlc_data = {}
+    current_prices = {}
+    for p in ipo_open:
+        t = p["Ticker"]
+        rank = int(p.get("Pattern_Rank") or 0)
+        interval = "1d"
+        for v in IPO_VARIANTS:
+            if v["rank"] == rank:
+                interval = v["interval"]
+                break
+        df = res["ticker_data"].get((interval, t))
+        if df is not None and len(df):
+            last = df.iloc[-1]
+            ohlc_data[t] = {
+                "close": float(last["Close"]),
+                "high": float(last["High"]),
+                "low": float(last["Low"]),
+                "date": str(pd.Timestamp(last.name).date()),
+                "bars": _ohlc_bars(df),
+            }
+            current_prices[t] = float(last["Close"])
+    closed_msgs = update_trades(ohlc_data)
+    print(f"[IPO] Closed: {len(closed_msgs)}")
+
+    # 2. Enter new IPO_1d trades — per-variant per-day caps.
+    today_by_rank = {}
+    try:
+        if os.path.exists(PAPER_FILE):
+            pt = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            if len(pt):
+                mask = (pt["TimeFrame"].astype(str) == "IPO_1d") &                        (pt["Date"].astype(str) == date_str)
+                for _, row in pt[mask].iterrows():
+                    rk = row.get("Pattern_Rank")
+                    try:
+                        rk = int(rk)
+                    except (TypeError, ValueError):
+                        rk = 0
+                    today_by_rank[rk] = today_by_rank.get(rk, 0) + 1
+    except Exception as e:
+        log_error(f"IPO daily-count check failed: {e}")
+
+    entries = []
+    skipped_entries = []
+    for s in fired:
+        rank = int(s.get("rank") or 0)
+        variant = next((v for v in IPO_VARIANTS if v["rank"] == rank), None)
+        max_day = variant["max_per_day"] if variant else 2
+        used = today_by_rank.get(rank, 0)
+        if used >= max_day:
+            skipped_entries.append({"ticker": s["ticker"], "direction": s["direction"],
+                                    "close": s["close"], "rank": rank,
+                                    "win_rate": s.get("win_rate"),
+                                    "reason": f"Daily cap reached ({used}/{max_day})"})
+            continue
+        entry_price = s.get("entry_price") or s["close"]
+        direction = s["direction"]
+        sl_pct = s.get("sl_pct", 0.05)
+        tp_pct = s.get("tp_pct", 0.05)
+        sl_price = entry_price * (1 - sl_pct) if direction == "LONG" else entry_price * (1 + sl_pct)
+        tp_price = entry_price * (1 + tp_pct) if direction == "LONG" else entry_price * (1 - tp_pct)
+        trade = enter_trade(
+            mode="INDIAN", ticker=s["ticker"], direction=direction,
+            entry_price=entry_price,
+            reason=s.get("factors", "IPO edge")[:60],
+            pattern_rank=rank,
+            expected_win_rate=s.get("win_rate", 75.0),
+            pattern_factors=s.get("factors", ""),
+            tf="IPO_1d",
+            sl_override=sl_price,
+            tp_override=tp_price,
+            max_hold_override=s.get("max_hold_days", 20),
+            signal_indicators=s.get("signal_indicators"),
+        )
+        if trade:
+            entries.append({"ticker": s["ticker"], "direction": direction,
+                            "close": entry_price, "qty": trade["Qty"],
+                            "sl": trade["SL"], "target": trade["Target"],
+                            "rank": rank, "win_rate": s.get("win_rate"),
+                            "tf": "IPO_1d"})
+            today_by_rank[rank] = used + 1
+            if s["ticker"] not in current_prices:
+                current_prices[s["ticker"]] = entry_price
+        else:
+            skipped_entries.append({
+                "ticker": s["ticker"], "direction": direction,
+                "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
+                "reason": check_entry_allowed(s["ticker"], direction, tf="IPO_1d",
+                                              pattern_rank=rank)
+                          or "Rejected (position sizing / unknown)",
+            })
+    print(f"[IPO] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
+
+    return {
+        "mode": "IPO",
+        "ticker_data": res["ticker_data"],
+        "market_status": {},
+        "current_prices": current_prices,
+        "ohlc_data": ohlc_data,
+        "all_signals": all_signals,
+        "fired_signals": fired,
+        "best_entries": fired,
+        "entries": entries,
+        "skipped_entries": skipped_entries,
+        "closed_msgs": closed_msgs,
+        "scan_errors": res["scan_errors"],
+        "duration": time.time() - start_time,
+    }
+
+
 def run_fade_us_scan() -> dict:
     """Run the US FADE scan — 5 verified 5m variants, SHORT US large-caps."""
     start_time = time.time()
@@ -1510,6 +1648,16 @@ def main():
         else:
             print(f"[Long] Skipped — India market {mkt.get('INDIAN')}")
 
+        # IPO EDGE (v5.21): daily 1d DIP (LONG) + SHORT listing-edge — runs
+        # anytime (daily candles; once-per-IPO state prevents re-entry).
+        try:
+            sr = run_ipo_scan()
+            scan_results.append(sr)
+        except Exception as e:
+            log_error(f"IPO scan failed: {e}")
+            print(f"[FATAL] IPO scan: {e}")
+            traceback.print_exc()
+
         # US FADE (v5.18): 5 verified 5m variants on 129 US large-caps.
         # Scan while US market is open (7PM-1:30AM IST) — 5m candles.
         usfade_ok = mkt.get("US") in ("OPEN", "PRE-OPEN")
@@ -1576,6 +1724,9 @@ def main():
     # Add LONG-BOUNCE bucket (own ₹1L, v5.19)
     if "LONG_BOUNCE" not in cap_by_mkt:
         cap_by_mkt["LONG_BOUNCE"] = LONG_BOUNCE_CAPITAL
+    # Add IPO bucket (own ₹1L, v5.21)
+    if "IPO" not in cap_by_mkt:
+        cap_by_mkt["IPO"] = IPO_CAPITAL
     total_cape = sum(cap_by_mkt.values())
     open_positions = portfolio.get("open_positions", [])
     total_pnl = portfolio.get("total_pnl", 0)

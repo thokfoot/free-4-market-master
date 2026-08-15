@@ -26,9 +26,11 @@ FADE_CAPITAL = 100000.0
 US_FADE_CAPITAL = 100000.0
 # LONG-BOUNCE (NSE 5m dip-buy, verified v5.19) own ₹1L bucket
 LONG_BOUNCE_CAPITAL = 100000.0
+# IPO (v5.21) own ₹1L bucket — listing-gain dip-buy (DIP) + negative-opening short (SHORT)
+IPO_CAPITAL = 100000.0
 
 TOTAL_CAPITAL = (sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL
-                 + US_FADE_CAPITAL + LONG_BOUNCE_CAPITAL)  # ₹7,00,000  # ₹6,00,000
+                 + US_FADE_CAPITAL + LONG_BOUNCE_CAPITAL + IPO_CAPITAL)  # ₹8,00,000
 CAPITAL = TOTAL_CAPITAL  # For backward compatibility
 RISK_PER_TRADE = 0.01           # 1% risk per trade
 SL_PCT = 0.02                   # 2% stop loss
@@ -550,6 +552,37 @@ LONG_BOUNCE_MAX_TRADES_PER_DAY = LONG_BOUNCE_VARIANTS[0]["max_per_day"]
 LONG_BOUNCE_MAX_HOLD_HOURS = 6      # intraday: exit by ~15:00 IST if no SL/TP
 LONG_BOUNCE_MIN_PRICE = 10.0
          # skip penny stocks — matches backtest
+
+# ── IPO (v5.21): verified listing-edge strategies — 2 variants ─────────────
+# DIP  (rank 936): mainboard IPO jo +30%+ premium pe khula → listing-high anchor
+#   (max High of first 3 sessions) se -10% dip pe LONG; exit +5%, SL -8%,
+#   max hold 20 trading days. Verified: 11/11 high-opening mainboard IPOs hit
+#   -8%; BUY -10% → EXIT +5% (20d) = 100% win, +4.8% avg net.
+# SHORT (rank 937): negative-opening mainboard IPO → day-2 close pe SHORT;
+#   cover -8%, stop +5%, max hold 30 trading days. Verified: 70-80% win.
+# Once-per-IPO (no re-entry) via data/ipo_state.json. Daily 1d candles.
+IPO_UNIVERSE_FILE = os.path.join(os.path.dirname(__file__), "data", "ipo_watchlist.csv")
+IPO_STATE_FILE = os.path.join(os.path.dirname(__file__), "data", "ipo_state.json")
+IPO_VARIANTS = [
+    {
+        "key": "DIP", "rank": 936, "interval": "1d", "period": "730d",
+        "direction": "LONG", "dip_pct": 10.0, "exit_pct": 5.0, "sl_pct": 0.08,
+        "tp_pct": 0.05, "max_hold_days": 20, "max_per_day": 2,
+        "win_rate": 100.0, "trades_count": 11,
+        "factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+        "name": "IPO DIP 936 -10% dip buy +5%",
+    },
+    {
+        "key": "SHORT", "rank": 937, "interval": "1d", "period": "730d",
+        "direction": "SHORT", "cover_pct": 8.0, "stop_pct": 5.0, "sl_pct": 0.05,
+        "tp_pct": 0.08, "max_hold_days": 30, "max_per_day": 2,
+        "win_rate": 75.0, "trades_count": 20,
+        "factors": "IPO SHORT: negative-opening day-2 short, cover -8%, stop +5%, hold 30d",
+        "name": "IPO SHORT 937 day-2 short",
+    },
+]
+IPO_DIP_RANK = IPO_VARIANTS[0]["rank"]
+IPO_SHORT_RANK = IPO_VARIANTS[1]["rank"]
 
 # Backward-compat aliases (S1 = live bot defaults)
 FADE_PERIOD = FADE_VARIANTS[0]["period"]

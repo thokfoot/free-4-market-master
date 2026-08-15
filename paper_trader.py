@@ -14,7 +14,7 @@ from config import (
     SL_PCT, TP_PCT, MAX_HOLD_DAYS, MAX_CONCURRENT, STRATEGY_FILE,
     CHARGES_PER_MARKET,
     INTRADAY_CAPITAL, INTRADAY_SL_PCT, INTRADAY_TP_PCT, FADE_CAPITAL, US_FADE_CAPITAL,
-    LONG_BOUNCE_CAPITAL,
+    LONG_BOUNCE_CAPITAL, IPO_CAPITAL,
     INTRADAY_MAX_HOLD_HOURS,
     CAP_MAX_QTY_ULTRA_LOW, CAP_MAX_QTY_LOW, CAP_MAX_QTY_HIGH,
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
@@ -105,7 +105,7 @@ def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"
     Returns (exit_price, reason) or None.
     """
     try:
-        if tf not in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d"):
+        if tf not in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d", "IPO_1d"):
             return None
         entry_utc = entry_date.astimezone(pytz.utc)
         if tf in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m"):
@@ -160,7 +160,7 @@ def _post_entry_ohlc(bars, tf, entry_date, max_hold, mode="US"):
     post-entry bars exist yet.
     """
     try:
-        if tf not in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d"):
+        if tf not in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d", "IPO_1d"):
             return None
         entry_utc = entry_date.astimezone(pytz.utc)
         rows = []
@@ -465,6 +465,7 @@ def _default_portfolio() -> dict:
     cap["FADE"] = FADE_CAPITAL
     cap["US_FADE"] = US_FADE_CAPITAL
     cap["LONG_BOUNCE"] = LONG_BOUNCE_CAPITAL
+    cap["IPO"] = IPO_CAPITAL
     return {
         "capital_by_market": cap,
         "open_positions": [],
@@ -472,7 +473,7 @@ def _default_portfolio() -> dict:
         "total_wins": 0,
         "total_losses": 0,
         "total_pnl": 0,
-        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0, "INTRADAY": 0.0, "FADE": 0.0, "US_FADE": 0.0, "LONG_BOUNCE": 0.0},
+        "total_pnl_by_market": {"INDIAN": 0.0, "US": 0.0, "CRYPTO": 0.0, "INTRADAY": 0.0, "FADE": 0.0, "US_FADE": 0.0, "LONG_BOUNCE": 0.0, "IPO": 0.0},
         "total_capital": sum(cap.values()),
     }
 
@@ -515,6 +516,9 @@ def load_portfolio() -> dict:
                 cbm["US_FADE"] = US_FADE_CAPITAL
             if cbm and "LONG_BOUNCE" not in cbm:
                 cbm["LONG_BOUNCE"] = LONG_BOUNCE_CAPITAL
+            if cbm and "IPO" not in cbm:
+                cbm["IPO"] = IPO_CAPITAL
+            if cbm:
                 data["total_capital"] = sum(cbm.values())
             tpm = data.get("total_pnl_by_market", {})
             if tpm and "FADE" not in tpm:
@@ -585,6 +589,8 @@ def rebuild_portfolio_from_csv() -> dict:
                     capital_key = "LONG_BOUNCE"
                 elif tf == "US_FADE_5m":
                     capital_key = "US_FADE"
+                elif tf == "IPO_1d":
+                    capital_key = "IPO"
                 elif tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
                     capital_key = "INTRADAY"
                 else:
@@ -634,6 +640,9 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
         risk_amt = mkt_cap * RISK_PER_TRADE
     elif tf == "US_FADE_5m":
         mkt_cap = port.get("capital_by_market", {}).get("US_FADE", US_FADE_CAPITAL)
+        risk_amt = mkt_cap * RISK_PER_TRADE
+    elif tf == "IPO_1d":
+        mkt_cap = port.get("capital_by_market", {}).get("IPO", IPO_CAPITAL)
         risk_amt = mkt_cap * RISK_PER_TRADE
     elif tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
         mkt_cap = port.get("capital_by_market", {}).get("INTRADAY", INTRADAY_CAPITAL)
@@ -872,7 +881,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     # Build reason with pattern rank
     full_reason = reason
     if pattern_rank:
-        tf_label = "ID" if is_intraday else "SW"
+        tf_label = "ID" if is_intraday else ("IPO" if tf == "IPO_1d" else "SW")
         full_reason = f"#{pattern_rank}{tf_label} {reason}"
     
     trade = {
@@ -1294,6 +1303,7 @@ def generate_portfolio_report(current_prices: dict = None):
   .badge-intraday {{ background: #003055; color: #58a6ff; }}
   .badge-gap {{ background: #3d0000; color: #ff7b7b; }}
   .badge-swing {{ background: #2d2d3d; color: #b0b0d0; }}
+  .badge-ipo {{ background: #1a2d4d; color: #7ec8ff; }}
   .section-summary {{ color: #8b949e; font-size: 0.82rem; margin-top: 6px; }}
   .footer {{ margin-top: 30px; padding-top: 16px; border-top: 1px solid #30363d; text-align: center; color: #484f58; font-size: 0.75rem; }}
   .scroll {{ overflow-x: auto; }}
@@ -1320,13 +1330,14 @@ def generate_portfolio_report(current_prices: dict = None):
   <div class="mkt-row">
 ''')
     # Per-market cards (including INTRADAY)
-    mkt_icons = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿", "INTRADAY": "⚡", "FADE": "🔻", "US_FADE": "🌎", "LONG_BOUNCE": "🔋"}
+    mkt_icons = {"INDIAN": "🇮🇳", "US": "🇺🇸", "CRYPTO": "₿", "INTRADAY": "⚡", "FADE": "🔻", "US_FADE": "🌎", "LONG_BOUNCE": "🔋", "IPO": "📈"}
     mkt_init_map = dict(CAPITAL_BY_MARKET)
     mkt_init_map["INTRADAY"] = INTRADAY_CAPITAL
     mkt_init_map["FADE"] = FADE_CAPITAL
     mkt_init_map["US_FADE"] = US_FADE_CAPITAL
     mkt_init_map["LONG_BOUNCE"] = LONG_BOUNCE_CAPITAL
-    for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY", "FADE", "US_FADE", "LONG_BOUNCE"]:
+    mkt_init_map["IPO"] = IPO_CAPITAL
+    for mkt in ["INDIAN", "US", "CRYPTO", "INTRADAY", "FADE", "US_FADE", "LONG_BOUNCE", "IPO"]:
         mkt_cap = cap_by_mkt.get(mkt, mkt_init_map.get(mkt, 100000))
         mkt_init = mkt_init_map.get(mkt, 100000)
         mkt_ret = ((mkt_cap - mkt_init) / mkt_init * 100) if mkt_init > 0 else 0
@@ -1401,6 +1412,7 @@ def generate_portfolio_report(current_prices: dict = None):
                 tf_col = str(row.get("TimeFrame", "SWING_1d")) if _has_tf_col else ""
                 tf_badge_html = {"FADE_1h": '<span class="badge badge-fade">FD</span>',
                                  "LONG_BOUNCE_5m": '<span class="badge badge-long">LB</span>',
+                                 "IPO_1d": '<span class="badge badge-ipo">IPO</span>',
                                  "US_FADE_5m": '<span class="badge badge-fade">USFD</span>',
                                  "INTRADAY_1h": '<span class="badge badge-intraday">ID</span>',
                                  "GAP_DOWN_1m": '<span class="badge badge-gap">GD</span>',
@@ -1724,7 +1736,7 @@ def update_trades(ohlc_data: dict) -> list:
                 exit_price, exit_reason = bar_hit
                 print(f"[Paper] {ticker}: bar-level {exit_reason} (post-entry) "
                       f"low={_bars_min(bars)} high={_bars_max(bars)}")
-            elif str(row.get("TimeFrame", "SWING_1d")) in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d"):
+            elif str(row.get("TimeFrame", "SWING_1d")) in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d", "IPO_1d"):
                 # No post-entry bar-level SL/TP hit. Restrict the aggregate
                 # fallback below to POST-ENTRY bars only — a same-day pre-entry
                 # low (from the signal candle before the entry) can never
