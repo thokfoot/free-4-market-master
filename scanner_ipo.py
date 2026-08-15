@@ -172,6 +172,7 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
             "trades_count": v.get("trades_count", 0), "close": close,
             "entry_price": close, "interval": v["interval"],
             "sl_pct": v["sl_pct"], "tp_pct": v["tp_pct"],
+            "risk_pct": v.get("risk_pct", 0.01),
             "max_hold_days": v["max_hold_days"],
             "fired": False, "reason": "No signal",
             "signal_indicators": {"Close": round(close, 2)},

@@ -655,27 +655,31 @@ def rebuild_portfolio_from_csv() -> dict:
     return port
 
 
-def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d") -> int:
-    """Calculate position size based on risk per trade (1% of market capital)."""
+def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_1d",
+                  risk_pct: float = None) -> int:
+    """Calculate position size based on risk per trade.
+    Default 1% of market capital; strategies with a verified edge can pass
+    a higher risk_pct (e.g. IPO DIP 5%) via enter_trade(risk_pct=...)."""
     port = load_portfolio()
+    use_risk = risk_pct if risk_pct else RISK_PER_TRADE
     if tf == "FADE_1h":
         mkt_cap = port.get("capital_by_market", {}).get("FADE", FADE_CAPITAL)
-        risk_amt = mkt_cap * RISK_PER_TRADE
+        risk_amt = mkt_cap * use_risk
     elif tf == "LONG_BOUNCE_5m":
         mkt_cap = port.get("capital_by_market", {}).get("LONG_BOUNCE", LONG_BOUNCE_CAPITAL)
-        risk_amt = mkt_cap * RISK_PER_TRADE
+        risk_amt = mkt_cap * use_risk
     elif tf == "US_FADE_5m":
         mkt_cap = port.get("capital_by_market", {}).get("US_FADE", US_FADE_CAPITAL)
-        risk_amt = mkt_cap * RISK_PER_TRADE
+        risk_amt = mkt_cap * use_risk
     elif tf == "IPO_1d":
         mkt_cap = port.get("capital_by_market", {}).get("IPO", IPO_CAPITAL)
-        risk_amt = mkt_cap * RISK_PER_TRADE
+        risk_amt = mkt_cap * use_risk
     elif tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
         mkt_cap = port.get("capital_by_market", {}).get("INTRADAY", INTRADAY_CAPITAL)
-        risk_amt = mkt_cap * RISK_PER_TRADE
+        risk_amt = mkt_cap * use_risk
     else:
         mkt_cap = port.get("capital_by_market", {}).get(market, CAPITAL_BY_MARKET.get(market, 100000))
-        risk_amt = mkt_cap * RISK_PER_TRADE
+        risk_amt = mkt_cap * use_risk
     risk_per_share = abs(entry - sl)
     if risk_per_share < 1e-9:
         return 0
@@ -814,6 +818,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  tp_override: float = None,
                  max_hold_override: int = None,
                  signal_indicators: dict = None,
+                 risk_pct: float = None,
                  entry_dt: datetime = None) -> dict:
     """
     Enter a paper trade.
@@ -898,7 +903,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     # ── Apply entry slippage for realistic fills ──
     actual_entry = _apply_slippage(entry_price, direction, "ENTRY", mode, tf)
     entry = round_price(actual_entry)
-    qty = calculate_qty(entry, sl, mode, tf)
+    qty = calculate_qty(entry, sl, mode, tf, risk_pct)
     if qty == 0:
         _log_audit_skip(now, mode, ticker, direction, tf, reason,
                         f"Qty=0 (entry={entry}, sl={sl}, mode={mode})")

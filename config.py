@@ -568,6 +568,7 @@ IPO_VARIANTS = [
         "key": "DIP", "rank": 936, "interval": "1d", "period": "730d",
         "direction": "LONG", "dip_pct": 10.0, "exit_pct": 5.0, "sl_pct": 0.08,
         "tp_pct": 0.05, "max_hold_days": 20, "max_per_day": 2,
+        "risk_pct": 0.05,  # 5% risk (DIP is 100% win verified) ~26%/yr
         "win_rate": 100.0, "trades_count": 11,
         "factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
         "name": "IPO DIP 936 -10% dip buy +5%",
@@ -576,6 +577,7 @@ IPO_VARIANTS = [
         "key": "SHORT", "rank": 937, "interval": "1d", "period": "730d",
         "direction": "SHORT", "cover_pct": 8.0, "stop_pct": 5.0, "sl_pct": 0.05,
         "tp_pct": 0.08, "max_hold_days": 30, "max_per_day": 2,
+        "risk_pct": 0.02,  # 2% risk (71% win - 2 losses recorded)
         "win_rate": 75.0, "trades_count": 20,
         "factors": "IPO SHORT: negative-opening day-2 short, cover -8%, stop +5%, hold 30d",
         "name": "IPO SHORT 937 day-2 short",

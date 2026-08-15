@@ -1229,6 +1229,7 @@ def run_ipo_scan() -> dict:
             tp_override=tp_price,
             max_hold_override=s.get("max_hold_days", 20),
             signal_indicators=s.get("signal_indicators"),
+            risk_pct=s.get("risk_pct", 0.01),
         )
         if trade:
             entries.append({"ticker": s["ticker"], "direction": direction,
