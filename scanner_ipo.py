@@ -270,6 +270,7 @@ def _fetch_listed_this_year(year: int) -> list:
     """[(company_name, listing_day_gain_pct), ...] from the mainboard tracker."""
     import requests as _req
     import re as _re
+    import html as _html
     try:
         r = _req.get(IPO_TRACKER_URL.format(year), headers=_UA, timeout=25)
         if r.status_code != 200:
@@ -283,7 +284,7 @@ def _fetch_listed_this_year(year: int) -> list:
             out = []
             for row in rows[1:]:
                 cells = _re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, _re.S)
-                cells = [_re.sub(r"<[^>]+>", "", c).strip() for c in cells]
+                cells = [_html.unescape(_re.sub(r"<[^>]+>", "", c)).strip() for c in cells]
                 if len(cells) < 2 or not cells[0]:
                     continue
                 name = cells[0]
@@ -346,12 +347,21 @@ def _ysearch_symbol(name: str) -> str:
     """Resolve a company name to a Yahoo .NS symbol (best-effort).
 
     Tries, in order:
-      1. Yahoo finance search (existing, matches most listed names)
-      2. BSE (.BO) twin of the searched name -> same ticker on .NS
-      3. Name-derived ticker candidates probed against the chart API
-    (Fix A v5.23: catches new listings Yahoo search has not indexed yet.)
+      1. cached resolution (data/ipo_state.json _sym_cache)
+      2. Yahoo finance search (matches most listed names)
+      3. BSE (.BO) twin of the searched name -> same ticker on .NS
+      4. Name-derived ticker candidates probed against the chart API
+
+    Successful resolutions are cached so the daily discovery does not
+    re-search the same names (35+ dead candidates) every day, which
+    caused Yahoo rate-limits and transient misses.
     """
     import requests as _req
+    state = _load_state()
+    sym_cache = state.setdefault("_sym_cache", {})
+    cache_key = _norm_name(name)
+    if cache_key in sym_cache:
+        return sym_cache[cache_key] or None
     queries = [name]
     for suf in (" Ltd.", " Limited", " Ltd", " Private Limited"):
         if name.endswith(suf):
@@ -360,6 +370,7 @@ def _ysearch_symbol(name: str) -> str:
     queries.append(name.split(" Ltd.")[0].split(" Limited")[0])
     seen = set()
     bo_sym = None
+    found = None
     for q in queries:
         q = q.strip()
         if not q or q in seen:
@@ -375,23 +386,31 @@ def _ysearch_symbol(name: str) -> str:
             for qq in r.json().get("quotes", []):
                 sym = qq.get("symbol", "")
                 if sym.endswith(".NS") and qq.get("quoteType") == "EQUITY":
-                    return sym
+                    found = sym
+                    break
                 if sym.endswith(".BO") and qq.get("quoteType") == "EQUITY" \
                         and bo_sym is None:
                     bo_sym = sym
+            if found:
+                break
         except Exception:
             continue
     # BSE twin -> NSE (mainboard IPOs list on both, ticker usually same)
-    if bo_sym:
+    if not found and bo_sym:
         ns = bo_sym[:-3] + ".NS"
         if _chart_probe(ns):
-            return ns
+            found = ns
     # Name-derived candidates (new listings search has not indexed)
-    for cand in _name_candidates(name):
-        ns = cand + ".NS"
-        if _chart_probe(ns):
-            return ns
-    return None
+    if not found:
+        for cand in _name_candidates(name):
+            ns = cand + ".NS"
+            if _chart_probe(ns):
+                found = ns
+                break
+    if found:
+        sym_cache[cache_key] = found
+        _save_state(state)
+    return found
 
 
 def _norm_name(name: str) -> str:
@@ -452,22 +471,28 @@ def discover_new_ipos() -> list:
         if sym in existing_tickers:
             existing_names.add(nname)
             continue
-        # validate freshness with real data
-        try:
-            df = _download(sym, "1d", "730d", force=True)
-            df = _norm(df)
-            if df is None or len(df) == 0:
-                print(f"[IPO] Discovery: no data for {sym} — skipped")
+        # validate freshness with real data (first-bar date cached once)
+        first_bar_cache = state.setdefault("_sym_firstbar", {})
+        if sym in first_bar_cache:
+            first_date = first_bar_cache[sym]
+        else:
+            try:
+                df = _download(sym, "1d", "730d")
+                df = _norm(df)
+                if df is None or len(df) == 0:
+                    print(f"[IPO] Discovery: no data for {sym} — skipped")
+                    continue
+                first_date = str(pd.Timestamp(df.index[0]).date())
+                first_bar_cache[sym] = first_date
+                _save_state(state)
+            except Exception as e:
+                print(f"[IPO] Discovery: {sym} data error {e} — skipped")
                 continue
-            first_date = pd.Timestamp(df.index[0]).date()
-            age = (pd.Timestamp(today).date() - first_date).days
-            if age > IPO_DISCOVERY_MAX_AGE_DAYS:
-                print(f"[IPO] Discovery: {sym} listed {first_date} ({age}d ago) — too old, skipped")
-                continue
-        except Exception as e:
-            print(f"[IPO] Discovery: {sym} data error {e} — skipped")
+        age = (pd.Timestamp(today).date() - pd.Timestamp(first_date).date()).days
+        if age > IPO_DISCOVERY_MAX_AGE_DAYS:
+            print(f"[IPO] Discovery: {sym} listed {first_date} ({age}d ago) — too old, skipped")
             continue
-        listing_date = str(first_date)
+        listing_date = first_date
         added.append({"ticker": sym, "strategy": strat, "name": name,
                       "listing_date": listing_date, "gain": gain})
 

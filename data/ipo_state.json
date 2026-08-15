@@ -3,6 +3,17 @@
   "SHORT": {},
   "_discovery": {
     "last": "2026-08-15",
-    "added": 5
+    "added": 0
+  },
+  "_sym_firstbar": {
+    "AEROPLANE.NS": "2026-04-02",
+    "POWERICA.NS": "2026-04-02",
+    "RSL.NS": "2026-03-19",
+    "OMNI.NS": "2026-03-05",
+    "CLEAN.NS": "2025-10-14",
+    "AYE.NS": "2026-02-16",
+    "SHADOWFAX.NS": "2026-01-28",
+    "BHARATCOAL.NS": "2026-01-19",
+    "CMPDI.NS": "2026-03-30"
   }
 }
