@@ -344,7 +344,8 @@
     "INTRADAY": -20836.740000000005,
     "FADE": -4985.600000000001,
     "US_FADE": 0.0,
-    "LONG_BOUNCE": 0.0
+    "LONG_BOUNCE": 0.0,
+    "IPO": 0.0
   },
   "total_capital": 775373.98
 }
