@@ -582,9 +582,20 @@ IPO_VARIANTS = [
         "factors": "IPO SHORT: negative-opening day-2 short, cover -8%, stop +5%, hold 30d",
         "name": "IPO SHORT 937 day-2 short",
     },
+    {
+        "key": "BREAK", "rank": 938, "interval": "1d", "period": "730d",
+        "direction": "LONG", "sl_pct": 0.12, "tp_pct": 0.20,
+        "max_hold_days": 45, "max_per_day": 2,
+        "break_max_days": 30,  # breakout must happen within 30 sessions of listing
+        "risk_pct": 0.01,  # 1% risk (61% win, +6.3%/trade verified 2023-26, OOS +6.35%)
+        "win_rate": 61.4, "trades_count": 83,
+        "factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+        "name": "IPO BREAK 938 listing-high breakout +20%",
+    },
 ]
 IPO_DIP_RANK = IPO_VARIANTS[0]["rank"]
 IPO_SHORT_RANK = IPO_VARIANTS[1]["rank"]
+IPO_BREAK_RANK = IPO_VARIANTS[2]["rank"]
 
 # Backward-compat aliases (S1 = live bot defaults)
 FADE_PERIOD = FADE_VARIANTS[0]["period"]

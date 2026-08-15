@@ -12,6 +12,10 @@ Two verified real-data edges on IPO listings (mainboard only):
 
   SHORT (rank 937, SHORT): negative-opening mainboard IPO. On the day-2
       close (3rd session) -> SHORT. Cover -8%, stop +5%, max hold 30 days.
+  BREAK (rank 938, LONG):  flat-opening mainboard IPO (listing gain 0-30%).
+      Close crossing ABOVE the listing-day high (within 30 sessions) -> LONG.
+      Exit +20%, stop -12%, max hold 45 days. Verified 61.4% win, +6.3%/trade
+      on 83 trades 2023-26, OOS (2025-26) +6.35% — consistent every year.
       Verified 70-80% win on negative/low-opening IPOs.
 
 No lookahead / no backfill:
@@ -34,7 +38,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from config import (
     IPO_UNIVERSE_FILE, IPO_STATE_FILE, IPO_VARIANTS,
-    IPO_DIP_RANK, IPO_SHORT_RANK,
+    IPO_DIP_RANK, IPO_SHORT_RANK, IPO_BREAK_RANK,
 )
 import market_data
 
@@ -74,7 +78,7 @@ def load_ipo_universe() -> list:
         for _, r in df.iterrows():
             strat = str(r.get("strategy", "")).strip().upper()
             tk = str(r.get("ticker", "")).strip()
-            if strat not in ("DIP", "SHORT") or not tk:
+            if strat not in ("DIP", "SHORT", "BREAK") or not tk:
                 continue
             if not tk.endswith(".NS"):
                 tk += ".NS"
@@ -96,7 +100,7 @@ def _load_state() -> dict:
                 return json.load(f)
     except Exception:
         pass
-    return {"DIP": {}, "SHORT": {}}
+    return {"DIP": {}, "SHORT": {}, "BREAK": {}}
 
 
 def _save_state(state: dict):
@@ -115,6 +119,14 @@ def _dip_anchor(df: pd.DataFrame) -> float:
     if len(head) == 0:
         return np.nan
     return float(head["High"].max())
+
+
+def _break_anchor(df: pd.DataFrame) -> float:
+    """Anchor = listing-day high (first session). BREAK fires when close
+    crosses above this within break_max_days sessions."""
+    if len(df) == 0:
+        return np.nan
+    return float(df["High"].iloc[0])
 
 
 def _variant(v_key: str):
@@ -197,6 +209,30 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
                     signal["reason"] = "Below trigger but cross was earlier (no backfill)"
                 else:
                     signal["reason"] = "Above trigger (%.2f) - watching" % trigger
+        elif strat == "BREAK":
+            # Anchor = listing-day high (first session). Fire ONLY on the bar
+            # where close crosses ABOVE the anchor within break_max_days of
+            # listing (no backfill for late crosses).
+            anchor = _break_anchor(df)
+            signal["signal_indicators"]["ListingHigh"] = round(anchor, 2) if np.isfinite(anchor) else None
+            n_sessions = len(df)  # data starts at listing day
+            if not np.isfinite(anchor):
+                signal["reason"] = "No listing high available"
+            elif n_sessions > v.get("break_max_days", 30) + 1:
+                signal["reason"] = "Breakout window passed (no backfill)"
+            else:
+                prev_close = float(df.iloc[-2]["Close"]) if len(df) >= 2 else None
+                crossed = (close > anchor) and (prev_close is not None and prev_close <= anchor)
+                if crossed:
+                    if already:
+                        signal["reason"] = "Already entered (once-per-IPO)"
+                    else:
+                        signal["fired"] = True
+                        signal["reason"] = "Close > listing-day high (%.2f) breakout" % anchor
+                elif close > anchor:
+                    signal["reason"] = "Above listing high but cross was earlier (no backfill)"
+                else:
+                    signal["reason"] = "Below listing high (%.2f) - watching" % anchor
         else:  # SHORT
             # day-2 bar = 3rd session; must be the LATEST completed bar (fresh listing)
             if len(df) >= 3:
@@ -224,7 +260,14 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
     # a rejected/duplicate entry can never re-fire).
     if fired and not dry:
         for s in fired:
-            strat = "DIP" if s["rank"] == IPO_DIP_RANK else "SHORT"
+            if s["rank"] == IPO_DIP_RANK:
+                strat = "DIP"
+            elif s["rank"] == IPO_SHORT_RANK:
+                strat = "SHORT"
+            elif s["rank"] == IPO_BREAK_RANK:
+                strat = "BREAK"
+            else:
+                strat = "DIP"
             state.setdefault(strat, {})[s["ticker"]] = start.strftime("%Y-%m-%d")
         _save_state(state)
 
@@ -462,8 +505,10 @@ def discover_new_ipos() -> list:
             strat = "DIP"
         elif gain < 0.0:
             strat = "SHORT"
+        elif 0.0 <= gain < 30.0:
+            strat = "BREAK"  # flat listing: listing-high breakout edge (verified 61% win)
         else:
-            continue  # flat/weak listings have no verified edge
+            continue
         sym = _ysearch_symbol(name)
         if not sym:
             print(f"[IPO] Discovery: no Yahoo symbol for '{name}' (gain {gain:+.1f}%) — skipped")
