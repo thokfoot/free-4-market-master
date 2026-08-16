@@ -2,8 +2,8 @@
   "DIP": {},
   "SHORT": {},
   "_discovery": {
-    "last": "2026-08-15",
-    "added": 0
+    "last": "2026-08-16",
+    "added": 8
   },
   "_sym_firstbar": {
     "AEROPLANE.NS": "2026-04-02",
@@ -14,7 +14,23 @@
     "AYE.NS": "2026-02-16",
     "SHADOWFAX.NS": "2026-01-28",
     "BHARATCOAL.NS": "2026-01-19",
-    "CMPDI.NS": "2026-03-30"
+    "CMPDI.NS": "2026-03-30",
+    "MANIPALHOS.NS": "2026-08-05",
+    "CUBEINVIT-IV.NS": "2026-08-14",
+    "LCL.NS": "2026-07-30",
+    "XTRANET.NS": "2026-07-30",
+    "LASERPOWER.NS": "2026-07-16",
+    "KNACK.NS": "2026-07-08",
+    "AASTHA.NS": "2026-07-06",
+    "HEXAGON.NS": "2026-06-12",
+    "CMRGREEN.NS": "2026-06-10",
+    "BAGMANE-RR.NS": "2026-08-14",
+    "KISSHT.NS": "2026-05-08",
+    "SAIPARENT.NS": "2026-04-02",
+    "GSPCROP.NS": "2026-03-24",
+    "SEDEMAC.NS": "2026-03-11",
+    "PNGSREVA.NS": "2026-03-04",
+    "GAUDIUMIVF.NS": "2026-02-27"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
