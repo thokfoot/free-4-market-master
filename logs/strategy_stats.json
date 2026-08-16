@@ -55,17 +55,19 @@
   "3": {
     "rank": 3,
     "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | Target Hit",
-    "wins": 5,
+    "wins": 6,
     "losses": 1,
-    "total_pnl": 4578.23
+    "total_pnl": 4812.259999999999,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "5": {
     "rank": 5,
     "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
     "wins": 5,
-    "losses": 0,
-    "total_pnl": 3721.84,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": 3244.8500000000004,
+    "consec_losses": 1,
     "paused_since": null
   },
   "6": {
@@ -160,8 +162,10 @@
     "rank": 76,
     "factors": "#76SW Range<1%+SMA20<EMA20 | Expiry 5d",
     "wins": 0,
-    "losses": 1,
-    "total_pnl": -459.66
+    "losses": 2,
+    "total_pnl": -520.21,
+    "consec_losses": 1,
+    "paused_since": null
   },
   "2": {
     "rank": 2,
@@ -280,6 +284,15 @@
     "wins": 1,
     "losses": 0,
     "total_pnl": 2573.46,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "37": {
+    "rank": 37,
+    "factors": "#37SW Price>SMA50+EMA9>EMA20+2Red | Expiry 5d",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 925.52,
     "consec_losses": 0,
     "paused_since": null
   }
