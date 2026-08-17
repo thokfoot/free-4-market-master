@@ -306,5 +306,23 @@
     "total_pnl": 1079.35,
     "consec_losses": 0,
     "paused_since": null
+  },
+  "995": {
+    "rank": 995,
+    "factors": "#995ID Fade H2: 1h +3.5% vol1.8x RSI60 near-high | Expiry Square Off 15:30 IST",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 1509.79,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "994": {
+    "rank": 994,
+    "factors": "#994ID Fade H3: 1h +3.0% vol1.2x RSI60 | Expiry Square Off 15:30 IST",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 402.23,
+    "consec_losses": 0,
+    "paused_since": null
   }
 }
