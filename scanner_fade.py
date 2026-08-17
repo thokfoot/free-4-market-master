@@ -30,7 +30,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from config import (
     FADE_UNIVERSE_FILE, FADE_VARIANTS, FADE_ALLOW_SHORT,
-    FADE_MIN_PRICE, INDIAN_TICKERS,
+    FADE_MIN_PRICE, FADE_SKIP_CIRCUIT_LOCK, INDIAN_TICKERS,
 )
 import market_data
 
@@ -174,10 +174,23 @@ def _shoot_series(df: pd.DataFrame, dur_min: int, interval: str,
         return (df["Close"] - low_min) / low_min * 100.0
 
 
+def _is_pinned_bar(row) -> bool:
+    """True if a bar is fully frozen (O==H==L==C) — price locked at circuit
+    with no trades. Such a stock cannot be shorted in reality and any paper
+    exit becomes fictional, so the SHORT must be skipped (v5.25)."""
+    try:
+        return (row["Open"] == row["High"] == row["Low"] == row["Close"])
+    except Exception:
+        return False
+
+
 def _variant_fired(last, v: dict, gap: float, shoot_val: float, utc_min: int) -> bool:
     """Check all factors for one variant on the last completed candle."""
     close = float(last["Close"])
     if not np.isfinite(close) or close < FADE_MIN_PRICE:
+        return False
+    if FADE_SKIP_CIRCUIT_LOCK and (_is_pinned_bar(last) or
+                                   (last.get("Open") == last.get("High"))):
         return False
     if not np.isfinite(shoot_val) or shoot_val < v["shoot_pct"]:
         return False

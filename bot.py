@@ -932,6 +932,18 @@ def run_fade_scan() -> dict:
 
     entries = []
     skipped_entries = []
+    # Dedupe fired signals by (ticker, rank) — a signal must never be entered
+    # twice in one scan (v5.25).
+    _seen_fired = set()
+    _dedup_fired = []
+    for _s in fired:
+        _k = (str(_s.get("ticker", "")), int(_s.get("rank") or 0))
+        if _k in _seen_fired:
+            print(f"[Fade] Deduped duplicate fired signal {_k}")
+            continue
+        _seen_fired.add(_k)
+        _dedup_fired.append(_s)
+    fired = _dedup_fired
     for s in fired:
         rank = int(s.get("rank") or FADE_RANK)
         variant = next((v for v in FADE_VARIANTS if v["rank"] == rank), None)
@@ -1812,8 +1824,14 @@ def main():
     except Exception as e:
         log_error(f"Universal sweep failed: {e}")
 
-    # ── Reconciliation watchdog (v5.22): once per day, compare portfolio.json
-    #    vs paper_trades.csv (source of truth); auto-heal on drift. ──
+    # ── Reconciliation watchdog (v5.25): rebuild portfolio.json from the CSV
+    #    (single source of truth) on EVERY run so TG/portfolio never show stale
+    #    P&L. The drift alert (which sends TG) stays once-per-day. ──
+    try:
+        import paper_trader as _pt
+        _pt.rebuild_portfolio_from_csv()  # silent authoritative heal every run
+    except Exception as e:
+        log_error(f"Portfolio rebuild failed: {e}")
     try:
         _rec_file = os.path.join("logs", "last_reconcile.txt")
         _last_rec = ""

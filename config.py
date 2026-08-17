@@ -611,6 +611,9 @@ FADE_MAX_HOLD_HOURS = 5      # intraday: exit by 15:00 IST if no SL/TP
 FADE_RANK = FADE_VARIANTS[0]["rank"]
 FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
 FADE_MIN_PRICE = 8.0         # skip penny stocks (< Rs 5) — matches backtest
+FADE_SKIP_CIRCUIT_LOCK = True  # v5.25: skip SHORT when price is pinned at upper
+                               # circuit (O==H==L==C on entry bar) — can't fill
+                               # in reality, exits become fictional
 # NOTE: India cash market has no intraday shorting — this is a PAPER-TRADE
 # simulation of the validated edge; real execution needs F&O/hedged access.
 # ===== CIRCUIT BREAKER (per-strategy loss guard, v5.11) =====

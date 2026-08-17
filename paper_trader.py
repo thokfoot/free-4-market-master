@@ -755,6 +755,22 @@ def check_entry_allowed(ticker: str, direction: str,
         if pos["Ticker"] == ticker and pos["Direction"] == direction:
             return f"Duplicate {ticker} {direction} already open"
 
+    # CSV-level duplicate guard (v5.25): portfolio.json open_positions can be
+    # stale in a parallel-run race; paper_trades.csv is the source of truth.
+    # Any OPEN row with the same ticker+direction blocks a new entry.
+    if tf:
+        try:
+            df_pt = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            if len(df_pt):
+                _dup_mask = (df_pt["Ticker"].astype(str) == ticker) & \
+                            (df_pt["Direction"].astype(str) == direction) & \
+                            (df_pt["TimeFrame"].astype(str) == tf) & \
+                            (df_pt["Status"].astype(str).str.upper() == "OPEN")
+                if _dup_mask.any():
+                    return f"Duplicate {ticker} {direction} already open (CSV)"
+        except Exception:
+            pass  # never block entries on a CSV read failure
+
     # Re-entry cooldown: never re-enter the same ticker shortly after a
     # same-session stop-out/expiry. (2026-08-11: gap-down re-entered 7
     # tickers 4 min after expiry — all SL'd again, +Rs 7,400 needless

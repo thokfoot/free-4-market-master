@@ -16,7 +16,9 @@ permissions:
   contents: write
 
 concurrency:
-  group: free4market-v5-gapdown
+  # SHARED with bot.yml / fade_scan.yml — all runs that touch paper_trades.csv
+  # must serialize, or two parallel runs double-enter the same signal.
+  group: free4market-v5-bot
   cancel-in-progress: false
 
 jobs:
