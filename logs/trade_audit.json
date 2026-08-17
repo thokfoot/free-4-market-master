@@ -7317,5 +7317,23 @@
     "pattern_factors": "f_gap_down + f_52wk_low",
     "reason": "#997ID gap_down_52wk_low",
     "signal_indicators": ""
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-17 14:32:49 IST",
+    "entry_datetime": "2026-08-17 14:27:04 IST",
+    "mode": "INDIAN",
+    "ticker": "INFY.NS",
+    "direction": "LONG",
+    "entry_price": 1144.87,
+    "exit_price": 1143.03,
+    "qty": 197,
+    "pnl": -633.49,
+    "pnl_pct": -0.28,
+    "hold": "5m 45s",
+    "pattern_rank": 997,
+    "expected_win_rate": 75.0,
+    "pattern_factors": "f_gap_down + f_52wk_low",
+    "reason": "#997ID gap_down_52wk_low | Expiry 5m"
   }
 ]

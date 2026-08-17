@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 103660.09000000001,
     "CRYPTO": 99968.0,
-    "INTRADAY": 79163.25999999994,
+    "INTRADAY": 78529.76999999993,
     "FADE": 92742.80999999998,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 98864.5,
@@ -561,44 +561,21 @@
       "Pattern_Factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
       "Reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
       "Signal_Indicators": "{\"Close\": 43.35, \"Volume\": 46678, \"VolAvg20\": 19839.0, \"RSI14\": 67.1, \"Shoot_pct\": 3.66, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
-      "Time_IST": "14:27:04 IST",
-      "Mode": "INDIAN",
-      "Ticker": "INFY.NS",
-      "Direction": "LONG",
-      "TimeFrame": "GAP_DOWN_1m",
-      "Entry_Price": 1144.87,
-      "Qty": 197,
-      "SL": 1140.87,
-      "Target": 1155.74,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 997,
-      "Expected_WinRate": 75.0,
-      "Pattern_Factors": "f_gap_down + f_52wk_low",
-      "Reason": "#997ID gap_down_52wk_low",
-      "Signal_Indicators": ""
     }
   ],
-  "closed_count": 108,
+  "closed_count": 109,
   "total_wins": 46,
-  "total_losses": 61,
-  "total_pnl": -25601.34000000001,
+  "total_losses": 62,
+  "total_pnl": -26234.830000000013,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
     "CRYPTO": -32.0,
-    "INTRADAY": -20836.740000000005,
+    "INTRADAY": -21470.230000000007,
     "FADE": -7257.1900000000005,
     "US_FADE": 0.0,
     "LONG_BOUNCE": -1135.5,
     "IPO": 0.0
   },
-  "total_capital": 774398.6599999999
+  "total_capital": 773765.1699999999
 }

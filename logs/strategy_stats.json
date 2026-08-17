@@ -178,8 +178,10 @@
     "rank": 997,
     "factors": "#997ID gap_down_52wk_low | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 10,
-    "total_pnl": -21086.5
+    "losses": 11,
+    "total_pnl": -21719.99,
+    "consec_losses": 1,
+    "paused_since": null
   },
   "998": {
     "rank": 998,
