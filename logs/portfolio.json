@@ -6,7 +6,7 @@
     "INTRADAY": 79163.25999999994,
     "FADE": 93850.61999999998,
     "US_FADE": 100000.0,
-    "LONG_BOUNCE": 100000.0,
+    "LONG_BOUNCE": 98864.5,
     "IPO": 100000.0
   },
   "open_positions": [
@@ -469,35 +469,12 @@
       "Pattern_Factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
       "Reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
       "Signal_Indicators": "{\"Close\": 533.75, \"Volume\": 38449, \"VolAvg20\": 11445.0, \"RSI14\": 76.1, \"Shoot_pct\": 2.05, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
-      "Time_IST": "11:52:58 IST",
-      "Mode": "INDIAN",
-      "Ticker": "VASWANI.NS",
-      "Direction": "LONG",
-      "TimeFrame": "LONG_BOUNCE_5m",
-      "Entry_Price": 46.63,
-      "Qty": 1333,
-      "SL": 45.88,
-      "Target": 48.33,
-      "MaxHold": 6,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 935,
-      "Expected_WinRate": 54.3,
-      "Pattern_Factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
-      "Reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down",
-      "Signal_Indicators": "{\"Close\": 46.58, \"Volume\": 1153, \"VolAvg20\": 237.0, \"RSI14\": 31.4, \"Drop_pct\": 8.31, \"BelowVWAP\": true, \"VWAPDown\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 106,
+  "closed_count": 107,
   "total_wins": 46,
-  "total_losses": 59,
-  "total_pnl": -23358.03000000001,
+  "total_losses": 60,
+  "total_pnl": -24493.53000000001,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
@@ -505,8 +482,8 @@
     "INTRADAY": -20836.740000000005,
     "FADE": -6149.380000000001,
     "US_FADE": 0.0,
-    "LONG_BOUNCE": 0.0,
+    "LONG_BOUNCE": -1135.5,
     "IPO": 0.0
   },
-  "total_capital": 776641.97
+  "total_capital": 775506.47
 }
