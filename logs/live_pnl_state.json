@@ -61,7 +61,7 @@
     "^NYA": -0.03,
     "XLB": -0.01,
     "OEF": 0.21,
-    "ETH-USD": 1.02,
+    "ETH-USD": 1.04,
     "XLI": -0.02,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -75,7 +75,7 @@
     "PRECWIRE.NS": 0.74,
     "^DJT": -0.62,
     "APEX.NS": 0.92,
-    "UNIVASTU.NS": 0.22,
+    "UNIVASTU.NS": 0.1,
     "IDEA.NS": -1.07,
     "APOLLOHOSP.NS": -0.3,
     "OFSS.NS": -0.13,
@@ -84,7 +84,7 @@
     "GSLSU.NS": 0.77,
     "CALSOFT.NS": -0.62,
     "KRN.NS": -0.05,
-    "AVALON.NS": 0.47,
-    "GOLDIAM.NS": 0.51
+    "AVALON.NS": 0.49,
+    "GOLDIAM.NS": 0.8
   }
 }
