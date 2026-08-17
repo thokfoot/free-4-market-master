@@ -6672,5 +6672,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
     "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-17 10:38:06 IST",
+    "entry_datetime": "2026-08-17 10:20:03 IST",
+    "mode": "INDIAN",
+    "ticker": "SOUTHWEST.NS",
+    "direction": "SHORT",
+    "entry_price": 225.19,
+    "exit_price": 228.23,
+    "qty": 331,
+    "pnl": -1096.04,
+    "pnl_pct": -1.47,
+    "hold": "18m 3s",
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
   }
 ]

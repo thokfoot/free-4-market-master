@@ -4,7 +4,7 @@
     "US": 103660.09000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 79163.25999999994,
-    "FADE": 95014.39999999998,
+    "FADE": 93918.35999999999,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0,
     "IPO": 100000.0
@@ -428,29 +428,6 @@
       "Date": "2026-08-17",
       "Time_IST": "10:20:03 IST",
       "Mode": "INDIAN",
-      "Ticker": "SOUTHWEST.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 225.19,
-      "Qty": 331,
-      "SL": 228.06,
-      "Target": 217.25,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 902,
-      "Expected_WinRate": 42.84,
-      "Pattern_Factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Signal_Indicators": "{\"Close\": 225.84, \"Volume\": 12158, \"VolAvg20\": 2715.0, \"RSI14\": 71.9, \"Shoot_pct\": 3.29, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
-      "Time_IST": "10:20:03 IST",
-      "Mode": "INDIAN",
       "Ticker": "GOLDIAM.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -471,19 +448,19 @@
       "Signal_Indicators": "{\"Close\": 377.95, \"Volume\": 79127, \"VolAvg20\": 33823.0, \"RSI14\": 73.6, \"Shoot_pct\": 6.03, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 102,
+  "closed_count": 103,
   "total_wins": 45,
-  "total_losses": 56,
-  "total_pnl": -22194.250000000007,
+  "total_losses": 57,
+  "total_pnl": -23290.290000000008,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
     "CRYPTO": -32.0,
     "INTRADAY": -20836.740000000005,
-    "FADE": -4985.600000000001,
+    "FADE": -6081.640000000001,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 0.0,
     "IPO": 0.0
   },
-  "total_capital": 777805.75
+  "total_capital": 776709.71
 }
