@@ -260,6 +260,2160 @@
       },
       "telegram_status": "Skipped (no events)",
       "duration_sec": 162.6
+    },
+    {
+      "time": "10:16:58 IST",
+      "mode": "FADE",
+      "tickers_scanned": [
+        "AASTHA.NS",
+        "ABFRL.NS",
+        "ADANIENSOL.NS",
+        "ADANIENT.NS",
+        "ADANIGREEN.NS",
+        "ADANIPORTS.NS",
+        "ADSL.NS",
+        "AFIL.NS",
+        "ALPINETEX.NS",
+        "AMAGI.NS",
+        "APEX.NS",
+        "APOLLO.NS",
+        "APOLLOHOSP.NS",
+        "ARDEE.NS",
+        "ARIES.NS",
+        "ARIHANTCAP.NS",
+        "ASHOKLEY.NS",
+        "ASIANPAINT.NS",
+        "AUBANK.NS",
+        "AVALON.NS",
+        "AVROIND.NS",
+        "AXISBANK.NS",
+        "BAJAJ-AUTO.NS",
+        "BAJAJFINSV.NS",
+        "BAJAJHFL.NS",
+        "BAJAJHLDNG.NS",
+        "BAJFINANCE.NS",
+        "BANDHANBNK.NS",
+        "BANG.NS",
+        "BANKBARODA.NS",
+        "BDL.NS",
+        "BEL.NS",
+        "BERGEPAINT.NS",
+        "BESTAGRO.NS",
+        "BGRENERGY.NS",
+        "BHARATWIRE.NS",
+        "BHARTIARTL.NS",
+        "BIGBLOC.NS",
+        "BLISSGVS.NS",
+        "BLS.NS",
+        "BLSE.NS",
+        "BPCL.NS",
+        "BRITANNIA.NS",
+        "CALSOFT.NS",
+        "CANBK.NS",
+        "CHOLAFIN.NS",
+        "CIPLA.NS",
+        "COALINDIA.NS",
+        "COCHINSHIP.NS",
+        "COFORGE.NS",
+        "CORDELIA.NS",
+        "CSM.NS",
+        "CUMMINSIND.NS",
+        "DCMSHRIRAM.NS",
+        "DEVIT.NS",
+        "DIVISLAB.NS",
+        "DMART.NS",
+        "DOMS.NS",
+        "DRREDDY.NS",
+        "E2E.NS",
+        "ECOSMOBLTY.NS",
+        "EICHERMOT.NS",
+        "EMMBI.NS",
+        "FAZE3Q.NS",
+        "FEDERALBNK.NS",
+        "FIRSTCRY.NS",
+        "FRACTAL.NS",
+        "GARUDA.NS",
+        "GODAVARIB.NS",
+        "GODFRYPHLP.NS",
+        "GOLDIAM.NS",
+        "GRASIM.NS",
+        "GREAVESCOT.NS",
+        "GSLSU.NS",
+        "HAL.NS",
+        "HCLTECH.NS",
+        "HDFCBANK.NS",
+        "HDFCLIFE.NS",
+        "HEROMOTOCO.NS",
+        "HINDALCO.NS",
+        "HINDUNILVR.NS",
+        "HIRECT.NS",
+        "HOMEFIRST.NS",
+        "ICICIBANK.NS",
+        "IDEA.NS",
+        "IDFCFIRSTB.NS",
+        "INDIGO.NS",
+        "INDOBORAX.NS",
+        "INDOMIM.NS",
+        "INDORAMA.NS",
+        "INDUSINDBK.NS",
+        "INFY.NS",
+        "INNOVISION.NS",
+        "IRCTC.NS",
+        "IREDA.NS",
+        "IRFC.NS",
+        "ITC.NS",
+        "ITI.NS",
+        "IZMO.NS",
+        "JAICORPLTD.NS",
+        "JETFREIGHT.NS",
+        "JINDWORLD.NS",
+        "JNPR.NS",
+        "JPPOWER.NS",
+        "JSWINFRA.NS",
+        "JSWSTEEL.NS",
+        "KEI.NS",
+        "KERNEX.NS",
+        "KIOCL.NS",
+        "KITEX.NS",
+        "KNACK.NS",
+        "KOTAKBANK.NS",
+        "KPITTECH.NS",
+        "KRN.NS",
+        "KUSUMGAR.NS",
+        "LASERPOWER.NS",
+        "LAXMICOT.NS",
+        "LAXMIINDIA.NS",
+        "LCL.NS",
+        "LOTUSEYE.NS",
+        "LT.NS",
+        "LTTS.NS",
+        "M&M.NS",
+        "MALUPAPER.NS",
+        "MANAKCOAT.NS",
+        "MANAKSTEEL.NS",
+        "MANIPALHOS.NS",
+        "MARUTI.NS",
+        "MAZDOCK.NS",
+        "MCLEODRUSS.NS",
+        "MGEL.NS",
+        "MINDTECK.NS",
+        "MODISONLTD.NS",
+        "MOTHERSON.NS",
+        "MPHASIS.NS",
+        "MUTHOOTFIN.NS",
+        "MVELECTRO.NS",
+        "NACLIND.NS",
+        "NESTLEIND.NS",
+        "NETWEB.NS",
+        "NEWGEN.NS",
+        "NMDC.NS",
+        "NRL.NS",
+        "NTPC.NS",
+        "NTPCGREEN.NS",
+        "OFSS.NS",
+        "OMINFRAL.NS",
+        "OMPOWER.NS",
+        "ONGC.NS",
+        "ORIENTALTL.NS",
+        "ORIENTTECH.NS",
+        "OSWALAGRO.NS",
+        "PANACEABIO.NS",
+        "PASUPTAC.NS",
+        "PATINTLOG.NS",
+        "PCJEWELLER.NS",
+        "PDMJEPAPER.NS",
+        "PEARLPOLY.NS",
+        "PENINLAND.NS",
+        "PERSISTENT.NS",
+        "PFC.NS",
+        "PIDILITIND.NS",
+        "PNB.NS",
+        "POCL.NS",
+        "POLICYBZR.NS",
+        "POLYCAB.NS",
+        "POWERGRID.NS",
+        "PRAENG.NS",
+        "PRECAM.NS",
+        "PRECWIRE.NS",
+        "PREMIERENE.NS",
+        "PROZONER.NS",
+        "PVP.NS",
+        "QUADFUTURE.NS",
+        "RAMAPHO.NS",
+        "RAMBHAJO.NS",
+        "RAMCOSYS.NS",
+        "RECLTD.NS",
+        "RELIANCE.NS",
+        "RELTD.NS",
+        "ROTO.NS",
+        "RPEL.NS",
+        "RVNL.NS",
+        "SAIL.NS",
+        "SALSTEEL.NS",
+        "SANGAMIND.NS",
+        "SANSTAR.NS",
+        "SBIFUNDS.NS",
+        "SBILIFE.NS",
+        "SBIN.NS",
+        "SGL.NS",
+        "SINDHUTRAD.NS",
+        "SIYSIL.NS",
+        "SMSPHARMA.NS",
+        "SOMATEX.NS",
+        "SOUTHWEST.NS",
+        "SPANDANA.NS",
+        "SRM.NS",
+        "SRTL.NS",
+        "STCINDIA.NS",
+        "SUNPHARMA.NS",
+        "SUZLON.NS",
+        "SWIGGY.NS",
+        "TATACONSUM.NS",
+        "TATAELXSI.NS",
+        "TATAINVEST.NS",
+        "TATAPOWER.NS",
+        "TATASTEEL.NS",
+        "TATATECH.NS",
+        "TATVA.NS",
+        "TCS.NS",
+        "TECHM.NS",
+        "TEMBO.NS",
+        "TIRUPATIFL.NS",
+        "TITAN.NS",
+        "TRENT.NS",
+        "TURTLEMINT.NS",
+        "TVSELECT.NS",
+        "TVSMOTOR.NS",
+        "ULTRACEMCO.NS",
+        "UNIVASTU.NS",
+        "UPL.NS",
+        "VASWANI.NS",
+        "VEDL.NS",
+        "VIMTALABS.NS",
+        "WIPRO.NS",
+        "XTRANET.NS",
+        "YATRA.NS"
+      ],
+      "market_close": {
+        "CALSOFT.NS": 25.700000762939453,
+        "KRN.NS": 1541.699951171875,
+        "AVALON.NS": 2025.4000244140625,
+        "UNIVASTU.NS": 168.0,
+        "SOUTHWEST.NS": 225.36000061035156,
+        "GOLDIAM.NS": 377.95001220703125
+      },
+      "patterns_count": 8082,
+      "patterns_fired": 67,
+      "fired_patterns": [
+        {
+          "rank": 900,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+          "win_rate": 39.38,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 900,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+          "win_rate": 39.38,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 7.76,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 7.76,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 5.0,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 225.84,
+            "Volume": 12158,
+            "VolAvg20": 2715.0,
+            "RSI14": 71.9,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2026.6,
+            "Volume": 31282,
+            "VolAvg20": 6342.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 5.17,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "UNIVASTU.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 168.0,
+            "Volume": 21177,
+            "VolAvg20": 5195.0,
+            "RSI14": 85.5,
+            "Shoot_pct": 4.55,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5163.0,
+            "Volume": 90586,
+            "VolAvg20": 38401.0,
+            "RSI14": 66.7,
+            "Shoot_pct": 3.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 5.0,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 225.84,
+            "Volume": 12158,
+            "VolAvg20": 2715.0,
+            "RSI14": 71.9,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "GOLDIAM.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 377.95,
+            "Volume": 79127,
+            "VolAvg20": 33823.0,
+            "RSI14": 73.6,
+            "Shoot_pct": 6.03,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2026.6,
+            "Volume": 31282,
+            "VolAvg20": 6342.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 5.17,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "UNIVASTU.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 168.0,
+            "Volume": 21177,
+            "VolAvg20": 5195.0,
+            "RSI14": 85.5,
+            "Shoot_pct": 4.55,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 225.84,
+            "Volume": 12158,
+            "VolAvg20": 2715.0,
+            "RSI14": 71.9,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2026.6,
+            "Volume": 31282,
+            "VolAvg20": 6342.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 225.84,
+            "Volume": 12158,
+            "VolAvg20": 2715.0,
+            "RSI14": 71.9,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "GOLDIAM.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 377.95,
+            "Volume": 79127,
+            "VolAvg20": 33823.0,
+            "RSI14": 73.6,
+            "Shoot_pct": 2.73,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2026.6,
+            "Volume": 31282,
+            "VolAvg20": 6342.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "KEI.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5812.5,
+            "Volume": 21726,
+            "VolAvg20": 7163.0,
+            "RSI14": 73.5,
+            "Shoot_pct": 2.2,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 907,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 43.76,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 907,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 43.76,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 907,
+          "market": "NSE",
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 43.76,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 225.84,
+            "Volume": 12158,
+            "VolAvg20": 2715.0,
+            "RSI14": 71.9,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 907,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 43.76,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2026.6,
+            "Volume": 31282,
+            "VolAvg20": 6342.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 910,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+          "win_rate": 43.46,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 911,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G2: 15m +4.0%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 44.39,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 912,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G3: 15m +4.0%/30m vol2.0x RSI70",
+          "win_rate": 39.77,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 913,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G4: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+          "win_rate": 43.73,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 914,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G5: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+          "win_rate": 38.93,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 225.84,
+            "Volume": 12158,
+            "VolAvg20": 2715.0,
+            "RSI14": 71.9,
+            "Shoot_pct": 2.56,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 7.76,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 917,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G8: 15m +3.5%/30m vol3.0x RSI70 dayhigh",
+          "win_rate": 42.81,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 918,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G9: 15m +3.5%/30m vol2.0x RSI70",
+          "win_rate": 42.86,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 919,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+          "win_rate": 42.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 920,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+          "win_rate": 47.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 921,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+          "win_rate": 46.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 922,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+          "win_rate": 42.24,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 923,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+          "win_rate": 38.58,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 7.76,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 925,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G16: 15m +3.5%/30m vol2.5x RSI70 dayhigh",
+          "win_rate": 43.93,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 926,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G17: 15m +3.5%/30m vol3.0x RSI75",
+          "win_rate": 39.35,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 7.76,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 5.0,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "GOLDIAM.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 377.95,
+            "Volume": 79127,
+            "VolAvg20": 33823.0,
+            "RSI14": 73.6,
+            "Shoot_pct": 6.03,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2026.6,
+            "Volume": 31282,
+            "VolAvg20": 6342.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 5.17,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "UNIVASTU.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 168.0,
+            "Volume": 21177,
+            "VolAvg20": 5195.0,
+            "RSI14": 85.5,
+            "Shoot_pct": 4.55,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 7.76,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 931,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+          "win_rate": 41.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 4.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1541.7,
+            "Volume": 73682,
+            "VolAvg20": 1045.0,
+            "RSI14": 99.4,
+            "Shoot_pct": 4.94,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 8.9,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        },
+        {
+          "rank": 992,
+          "market": "NSE",
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "factors": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
+          "win_rate": 39.7,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 25.7,
+            "Volume": 64185,
+            "VolAvg20": 4371.0,
+            "RSI14": 77.8,
+            "Shoot_pct": 3.25,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": -0.09
+          }
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "qty": 3276,
+          "sl": 25.96,
+          "target": 24.93,
+          "rank": 900,
+          "win_rate": 39.38,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "qty": 58,
+          "sl": 1557.12,
+          "target": 1495.45,
+          "rank": 900,
+          "win_rate": 39.38,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2025.4000244140625,
+          "qty": 37,
+          "sl": 2049.7,
+          "target": 1952.49,
+          "rank": 902,
+          "win_rate": 42.84,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "UNIVASTU.NS",
+          "direction": "SHORT",
+          "close": 168.0,
+          "qty": 441,
+          "sl": 170.02,
+          "target": 161.95,
+          "rank": 902,
+          "win_rate": 42.84,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "close": 225.36000061035156,
+          "qty": 331,
+          "sl": 228.06,
+          "target": 217.25,
+          "rank": 902,
+          "win_rate": 42.84,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "GOLDIAM.NS",
+          "direction": "SHORT",
+          "close": 377.95001220703125,
+          "qty": 197,
+          "sl": 382.49,
+          "target": 366.61,
+          "rank": 903,
+          "win_rate": 45.41,
+          "tf": "FADE_1h"
+        }
+      ],
+      "skipped_entries": [
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 901,
+          "win_rate": 40.54,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 901,
+          "win_rate": 40.54,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 902,
+          "win_rate": 42.84,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 902,
+          "win_rate": 42.84,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2025.4000244140625,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "UNIVASTU.NS",
+          "direction": "SHORT",
+          "close": 168.0,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate UNIVASTU.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2025.4000244140625,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "close": 225.36000061035156,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate SOUTHWEST.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2025.4000244140625,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "close": 225.36000061035156,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate SOUTHWEST.NS SHORT already open"
+        },
+        {
+          "ticker": "GOLDIAM.NS",
+          "direction": "SHORT",
+          "close": 377.95001220703125,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate GOLDIAM.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 907,
+          "win_rate": 43.76,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 907,
+          "win_rate": 43.76,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2025.4000244140625,
+          "rank": 907,
+          "win_rate": 43.76,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "close": 225.36000061035156,
+          "rank": 907,
+          "win_rate": 43.76,
+          "reason": "Duplicate SOUTHWEST.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 909,
+          "win_rate": 41.29,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 910,
+          "win_rate": 43.46,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 911,
+          "win_rate": 44.39,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 912,
+          "win_rate": 39.77,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 913,
+          "win_rate": 43.73,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 914,
+          "win_rate": 38.93,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 915,
+          "win_rate": 40.31,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "SOUTHWEST.NS",
+          "direction": "SHORT",
+          "close": 225.36000061035156,
+          "rank": 915,
+          "win_rate": 40.31,
+          "reason": "Duplicate SOUTHWEST.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 916,
+          "win_rate": 43.98,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 916,
+          "win_rate": 43.98,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 917,
+          "win_rate": 42.81,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 918,
+          "win_rate": 42.86,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 919,
+          "win_rate": 42.09,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 920,
+          "win_rate": 47.68,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 921,
+          "win_rate": 46.09,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 922,
+          "win_rate": 42.24,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 923,
+          "win_rate": 38.58,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 924,
+          "win_rate": 41.18,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 924,
+          "win_rate": 41.18,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 925,
+          "win_rate": 43.93,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 926,
+          "win_rate": 39.35,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "GOLDIAM.NS",
+          "direction": "SHORT",
+          "close": 377.95001220703125,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate GOLDIAM.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2025.4000244140625,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "UNIVASTU.NS",
+          "direction": "SHORT",
+          "close": 168.0,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate UNIVASTU.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 930,
+          "win_rate": 37.55,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 930,
+          "win_rate": 37.55,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 931,
+          "win_rate": 41.98,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        },
+        {
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "close": 1541.699951171875,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate KRN.NS SHORT already open"
+        },
+        {
+          "ticker": "CALSOFT.NS",
+          "direction": "SHORT",
+          "close": 25.700000762939453,
+          "rank": 992,
+          "win_rate": 39.7,
+          "reason": "Duplicate CALSOFT.NS SHORT already open"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 103660.09000000001,
+          "CRYPTO": 99968.0,
+          "INTRADAY": 79163.25999999994,
+          "FADE": 95014.39999999998,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 100000.0,
+          "IPO": 100000.0
+        },
+        "total_capital": 777805.75,
+        "open_count": 20,
+        "total_pnl": -22194.250000000007,
+        "closed_count": 102,
+        "wins": 45,
+        "losses": 56
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 193.9
     }
   ],
   "latest_portfolio": {
@@ -274,7 +2428,7 @@
       "IPO": 100000.0
     },
     "total_capital": 777805.75,
-    "open_count": 14,
+    "open_count": 20,
     "total_pnl": -22194.250000000007,
     "closed_count": 102,
     "wins": 45,
