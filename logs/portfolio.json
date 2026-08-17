@@ -4,7 +4,7 @@
     "US": 103660.09000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 79163.25999999994,
-    "FADE": 95073.17999999998,
+    "FADE": 93850.61999999998,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0,
     "IPO": 100000.0
@@ -472,29 +472,6 @@
     },
     {
       "Date": "2026-08-17",
-      "Time_IST": "11:52:57 IST",
-      "Mode": "INDIAN",
-      "Ticker": "SUZLON.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 47.99,
-      "Qty": 2465,
-      "SL": 48.38,
-      "Target": 47.03,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 48.04, \"Volume\": 2053290, \"VolAvg20\": 357130.0, \"RSI14\": 76.6, \"Shoot_pct\": 1.69, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
       "Time_IST": "11:52:58 IST",
       "Mode": "INDIAN",
       "Ticker": "VASWANI.NS",
@@ -517,19 +494,19 @@
       "Signal_Indicators": "{\"Close\": 46.58, \"Volume\": 1153, \"VolAvg20\": 237.0, \"RSI14\": 31.4, \"Drop_pct\": 8.31, \"BelowVWAP\": true, \"VWAPDown\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 105,
+  "closed_count": 106,
   "total_wins": 46,
-  "total_losses": 58,
-  "total_pnl": -22135.47000000001,
+  "total_losses": 59,
+  "total_pnl": -23358.03000000001,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
     "CRYPTO": -32.0,
     "INTRADAY": -20836.740000000005,
-    "FADE": -4926.820000000001,
+    "FADE": -6149.380000000001,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 0.0,
     "IPO": 0.0
   },
-  "total_capital": 777864.53
+  "total_capital": 776641.97
 }
