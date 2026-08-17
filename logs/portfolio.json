@@ -6,7 +6,7 @@
     "INTRADAY": 78529.76999999993,
     "FADE": 92742.80999999998,
     "US_FADE": 100000.0,
-    "LONG_BOUNCE": 98864.5,
+    "LONG_BOUNCE": 101079.35,
     "IPO": 100000.0
   },
   "open_positions": [
@@ -426,29 +426,6 @@
     },
     {
       "Date": "2026-08-17",
-      "Time_IST": "11:10:50 IST",
-      "Mode": "INDIAN",
-      "Ticker": "LAXMIINDIA.NS",
-      "Direction": "LONG",
-      "TimeFrame": "LONG_BOUNCE_5m",
-      "Entry_Price": 124.98,
-      "Qty": 510,
-      "SL": 123.02,
-      "Target": 129.57,
-      "MaxHold": 6,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 935,
-      "Expected_WinRate": 54.3,
-      "Pattern_Factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
-      "Reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down",
-      "Signal_Indicators": "{\"Close\": 124.89, \"Volume\": 16581, \"VolAvg20\": 2144.0, \"RSI14\": 40.9, \"Drop_pct\": 3.7, \"BelowVWAP\": true, \"VWAPDown\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
       "Time_IST": "11:52:57 IST",
       "Mode": "INDIAN",
       "Ticker": "BLISSGVS.NS",
@@ -563,10 +540,10 @@
       "Signal_Indicators": "{\"Close\": 43.35, \"Volume\": 46678, \"VolAvg20\": 19839.0, \"RSI14\": 67.1, \"Shoot_pct\": 3.66, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 109,
-  "total_wins": 46,
+  "closed_count": 110,
+  "total_wins": 47,
   "total_losses": 62,
-  "total_pnl": -26234.830000000013,
+  "total_pnl": -24019.980000000014,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
@@ -574,8 +551,8 @@
     "INTRADAY": -21470.230000000007,
     "FADE": -7257.1900000000005,
     "US_FADE": 0.0,
-    "LONG_BOUNCE": -1135.5,
+    "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 773765.1699999999
+  "total_capital": 775980.0199999999
 }

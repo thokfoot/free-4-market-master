@@ -301,10 +301,10 @@
   "935": {
     "rank": 935,
     "factors": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf SL Hit (",
-    "wins": 0,
+    "wins": 1,
     "losses": 1,
-    "total_pnl": -1135.5,
-    "consec_losses": 1,
+    "total_pnl": 1079.35,
+    "consec_losses": 0,
     "paused_since": null
   }
 }
