@@ -2,8 +2,8 @@
   "DIP": {},
   "SHORT": {},
   "_discovery": {
-    "last": "2026-08-17",
-    "added": 0
+    "last": "2026-08-18",
+    "added": 2
   },
   "_sym_firstbar": {
     "AEROPLANE.NS": "2026-04-02",
@@ -30,7 +30,9 @@
     "GSPCROP.NS": "2026-03-24",
     "SEDEMAC.NS": "2026-03-11",
     "PNGSREVA.NS": "2026-03-04",
-    "GAUDIUMIVF.NS": "2026-02-27"
+    "GAUDIUMIVF.NS": "2026-02-27",
+    "DHOOTTRANS.NS": "2026-08-17",
+    "MOLBIO.NS": "2026-08-17"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
