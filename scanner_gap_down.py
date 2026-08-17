@@ -25,6 +25,7 @@ from config import (
     GAP_DOWN_MIN_DATA, GAP_DOWN_MAX_HOLD_MINUTES,
     GAP_DOWN_A_SL_PCT, GAP_DOWN_A_TP_PCT,
     GAP_DOWN_B_SL_PCT, GAP_DOWN_B_TP_PCT,
+    GAP_DOWN_B_ENABLED,
 )
 import market_data
 
@@ -171,7 +172,9 @@ def check_strategy_signals(ticker: str, factors_df: pd.DataFrame) -> list:
         })
     
     # Strategy B: f_gap_down (single factor — any gap down >0.5%)
-    elif prev['f_gap_down'] == 1:
+    # DISABLED (2026-08-18): deep re-check on 2015-2022 real data showed NO edge
+    # (0/8 years positive). Flag in config.py — re-enable only with a verified config.
+    elif GAP_DOWN_B_ENABLED and prev['f_gap_down'] == 1:
         signals.append({
             'ticker': ticker,
             'strategy': 'gap_down_single',

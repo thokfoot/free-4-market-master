@@ -1474,7 +1474,7 @@ def run_gap_down_scan() -> dict:
                     entry_price=s["entry_price"],
                     reason=s["strategy"],
                     pattern_rank=rank_id,  # 997 for A, 998 for B — enables stats + loss guard
-                    expected_win_rate=75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                    expected_win_rate=GAP_DOWN_A_EXPECTED_WIN_RATE if s["strategy"] == "gap_down_52wk_low" else GAP_DOWN_B_EXPECTED_WIN_RATE,
                     pattern_factors=f"f_gap_down + f_52wk_low" if s["strategy"] == "gap_down_52wk_low" else "f_gap_down",
                     tf="GAP_DOWN_1m",
                     sl_override=s["sl"],
@@ -1490,7 +1490,7 @@ def run_gap_down_scan() -> dict:
                         "sl": trade["SL"],
                         "target": trade["Target"],
                         "rank": rank_id,
-                        "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                        "win_rate": GAP_DOWN_A_EXPECTED_WIN_RATE if s["strategy"] == "gap_down_52wk_low" else GAP_DOWN_B_EXPECTED_WIN_RATE,
                         "tf": "GAP_DOWN_1m",
                     })
                     # Also add to current_prices for live P&L
@@ -1500,7 +1500,7 @@ def run_gap_down_scan() -> dict:
                     skipped_entries.append({
                         "ticker": s["ticker"], "direction": "LONG",
                         "close": s["entry_price"], "rank": rank_id,
-                        "win_rate": 75.0 if s["strategy"] == "gap_down_52wk_low" else 70.0,
+                        "win_rate": GAP_DOWN_A_EXPECTED_WIN_RATE if s["strategy"] == "gap_down_52wk_low" else GAP_DOWN_B_EXPECTED_WIN_RATE,
                         "reason": check_entry_allowed(s["ticker"], "LONG",
                                                       tf="GAP_DOWN_1m",
                                                       pattern_rank=rank_id)

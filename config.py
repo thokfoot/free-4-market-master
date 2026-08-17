@@ -81,22 +81,34 @@ INTRADAY_SLIPPAGE_PCT = {
 
 # ===== GAP-DOWN STRATEGY (Indian 1m Intraday, v5.9+) =====
 # Two mean-reversion strategies for Indian stocks:
-#   A: f_gap_down + f_52wk_low → SL 0.3%, TP 1.0%, 5min hold
-#   B: f_gap_down (single)     → SL 0.5%, TP 1.0%, 5min hold
+#   A: f_gap_down + f_52wk_low → SL 1.5%, TP 3.0%, 60min hold (2026-08-18: re-verified
+#      on 2015-2022 real data, 200 NSE stocks, exact scanner replication — 8/8 years
+#      positive, ~53% win, +0.46%/trade avg vs old SL0.3/TP1.0/5min at +0.03%/trade)
+#   B: f_gap_down (single)     → DISABLED (deep re-check: 0/8 years positive, no edge)
 # Data: 1m OHLCV via yf.Ticker().history() (NOT yf.download())
 
 # Data download settings
 GAP_DOWN_PERIOD_DAYS = 7        # Days of 1m data to download
 GAP_DOWN_MIN_DATA = 60           # Minimum 1m candles needed for factor calc
-GAP_DOWN_MAX_HOLD_MINUTES = 5    # Max hold time per trade
+GAP_DOWN_MAX_HOLD_MINUTES = 60   # Max hold time per trade (minutes, GAP_DOWN_1m tf)
 
-# Strategy A: f_gap_down + f_52wk_low (higher confidence)
-GAP_DOWN_A_SL_PCT = 0.003        # 0.3% stop loss
-GAP_DOWN_A_TP_PCT = 0.010         # 1.0% take profit
+# Strategy A: f_gap_down + f_52wk_low (the ONLY verified edge — 52w filter is what
+# makes it positive; verified on 2015-2022 real data with SL1.5/TP3/60m hold)
+GAP_DOWN_A_SL_PCT = 0.015        # 1.5% stop loss (was 0.3% — too tight, stopped out)
+GAP_DOWN_A_TP_PCT = 0.030         # 3.0% take profit (was 1.0%)
 
-# Strategy B: f_gap_down single factor (more frequent)
-GAP_DOWN_B_SL_PCT = 0.005        # 0.5% stop loss
-GAP_DOWN_B_TP_PCT = 0.010         # 1.0% take profit
+# Strategy B: f_gap_down single factor — NO EDGE (0/8 years positive in re-check).
+# Disabled: was 0W/14L = -Rs 32k in live paper trade. Kept code path + flag so it
+# can be re-enabled if a verified config ever replaces it.
+GAP_DOWN_B_ENABLED = False
+GAP_DOWN_B_SL_PCT = 0.005        # 0.5% stop loss (unused while disabled)
+GAP_DOWN_B_TP_PCT = 0.010         # 1.0% take profit (unused while disabled)
+
+# Realistic expected win rate for strategy A (re-verified 2015-2022, ~53% win at
+# SL1.5/TP3/60m). The old 75.0/70.0 claims were fabricated — max achievable even
+# with a look-ahead whole-day model was ~51%.
+GAP_DOWN_A_EXPECTED_WIN_RATE = 52.0
+GAP_DOWN_B_EXPECTED_WIN_RATE = 52.0
 
 # Gap-down crash protection: if N+ stocks gap down simultaneously,
 # it's a market-wide event (budget, election, global crash).
