@@ -7283,5 +7283,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
     "skip_reason": "Duplicate NACLIND.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-17 14:06:52 IST",
+    "entry_datetime": "2026-08-17 13:58:07 IST",
+    "mode": "INDIAN",
+    "ticker": "NACLIND.NS",
+    "direction": "SHORT",
+    "entry_price": 172.64,
+    "exit_price": 174.63,
+    "qty": 504,
+    "pnl": -1107.81,
+    "pnl_pct": -1.27,
+    "hold": "8m 45s",
+    "pattern_rank": 900,
+    "expected_win_rate": 39.38,
+    "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)"
   }
 ]

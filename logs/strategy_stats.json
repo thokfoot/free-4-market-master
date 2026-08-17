@@ -219,9 +219,9 @@
     "rank": 900,
     "factors": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 1,
-    "total_pnl": -1163.63,
-    "consec_losses": 1,
+    "losses": 2,
+    "total_pnl": -2271.44,
+    "consec_losses": 2,
     "paused_since": null
   },
   "904": {
