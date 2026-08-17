@@ -7335,5 +7335,23 @@
     "expected_win_rate": 75.0,
     "pattern_factors": "f_gap_down + f_52wk_low",
     "reason": "#997ID gap_down_52wk_low | Expiry 5m"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-17 14:43:12 IST",
+    "entry_datetime": "2026-08-17 11:10:50 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMIINDIA.NS",
+    "direction": "LONG",
+    "entry_price": 124.98,
+    "exit_price": 129.47,
+    "qty": 510,
+    "pnl": 2214.85,
+    "pnl_pct": 3.47,
+    "hold": "3h 32m",
+    "pattern_rank": 935,
+    "expected_win_rate": 54.3,
+    "pattern_factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
+    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf Target Hit (live)"
   }
 ]
