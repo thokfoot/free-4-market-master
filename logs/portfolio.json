@@ -4,7 +4,7 @@
     "US": 103660.09000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 79163.25999999994,
-    "FADE": 93918.35999999999,
+    "FADE": 96137.44999999998,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0,
     "IPO": 100000.0
@@ -449,29 +449,6 @@
     },
     {
       "Date": "2026-08-17",
-      "Time_IST": "11:10:49 IST",
-      "Mode": "INDIAN",
-      "Ticker": "PANACEABIO.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 415.69,
-      "Qty": 291,
-      "SL": 418.91,
-      "Target": 407.26,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 416.0, \"Volume\": 19093, \"VolAvg20\": 2015.0, \"RSI14\": 78.1, \"Shoot_pct\": 4.92, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
       "Time_IST": "11:10:50 IST",
       "Mode": "INDIAN",
       "Ticker": "LAXMIINDIA.NS",
@@ -494,19 +471,19 @@
       "Signal_Indicators": "{\"Close\": 124.89, \"Volume\": 16581, \"VolAvg20\": 2144.0, \"RSI14\": 40.9, \"Drop_pct\": 3.7, \"BelowVWAP\": true, \"VWAPDown\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 103,
-  "total_wins": 45,
+  "closed_count": 104,
+  "total_wins": 46,
   "total_losses": 57,
-  "total_pnl": -23290.290000000008,
+  "total_pnl": -21071.200000000008,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
     "CRYPTO": -32.0,
     "INTRADAY": -20836.740000000005,
-    "FADE": -6081.640000000001,
+    "FADE": -3862.550000000001,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 0.0,
     "IPO": 0.0
   },
-  "total_capital": 776709.71
+  "total_capital": 778928.7999999999
 }

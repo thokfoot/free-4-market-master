@@ -6802,5 +6802,23 @@
     "pattern_factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
     "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down",
     "signal_indicators": "{\"Close\": 124.89, \"Volume\": 16581, \"VolAvg20\": 2144.0, \"RSI14\": 40.9, \"Drop_pct\": 3.7, \"BelowVWAP\": true, \"VWAPDown\": true, \"NIFTY_gap_pct\": -0.09}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-17 11:51:35 IST",
+    "entry_datetime": "2026-08-17 11:10:49 IST",
+    "mode": "INDIAN",
+    "ticker": "PANACEABIO.NS",
+    "direction": "SHORT",
+    "entry_price": 415.69,
+    "exit_price": 407.57,
+    "qty": 291,
+    "pnl": 2219.09,
+    "pnl_pct": 1.83,
+    "hold": "40m 46s",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)"
   }
 ]
