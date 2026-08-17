@@ -53,7 +53,7 @@
     "XLK": 0.43,
     "^SOX": -0.55,
     "XLF": -0.37,
-    "TRX-USD": 0.06,
+    "TRX-USD": 0.07,
     "XLY": -0.92,
     "XLV": -0.01,
     "XLC": -0.02,
@@ -61,7 +61,7 @@
     "^NYA": -0.03,
     "XLB": -0.01,
     "OEF": 0.21,
-    "ETH-USD": 1.02,
+    "ETH-USD": 1.03,
     "XLI": -0.02,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -75,7 +75,7 @@
     "PRECWIRE.NS": 0.74,
     "^DJT": -0.62,
     "APEX.NS": 0.92,
-    "UNIVASTU.NS": 0.04,
+    "UNIVASTU.NS": 0.51,
     "IDEA.NS": -1.07,
     "APOLLOHOSP.NS": -0.3,
     "OFSS.NS": -0.13,
@@ -84,7 +84,7 @@
     "GSLSU.NS": 0.77,
     "CALSOFT.NS": -0.62,
     "KRN.NS": -0.05,
-    "AVALON.NS": 0.59,
-    "GOLDIAM.NS": 0.63
+    "AVALON.NS": 0.57,
+    "GOLDIAM.NS": 0.56
   }
 }
