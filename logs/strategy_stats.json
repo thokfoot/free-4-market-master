@@ -284,9 +284,9 @@
     "rank": 996,
     "factors": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf Target Hit (live)",
     "wins": 1,
-    "losses": 0,
-    "total_pnl": 2573.46,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": 1486.96,
+    "consec_losses": 1,
     "paused_since": null
   },
   "37": {

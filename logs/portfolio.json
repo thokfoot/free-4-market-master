@@ -4,7 +4,7 @@
     "US": 103660.09000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 78529.76999999993,
-    "FADE": 92742.80999999998,
+    "FADE": 91656.30999999998,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100000.0
@@ -515,44 +515,21 @@
       "Pattern_Factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
       "Reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
       "Signal_Indicators": "{\"Close\": 687.0, \"Volume\": 265698, \"VolAvg20\": 94237.0, \"RSI14\": 69.6, \"Shoot_pct\": 4.21, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
-      "Time_IST": "13:58:07 IST",
-      "Mode": "INDIAN",
-      "Ticker": "PROZONER.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 42.77,
-      "Qty": 1564,
-      "SL": 43.37,
-      "Target": 41.14,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 996,
-      "Expected_WinRate": 41.6,
-      "Pattern_Factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
-      "Reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
-      "Signal_Indicators": "{\"Close\": 43.35, \"Volume\": 46678, \"VolAvg20\": 19839.0, \"RSI14\": 67.1, \"Shoot_pct\": 3.66, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 110,
+  "closed_count": 111,
   "total_wins": 47,
-  "total_losses": 62,
-  "total_pnl": -24019.980000000014,
+  "total_losses": 63,
+  "total_pnl": -25106.480000000014,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
     "CRYPTO": -32.0,
     "INTRADAY": -21470.230000000007,
-    "FADE": -7257.1900000000005,
+    "FADE": -8343.69,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 775980.0199999999
+  "total_capital": 774893.5199999999
 }
