@@ -220,10 +220,10 @@
   "900": {
     "rank": 900,
     "factors": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)",
-    "wins": 0,
-    "losses": 2,
-    "total_pnl": -2271.44,
-    "consec_losses": 2,
+    "wins": 1,
+    "losses": 3,
+    "total_pnl": -2655.4900000000002,
+    "consec_losses": 0,
     "paused_since": null
   },
   "904": {
@@ -247,10 +247,10 @@
   "903": {
     "rank": 903,
     "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry Square Off 15:30 IST",
-    "wins": 2,
+    "wins": 3,
     "losses": 5,
-    "total_pnl": -2892.0800000000004,
-    "consec_losses": 1,
+    "total_pnl": -2412.2000000000003,
+    "consec_losses": 0,
     "paused_since": null
   },
   "906": {
@@ -266,10 +266,10 @@
     "rank": 902,
     "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 4,
-    "total_pnl": -3743.82,
-    "consec_losses": 4,
-    "paused_since": null
+    "losses": 5,
+    "total_pnl": -4263.31,
+    "consec_losses": 5,
+    "paused_since": "2026-08-17"
   },
   "908": {
     "rank": 908,
