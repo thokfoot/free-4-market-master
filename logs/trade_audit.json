@@ -7301,5 +7301,21 @@
     "expected_win_rate": 39.38,
     "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
     "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-17 14:27:04 IST",
+    "mode": "INDIAN",
+    "ticker": "INFY.NS",
+    "direction": "LONG",
+    "entry_price": 1144.87,
+    "qty": 197,
+    "sl": 1140.87,
+    "target": 1155.74,
+    "pattern_rank": 997,
+    "expected_win_rate": 75.0,
+    "pattern_factors": "f_gap_down + f_52wk_low",
+    "reason": "#997ID gap_down_52wk_low",
+    "signal_indicators": ""
   }
 ]
