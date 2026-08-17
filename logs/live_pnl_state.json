@@ -63,7 +63,7 @@
     "^NYA": -0.03,
     "XLB": -0.01,
     "OEF": 0.21,
-    "ETH-USD": 0.97,
+    "ETH-USD": 0.95,
     "XLI": -0.02,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -86,9 +86,9 @@
     "GSLSU.NS": 0.77,
     "CALSOFT.NS": -0.62,
     "KRN.NS": -0.05,
-    "AVALON.NS": -0.7,
-    "GOLDIAM.NS": 0.4,
-    "PANACEABIO.NS": 1.2,
+    "AVALON.NS": -0.82,
+    "GOLDIAM.NS": 0.28,
+    "PANACEABIO.NS": 1.3,
     "LAXMIINDIA.NS": 0.02
   }
 }
