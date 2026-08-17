@@ -43,7 +43,7 @@
     "AVALON.NS": "2026-08-17T11:03:18.910013+05:30",
     "GOLDIAM.NS": "2026-08-17T10:38:06.526148+05:30",
     "PANACEABIO.NS": "2026-08-17T11:13:32.526666+05:30",
-    "LAXMIINDIA.NS": "2026-08-17T11:13:32.526666+05:30"
+    "LAXMIINDIA.NS": "2026-08-17T11:51:35.506950+05:30"
   },
   "last_pnl": {
     "DIA": -0.01,
@@ -55,7 +55,7 @@
     "XLK": 0.43,
     "^SOX": -0.55,
     "XLF": -0.37,
-    "TRX-USD": 0.1,
+    "TRX-USD": 0.13,
     "XLY": -0.92,
     "XLV": -0.01,
     "XLC": -0.02,
@@ -63,7 +63,7 @@
     "^NYA": -0.03,
     "XLB": -0.01,
     "OEF": 0.21,
-    "ETH-USD": 1.05,
+    "ETH-USD": 1.02,
     "XLI": -0.02,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -86,9 +86,9 @@
     "GSLSU.NS": 0.77,
     "CALSOFT.NS": -0.62,
     "KRN.NS": -0.05,
-    "AVALON.NS": -0.69,
-    "GOLDIAM.NS": 0.18,
+    "AVALON.NS": -0.67,
+    "GOLDIAM.NS": 0.3,
     "PANACEABIO.NS": 1.74,
-    "LAXMIINDIA.NS": -0.11
+    "LAXMIINDIA.NS": 0.81
   }
 }
