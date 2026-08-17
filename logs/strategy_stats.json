@@ -65,9 +65,9 @@
     "rank": 5,
     "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
     "wins": 5,
-    "losses": 1,
-    "total_pnl": 3244.8500000000004,
-    "consec_losses": 1,
+    "losses": 2,
+    "total_pnl": 2201.3,
+    "consec_losses": 2,
     "paused_since": null
   },
   "6": {

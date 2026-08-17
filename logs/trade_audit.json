@@ -7529,5 +7529,23 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "skip_reason": "Duplicate DIA LONG already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-17 23:46:30 IST",
+    "entry_datetime": "2026-08-16 07:48:23 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "entry_price": 112.96,
+    "exit_price": 110.68,
+    "qty": 453,
+    "pnl": -1043.55,
+    "pnl_pct": -2.04,
+    "hold": "1d 15h 58m",
+    "pattern_rank": 5,
+    "expected_win_rate": 54.05,
+    "pattern_factors": "Close>Open+Range<1%",
+    "reason": "#5SW Close>Open+Range<1% | \ud83c\udfaf SL Hit (live)"
   }
 ]
