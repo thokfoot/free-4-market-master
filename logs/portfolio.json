@@ -4,7 +4,7 @@
     "US": 103660.09000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 79163.25999999994,
-    "FADE": 96137.44999999998,
+    "FADE": 95073.17999999998,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 100000.0,
     "IPO": 100000.0
@@ -382,29 +382,6 @@
       "Date": "2026-08-17",
       "Time_IST": "10:20:03 IST",
       "Mode": "INDIAN",
-      "Ticker": "AVALON.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 2024.39,
-      "Qty": 37,
-      "SL": 2049.7,
-      "Target": 1952.49,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 902,
-      "Expected_WinRate": 42.84,
-      "Pattern_Factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Signal_Indicators": "{\"Close\": 2026.6, \"Volume\": 31282, \"VolAvg20\": 6342.0, \"RSI14\": 82.3, \"Shoot_pct\": 5.17, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.09}"
-    },
-    {
-      "Date": "2026-08-17",
-      "Time_IST": "10:20:03 IST",
-      "Mode": "INDIAN",
       "Ticker": "UNIVASTU.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -540,19 +517,19 @@
       "Signal_Indicators": "{\"Close\": 46.58, \"Volume\": 1153, \"VolAvg20\": 237.0, \"RSI14\": 31.4, \"Drop_pct\": 8.31, \"BelowVWAP\": true, \"VWAPDown\": true, \"NIFTY_gap_pct\": -0.09}"
     }
   ],
-  "closed_count": 104,
+  "closed_count": 105,
   "total_wins": 46,
-  "total_losses": 57,
-  "total_pnl": -21071.200000000008,
+  "total_losses": 58,
+  "total_pnl": -22135.47000000001,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3660.09,
     "CRYPTO": -32.0,
     "INTRADAY": -20836.740000000005,
-    "FADE": -3862.550000000001,
+    "FADE": -4926.820000000001,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 0.0,
     "IPO": 0.0
   },
-  "total_capital": 778928.7999999999
+  "total_capital": 777864.53
 }
