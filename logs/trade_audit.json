@@ -8280,5 +8280,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
     "skip_reason": "Duplicate ARIES.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 12:37:46 IST",
+    "entry_datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "AVALON.NS",
+    "direction": "SHORT",
+    "entry_price": 2123.14,
+    "exit_price": 2150.76,
+    "qty": 35,
+    "pnl": -1056.04,
+    "pnl_pct": -1.42,
+    "hold": "1h 50m",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
   }
 ]
