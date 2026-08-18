@@ -44,7 +44,7 @@
     "GOLDIAM.NS": "2026-08-17T10:38:06.526148+05:30",
     "PANACEABIO.NS": "2026-08-17T11:13:32.526666+05:30",
     "LAXMIINDIA.NS": "2026-08-17T14:35:25.154165+05:30",
-    "BLISSGVS.NS": "2026-08-18T11:23:24.037391+05:30",
+    "BLISSGVS.NS": "2026-08-18T12:24:52.423295+05:30",
     "SUZLON.NS": "2026-08-17T11:54:09.430916+05:30",
     "VASWANI.NS": "2026-08-17T11:54:09.430916+05:30",
     "NACLIND.NS": "2026-08-17T13:59:16.023821+05:30",
@@ -59,7 +59,8 @@
     "MANAKCOAT.NS": "2026-08-18T10:50:11.509818+05:30",
     "SOUTHWEST.NS": "2026-08-18T10:14:31.860852+05:30",
     "GODAVARIB.NS": "2026-08-18T10:50:11.509818+05:30",
-    "JINDWORLD.NS": "2026-08-18T10:50:11.509818+05:30"
+    "JINDWORLD.NS": "2026-08-18T10:50:11.509818+05:30",
+    "ARIES.NS": "2026-08-18T12:24:52.423295+05:30"
   },
   "last_pnl": {
     "DIA": -0.49,
@@ -71,7 +72,7 @@
     "XLK": -0.27,
     "^SOX": -0.58,
     "XLF": -0.37,
-    "TRX-USD": 0.03,
+    "TRX-USD": 0.04,
     "XLY": -0.03,
     "XLV": -0.19,
     "XLC": -1.96,
@@ -79,7 +80,7 @@
     "^NYA": -0.37,
     "XLB": -0.61,
     "OEF": -0.12,
-    "ETH-USD": 1.1,
+    "ETH-USD": 1.08,
     "XLI": -0.13,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -102,11 +103,11 @@
     "GSLSU.NS": 0.77,
     "CALSOFT.NS": -0.62,
     "KRN.NS": 0.68,
-    "AVALON.NS": 0.18,
+    "AVALON.NS": 0.16,
     "GOLDIAM.NS": 1.1,
     "PANACEABIO.NS": 1.74,
     "LAXMIINDIA.NS": 2.01,
-    "BLISSGVS.NS": -0.6,
+    "BLISSGVS.NS": 0.32,
     "SUZLON.NS": -0.71,
     "VASWANI.NS": -0.06,
     "NACLIND.NS": -0.53,
@@ -114,13 +115,14 @@
     "E2E.NS": -0.23,
     "PROZONER.NS": -0.72,
     "INFY.NS": -0.12,
-    "AVAX-USD": -0.54,
+    "AVAX-USD": -0.6,
     "NETWEB.NS": -0.01,
     "MODISONLTD.NS": -0.07,
     "POCL.NS": 0.39,
     "MANAKCOAT.NS": -0.85,
     "SOUTHWEST.NS": -0.91,
     "GODAVARIB.NS": -0.89,
-    "JINDWORLD.NS": 1.62
+    "JINDWORLD.NS": 1.7,
+    "ARIES.NS": -0.4
   }
 }
