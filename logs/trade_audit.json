@@ -8800,5 +8800,21 @@
     "expected_win_rate": 39.38,
     "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
     "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | Expiry Square Off 15:30 IST"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-18 18:33:40 IST",
+    "mode": "INDIAN",
+    "ticker": "BLS.NS",
+    "direction": "LONG",
+    "entry_price": 267.94,
+    "qty": 231,
+    "sl": 246.32,
+    "target": 281.13,
+    "pattern_rank": 936,
+    "expected_win_rate": 100.0,
+    "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "signal_indicators": "{\"Close\": 267.74, \"AnchorHigh\": 302.0, \"Trigger\": 271.8}"
   }
 ]
