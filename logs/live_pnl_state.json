@@ -77,7 +77,7 @@
     "^NYA": -0.37,
     "XLB": -0.61,
     "OEF": -0.12,
-    "ETH-USD": 0.75,
+    "ETH-USD": 0.76,
     "XLI": -0.13,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -91,7 +91,7 @@
     "PRECWIRE.NS": 0.74,
     "^DJT": -0.38,
     "APEX.NS": 0.92,
-    "UNIVASTU.NS": 0.0,
+    "UNIVASTU.NS": -0.07,
     "IDEA.NS": -1.07,
     "APOLLOHOSP.NS": -0.3,
     "OFSS.NS": -0.13,
@@ -112,11 +112,11 @@
     "E2E.NS": -0.23,
     "PROZONER.NS": -0.72,
     "INFY.NS": -0.12,
-    "AVAX-USD": 0.38,
-    "NETWEB.NS": -0.28,
+    "AVAX-USD": 0.35,
+    "NETWEB.NS": -0.5,
     "MODISONLTD.NS": -0.07,
-    "POCL.NS": 0.31,
-    "MANAKCOAT.NS": -0.06,
-    "SOUTHWEST.NS": 0.26
+    "POCL.NS": 0.39,
+    "MANAKCOAT.NS": -0.39,
+    "SOUTHWEST.NS": -0.02
   }
 }
