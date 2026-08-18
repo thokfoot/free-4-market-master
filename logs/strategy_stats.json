@@ -268,9 +268,9 @@
     "rank": 996,
     "factors": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | Expiry Square Off 15:3",
     "wins": 1,
-    "losses": 2,
-    "total_pnl": 1031.56,
-    "consec_losses": 2,
+    "losses": 3,
+    "total_pnl": -1.75,
+    "consec_losses": 3,
     "paused_since": null
   },
   "37": {
