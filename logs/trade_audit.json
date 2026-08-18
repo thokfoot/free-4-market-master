@@ -8514,5 +8514,111 @@
     "expected_win_rate": 41.53,
     "pattern_factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
     "reason": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "IDEA.NS",
+    "direction": "SHORT",
+    "entry_price": 14.27,
+    "qty": 5648,
+    "sl": 14.43,
+    "target": 13.86,
+    "pattern_rank": 900,
+    "expected_win_rate": 39.38,
+    "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+    "signal_indicators": "{\"Close\": 14.27, \"Volume\": 56619157, \"VolAvg20\": 10154420.0, \"RSI14\": 76.0, \"Shoot_pct\": 2.0, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.58}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "IDEA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+    "skip_reason": "Duplicate IDEA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #902 paused (5 consecutive losses, paused 2026-08-17)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: RPEL.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: RPEL.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "IDEA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate IDEA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: RPEL.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: RPEL.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+    "skip_reason": "Cooldown: RPEL.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 14:37:04 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: RPEL.NS SHORT FADE_1h closed <120m ago"
   }
 ]
