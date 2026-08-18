@@ -8870,5 +8870,24 @@
     "expected_win_rate": 47.42,
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-18 20:32:46 IST",
+    "entry_datetime": "2026-08-17 07:46:08 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 731.14,
+    "exit_price": 716.38,
+    "qty": 70,
+    "pnl": -1043.56,
+    "pnl_pct": -2.04,
+    "hold": "1d 12h 46m",
+    "pattern_rank": 68,
+    "expected_win_rate": 57.63,
+    "pattern_factors": "Price>SMA50+SMA20<SMA50",
+    "reason": "#68SW Price>SMA50+SMA20<SMA50 | SL Hit (intraday)",
+    "signal_indicators": ""
   }
 ]

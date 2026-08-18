@@ -367,5 +367,14 @@
     "total_pnl": -1035.78,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "68": {
+    "rank": 68,
+    "factors": "#68SW Price>SMA50+SMA20<SMA50 | SL Hit (intraday)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1043.56,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }
