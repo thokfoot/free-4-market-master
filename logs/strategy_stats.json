@@ -1,21 +1,25 @@
 {
   "36": {
     "rank": 36,
-    "factors": "#36ID Price<SMA50+EMA9>EMA20+Close<Open+2Red | Expiry 6h",
+    "factors": "Price<SMA50+EMA9>EMA20+Close<Open+2Red",
     "wins": 2,
     "losses": 2,
-    "total_pnl": 1144.54
+    "total_pnl": 1144.54,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "14": {
     "rank": 14,
-    "factors": "#14ID Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "factors": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "wins": 1,
     "losses": 0,
-    "total_pnl": 1163.12
+    "total_pnl": 1163.12,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "46": {
     "rank": 46,
-    "factors": "#46SW Price>EMA20+SMA20<SMA50 | Expiry 5d",
+    "factors": "Close>Open+2Red",
     "wins": 1,
     "losses": 1,
     "total_pnl": -826.15,
@@ -24,21 +28,25 @@
   },
   "30": {
     "rank": 30,
-    "factors": "#30ID Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "wins": 1,
     "losses": 3,
-    "total_pnl": -1584.57
+    "total_pnl": -1584.57,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "16": {
     "rank": 16,
-    "factors": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "wins": 2,
     "losses": 1,
-    "total_pnl": 1033.27
+    "total_pnl": 1033.27,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "32": {
     "rank": 32,
-    "factors": "#32ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "wins": 2,
     "losses": 1,
     "total_pnl": 392.4999999999999,
@@ -47,14 +55,16 @@
   },
   "13": {
     "rank": 13,
-    "factors": "#13ID RSI<45+EMA20>EMA50+Close<Open+2Red | Expiry 6h",
+    "factors": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "wins": 1,
     "losses": 0,
-    "total_pnl": 298.29
+    "total_pnl": 298.29,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "3": {
     "rank": 3,
-    "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | Target Hit",
+    "factors": "Price<SMA50+EMA20<EMA50+Close<Open",
     "wins": 8,
     "losses": 1,
     "total_pnl": 6020.87,
@@ -63,7 +73,7 @@
   },
   "5": {
     "rank": 5,
-    "factors": "#5ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
+    "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
     "wins": 5,
     "losses": 2,
     "total_pnl": 2201.3,
@@ -72,111 +82,133 @@
   },
   "6": {
     "rank": 6,
-    "factors": "#6ID Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50 | Expiry 6h",
+    "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
     "wins": 3,
     "losses": 0,
-    "total_pnl": 2184.77
+    "total_pnl": 2184.77,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "31": {
     "rank": 31,
-    "factors": "#31ID Price>SMA50+EMA20<EMA50+Close<Open | Expiry 6h",
+    "factors": "Price>SMA50+EMA20<EMA50+Close<Open",
     "wins": 3,
     "losses": 0,
-    "total_pnl": 1997.75
+    "total_pnl": 1997.75,
+    "consec_losses": 0,
+    "paused_since": null
   },
   "52": {
     "rank": 52,
-    "factors": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)",
+    "factors": "Price>SMA20+EMA9<EMA20+Close>Open",
     "wins": 1,
     "losses": 0,
-    "total_pnl": 1979.47
-  },
-  "38": {
-    "rank": 38,
-    "factors": "#38ID RSI>65+2Red | Expiry 6h",
-    "wins": 0,
-    "losses": 1,
-    "total_pnl": -365.5
-  },
-  "1": {
-    "rank": 1,
-    "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | Expiry 5d",
-    "wins": 3,
-    "losses": 5,
-    "total_pnl": 120.7499999999999,
-    "consec_losses": 2,
+    "total_pnl": 1979.47,
+    "consec_losses": 0,
     "paused_since": null
   },
   "49": {
     "rank": 49,
-    "factors": "#49SW Price>SMA50+EMA9<EMA20 | SL Hit (intraday)",
+    "factors": "Price>SMA50+EMA9<EMA20",
     "wins": 0,
     "losses": 1,
-    "total_pnl": -605.18
+    "total_pnl": -605.18,
+    "consec_losses": 1,
+    "paused_since": null
   },
   "75": {
     "rank": 75,
-    "factors": "#75SW Price>SMA50+EMA9<EMA20 | SL Hit (intraday)",
+    "factors": "Price>SMA50+EMA9<EMA20",
     "wins": 0,
     "losses": 1,
-    "total_pnl": -1012.37
+    "total_pnl": -1012.37,
+    "consec_losses": 1,
+    "paused_since": null
   },
-  "43": {
-    "rank": 43,
-    "factors": "#43SW RSI>50+SMA20<SMA50 | SL Hit (intraday)",
+  "38": {
+    "rank": 38,
+    "factors": "RSI>65+2Red",
     "wins": 0,
     "losses": 1,
-    "total_pnl": -988.87
+    "total_pnl": -365.5,
+    "consec_losses": 1,
+    "paused_since": null
   },
-  "41": {
-    "rank": 41,
-    "factors": "#41SW Price>SMA20+EMA20<EMA50+2Red | SL Hit (intraday)",
-    "wins": 0,
-    "losses": 1,
-    "total_pnl": -45.62
-  },
-  "25": {
-    "rank": 25,
-    "factors": "#25ID Close>Open+2Red | SL Hit (intraday)",
-    "wins": 0,
-    "losses": 1,
-    "total_pnl": -936.8
+  "1": {
+    "rank": 1,
+    "factors": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "wins": 3,
+    "losses": 5,
+    "total_pnl": 120.74999999999989,
+    "consec_losses": 1,
+    "paused_since": null
   },
   "4": {
     "rank": 4,
-    "factors": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
+    "factors": "EMA9>EMA20+Range<1%",
     "wins": 2,
     "losses": 2,
     "total_pnl": 1311.13,
     "consec_losses": 1,
     "paused_since": null
   },
+  "43": {
+    "rank": 43,
+    "factors": "RSI>50+SMA20<SMA50",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -988.87,
+    "consec_losses": 1,
+    "paused_since": null
+  },
   "50": {
     "rank": 50,
-    "factors": "#50SW Price>SMA50+EMA9<EMA20 | Expiry 5d",
+    "factors": "Price>SMA50+EMA9<EMA20",
     "wins": 1,
     "losses": 0,
-    "total_pnl": 95.48
+    "total_pnl": 95.48,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "41": {
+    "rank": 41,
+    "factors": "Price>SMA20+EMA20<EMA50+2Red",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -45.62,
+    "consec_losses": 1,
+    "paused_since": null
   },
   "76": {
     "rank": 76,
-    "factors": "#76SW Range<1%+SMA20<EMA20 | Expiry 5d",
+    "factors": "Range<1%+SMA20<EMA20",
     "wins": 0,
     "losses": 2,
     "total_pnl": -520.21,
-    "consec_losses": 1,
+    "consec_losses": 2,
     "paused_since": null
   },
   "2": {
     "rank": 2,
-    "factors": "#2SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
+    "factors": "EMA9>EMA20+Price>SMA20+Range<1%",
     "wins": 1,
     "losses": 0,
-    "total_pnl": 440.05
+    "total_pnl": 440.05,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "25": {
+    "rank": 25,
+    "factors": "Close>Open+2Red",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -936.8,
+    "consec_losses": 1,
+    "paused_since": null
   },
   "45": {
     "rank": 45,
-    "factors": "#45SW Close>Open+2Red | Expiry 5d",
+    "factors": "Close>Open+2Red",
     "wins": 1,
     "losses": 0,
     "total_pnl": 137.82,
@@ -185,16 +217,52 @@
   },
   "28": {
     "rank": 28,
-    "factors": "#28SW Price>SMA50+EMA20>EMA50+2Red | Expiry 5d",
+    "factors": "Price>SMA50+EMA20>EMA50+2Red",
     "wins": 1,
     "losses": 0,
     "total_pnl": 194.6,
     "consec_losses": 0,
     "paused_since": null
   },
+  "37": {
+    "rank": 37,
+    "factors": "Price>SMA50+EMA9>EMA20+2Red",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 925.52,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "64": {
+    "rank": 64,
+    "factors": "Price>SMA50+SMA20<SMA50",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 210.39,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "903": {
+    "rank": 903,
+    "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "wins": 4,
+    "losses": 10,
+    "total_pnl": -5647.83,
+    "consec_losses": 5,
+    "paused_since": "2026-08-18"
+  },
+  "904": {
+    "rank": 904,
+    "factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "wins": 4,
+    "losses": 8,
+    "total_pnl": 2018.8900000000003,
+    "consec_losses": 1,
+    "paused_since": null
+  },
   "933": {
     "rank": 933,
-    "factors": "#933ID Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh | SL Hit (intraday)",
+    "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
     "wins": 0,
     "losses": 1,
     "total_pnl": -1223.36,
@@ -203,43 +271,25 @@
   },
   "900": {
     "rank": 900,
-    "factors": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | Expiry Square Off 15:30 IST",
+    "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
     "wins": 4,
-    "losses": 6,
-    "total_pnl": -1783.53,
+    "losses": 7,
+    "total_pnl": -2642.1899999999996,
     "consec_losses": 0,
-    "paused_since": null
-  },
-  "904": {
-    "rank": 904,
-    "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)",
-    "wins": 4,
-    "losses": 8,
-    "total_pnl": 2018.8900000000003,
-    "consec_losses": 1,
     "paused_since": null
   },
   "920": {
     "rank": 920,
-    "factors": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | \ud83c\udfaf SL Hit (live)",
+    "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
     "wins": 0,
     "losses": 1,
     "total_pnl": -1092.8,
     "consec_losses": 1,
     "paused_since": null
   },
-  "903": {
-    "rank": 903,
-    "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry Square Off 15:30 IST",
-    "wins": 4,
-    "losses": 10,
-    "total_pnl": -5590.870000000001,
-    "consec_losses": 5,
-    "paused_since": "2026-08-18"
-  },
   "906": {
     "rank": 906,
-    "factors": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry Square Off 15:30 IST",
+    "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "wins": 1,
     "losses": 2,
     "total_pnl": -612.91,
@@ -248,52 +298,43 @@
   },
   "902": {
     "rank": 902,
-    "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
+    "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
     "wins": 0,
     "losses": 5,
-    "total_pnl": -4263.31,
+    "total_pnl": -4263.3099999999995,
     "consec_losses": 5,
     "paused_since": "2026-08-17"
   },
+  "996": {
+    "rank": 996,
+    "factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "wins": 1,
+    "losses": 3,
+    "total_pnl": 94.25,
+    "consec_losses": 3,
+    "paused_since": null
+  },
   "908": {
     "rank": 908,
-    "factors": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)",
+    "factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
     "wins": 0,
     "losses": 2,
     "total_pnl": -2240.6,
     "consec_losses": 2,
     "paused_since": null
   },
-  "996": {
-    "rank": 996,
-    "factors": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | Expiry Square Off 15:3",
-    "wins": 1,
-    "losses": 3,
-    "total_pnl": -1.75,
-    "consec_losses": 3,
-    "paused_since": null
-  },
-  "37": {
-    "rank": 37,
-    "factors": "#37SW Price>SMA50+EMA9>EMA20+2Red | Expiry 5d",
-    "wins": 1,
-    "losses": 0,
-    "total_pnl": 925.52,
-    "consec_losses": 0,
-    "paused_since": null
-  },
   "935": {
     "rank": 935,
-    "factors": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf Target H",
+    "factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
     "wins": 1,
     "losses": 1,
     "total_pnl": 1079.35,
-    "consec_losses": 0,
+    "consec_losses": 1,
     "paused_since": null
   },
   "995": {
     "rank": 995,
-    "factors": "#995ID Fade H2: 1h +3.5% vol1.8x RSI60 near-high | Expiry Square Off 15:30 IST",
+    "factors": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
     "wins": 1,
     "losses": 0,
     "total_pnl": 1509.79,
@@ -302,25 +343,16 @@
   },
   "994": {
     "rank": 994,
-    "factors": "#994ID Fade H3: 1h +3.0% vol1.2x RSI60 | Expiry Square Off 15:30 IST",
+    "factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
     "wins": 1,
     "losses": 0,
     "total_pnl": 402.23,
     "consec_losses": 0,
     "paused_since": null
   },
-  "64": {
-    "rank": 64,
-    "factors": "#64SW Price>SMA50+SMA20<SMA50 | Expiry 5d",
-    "wins": 1,
-    "losses": 0,
-    "total_pnl": 210.39,
-    "consec_losses": 0,
-    "paused_since": null
-  },
   "905": {
     "rank": 905,
-    "factors": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | \ud83c\udfaf Target Hit (live)",
+    "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
     "wins": 1,
     "losses": 1,
     "total_pnl": 1196.2900000000002,
