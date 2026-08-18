@@ -8196,5 +8196,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
     "skip_reason": "Duplicate BLISSGVS.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 11:41:13 IST",
+    "entry_datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "GODAVARIB.NS",
+    "direction": "SHORT",
+    "entry_price": 252.71,
+    "exit_price": 256.12,
+    "qty": 290,
+    "pnl": -1077.4,
+    "pnl_pct": -1.47,
+    "hold": "54m 15s",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
   }
 ]
