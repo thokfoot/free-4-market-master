@@ -372,6 +372,37 @@
       },
       "telegram_status": "Skipped (no events)",
       "duration_sec": 20.8
+    },
+    {
+      "time": "16:42:52 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 0,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 103909.21,
+          "CRYPTO": 99968.0,
+          "INTRADAY": 111089.13999999996,
+          "FADE": 87498.45000000001,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 100000.0
+        },
+        "total_capital": 803544.15,
+        "open_count": 15,
+        "total_pnl": 3544.150000000003,
+        "closed_count": 127,
+        "wins": 59,
+        "losses": 67
+      },
+      "telegram_status": "Skipped (no events)",
+      "duration_sec": 15.0
     }
   ],
   "latest_portfolio": {
