@@ -239,11 +239,11 @@
   },
   "906": {
     "rank": 906,
-    "factors": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry 5h",
+    "factors": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | \ud83c\udfaf SL Hit (live)",
     "wins": 1,
-    "losses": 0,
-    "total_pnl": 515.98,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": -567.0,
+    "consec_losses": 1,
     "paused_since": null
   },
   "902": {
