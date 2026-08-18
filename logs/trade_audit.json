@@ -1188,7 +1188,7 @@
     "pattern_rank": 52,
     "expected_win_rate": 71.43,
     "pattern_factors": "Price>SMA20+EMA9<EMA20+Close>Open",
-    "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)",
+    "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | 🎯 Target Hit (live)",
     "entry_datetime": "2026-08-04 01:18:05 IST",
     "hold": "1d 18h 37m 14s"
   },
@@ -2361,482 +2361,6 @@
     "pattern_factors": "EMA9>EMA20+Price>SMA20+Range<1%",
     "reason": "#2SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
     "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:21 IST",
-    "mode": "INDIAN",
-    "ticker": "ASIANPAINT.NS",
-    "direction": "LONG",
-    "entry_price": 2749.87,
-    "qty": 115,
-    "sl": 2740.25,
-    "target": 2775.99,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:21 IST",
-    "mode": "INDIAN",
-    "ticker": "ULTRACEMCO.NS",
-    "direction": "LONG",
-    "entry_price": 12057.03,
-    "qty": 26,
-    "sl": 12014.85,
-    "target": 12171.51,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:21 IST",
-    "mode": "INDIAN",
-    "ticker": "GRASIM.NS",
-    "direction": "LONG",
-    "entry_price": 3390.69,
-    "qty": 93,
-    "sl": 3378.83,
-    "target": 3422.89,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "PFC.NS",
-    "direction": "LONG",
-    "entry_price": 385.29,
-    "qty": 823,
-    "sl": 383.94,
-    "target": 388.95,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "RECLTD.NS",
-    "direction": "LONG",
-    "entry_price": 342.92,
-    "qty": 926,
-    "sl": 341.72,
-    "target": 346.18,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "KOTAKBANK.NS",
-    "direction": "LONG",
-    "entry_price": 392.7,
-    "qty": 514,
-    "sl": 390.54,
-    "target": 396.43,
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "ABFRL.NS",
-    "direction": "LONG",
-    "entry_price": 61.05,
-    "qty": 3270,
-    "sl": 60.71,
-    "target": 61.63,
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single",
-    "signal_indicators": ""
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:21 IST",
-    "mode": "INDIAN",
-    "ticker": "ASIANPAINT.NS",
-    "direction": "LONG",
-    "entry_price": 2749.87,
-    "exit_price": 2726.64,
-    "qty": 115,
-    "pnl": -3051.39,
-    "pnl_pct": -0.96,
-    "hold": "1h 7m",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 67m"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:21 IST",
-    "mode": "INDIAN",
-    "ticker": "ULTRACEMCO.NS",
-    "direction": "LONG",
-    "entry_price": 12057.03,
-    "exit_price": 11907.04,
-    "qty": 26,
-    "pnl": -4275.83,
-    "pnl_pct": -1.36,
-    "hold": "1h 7m",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 67m"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:21 IST",
-    "mode": "INDIAN",
-    "ticker": "GRASIM.NS",
-    "direction": "LONG",
-    "entry_price": 3390.69,
-    "exit_price": 3347.83,
-    "qty": 93,
-    "pnl": -4364.82,
-    "pnl_pct": -1.38,
-    "hold": "1h 7m",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 67m"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "PFC.NS",
-    "direction": "LONG",
-    "entry_price": 385.29,
-    "exit_price": 382.51,
-    "qty": 823,
-    "pnl": -2669.55,
-    "pnl_pct": -0.84,
-    "hold": "1h 7m",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 67m"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "RECLTD.NS",
-    "direction": "LONG",
-    "entry_price": 342.92,
-    "exit_price": 342.23,
-    "qty": 926,
-    "pnl": -1021.11,
-    "pnl_pct": -0.32,
-    "hold": "1h 7m",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 67m"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "KOTAKBANK.NS",
-    "direction": "LONG",
-    "entry_price": 392.7,
-    "exit_price": 389.95,
-    "qty": 514,
-    "pnl": -1653.19,
-    "pnl_pct": -0.82,
-    "hold": "1h 7m",
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single | Expiry 67m"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:00:30 IST",
-    "entry_datetime": "2026-08-11 09:53:22 IST",
-    "mode": "INDIAN",
-    "ticker": "ABFRL.NS",
-    "direction": "LONG",
-    "entry_price": 61.05,
-    "exit_price": 59.01,
-    "qty": 3270,
-    "pnl": -6908.79,
-    "pnl_pct": -3.46,
-    "hold": "1h 7m",
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single | Expiry 67m"
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "ASIANPAINT.NS",
-    "direction": "LONG",
-    "entry_price": 2749.87,
-    "qty": 90,
-    "sl": 2740.25,
-    "target": 2775.99,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "ULTRACEMCO.NS",
-    "direction": "LONG",
-    "entry_price": 12057.03,
-    "qty": 20,
-    "sl": 12014.85,
-    "target": 12171.51,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "GRASIM.NS",
-    "direction": "LONG",
-    "entry_price": 3390.69,
-    "qty": 73,
-    "sl": 3378.83,
-    "target": 3422.89,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "RECLTD.NS",
-    "direction": "LONG",
-    "entry_price": 342.92,
-    "qty": 727,
-    "sl": 341.72,
-    "target": 346.18,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "PFC.NS",
-    "direction": "LONG",
-    "entry_price": 385.29,
-    "qty": 646,
-    "sl": 383.94,
-    "target": 388.95,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "KOTAKBANK.NS",
-    "direction": "LONG",
-    "entry_price": 392.7,
-    "qty": 403,
-    "sl": 390.54,
-    "target": 396.43,
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single",
-    "signal_indicators": ""
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "ABFRL.NS",
-    "direction": "LONG",
-    "entry_price": 61.05,
-    "qty": 2566,
-    "sl": 60.71,
-    "target": 61.63,
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single",
-    "signal_indicators": ""
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:07:16 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "ASIANPAINT.NS",
-    "direction": "LONG",
-    "entry_price": 2749.87,
-    "exit_price": 2738.88,
-    "qty": 90,
-    "pnl": -1286.1,
-    "pnl_pct": -0.52,
-    "hold": "2m 59s",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:07:16 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "ULTRACEMCO.NS",
-    "direction": "LONG",
-    "entry_price": 12057.03,
-    "exit_price": 12008.84,
-    "qty": 20,
-    "pnl": -1253.12,
-    "pnl_pct": -0.52,
-    "hold": "2m 59s",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:07:16 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "GRASIM.NS",
-    "direction": "LONG",
-    "entry_price": 3390.69,
-    "exit_price": 3377.14,
-    "qty": 73,
-    "pnl": -1286.13,
-    "pnl_pct": -0.52,
-    "hold": "2m 59s",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:07:16 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "PFC.NS",
-    "direction": "LONG",
-    "entry_price": 385.29,
-    "exit_price": 383.75,
-    "qty": 646,
-    "pnl": -1294.79,
-    "pnl_pct": -0.52,
-    "hold": "2m 59s",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:07:16 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "KOTAKBANK.NS",
-    "direction": "LONG",
-    "entry_price": 392.7,
-    "exit_price": 390.34,
-    "qty": 403,
-    "pnl": -1139.08,
-    "pnl_pct": -0.72,
-    "hold": "2m 59s",
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:07:16 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "ABFRL.NS",
-    "direction": "LONG",
-    "entry_price": 61.05,
-    "exit_price": 60.68,
-    "qty": 2566,
-    "pnl": -1138.32,
-    "pnl_pct": -0.73,
-    "hold": "2m 59s",
-    "pattern_rank": 998,
-    "expected_win_rate": 70.0,
-    "pattern_factors": "f_gap_down",
-    "reason": "#998ID gap_down_single | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-11 11:43:15 IST",
-    "entry_datetime": "2026-08-11 11:04:17 IST",
-    "mode": "INDIAN",
-    "ticker": "RECLTD.NS",
-    "direction": "LONG",
-    "entry_price": 342.92,
-    "exit_price": 342.53,
-    "qty": 727,
-    "pnl": -583.66,
-    "pnl_pct": -0.23,
-    "hold": "38m 58s",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 38m"
   },
   {
     "event": "SKIP",
@@ -4017,7 +3541,7 @@
     "pattern_rank": 900,
     "expected_win_rate": 39.38,
     "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
-    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4035,7 +3559,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4053,7 +3577,7 @@
     "pattern_rank": 920,
     "expected_win_rate": 47.68,
     "pattern_factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
-    "reason": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4071,7 +3595,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT",
@@ -4607,7 +4131,7 @@
     "pattern_rank": 903,
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | 🎯 SL Hit (live)"
   },
   {
     "event": "ENTRY",
@@ -4984,7 +4508,7 @@
     "pattern_rank": 902,
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -5002,7 +4526,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 Target Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -5020,7 +4544,7 @@
     "pattern_rank": 908,
     "expected_win_rate": 42.48,
     "pattern_factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
-    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -5038,7 +4562,7 @@
     "pattern_rank": 908,
     "expected_win_rate": 42.48,
     "pattern_factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
-    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | 🎯 SL Hit (live)"
   },
   {
     "event": "SKIP",
@@ -5096,7 +4620,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -5114,7 +4638,7 @@
     "pattern_rank": 996,
     "expected_win_rate": 41.6,
     "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
-    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf Target Hit (live)"
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | 🎯 Target Hit (live)"
   },
   {
     "event": "EXIT",
@@ -6689,7 +6213,7 @@
     "pattern_rank": 902,
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)"
   },
   {
     "event": "SKIP",
@@ -6946,7 +6470,7 @@
     "pattern_rank": 902,
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6964,7 +6488,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6982,7 +6506,7 @@
     "pattern_rank": 935,
     "expected_win_rate": 54.3,
     "pattern_factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
-    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf SL Hit (live)"
+    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | 🎯 SL Hit (live)"
   },
   {
     "event": "ENTRY",
@@ -7300,41 +6824,7 @@
     "pattern_rank": 900,
     "expected_win_rate": 39.38,
     "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
-    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)"
-  },
-  {
-    "event": "ENTRY",
-    "datetime": "2026-08-17 14:27:04 IST",
-    "mode": "INDIAN",
-    "ticker": "INFY.NS",
-    "direction": "LONG",
-    "entry_price": 1144.87,
-    "qty": 197,
-    "sl": 1140.87,
-    "target": 1155.74,
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low",
-    "signal_indicators": ""
-  },
-  {
-    "event": "EXIT (Live)",
-    "datetime": "2026-08-17 14:32:49 IST",
-    "entry_datetime": "2026-08-17 14:27:04 IST",
-    "mode": "INDIAN",
-    "ticker": "INFY.NS",
-    "direction": "LONG",
-    "entry_price": 1144.87,
-    "exit_price": 1143.03,
-    "qty": 197,
-    "pnl": -633.49,
-    "pnl_pct": -0.28,
-    "hold": "5m 45s",
-    "pattern_rank": 997,
-    "expected_win_rate": 75.0,
-    "pattern_factors": "f_gap_down + f_52wk_low",
-    "reason": "#997ID gap_down_52wk_low | Expiry 5m"
+    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -7352,7 +6842,7 @@
     "pattern_rank": 935,
     "expected_win_rate": 54.3,
     "pattern_factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
-    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf Target Hit (live)"
+    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | 🎯 Target Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -7370,7 +6860,7 @@
     "pattern_rank": 996,
     "expected_win_rate": 41.6,
     "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
-    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -7388,7 +6878,7 @@
     "pattern_rank": 903,
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT",
@@ -7546,7 +7036,7 @@
     "pattern_rank": 5,
     "expected_win_rate": 54.05,
     "pattern_factors": "Close>Open+Range<1%",
-    "reason": "#5SW Close>Open+Range<1% | \ud83c\udfaf SL Hit (live)"
+    "reason": "#5SW Close>Open+Range<1% | 🎯 SL Hit (live)"
   },
   {
     "event": "EXIT",
