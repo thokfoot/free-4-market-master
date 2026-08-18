@@ -86,7 +86,7 @@
   },
   "52": {
     "rank": 52,
-    "factors": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | 🎯 Target Hit (live)",
+    "factors": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)",
     "wins": 1,
     "losses": 0,
     "total_pnl": 1979.47
@@ -212,7 +212,7 @@
   },
   "904": {
     "rank": 904,
-    "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 Target Hit (live)",
+    "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)",
     "wins": 4,
     "losses": 8,
     "total_pnl": 2018.8900000000003,
@@ -221,7 +221,7 @@
   },
   "920": {
     "rank": 920,
-    "factors": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | 🎯 SL Hit (live)",
+    "factors": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
     "losses": 1,
     "total_pnl": -1092.8,
@@ -248,7 +248,7 @@
   },
   "902": {
     "rank": 902,
-    "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)",
+    "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
     "losses": 5,
     "total_pnl": -4263.31,
@@ -257,7 +257,7 @@
   },
   "908": {
     "rank": 908,
-    "factors": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | 🎯 SL Hit (live)",
+    "factors": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
     "losses": 2,
     "total_pnl": -2240.6,
@@ -284,7 +284,7 @@
   },
   "935": {
     "rank": 935,
-    "factors": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | 🎯 Target H",
+    "factors": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf Target H",
     "wins": 1,
     "losses": 1,
     "total_pnl": 1079.35,
@@ -316,6 +316,15 @@
     "losses": 0,
     "total_pnl": 210.39,
     "consec_losses": 0,
+    "paused_since": null
+  },
+  "905": {
+    "rank": 905,
+    "factors": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1116.53,
+    "consec_losses": 1,
     "paused_since": null
   }
 }
