@@ -99,6 +99,7 @@ class TestRealDataZeroUnmatched:
         ("SWING_1d", 1, "XLC", "LONG"),
         ("SWING_1d", 76, "DIA", "LONG"),
         ("SWING_1d", 5, "XLY", "LONG"),
+        ("IPO_1d", 936, "BLS.NS", "LONG"),
     }
 
     def test_zero_unmatched_on_live_data(self):
