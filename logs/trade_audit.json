@@ -7269,5 +7269,15 @@
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
     "signal_indicators": "{\"Open\": 6.392, \"EMA50\": 6.357004, \"2Red\": 0.0, \"SMA50\": 6.33944, \"Close\": 6.333, \"Volume\": 1471296.0, \"EMA9\": 6.338219, \"RSI14\": 48.906807, \"High\": 6.434, \"SMA20\": 6.32995, \"EMA20\": 6.3357, \"Low\": 6.327, \"Ret\": -0.007678}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 08:10:53 IST",
+    "mode": "CRYPTO",
+    "ticker": "AVAX-USD",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "skip_reason": "Duplicate AVAX-USD SHORT already open"
   }
 ]
