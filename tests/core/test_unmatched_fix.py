@@ -100,6 +100,18 @@ class TestRealDataZeroUnmatched:
         ("SWING_1d", 76, "DIA", "LONG"),
         ("SWING_1d", 5, "XLY", "LONG"),
         ("IPO_1d", 936, "BLS.NS", "LONG"),
+        ("FADE_1h", 900, "AVROIND.NS", "SHORT"),
+        ("FADE_1h", 900, "CALSOFT.NS", "SHORT"),
+        ("FADE_1h", 900, "KRN.NS", "SHORT"),
+        ("FADE_1h", 900, "BLISSGVS.NS", "SHORT"),
+        ("FADE_1h", 900, "NACLIND.NS", "SHORT"),
+        ("FADE_1h", 900, "NETWEB.NS", "SHORT"),
+        ("FADE_1h", 900, "MODISONLTD.NS", "SHORT"),
+        ("FADE_1h", 900, "POCL.NS", "SHORT"),
+        ("FADE_1h", 900, "RPEL.NS", "SHORT"),
+        ("FADE_1h", 900, "IDEA.NS", "SHORT"),
+        ("FADE_1h", 907, "KERNEX.NS", "SHORT"),
+        ("FADE_1h", 991, "V1", "SHORT"),
     }
 
     def test_zero_unmatched_on_live_data(self):

@@ -141,13 +141,15 @@ INTRADAY_REENTRY_COOLDOWN_MINUTES = 120
 FADE_UNIVERSE_FILE = os.path.join(os.path.dirname(__file__), "data", "nse_fade_universe.csv")
 
 FADE_VARIANTS = [
+    # ── T1: FRESH-VERIFIED on 60d FADE universe (25 stocks, Aug 2026) ──
+    # 10T 6W/4L, WR 60%, Net +17.2%, Avg +1.72%/T — RSI60 + 3:1 RR dominates
     {
-        "key": "S1", "rank": 900, "interval": "15m", "period": "60d",
-        "shoot_pct": 2.0, "dur_min": 45, "vol_mult": 2.2, "rsi_min": 75.0,
-        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.01, "tp_pct": 0.03, "dh": False,
-        "max_per_day": 5, "win_rate": 39.38, "trades_count": 3182,
-        "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
-        "name": "Fade S1 15m 2.0%/45m",
+        "key": "T1", "rank": 940, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 30, "vol_mult": 2.0, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.013, "tp_pct": 0.039, "dh": False,
+        "max_per_day": 5, "win_rate": 60.0, "trades_count": 10,
+        "factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+        "name": "Fade T1 15m 3.5%/30m 3:1RR",
     },
     {
         "key": "S2", "rank": 901, "interval": "15m", "period": "60d",
@@ -197,13 +199,15 @@ FADE_VARIANTS = [
         "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
         "name": "Fade S7 15m 2.0%/60m",
     },
+    # ── T2: FRESH-VERIFIED on 60d FADE universe (25 stocks, Aug 2026) ──
+    # 16T 8W/8L, WR 50%, Net +19.2%, Avg +1.20%/T — higher count, still profitable
     {
-        "key": "S8", "rank": 907, "interval": "15m", "period": "60d",
-        "shoot_pct": 3.0, "dur_min": 60, "vol_mult": 2.5, "rsi_min": 70.0,
-        "gap_max": 0.8, "win": "0930_1500", "sl_pct": 0.012, "tp_pct": 0.03, "dh": False,
-        "max_per_day": 5, "win_rate": 43.76, "trades_count": 3117,
-        "factors": "Fade S8: 15m +3.0%/60m vol2.5x RSI70 gap0.8",
-        "name": "Fade S8 15m 3.0%/60m",
+        "key": "T2", "rank": 941, "interval": "15m", "period": "60d",
+        "shoot_pct": 3.5, "dur_min": 90, "vol_mult": 2.0, "rsi_min": 60.0,
+        "gap_max": None, "win": "0930_1500", "sl_pct": 0.013, "tp_pct": 0.039, "dh": False,
+        "max_per_day": 5, "win_rate": 50.0, "trades_count": 16,
+        "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+        "name": "Fade T2 15m 3.5%/90m 3:1RR",
     },
     {
         "key": "S9", "rank": 908, "interval": "5m", "period": "60d",
@@ -425,16 +429,7 @@ FADE_VARIANTS = [
     # Fresh-code raw-parquet verification (indep_verify_raw.py): shoot 3% vs
     # prev 1h close, vol 2.2x, RSI>=70, prev-day-high break, SL1.5/TP3.75,
     # 10:00-12:59 IST, 0.1% costs -> OOS window (last 8 mo of 2-yr data):
-    # realistic 1-pos-at-a-time +187.3% (333 trades, win 44.3%, maxDD -19.3%).
-    {
-        "key": "V1", "rank": 991, "interval": "1h", "period": "3mo",
-        "shoot_pct": 3.0, "dur_min": 15, "vol_mult": 2.2, "rsi_min": 70.0,
-        "gap_max": None, "win": "1000_1300", "sl_pct": 0.015, "tp_pct": 0.0375,
-        "dh": False, "ph": True, "shoot_mode": "close_close",
-        "max_per_day": 2, "win_rate": 44.3, "trades_count": 333,
-        "factors": "Fade V1: 1h +3.0% prev-close vol2.2x RSI70 prev-high (raw-verified)",
-        "name": "Fade V1 1h 3.0% raw-verified",
-    },
+    # V1 REMOVED: close_close mode produces 0 signals on FADE universe (fresh test Aug 2026)
     # ── Legacy 1h FADE family (v5.12-v5.14, re-added per user request) ──
     {
         "key": "H1", "rank": 996, "interval": "1h", "period": "3mo",
