@@ -8889,5 +8889,23 @@
     "pattern_factors": "Price>SMA50+SMA20<SMA50",
     "reason": "#68SW Price>SMA50+SMA20<SMA50 | SL Hit (intraday)",
     "signal_indicators": ""
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 21:08:34 IST",
+    "entry_datetime": "2026-08-18 00:20:52 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "entry_price": 30037.75,
+    "exit_price": 29431.12,
+    "qty": 1,
+    "pnl": -612.64,
+    "pnl_pct": -2.04,
+    "hold": "20h 47m",
+    "pattern_rank": 31,
+    "expected_win_rate": 65.29,
+    "pattern_factors": "Price>SMA50+2Red",
+    "reason": "#31SW Price>SMA50+2Red | \ud83c\udfaf SL Hit (live)"
   }
 ]

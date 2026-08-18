@@ -1,7 +1,7 @@
 {
   "capital_by_market": {
     "INDIAN": 100000.0,
-    "US": 100777.72000000002,
+    "US": 100165.08000000002,
     "CRYPTO": 99968.0,
     "INTRADAY": 108601.76999999997,
     "FADE": 89494.82000000002,
@@ -198,29 +198,6 @@
       "Date": "2026-08-18",
       "Time_IST": "00:20:52 IST",
       "Mode": "US",
-      "Ticker": "^NDX",
-      "Direction": "LONG",
-      "TimeFrame": "SWING_1d",
-      "Entry_Price": 30037.75,
-      "Qty": 1,
-      "SL": 29434.06,
-      "Target": 31236.14,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 31,
-      "Expected_WinRate": 65.29,
-      "Pattern_Factors": "Price>SMA50+2Red",
-      "Reason": "#31SW Price>SMA50+2Red",
-      "Signal_Indicators": "{\"2Green\": 0.0, \"BB_lo\": 27286.095909, \"BB_hi\": 30739.932411, \"EMA50\": 29094.133399, \"SMA50\": 29296.19418, \"high20\": 30179.820312, \"low50\": 27176.029297, \"Open\": 30150.775391, \"Volume\": 738669961.0, \"2Red\": 1.0, \"EMA200\": 27018.968072, \"RSI14\": 59.464348, \"low20\": 27176.029297, \"Ret\": -0.000379, \"EMA20\": 29369.788772, \"high50\": 30642.570312, \"Low\": 29991.732422, \"Close\": 30034.75, \"EMA9\": 29690.135225, \"SMA20\": 29013.01416, \"High\": 30195.71875}"
-    },
-    {
-      "Date": "2026-08-18",
-      "Time_IST": "00:20:52 IST",
-      "Mode": "US",
       "Ticker": "OEF",
       "Direction": "LONG",
       "TimeFrame": "SWING_1d",
@@ -287,13 +264,13 @@
       "Signal_Indicators": "{\"Close\": 267.74, \"AnchorHigh\": 302.0, \"Trigger\": 271.8}"
     }
   ],
-  "closed_count": 123,
+  "closed_count": 124,
   "total_wins": 55,
-  "total_losses": 68,
-  "total_pnl": -78.33999999999833,
+  "total_losses": 69,
+  "total_pnl": -690.9799999999996,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
-    "US": 777.72,
+    "US": 165.08000000000015,
     "CRYPTO": -32.0,
     "INTRADAY": 8601.77,
     "FADE": -10505.179999999998,
@@ -301,5 +278,5 @@
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 799921.66
+  "total_capital": 799309.0199999999
 }
