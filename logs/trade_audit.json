@@ -8852,5 +8852,23 @@
     "expected_win_rate": 52.14,
     "pattern_factors": "Price>SMA50+SMA20<SMA50",
     "reason": "#47SW Price>SMA50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 19:43:38 IST",
+    "entry_datetime": "2026-08-18 07:41:47 IST",
+    "mode": "CRYPTO",
+    "ticker": "AVAX-USD",
+    "direction": "SHORT",
+    "entry_price": 6.31,
+    "exit_price": 6.35,
+    "qty": 9257,
+    "pnl": -536.17,
+    "pnl_pct": -0.92,
+    "hold": "12h 1m",
+    "pattern_rank": 1,
+    "expected_win_rate": 47.42,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
   }
 ]

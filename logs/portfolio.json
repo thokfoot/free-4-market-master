@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 101821.28000000001,
     "CRYPTO": 99968.0,
-    "INTRADAY": 109137.93999999997,
+    "INTRADAY": 108601.76999999997,
     "FADE": 89494.82000000002,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
@@ -288,29 +288,6 @@
     },
     {
       "Date": "2026-08-18",
-      "Time_IST": "07:41:47 IST",
-      "Mode": "CRYPTO",
-      "Ticker": "AVAX-USD",
-      "Direction": "SHORT",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 6.31,
-      "Qty": 9257,
-      "SL": 6.43,
-      "Target": 6.14,
-      "MaxHold": 12,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 1,
-      "Expected_WinRate": 47.42,
-      "Pattern_Factors": "EMA9>EMA20+Price>SMA20+RSI<50",
-      "Reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
-      "Signal_Indicators": "{\"Open\": 6.392, \"EMA50\": 6.357004, \"2Red\": 0.0, \"SMA50\": 6.33944, \"Close\": 6.333, \"Volume\": 1471296.0, \"EMA9\": 6.338219, \"RSI14\": 48.906807, \"High\": 6.434, \"SMA20\": 6.32995, \"EMA20\": 6.3357, \"Low\": 6.327, \"Ret\": -0.007678}"
-    },
-    {
-      "Date": "2026-08-18",
       "Time_IST": "18:33:40 IST",
       "Mode": "INDIAN",
       "Ticker": "BLS.NS",
@@ -333,19 +310,19 @@
       "Signal_Indicators": "{\"Close\": 267.74, \"AnchorHigh\": 302.0, \"Trigger\": 271.8}"
     }
   ],
-  "closed_count": 121,
+  "closed_count": 122,
   "total_wins": 55,
-  "total_losses": 66,
-  "total_pnl": 1501.389999999999,
+  "total_losses": 67,
+  "total_pnl": 965.2199999999991,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 1821.28,
     "CRYPTO": -32.0,
-    "INTRADAY": 9137.94,
+    "INTRADAY": 8601.77,
     "FADE": -10505.179999999998,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 801501.39
+  "total_capital": 800965.22
 }

@@ -136,11 +136,11 @@
   },
   "1": {
     "rank": 1,
-    "factors": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h",
     "wins": 3,
-    "losses": 5,
-    "total_pnl": 120.74999999999989,
-    "consec_losses": 1,
+    "losses": 6,
+    "total_pnl": -415.4200000000001,
+    "consec_losses": 2,
     "paused_since": null
   },
   "4": {
