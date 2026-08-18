@@ -7962,5 +7962,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
     "skip_reason": "Duplicate GODAVARIB.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 11:18:18 IST",
+    "entry_datetime": "2026-08-18 10:11:33 IST",
+    "mode": "INDIAN",
+    "ticker": "MANAKCOAT.NS",
+    "direction": "SHORT",
+    "entry_price": 124.28,
+    "exit_price": 125.95,
+    "qty": 598,
+    "pnl": -1090.47,
+    "pnl_pct": -1.47,
+    "hold": "1h 6m",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
   }
 ]
