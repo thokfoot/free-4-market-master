@@ -320,11 +320,11 @@
   },
   "905": {
     "rank": 905,
-    "factors": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | SL Hit (intraday)",
-    "wins": 0,
+    "factors": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | \ud83c\udfaf Target Hit (live)",
+    "wins": 1,
     "losses": 1,
-    "total_pnl": -1116.53,
-    "consec_losses": 1,
+    "total_pnl": 1196.2900000000002,
+    "consec_losses": 0,
     "paused_since": null
   }
 }
