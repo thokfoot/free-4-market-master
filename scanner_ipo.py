@@ -204,11 +204,11 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
                         signal["reason"] = "Already entered (once-per-IPO)"
                     else:
                         signal["fired"] = True
-                        signal["reason"] = "Crossed -10% of listing anchor (%.2f)" % trigger
+                        signal["reason"] = f"Crossed -10%% of listing anchor ({trigger:.2f})"
                 elif close <= trigger:
                     signal["reason"] = "Below trigger but cross was earlier (no backfill)"
                 else:
-                    signal["reason"] = "Above trigger (%.2f) - watching" % trigger
+                    signal["reason"] = f"Above trigger ({trigger:.2f}) - watching"
         elif strat == "BREAK":
             # Anchor = listing-day high (first session). Fire ONLY on the bar
             # where close crosses ABOVE the anchor within break_max_days of
@@ -228,11 +228,11 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
                         signal["reason"] = "Already entered (once-per-IPO)"
                     else:
                         signal["fired"] = True
-                        signal["reason"] = "Close > listing-day high (%.2f) breakout" % anchor
+                        signal["reason"] = f"Close > listing-day high ({anchor:.2f}) breakout"
                 elif close > anchor:
                     signal["reason"] = "Above listing high but cross was earlier (no backfill)"
                 else:
-                    signal["reason"] = "Below listing high (%.2f) - watching" % anchor
+                    signal["reason"] = f"Below listing high ({anchor:.2f}) - watching"
         else:  # SHORT
             # day-2 bar = 3rd session; must be the LATEST completed bar (fresh listing)
             if len(df) >= 3:
