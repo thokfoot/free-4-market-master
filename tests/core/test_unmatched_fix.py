@@ -89,12 +89,24 @@ class TestMatchDefGapDown:
 class TestRealDataZeroUnmatched:
     """End-to-end: every trade in the live CSV must resolve to a def."""
 
+    # Strategies removed on 2026-08-18 (weak/negative independent backtest,
+    # better variants for the same tickers already deployed). Their historical
+    # trades can no longer match a def — that is expected.
+    RETIRED = {
+        ("SWING_1d", 46, "QQQ", "LONG"),
+        ("INTRADAY_1h", 30, "IWM", "LONG"),
+        ("INTRADAY_1h", 38, "XLF", "SHORT"),
+        ("SWING_1d", 1, "XLC", "LONG"),
+        ("SWING_1d", 76, "DIA", "LONG"),
+        ("SWING_1d", 5, "XLY", "LONG"),
+    }
+
     def test_zero_unmatched_on_live_data(self):
         defs = sr._load_strategy_defs()
         trades = sr._load_trades()
         assert len(trades) > 0, "expected live paper_trades.csv to exist"
 
-        unmatched = 0
+        unmatched = []
         for t in trades:
             tf = str(t.get("TimeFrame", "SWING_1d"))
             try:
@@ -105,8 +117,9 @@ class TestRealDataZeroUnmatched:
             direction = str(t.get("Direction", "LONG")).upper()
             factors = str(t.get("Pattern_Factors", "")).strip()
             if sr._match_def(defs, tf, rank, ticker, direction, factors) is None:
-                unmatched += 1
-        assert unmatched == 0, f"{unmatched} trades still unmatched"
+                if (tf, rank, ticker, direction) not in self.RETIRED:
+                    unmatched.append((tf, rank, ticker, direction, factors[:30]))
+        assert unmatched == [], f"{len(unmatched)} trades still unmatched: {unmatched}"
 
     def test_gapdown_defs_have_gapdown_tf(self):
         defs = sr._load_strategy_defs()
