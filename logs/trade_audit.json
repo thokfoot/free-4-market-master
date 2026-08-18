@@ -1188,7 +1188,7 @@
     "pattern_rank": 52,
     "expected_win_rate": 71.43,
     "pattern_factors": "Price>SMA20+EMA9<EMA20+Close>Open",
-    "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | 🎯 Target Hit (live)",
+    "reason": "#52SW Price>SMA20+EMA9<EMA20+Close>Open | \ud83c\udfaf Target Hit (live)",
     "entry_datetime": "2026-08-04 01:18:05 IST",
     "hold": "1d 18h 37m 14s"
   },
@@ -3541,7 +3541,7 @@
     "pattern_rank": 900,
     "expected_win_rate": 39.38,
     "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
-    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | 🎯 SL Hit (live)"
+    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -3559,7 +3559,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -3577,7 +3577,7 @@
     "pattern_rank": 920,
     "expected_win_rate": 47.68,
     "pattern_factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
-    "reason": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | 🎯 SL Hit (live)"
+    "reason": "#920ID Fade G11: 15m +3.0%/30m vol2.5x RSI60 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -3595,7 +3595,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT",
@@ -4131,7 +4131,7 @@
     "pattern_rank": 903,
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | 🎯 SL Hit (live)"
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "ENTRY",
@@ -4508,7 +4508,7 @@
     "pattern_rank": 902,
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)"
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4526,7 +4526,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 Target Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf Target Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4544,7 +4544,7 @@
     "pattern_rank": 908,
     "expected_win_rate": 42.48,
     "pattern_factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
-    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | 🎯 SL Hit (live)"
+    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4562,7 +4562,7 @@
     "pattern_rank": 908,
     "expected_win_rate": 42.48,
     "pattern_factors": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
-    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | 🎯 SL Hit (live)"
+    "reason": "#908ID Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "SKIP",
@@ -4620,7 +4620,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -4638,7 +4638,7 @@
     "pattern_rank": 996,
     "expected_win_rate": 41.6,
     "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
-    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | 🎯 Target Hit (live)"
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf Target Hit (live)"
   },
   {
     "event": "EXIT",
@@ -6213,7 +6213,7 @@
     "pattern_rank": 902,
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)"
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "SKIP",
@@ -6470,7 +6470,7 @@
     "pattern_rank": 902,
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | 🎯 SL Hit (live)"
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6488,7 +6488,7 @@
     "pattern_rank": 904,
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | 🎯 SL Hit (live)"
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6506,7 +6506,7 @@
     "pattern_rank": 935,
     "expected_win_rate": 54.3,
     "pattern_factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
-    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | 🎯 SL Hit (live)"
+    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "ENTRY",
@@ -6824,7 +6824,7 @@
     "pattern_rank": 900,
     "expected_win_rate": 39.38,
     "pattern_factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
-    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | 🎯 SL Hit (live)"
+    "reason": "#900ID Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6842,7 +6842,7 @@
     "pattern_rank": 935,
     "expected_win_rate": 54.3,
     "pattern_factors": "Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down 10:30-12:30",
-    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | 🎯 Target Hit (live)"
+    "reason": "#935ID Long L1: 5m -3.5%/90m vol2.5x RSI<=45 gap1.5 below-VWAP&down | \ud83c\udfaf Target Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6860,7 +6860,7 @@
     "pattern_rank": 996,
     "expected_win_rate": 41.6,
     "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
-    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | 🎯 SL Hit (live)"
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT (Live)",
@@ -6878,7 +6878,7 @@
     "pattern_rank": 903,
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | 🎯 SL Hit (live)"
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT",
@@ -7036,7 +7036,7 @@
     "pattern_rank": 5,
     "expected_win_rate": 54.05,
     "pattern_factors": "Close>Open+Range<1%",
-    "reason": "#5SW Close>Open+Range<1% | 🎯 SL Hit (live)"
+    "reason": "#5SW Close>Open+Range<1% | \ud83c\udfaf SL Hit (live)"
   },
   {
     "event": "EXIT",
@@ -7253,5 +7253,21 @@
     "tf": "SWING_1d",
     "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
     "skip_reason": "Duplicate XLB LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-18 07:41:47 IST",
+    "mode": "CRYPTO",
+    "ticker": "AVAX-USD",
+    "direction": "SHORT",
+    "entry_price": 6.31,
+    "qty": 9257,
+    "sl": 6.43,
+    "target": 6.14,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.42,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"Open\": 6.392, \"EMA50\": 6.357004, \"2Red\": 0.0, \"SMA50\": 6.33944, \"Close\": 6.333, \"Volume\": 1471296.0, \"EMA9\": 6.338219, \"RSI14\": 48.906807, \"High\": 6.434, \"SMA20\": 6.32995, \"EMA20\": 6.3357, \"Low\": 6.327, \"Ret\": -0.007678}"
   }
 ]
