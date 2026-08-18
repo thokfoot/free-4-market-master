@@ -8816,5 +8816,41 @@
     "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
     "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
     "signal_indicators": "{\"Close\": 267.74, \"AnchorHigh\": 302.0, \"Trigger\": 271.8}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 19:01:05 IST",
+    "entry_datetime": "2026-08-18 00:20:52 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "entry_price": 190.8,
+    "exit_price": 186.94,
+    "qty": 270,
+    "pnl": -1052.15,
+    "pnl_pct": -2.04,
+    "hold": "18h 40m",
+    "pattern_rank": 3,
+    "expected_win_rate": 54.55,
+    "pattern_factors": "RSI>50+SMA20<SMA50",
+    "reason": "#3SW RSI>50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-18 19:01:05 IST",
+    "entry_datetime": "2026-08-18 00:20:52 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "entry_price": 12695.43,
+    "exit_price": 12439.03,
+    "qty": 4,
+    "pnl": -1035.78,
+    "pnl_pct": -2.04,
+    "hold": "18h 40m",
+    "pattern_rank": 47,
+    "expected_win_rate": 52.14,
+    "pattern_factors": "Price>SMA50+SMA20<SMA50",
+    "reason": "#47SW Price>SMA50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)"
   }
 ]

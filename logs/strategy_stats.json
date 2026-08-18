@@ -64,11 +64,11 @@
   },
   "3": {
     "rank": 3,
-    "factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "factors": "#3SW RSI>50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)",
     "wins": 8,
-    "losses": 1,
-    "total_pnl": 6020.87,
-    "consec_losses": 0,
+    "losses": 2,
+    "total_pnl": 4968.719999999999,
+    "consec_losses": 1,
     "paused_since": null
   },
   "5": {
@@ -357,6 +357,15 @@
     "losses": 1,
     "total_pnl": 1196.2900000000002,
     "consec_losses": 0,
+    "paused_since": null
+  },
+  "47": {
+    "rank": 47,
+    "factors": "#47SW Price>SMA50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1035.78,
+    "consec_losses": 1,
     "paused_since": null
   }
 }
