@@ -22,3 +22,4 @@ Date,Time,Mode,Tickers_Scanned,Errors,Patterns_Total,Patterns_Fired,New_Entries,
 2026-08-17,07:45:54 IST,SWING,36.0,0.0,228.0,33.0,3.0,0.0,14.0,777806.0,-22194.0,Sent
 2026-08-18,00:20:30 IST,SWING,36.0,0.0,228.0,31.0,5.0,4.0,14.0,778016.0,-21984.0,Sent
 2026-08-18,13:49:59 IST,GAPDOWN,0.0,0.0,0.0,0.0,0.0,0.0,22.0,806235.0,6235.0,Skipped (no events)
+2026-08-18,14:29:16 IST,GAPDOWN,0.0,0.0,0.0,0.0,0.0,0.0,22.0,804114.0,4114.0,Skipped (no events)
