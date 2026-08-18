@@ -7865,5 +7865,24 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
     "skip_reason": "Duplicate NETWEB.NS SHORT already open"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-18 10:32:17 IST",
+    "entry_datetime": "2026-08-18 10:11:33 IST",
+    "mode": "INDIAN",
+    "ticker": "SOUTHWEST.NS",
+    "direction": "SHORT",
+    "entry_price": 233.6,
+    "exit_price": 236.3,
+    "qty": 375,
+    "pnl": -1116.53,
+    "pnl_pct": -1.27,
+    "hold": "20m 44s",
+    "pattern_rank": 905,
+    "expected_win_rate": 41.53,
+    "pattern_factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "reason": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | SL Hit (intraday)",
+    "signal_indicators": ""
   }
 ]
