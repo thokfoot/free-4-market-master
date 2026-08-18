@@ -7884,5 +7884,83 @@
     "pattern_factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
     "reason": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | SL Hit (intraday)",
     "signal_indicators": ""
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "SOUTHWEST.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: SOUTHWEST.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "GODAVARIB.NS",
+    "direction": "SHORT",
+    "entry_price": 252.71,
+    "qty": 290,
+    "sl": 255.93,
+    "target": 245.31,
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "signal_indicators": "{\"Close\": 252.9, \"Volume\": 17644, \"VolAvg20\": 4019.0, \"RSI14\": 68.0, \"Shoot_pct\": 3.16, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.58}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "AVALON.NS",
+    "direction": "SHORT",
+    "entry_price": 2123.14,
+    "qty": 35,
+    "sl": 2149.69,
+    "target": 2060.47,
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "signal_indicators": "{\"Close\": 2124.2, \"Volume\": 147700, \"VolAvg20\": 24688.0, \"RSI14\": 69.2, \"Shoot_pct\": 3.07, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.58}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "JINDWORLD.NS",
+    "direction": "SHORT",
+    "entry_price": 36.46,
+    "qty": 2278,
+    "sl": 36.87,
+    "target": 35.41,
+    "pattern_rank": 906,
+    "expected_win_rate": 42.12,
+    "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "signal_indicators": "{\"Close\": 36.5, \"Volume\": 288842, \"VolAvg20\": 59461.0, \"RSI14\": 70.6, \"Shoot_pct\": 2.5, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.58}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "SOUTHWEST.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: SOUTHWEST.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-18 10:46:58 IST",
+    "mode": "INDIAN",
+    "ticker": "GODAVARIB.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Duplicate GODAVARIB.NS SHORT already open"
   }
 ]
