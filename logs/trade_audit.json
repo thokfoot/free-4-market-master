@@ -11104,5 +11104,23 @@
     "expected_win_rate": 61.47,
     "pattern_factors": "Range<1%+SMA20<EMA20",
     "reason": "#4SW Range<1%+SMA20<EMA20 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 20:30:05 IST",
+    "entry_datetime": "2026-08-16 07:48:23 IST",
+    "mode": "CRYPTO",
+    "ticker": "ETH-USD",
+    "direction": "LONG",
+    "entry_price": 1880.0,
+    "exit_price": 1951.29,
+    "qty": 25,
+    "pnl": 1641.17,
+    "pnl_pct": 3.49,
+    "hold": "3d 12h 41m",
+    "pattern_rank": 32,
+    "expected_win_rate": 80.0,
+    "pattern_factors": "Price<SMA20+Price>SMA50+2Red",
+    "reason": "#32SW Price<SMA20+Price>SMA50+2Red | \ud83c\udfaf Target Hit (live)"
   }
 ]
