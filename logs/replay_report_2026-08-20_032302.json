@@ -1,0 +1,25 @@
+{
+  "generated": "2026-08-19 21:52:37.719208+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-08-19 21:52:37.719208+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "BLS.NS",
+      "direction": "LONG",
+      "tf": "IPO_1d",
+      "entry": 267.94,
+      "sl": 246.32,
+      "target": 281.13,
+      "exit_price": 271.6,
+      "exit_reason": "Expiry",
+      "exit_utc": "2026-08-19 08:45:00+00:00",
+      "pnl": 770.3
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}

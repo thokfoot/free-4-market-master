@@ -7,7 +7,7 @@
     "FADE": 89046.76000000005,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
-    "IPO": 100000.0
+    "IPO": 100770.3
   },
   "open_positions": [
     {
@@ -147,29 +147,6 @@
       "Pattern_Factors": "2Red+EMA20>EMA50+Price>SMA50",
       "Reason": "#5SW 2Red+EMA20>EMA50+Price>SMA50",
       "Signal_Indicators": "{\"2Green\": 0.0, \"BB_lo\": 108.49511, \"BB_hi\": 122.881389, \"EMA50\": 116.401473, \"SMA50\": 115.9635, \"high20\": 120.440002, \"low50\": 108.290001, \"Open\": 117.959999, \"Volume\": 3562102.0, \"2Red\": 1.0, \"EMA200\": 115.799748, \"RSI14\": 50.297632, \"low20\": 108.290001, \"Ret\": -0.01231, \"EMA20\": 116.924295, \"high50\": 120.440002, \"Low\": 116.494102, \"Close\": 116.745003, \"EMA9\": 117.759474, \"SMA20\": 115.68825, \"High\": 117.959999}"
-    },
-    {
-      "Date": "2026-08-18",
-      "Time_IST": "18:33:40 IST",
-      "Mode": "INDIAN",
-      "Ticker": "BLS.NS",
-      "Direction": "LONG",
-      "TimeFrame": "IPO_1d",
-      "Entry_Price": 267.94,
-      "Qty": 231,
-      "SL": 246.32,
-      "Target": 281.13,
-      "MaxHold": 20,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 936,
-      "Expected_WinRate": 100.0,
-      "Pattern_Factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
-      "Reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
-      "Signal_Indicators": "{\"Close\": 267.74, \"AnchorHigh\": 302.0, \"Trigger\": 271.8}"
     },
     {
       "Date": "2026-08-19",
@@ -333,10 +310,10 @@
       "Signal_Indicators": "{\"high50\": 14655.290039, \"2Red\": 1.0, \"SMA50\": 12560.484199, \"SMA20\": 11879.24458, \"Volume\": 0.0, \"2Green\": 0.0, \"Ret\": -0.018728, \"RSI14\": 45.395373, \"Close\": 11767.862305, \"EMA50\": 12109.407205, \"BB_hi\": 12987.608313, \"High\": 12138.508789, \"high20\": 12770.709961, \"low50\": 10445.44043, \"EMA9\": 12123.512074, \"low20\": 10445.44043, \"BB_lo\": 10770.880847, \"EMA20\": 12106.515365, \"Low\": 11633.796875, \"EMA200\": 10051.141803, \"Open\": 12063.850586}"
     }
   ],
-  "closed_count": 142,
-  "total_wins": 62,
+  "closed_count": 143,
+  "total_wins": 63,
   "total_losses": 80,
-  "total_pnl": -904.9199999999977,
+  "total_pnl": -134.6199999999975,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
@@ -345,7 +322,7 @@
     "FADE": -10953.239999999998,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
-    "IPO": 0.0
+    "IPO": 770.3
   },
-  "total_capital": 799095.08
+  "total_capital": 799865.38
 }

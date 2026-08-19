@@ -11208,5 +11208,24 @@
     "tf": "SWING_1d",
     "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
     "skip_reason": "Duplicate OEF LONG already open"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-19 14:15:00 IST",
+    "entry_datetime": "2026-08-18 18:33:40 IST",
+    "mode": "INDIAN",
+    "ticker": "BLS.NS",
+    "direction": "LONG",
+    "entry_price": 267.94,
+    "exit_price": 271.6,
+    "qty": "231",
+    "pnl": 770.3,
+    "pnl_pct": 1.24,
+    "hold": "19.7h",
+    "pattern_rank": 936,
+    "expected_win_rate": 100.0,
+    "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d | Expiry",
+    "signal_indicators": "{\"Close\": 267.74, \"AnchorHigh\": 302.0, \"Trigger\": 271.8}"
   }
 ]
