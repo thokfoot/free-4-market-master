@@ -9830,5 +9830,45 @@
     "expected_win_rate": 60.0,
     "pattern_factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
     "reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:14:32 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:14:32 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:14:32 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:14:32 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
   }
 ]
