@@ -67,9 +67,10 @@
     "DCMSHRIRAM.NS": "2026-08-19T12:38:32.713681+05:30",
     "BLSE.NS": "2026-08-19T10:17:54.118385+05:30",
     "HIRECT.NS": "2026-08-19T10:50:56.129316+05:30",
-    "SALSTEEL.NS": "2026-08-19T11:26:32.234324+05:30",
+    "SALSTEEL.NS": "2026-08-19T13:50:50.910702+05:30",
     "LAXMICOT.NS": "2026-08-19T12:25:39.946787+05:30",
-    "GODFRYPHLP.NS": "2026-08-19T12:25:39.946787+05:30"
+    "GODFRYPHLP.NS": "2026-08-19T12:25:39.946787+05:30",
+    "AVROIND.NS": "2026-08-19T13:50:50.910702+05:30"
   },
   "last_pnl": {
     "DIA": -0.73,
@@ -89,7 +90,7 @@
     "^NYA": -0.72,
     "XLB": -1.5,
     "OEF": -0.61,
-    "ETH-USD": 1.83,
+    "ETH-USD": 1.87,
     "XLI": -1.58,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -133,14 +134,15 @@
     "GODAVARIB.NS": -0.89,
     "JINDWORLD.NS": 0.16,
     "ARIES.NS": 2.87,
-    "BLS.NS": 1.37,
+    "BLS.NS": 1.27,
     "XLE": 0.17,
     "LINK-USD": -1.7,
-    "DCMSHRIRAM.NS": 0.42,
-    "BLSE.NS": 0.75,
-    "HIRECT.NS": 1.75,
-    "SALSTEEL.NS": -1.11,
+    "DCMSHRIRAM.NS": 0.47,
+    "BLSE.NS": 0.84,
+    "HIRECT.NS": 1.64,
+    "SALSTEEL.NS": -0.1,
     "LAXMICOT.NS": -0.06,
-    "GODFRYPHLP.NS": 1.98
+    "GODFRYPHLP.NS": 1.88,
+    "AVROIND.NS": 0.0
   }
 }
