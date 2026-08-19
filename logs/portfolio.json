@@ -4,7 +4,7 @@
     "US": 99270.51000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 107113.18999999997,
-    "FADE": 85006.60000000003,
+    "FADE": 87136.57000000004,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100000.0
@@ -426,29 +426,6 @@
     },
     {
       "Date": "2026-08-19",
-      "Time_IST": "14:38:22 IST",
-      "Mode": "INDIAN",
-      "Ticker": "LAXMICOT.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 15.58,
-      "Qty": 3881,
-      "SL": 15.8,
-      "Target": 14.99,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 940,
-      "Expected_WinRate": 60.0,
-      "Pattern_Factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
-      "Reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
-      "Signal_Indicators": "{\"Close\": 15.65, \"Volume\": 62755, \"VolAvg20\": 394.0, \"RSI14\": 66.0, \"Shoot_pct\": 6.1, \"NearDayHigh\": false, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.01}"
-    },
-    {
-      "Date": "2026-08-19",
       "Time_IST": "15:23:56 IST",
       "Mode": "INDIAN",
       "Ticker": "ARIHANTCAP.NS",
@@ -494,19 +471,19 @@
       "Signal_Indicators": "{\"Close\": 564.15, \"AnchorHigh\": 629.2, \"Trigger\": 566.28}"
     }
   ],
-  "closed_count": 134,
-  "total_wins": 57,
+  "closed_count": 135,
+  "total_wins": 58,
   "total_losses": 77,
-  "total_pnl": -7562.3499999999985,
+  "total_pnl": -5432.379999999999,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -729.4899999999996,
     "CRYPTO": -32.0,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -14993.399999999998,
+    "FADE": -12863.429999999998,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 792437.65
+  "total_capital": 794567.62
 }

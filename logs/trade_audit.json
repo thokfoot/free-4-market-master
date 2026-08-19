@@ -10978,5 +10978,23 @@
     "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
     "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
     "signal_indicators": "{\"Close\": 564.15, \"AnchorHigh\": 629.2, \"Trigger\": 566.28}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 15:26:20 IST",
+    "entry_datetime": "2026-08-19 14:38:22 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "entry_price": 15.58,
+    "exit_price": 15.01,
+    "qty": 3881,
+    "pnl": 2129.97,
+    "pnl_pct": 3.52,
+    "hold": "47m 58s",
+    "pattern_rank": 940,
+    "expected_win_rate": 60.0,
+    "pattern_factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+    "reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri | \ud83c\udfaf Target Hit (live)"
   }
 ]
