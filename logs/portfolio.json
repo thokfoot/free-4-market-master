@@ -4,7 +4,7 @@
     "US": 99270.51000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 107113.18999999997,
-    "FADE": 89494.82000000002,
+    "FADE": 88498.15000000002,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100000.0
@@ -405,29 +405,6 @@
       "Date": "2026-08-19",
       "Time_IST": "10:47:57 IST",
       "Mode": "INDIAN",
-      "Ticker": "RPEL.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 1558.02,
-      "Qty": 45,
-      "SL": 1577.51,
-      "Target": 1502.68,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 902,
-      "Expected_WinRate": 42.84,
-      "Pattern_Factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Signal_Indicators": "{\"Close\": 1558.7, \"Volume\": 16044, \"VolAvg20\": 5296.0, \"RSI14\": 84.0, \"Shoot_pct\": 3.62, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
-    },
-    {
-      "Date": "2026-08-19",
-      "Time_IST": "10:47:57 IST",
-      "Mode": "INDIAN",
       "Ticker": "HIRECT.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -448,19 +425,19 @@
       "Signal_Indicators": "{\"Close\": 1288.2, \"Volume\": 3703, \"VolAvg20\": 1241.0, \"RSI14\": 72.7, \"Shoot_pct\": 3.3, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
     }
   ],
-  "closed_count": 127,
+  "closed_count": 128,
   "total_wins": 55,
-  "total_losses": 72,
-  "total_pnl": -3074.129999999999,
+  "total_losses": 73,
+  "total_pnl": -4070.7999999999993,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -729.4899999999996,
     "CRYPTO": -32.0,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -10505.179999999998,
+    "FADE": -11501.849999999999,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 796925.87
+  "total_capital": 795929.2
 }

@@ -298,11 +298,11 @@
   },
   "902": {
     "rank": 902,
-    "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)",
     "wins": 0,
-    "losses": 5,
-    "total_pnl": -4263.3099999999995,
-    "consec_losses": 0,
+    "losses": 6,
+    "total_pnl": -5259.98,
+    "consec_losses": 1,
     "paused_since": null
   },
   "996": {
