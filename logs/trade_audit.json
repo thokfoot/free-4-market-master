@@ -11122,5 +11122,15 @@
     "expected_win_rate": 80.0,
     "pattern_factors": "Price<SMA20+Price>SMA50+2Red",
     "reason": "#32SW Price<SMA20+Price>SMA50+2Red | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 20:32:57 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price<SMA20+Price>SMA50+EMA9<EMA20",
+    "skip_reason": "Cooldown: IWM LONG INTRADAY_1h closed <120m ago"
   }
 ]
