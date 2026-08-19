@@ -385,5 +385,14 @@
     "total_pnl": -1034.34,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "940": {
+    "rank": 940,
+    "factors": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri | \ud83c\udfaf SL Hit (",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1044.2,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }
