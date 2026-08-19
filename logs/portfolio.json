@@ -4,7 +4,7 @@
     "US": 99270.51000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 107113.18999999997,
-    "FADE": 88498.15000000002,
+    "FADE": 87463.81000000003,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100000.0
@@ -423,44 +423,21 @@
       "Pattern_Factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
       "Reason": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
       "Signal_Indicators": "{\"Close\": 1288.2, \"Volume\": 3703, \"VolAvg20\": 1241.0, \"RSI14\": 72.7, \"Shoot_pct\": 3.3, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
-    },
-    {
-      "Date": "2026-08-19",
-      "Time_IST": "11:23:34 IST",
-      "Mode": "INDIAN",
-      "Ticker": "SALSTEEL.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 76.85,
-      "Qty": 884,
-      "SL": 77.85,
-      "Target": 74.16,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 910,
-      "Expected_WinRate": 43.46,
-      "Pattern_Factors": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
-      "Reason": "#910ID Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
-      "Signal_Indicators": "{\"Close\": 76.89, \"Volume\": 126524, \"VolAvg20\": 72664.0, \"RSI14\": 71.4, \"Shoot_pct\": 4.68, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
     }
   ],
-  "closed_count": 128,
+  "closed_count": 129,
   "total_wins": 55,
-  "total_losses": 73,
-  "total_pnl": -4070.7999999999993,
+  "total_losses": 74,
+  "total_pnl": -5105.139999999999,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -729.4899999999996,
     "CRYPTO": -32.0,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -11501.849999999999,
+    "FADE": -12536.189999999999,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 795929.2
+  "total_capital": 794894.86
 }

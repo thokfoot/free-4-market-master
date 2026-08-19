@@ -376,5 +376,14 @@
     "total_pnl": -1043.56,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "910": {
+    "rank": 910,
+    "factors": "#910ID Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1034.34,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }
