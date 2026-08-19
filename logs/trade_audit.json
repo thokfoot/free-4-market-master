@@ -11086,5 +11086,23 @@
     "expected_win_rate": 52.32,
     "pattern_factors": "EMA9>EMA20+Range<1%",
     "reason": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 19:50:06 IST",
+    "entry_datetime": "2026-08-16 07:48:23 IST",
+    "mode": "US",
+    "ticker": "XLI",
+    "direction": "LONG",
+    "entry_price": 186.53,
+    "exit_price": 182.76,
+    "qty": 274,
+    "pnl": -1042.73,
+    "pnl_pct": -2.04,
+    "hold": "3d 12h 1m",
+    "pattern_rank": 4,
+    "expected_win_rate": 61.47,
+    "pattern_factors": "Range<1%+SMA20<EMA20",
+    "reason": "#4SW Range<1%+SMA20<EMA20 | \ud83c\udfaf SL Hit (live)"
   }
 ]
