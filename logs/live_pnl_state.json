@@ -86,7 +86,7 @@
     "^NYA": -0.72,
     "XLB": -1.5,
     "OEF": -0.61,
-    "ETH-USD": 1.66,
+    "ETH-USD": 1.63,
     "XLI": -1.58,
     "XLP": 1.5,
     "RECLTD.NS": -0.12,
@@ -130,11 +130,11 @@
     "GODAVARIB.NS": -0.89,
     "JINDWORLD.NS": 0.16,
     "ARIES.NS": 2.87,
-    "BLS.NS": -0.08,
+    "BLS.NS": -0.04,
     "XLE": 0.17,
     "LINK-USD": -1.7,
-    "DCMSHRIRAM.NS": 0.32,
-    "BLSE.NS": 0.53,
-    "HIRECT.NS": -0.11
+    "DCMSHRIRAM.NS": 0.29,
+    "BLSE.NS": 0.67,
+    "HIRECT.NS": -0.24
   }
 }
