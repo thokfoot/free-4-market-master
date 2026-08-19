@@ -10182,5 +10182,23 @@
     "pattern_factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
     "reason": "#994ID Fade H3: 1h +3.0% vol1.2x RSI60",
     "signal_indicators": "{\"Close\": 79.22, \"Volume\": 320788, \"VolAvg20\": 188911.0, \"RSI14\": 74.7, \"Shoot_pct\": 3.26, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.01}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 14:11:09 IST",
+    "entry_datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "entry_price": 9.04,
+    "exit_price": 9.18,
+    "qty": 6647,
+    "pnl": -1027.65,
+    "pnl_pct": -1.71,
+    "hold": "21m 6s",
+    "pattern_rank": 940,
+    "expected_win_rate": 60.0,
+    "pattern_factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+    "reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri | \ud83c\udfaf SL Hit (live)"
   }
 ]
