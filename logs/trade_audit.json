@@ -9286,5 +9286,91 @@
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
     "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "HIRECT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #903 paused (5 consecutive losses, paused 2026-08-18)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "entry_price": 76.85,
+    "qty": 884,
+    "sl": 77.85,
+    "target": 74.16,
+    "pattern_rank": 910,
+    "expected_win_rate": 43.46,
+    "pattern_factors": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+    "reason": "#910ID Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+    "signal_indicators": "{\"Close\": 76.89, \"Volume\": 126524, \"VolAvg20\": 72664.0, \"RSI14\": 71.4, \"Shoot_pct\": 4.68, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G4: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+    "skip_reason": "Duplicate SALSTEEL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G5: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+    "skip_reason": "Duplicate SALSTEEL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+    "skip_reason": "Duplicate SALSTEEL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+    "skip_reason": "Duplicate SALSTEEL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+    "skip_reason": "Duplicate SALSTEEL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 11:23:34 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Duplicate SALSTEEL.NS SHORT already open"
   }
 ]
