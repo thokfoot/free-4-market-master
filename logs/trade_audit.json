@@ -9176,5 +9176,97 @@
     "expected_win_rate": 47.24,
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "entry_price": 1558.02,
+    "qty": 45,
+    "sl": 1577.51,
+    "target": 1502.68,
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "signal_indicators": "{\"Close\": 1558.7, \"Volume\": 16044, \"VolAvg20\": 5296.0, \"RSI14\": 84.0, \"Shoot_pct\": 3.62, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #903 paused (5 consecutive losses, paused 2026-08-18)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "HIRECT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #903 paused (5 consecutive losses, paused 2026-08-18)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "HIRECT.NS",
+    "direction": "SHORT",
+    "entry_price": 1286.86,
+    "qty": 66,
+    "sl": 1300.38,
+    "target": 1248.88,
+    "pattern_rank": 905,
+    "expected_win_rate": 41.53,
+    "pattern_factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "reason": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "signal_indicators": "{\"Close\": 1288.2, \"Volume\": 3703, \"VolAvg20\": 1241.0, \"RSI14\": 72.7, \"Shoot_pct\": 3.3, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.56}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "HIRECT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate HIRECT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Duplicate RPEL.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "HIRECT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Duplicate HIRECT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 10:47:57 IST",
+    "mode": "INDIAN",
+    "ticker": "RPEL.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate RPEL.NS SHORT already open"
   }
 ]
