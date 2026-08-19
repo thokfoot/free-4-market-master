@@ -9870,5 +9870,317 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
     "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "entry_price": 9.04,
+    "qty": 6647,
+    "sl": 9.17,
+    "target": 8.7,
+    "pattern_rank": 940,
+    "expected_win_rate": 60.0,
+    "pattern_factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+    "reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "signal_indicators": "{\"Close\": 9.0, \"Volume\": 198303, \"VolAvg20\": 21221.0, \"RSI14\": 67.1, \"Shoot_pct\": 5.88, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.01}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #903 paused (5 consecutive losses, paused 2026-08-18)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G2: 15m +4.0%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:03 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "LAXMICOT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+    "skip_reason": "Cooldown: LAXMICOT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+    "skip_reason": "Duplicate AVROIND.NS SHORT already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 13:50:04 IST",
+    "mode": "INDIAN",
+    "ticker": "SALSTEEL.NS",
+    "direction": "SHORT",
+    "entry_price": 79.14,
+    "qty": 726,
+    "sl": 80.33,
+    "target": 76.11,
+    "pattern_rank": 994,
+    "expected_win_rate": 43.9,
+    "pattern_factors": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "reason": "#994ID Fade H3: 1h +3.0% vol1.2x RSI60",
+    "signal_indicators": "{\"Close\": 79.22, \"Volume\": 320788, \"VolAvg20\": 188911.0, \"RSI14\": 74.7, \"Shoot_pct\": 3.26, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.01}"
   }
 ]
