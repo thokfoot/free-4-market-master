@@ -9158,5 +9158,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
     "skip_reason": "Duplicate DCMSHRIRAM.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 10:28:01 IST",
+    "entry_datetime": "2026-08-18 22:27:41 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "SHORT",
+    "entry_price": 0.3308,
+    "exit_price": 0.3336,
+    "qty": 10000,
+    "pnl": -38.32,
+    "pnl_pct": -1.16,
+    "hold": "12h 0m",
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h"
   }
 ]
