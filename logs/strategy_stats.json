@@ -190,11 +190,11 @@
   },
   "2": {
     "rank": 2,
-    "factors": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "factors": "#2SW Price>SMA20+SMA20<SMA50 | SL Hit (intraday)",
     "wins": 1,
-    "losses": 0,
-    "total_pnl": 440.05,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": -454.52000000000004,
+    "consec_losses": 1,
     "paused_since": null
   },
   "25": {

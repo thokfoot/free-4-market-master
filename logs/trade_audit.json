@@ -9039,5 +9039,24 @@
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#2ID EMA9>EMA20+Price>SMA20+RSI<50",
     "signal_indicators": "{\"EMA9\": 9.456613, \"Open\": 9.515, \"Ret\": -0.007146, \"Low\": 9.444, \"2Red\": 0.0, \"Volume\": 0.0, \"High\": 9.515, \"SMA50\": 9.4516, \"Close\": 9.448, \"EMA20\": 9.453193, \"EMA50\": 9.432804, \"SMA20\": 9.4472, \"RSI14\": 49.444614}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-19 07:44:59 IST",
+    "entry_datetime": "2026-08-14 08:51:44 IST",
+    "mode": "US",
+    "ticker": "^DJT",
+    "direction": "LONG",
+    "entry_price": 21930.29,
+    "exit_price": 21487.39,
+    "qty": 2,
+    "pnl": -894.57,
+    "pnl_pct": -2.04,
+    "hold": "4d 22h 53m",
+    "pattern_rank": 2,
+    "expected_win_rate": 60.75,
+    "pattern_factors": "Price>SMA20+SMA20<SMA50",
+    "reason": "#2SW Price>SMA20+SMA20<SMA50 | SL Hit (intraday)",
+    "signal_indicators": ""
   }
 ]

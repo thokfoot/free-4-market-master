@@ -1,7 +1,7 @@
 {
   "capital_by_market": {
     "INDIAN": 100000.0,
-    "US": 100165.08000000002,
+    "US": 99270.51000000001,
     "CRYPTO": 99968.0,
     "INTRADAY": 108601.76999999997,
     "FADE": 89494.82000000002,
@@ -10,29 +10,6 @@
     "IPO": 100000.0
   },
   "open_positions": [
-    {
-      "Date": "2026-08-14",
-      "Time_IST": "08:51:44 IST",
-      "Mode": "US",
-      "Ticker": "^DJT",
-      "Direction": "LONG",
-      "TimeFrame": "SWING_1d",
-      "Entry_Price": 21930.29,
-      "Qty": 2,
-      "SL": 21489.54,
-      "Target": 22805.22,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 2,
-      "Expected_WinRate": 60.75,
-      "Pattern_Factors": "Price>SMA20+SMA20<SMA50",
-      "Reason": "#2SW Price>SMA20+SMA20<SMA50",
-      "Signal_Indicators": "{\"Low\": 21706.529297, \"EMA20\": 21709.269926, \"high20\": 22856.289062, \"Close\": 21928.099609, \"SMA50\": 21934.447109, \"low50\": 20877.189453, \"low20\": 20877.189453, \"BB_hi\": 22969.986474, \"EMA9\": 21597.663008, \"2Red\": 0.0, \"EMA50\": 21649.711973, \"2Green\": 1.0, \"high50\": 22856.289062, \"SMA20\": 21838.179492, \"High\": 21981.060547, \"BB_lo\": 20706.37251, \"RSI14\": 53.287871, \"Open\": 21706.529297, \"Ret\": 0.014971, \"Volume\": 55091251.0, \"EMA200\": 19802.261638}"
-    },
     {
       "Date": "2026-08-16",
       "Time_IST": "07:48:23 IST",
@@ -425,13 +402,13 @@
       "Signal_Indicators": "{\"EMA9\": 9.456613, \"Open\": 9.515, \"Ret\": -0.007146, \"Low\": 9.444, \"2Red\": 0.0, \"Volume\": 0.0, \"High\": 9.515, \"SMA50\": 9.4516, \"Close\": 9.448, \"EMA20\": 9.453193, \"EMA50\": 9.432804, \"SMA20\": 9.4472, \"RSI14\": 49.444614}"
     }
   ],
-  "closed_count": 124,
+  "closed_count": 125,
   "total_wins": 55,
-  "total_losses": 69,
-  "total_pnl": -690.9799999999996,
+  "total_losses": 70,
+  "total_pnl": -1585.5499999999993,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
-    "US": 165.08000000000015,
+    "US": -729.4899999999996,
     "CRYPTO": -32.0,
     "INTRADAY": 8601.77,
     "FADE": -10505.179999999998,
@@ -439,5 +416,5 @@
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 799309.0199999999
+  "total_capital": 798414.45
 }
