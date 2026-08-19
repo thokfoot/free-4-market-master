@@ -3,7 +3,7 @@
     "INDIAN": 100000.0,
     "US": 99270.51000000001,
     "CRYPTO": 99968.0,
-    "INTRADAY": 108601.76999999997,
+    "INTRADAY": 107151.50999999998,
     "FADE": 89494.82000000002,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
@@ -377,44 +377,21 @@
       "Pattern_Factors": "EMA9>EMA50+Range<1%",
       "Reason": "#3SW EMA9>EMA50+Range<1%",
       "Signal_Indicators": "{\"EMA200\": 54.253942, \"Open\": 63.41, \"2Red\": 0.0, \"Volume\": 20822618.0, \"EMA20\": 59.820197, \"BB_lo\": 56.181538, \"EMA50\": 58.261513, \"SMA50\": 57.1629, \"low20\": 57.110001, \"RSI14\": 72.551139, \"low50\": 52.619999, \"EMA9\": 61.242966, \"2Green\": 1.0, \"Ret\": 0.01558, \"Low\": 63.115002, \"high50\": 62.689999, \"High\": 63.709999, \"Close\": 63.555, \"BB_hi\": 63.099963, \"SMA20\": 59.64075, \"high20\": 62.689999}"
-    },
-    {
-      "Date": "2026-08-19",
-      "Time_IST": "00:19:42 IST",
-      "Mode": "CRYPTO",
-      "Ticker": "LINK-USD",
-      "Direction": "SHORT",
-      "TimeFrame": "INTRADAY_1h",
-      "Entry_Price": 9.42,
-      "Qty": 6388,
-      "SL": 9.59,
-      "Target": 9.16,
-      "MaxHold": 12,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 2,
-      "Expected_WinRate": 48.77,
-      "Pattern_Factors": "EMA9>EMA20+Price>SMA20+RSI<50",
-      "Reason": "#2ID EMA9>EMA20+Price>SMA20+RSI<50",
-      "Signal_Indicators": "{\"EMA9\": 9.456613, \"Open\": 9.515, \"Ret\": -0.007146, \"Low\": 9.444, \"2Red\": 0.0, \"Volume\": 0.0, \"High\": 9.515, \"SMA50\": 9.4516, \"Close\": 9.448, \"EMA20\": 9.453193, \"EMA50\": 9.432804, \"SMA20\": 9.4472, \"RSI14\": 49.444614}"
     }
   ],
-  "closed_count": 125,
+  "closed_count": 126,
   "total_wins": 55,
-  "total_losses": 70,
-  "total_pnl": -1585.5499999999993,
+  "total_losses": 71,
+  "total_pnl": -3035.8099999999995,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -729.4899999999996,
     "CRYPTO": -32.0,
-    "INTRADAY": 8601.77,
+    "INTRADAY": 7151.51,
     "FADE": -10505.179999999998,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 798414.45
+  "total_capital": 796964.1900000001
 }
