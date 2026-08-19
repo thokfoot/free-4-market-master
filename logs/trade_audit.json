@@ -10822,5 +10822,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
     "skip_reason": "Cooldown: AVROIND.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 15:00:21 IST",
+    "entry_datetime": "2026-08-19 14:38:23 IST",
+    "mode": "INDIAN",
+    "ticker": "AVALON.NS",
+    "direction": "SHORT",
+    "entry_price": 2207.2,
+    "exit_price": 2231.5,
+    "qty": 36,
+    "pnl": -969.98,
+    "pnl_pct": -1.22,
+    "hold": "21m 58s",
+    "pattern_rank": 906,
+    "expected_win_rate": 42.12,
+    "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | \ud83c\udfaf SL Hit (live)"
   }
 ]
