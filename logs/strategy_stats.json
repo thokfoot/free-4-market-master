@@ -145,11 +145,11 @@
   },
   "4": {
     "rank": 4,
-    "factors": "EMA9>EMA20+Range<1%",
-    "wins": 2,
+    "factors": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf Target Hit (live)",
+    "wins": 3,
     "losses": 2,
-    "total_pnl": 1311.13,
-    "consec_losses": 1,
+    "total_pnl": 3329.96,
+    "consec_losses": 0,
     "paused_since": null
   },
   "43": {

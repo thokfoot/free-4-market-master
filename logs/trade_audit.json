@@ -11068,5 +11068,23 @@
     "expected_win_rate": 41.6,
     "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
     "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5 | Expiry Square Off 15:30 IST"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-19 19:18:22 IST",
+    "entry_datetime": "2026-08-16 07:48:23 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "entry_price": 167.39,
+    "exit_price": 174.04,
+    "qty": 305,
+    "pnl": 2018.83,
+    "pnl_pct": 3.95,
+    "hold": "3d 11h 29m",
+    "pattern_rank": 4,
+    "expected_win_rate": 52.32,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf Target Hit (live)"
   }
 ]
