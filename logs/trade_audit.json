@@ -10876,5 +10876,107 @@
     "expected_win_rate": 42.12,
     "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry 5h"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "Cooldown: AVROIND.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "ARIHANTCAP.NS",
+    "direction": "SHORT",
+    "entry_price": 77.12,
+    "qty": 787,
+    "sl": 78.2,
+    "target": 74.19,
+    "pattern_rank": 996,
+    "expected_win_rate": 41.6,
+    "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "signal_indicators": "{\"Close\": 77.9, \"Volume\": 299309, \"VolAvg20\": 10631.0, \"RSI14\": 80.7, \"Shoot_pct\": 4.21, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": -0.01}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: AVROIND.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "AVALON.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: AVALON.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: AVROIND.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "AVALON.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: AVALON.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "AVROIND.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Cooldown: AVROIND.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-19 15:23:56 IST",
+    "mode": "INDIAN",
+    "ticker": "ARIHANTCAP.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Duplicate ARIHANTCAP.NS SHORT already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-19 15:23:59 IST",
+    "mode": "INDIAN",
+    "ticker": "KUSUMGAR.NS",
+    "direction": "LONG",
+    "entry_price": 564.43,
+    "qty": 110,
+    "sl": 519.02,
+    "target": 592.36,
+    "pattern_rank": 936,
+    "expected_win_rate": 100.0,
+    "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "signal_indicators": "{\"Close\": 564.15, \"AnchorHigh\": 629.2, \"Trigger\": 566.28}"
   }
 ]
