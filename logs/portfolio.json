@@ -4,7 +4,7 @@
     "US": 100246.61000000002,
     "CRYPTO": 101609.17,
     "INTRADAY": 107113.18999999997,
-    "FADE": 86891.91000000008,
+    "FADE": 85887.64000000007,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100770.3
@@ -520,29 +520,6 @@
       "Date": "2026-08-20",
       "Time_IST": "10:48:48 IST",
       "Mode": "INDIAN",
-      "Ticker": "UNIVASTU.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 171.87,
-      "Qty": 371,
-      "SL": 174.24,
-      "Target": 165.29,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 940,
-      "Expected_WinRate": 60.0,
-      "Pattern_Factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
-      "Reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
-      "Signal_Indicators": "{\"Close\": 172.0, \"Volume\": 53000, \"VolAvg20\": 713.0, \"RSI14\": 64.4, \"Shoot_pct\": 7.74, \"NearDayHigh\": false, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
-    },
-    {
-      "Date": "2026-08-20",
-      "Time_IST": "10:48:48 IST",
-      "Mode": "INDIAN",
       "Ticker": "BLSE.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -609,19 +586,19 @@
       "Signal_Indicators": "{\"Close\": 467.05, \"Volume\": 390082, \"VolAvg20\": 3352.0, \"RSI14\": 77.8, \"Shoot_pct\": 8.36, \"NearDayHigh\": false, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
     }
   ],
-  "closed_count": 148,
+  "closed_count": 149,
   "total_wins": 64,
-  "total_losses": 84,
-  "total_pnl": -2289.4699999999975,
+  "total_losses": 85,
+  "total_pnl": -3293.739999999997,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
     "CRYPTO": 1609.17,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -13108.089999999998,
+    "FADE": -14112.359999999999,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 770.3
   },
-  "total_capital": 797710.5300000001
+  "total_capital": 796706.2600000001
 }
