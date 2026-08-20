@@ -248,8 +248,8 @@
     "wins": 4,
     "losses": 10,
     "total_pnl": -5647.83,
-    "consec_losses": 5,
-    "paused_since": "2026-08-18"
+    "consec_losses": 0,
+    "paused_since": null
   },
   "904": {
     "rank": 904,
