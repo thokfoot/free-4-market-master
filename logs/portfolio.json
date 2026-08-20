@@ -4,7 +4,7 @@
     "US": 100246.61000000002,
     "CRYPTO": 101609.17,
     "INTRADAY": 107113.18999999997,
-    "FADE": 89046.76000000005,
+    "FADE": 88071.25000000006,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100770.3
@@ -451,29 +451,6 @@
       "Date": "2026-08-20",
       "Time_IST": "10:13:22 IST",
       "Mode": "INDIAN",
-      "Ticker": "NETWEB.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 5279.86,
-      "Qty": 13,
-      "SL": 5345.89,
-      "Target": 5092.33,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 902,
-      "Expected_WinRate": 42.84,
-      "Pattern_Factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
-      "Signal_Indicators": "{\"Close\": 5282.5, \"Volume\": 253535, \"VolAvg20\": 53502.0, \"RSI14\": 70.3, \"Shoot_pct\": 4.6, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": 0.61}"
-    },
-    {
-      "Date": "2026-08-20",
-      "Time_IST": "10:13:22 IST",
-      "Mode": "INDIAN",
       "Ticker": "MUTHOOTFIN.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -586,19 +563,19 @@
       "Signal_Indicators": "{\"Close\": 1068.35, \"ListingHigh\": 1064.75}"
     }
   ],
-  "closed_count": 143,
+  "closed_count": 144,
   "total_wins": 63,
-  "total_losses": 80,
-  "total_pnl": -134.6199999999975,
+  "total_losses": 81,
+  "total_pnl": -1110.1299999999974,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
     "CRYPTO": 1609.17,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -10953.239999999998,
+    "FADE": -11928.749999999998,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 770.3
   },
-  "total_capital": 799865.38
+  "total_capital": 798889.87
 }

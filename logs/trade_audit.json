@@ -12039,5 +12039,23 @@
     "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
     "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
     "signal_indicators": "{\"Close\": 1068.35, \"ListingHigh\": 1064.75}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-20 10:28:47 IST",
+    "entry_datetime": "2026-08-20 10:13:22 IST",
+    "mode": "INDIAN",
+    "ticker": "NETWEB.NS",
+    "direction": "SHORT",
+    "entry_price": 5279.86,
+    "exit_price": 5348.56,
+    "qty": 13,
+    "pnl": -975.51,
+    "pnl_pct": -1.42,
+    "hold": "15m 25s",
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
   }
 ]
