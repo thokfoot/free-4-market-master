@@ -7,7 +7,7 @@
     "FADE": 91637.70000000007,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
-    "IPO": 100770.3
+    "IPO": 99963.31
   },
   "open_positions": [
     {
@@ -264,29 +264,6 @@
       "Signal_Indicators": "{\"EMA200\": 54.253942, \"Open\": 63.41, \"2Red\": 0.0, \"Volume\": 20822618.0, \"EMA20\": 59.820197, \"BB_lo\": 56.181538, \"EMA50\": 58.261513, \"SMA50\": 57.1629, \"low20\": 57.110001, \"RSI14\": 72.551139, \"low50\": 52.619999, \"EMA9\": 61.242966, \"2Green\": 1.0, \"Ret\": 0.01558, \"Low\": 63.115002, \"high50\": 62.689999, \"High\": 63.709999, \"Close\": 63.555, \"BB_hi\": 63.099963, \"SMA20\": 59.64075, \"high20\": 62.689999}"
     },
     {
-      "Date": "2026-08-19",
-      "Time_IST": "15:23:59 IST",
-      "Mode": "INDIAN",
-      "Ticker": "KUSUMGAR.NS",
-      "Direction": "LONG",
-      "TimeFrame": "IPO_1d",
-      "Entry_Price": 564.43,
-      "Qty": 110,
-      "SL": 519.02,
-      "Target": 592.36,
-      "MaxHold": 20,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 936,
-      "Expected_WinRate": 100.0,
-      "Pattern_Factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
-      "Reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
-      "Signal_Indicators": "{\"Close\": 564.15, \"AnchorHigh\": 629.2, \"Trigger\": 566.28}"
-    },
-    {
       "Date": "2026-08-20",
       "Time_IST": "00:15:32 IST",
       "Mode": "US",
@@ -356,10 +333,10 @@
       "Signal_Indicators": "{\"Close\": 269.23, \"ListingHigh\": 264.36}"
     }
   ],
-  "closed_count": 162,
+  "closed_count": 163,
   "total_wins": 70,
-  "total_losses": 92,
-  "total_pnl": 2456.3200000000024,
+  "total_losses": 93,
+  "total_pnl": 1649.3300000000022,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
@@ -368,7 +345,7 @@
     "FADE": -8362.3,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
-    "IPO": 770.3
+    "IPO": -36.690000000000055
   },
-  "total_capital": 802456.3200000001
+  "total_capital": 801649.3300000001
 }

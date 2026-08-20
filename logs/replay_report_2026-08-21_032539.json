@@ -1,0 +1,25 @@
+{
+  "generated": "2026-08-20 21:55:11.049921+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-08-20 21:55:11.049921+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "KUSUMGAR.NS",
+      "direction": "LONG",
+      "tf": "IPO_1d",
+      "entry": 564.43,
+      "sl": 519.02,
+      "target": 592.36,
+      "exit_price": 557.77,
+      "exit_reason": "Expiry",
+      "exit_utc": "2026-08-20 05:45:00+00:00",
+      "pnl": -806.99
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}

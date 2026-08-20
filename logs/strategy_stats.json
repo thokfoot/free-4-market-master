@@ -408,9 +408,9 @@
     "rank": 936,
     "factors": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d | Expiry",
     "wins": 1,
-    "losses": 0,
-    "total_pnl": 770.3,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": -36.690000000000055,
+    "consec_losses": 1,
     "paused_since": null
   },
   "941": {
