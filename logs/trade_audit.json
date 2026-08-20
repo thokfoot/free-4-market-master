@@ -14000,5 +14000,55 @@
     "pattern_factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
     "reason": "#906ID Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0 | Expiry Square Off 15:30 IST",
     "signal_indicators": ""
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 00:21:21 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+EMA20>EMA50+2Red",
+    "skip_reason": "Duplicate XLK LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 00:21:21 IST",
+    "mode": "US",
+    "ticker": "^NDX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+2Red",
+    "skip_reason": "Duplicate ^NDX LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 00:21:21 IST",
+    "mode": "US",
+    "ticker": "^NYA",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate ^NYA LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 00:21:21 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "skip_reason": "Duplicate ^SOX LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 00:21:21 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "Duplicate OEF LONG already open"
   }
 ]
