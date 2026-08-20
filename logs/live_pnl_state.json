@@ -83,7 +83,8 @@
     "MOLBIO.NS": "2026-08-20T14:03:49.523421+05:30",
     "JNPR.NS": "2026-08-20T13:53:20.703467+05:30",
     "INDOBORAX.NS": "2026-08-20T13:01:34.893098+05:30",
-    "INDORAMA.NS": "2026-08-20T13:24:53.443934+05:30"
+    "INDORAMA.NS": "2026-08-20T13:24:53.443934+05:30",
+    "MCLEODRUSS.NS": "2026-08-20T14:19:21.109728+05:30"
   },
   "last_pnl": {
     "DIA": -0.47,
@@ -95,7 +96,7 @@
     "XLK": -1.03,
     "^SOX": -0.26,
     "XLF": -0.37,
-    "TRX-USD": 0.72,
+    "TRX-USD": 0.71,
     "XLY": 1.57,
     "XLV": 1.38,
     "XLC": 0.39,
@@ -126,7 +127,7 @@
     "GSLSU.NS": 0.77,
     "CALSOFT.NS": -0.62,
     "KRN.NS": 0.68,
-    "AVALON.NS": 2.36,
+    "AVALON.NS": 2.31,
     "GOLDIAM.NS": 1.1,
     "PANACEABIO.NS": 1.74,
     "LAXMIINDIA.NS": 2.01,
@@ -158,17 +159,18 @@
     "GODFRYPHLP.NS": 1.98,
     "AVROIND.NS": -0.66,
     "ARIHANTCAP.NS": -1.13,
-    "KUSUMGAR.NS": -0.47,
+    "KUSUMGAR.NS": -0.18,
     "STCINDIA.NS": -0.5,
     "VIMTALABS.NS": 0.86,
-    "BANDHANBNK.NS": -0.12,
-    "TATVA.NS": 2.55,
+    "BANDHANBNK.NS": -0.02,
+    "TATVA.NS": 2.68,
     "MUTHOOTFIN.NS": -0.08,
     "LOTUSEYE.NS": 1.4,
-    "COFORGE.NS": -0.26,
-    "MOLBIO.NS": -1.02,
-    "JNPR.NS": 1.44,
+    "COFORGE.NS": -0.38,
+    "MOLBIO.NS": -1.17,
+    "JNPR.NS": 1.65,
     "INDOBORAX.NS": -1.14,
-    "INDORAMA.NS": -0.82
+    "INDORAMA.NS": -0.82,
+    "MCLEODRUSS.NS": -0.1
   }
 }
