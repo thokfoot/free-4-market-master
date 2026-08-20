@@ -266,6 +266,2866 @@
       },
       "telegram_status": "Skipped (no events)",
       "duration_sec": 183.7
+    },
+    {
+      "time": "10:10:38 IST",
+      "mode": "FADE",
+      "tickers_scanned": [
+        "AASTHA.NS",
+        "ABFRL.NS",
+        "ADANIENSOL.NS",
+        "ADANIENT.NS",
+        "ADANIGREEN.NS",
+        "ADANIPORTS.NS",
+        "ADSL.NS",
+        "AFIL.NS",
+        "ALPINETEX.NS",
+        "AMAGI.NS",
+        "APEX.NS",
+        "APOLLO.NS",
+        "APOLLOHOSP.NS",
+        "ARDEE.NS",
+        "ARIES.NS",
+        "ARIHANTCAP.NS",
+        "ASHOKLEY.NS",
+        "ASIANPAINT.NS",
+        "AUBANK.NS",
+        "AVALON.NS",
+        "AVROIND.NS",
+        "AXISBANK.NS",
+        "BAJAJ-AUTO.NS",
+        "BAJAJFINSV.NS",
+        "BAJAJHFL.NS",
+        "BAJAJHLDNG.NS",
+        "BAJFINANCE.NS",
+        "BANDHANBNK.NS",
+        "BANG.NS",
+        "BANKBARODA.NS",
+        "BDL.NS",
+        "BEL.NS",
+        "BERGEPAINT.NS",
+        "BESTAGRO.NS",
+        "BGRENERGY.NS",
+        "BHARATWIRE.NS",
+        "BHARTIARTL.NS",
+        "BIGBLOC.NS",
+        "BLISSGVS.NS",
+        "BLS.NS",
+        "BLSE.NS",
+        "BPCL.NS",
+        "BRITANNIA.NS",
+        "CALSOFT.NS",
+        "CANBK.NS",
+        "CHOLAFIN.NS",
+        "CIPLA.NS",
+        "COALINDIA.NS",
+        "COCHINSHIP.NS",
+        "COFORGE.NS",
+        "CORDELIA.NS",
+        "CSM.NS",
+        "CUMMINSIND.NS",
+        "DCMSHRIRAM.NS",
+        "DEVIT.NS",
+        "DHOOTTRANS.NS",
+        "DIVISLAB.NS",
+        "DMART.NS",
+        "DOMS.NS",
+        "DRREDDY.NS",
+        "E2E.NS",
+        "ECOSMOBLTY.NS",
+        "EICHERMOT.NS",
+        "EMMBI.NS",
+        "FAZE3Q.NS",
+        "FEDERALBNK.NS",
+        "FIRSTCRY.NS",
+        "FRACTAL.NS",
+        "GARUDA.NS",
+        "GODAVARIB.NS",
+        "GODFRYPHLP.NS",
+        "GOLDIAM.NS",
+        "GRASIM.NS",
+        "GREAVESCOT.NS",
+        "GSLSU.NS",
+        "HAL.NS",
+        "HCLTECH.NS",
+        "HDFCBANK.NS",
+        "HDFCLIFE.NS",
+        "HEROMOTOCO.NS",
+        "HINDALCO.NS",
+        "HINDUNILVR.NS",
+        "HIRECT.NS",
+        "HOMEFIRST.NS",
+        "ICICIBANK.NS",
+        "IDEA.NS",
+        "IDFCFIRSTB.NS",
+        "INDIGO.NS",
+        "INDOBORAX.NS",
+        "INDOMIM.NS",
+        "INDORAMA.NS",
+        "INDUSINDBK.NS",
+        "INFY.NS",
+        "INNOVISION.NS",
+        "IRCTC.NS",
+        "IREDA.NS",
+        "IRFC.NS",
+        "ITC.NS",
+        "ITI.NS",
+        "IZMO.NS",
+        "JAICORPLTD.NS",
+        "JETFREIGHT.NS",
+        "JINDWORLD.NS",
+        "JNPR.NS",
+        "JPPOWER.NS",
+        "JSWINFRA.NS",
+        "JSWSTEEL.NS",
+        "KEI.NS",
+        "KERNEX.NS",
+        "KIOCL.NS",
+        "KITEX.NS",
+        "KNACK.NS",
+        "KOTAKBANK.NS",
+        "KPITTECH.NS",
+        "KRN.NS",
+        "KUSUMGAR.NS",
+        "LASERPOWER.NS",
+        "LAXMICOT.NS",
+        "LAXMIINDIA.NS",
+        "LCL.NS",
+        "LEAPIND.NS",
+        "LOTUSEYE.NS",
+        "LT.NS",
+        "LTTS.NS",
+        "M&M.NS",
+        "MALUPAPER.NS",
+        "MANAKCOAT.NS",
+        "MANAKSTEEL.NS",
+        "MANIPALHOS.NS",
+        "MARUTI.NS",
+        "MAZDOCK.NS",
+        "MCLEODRUSS.NS",
+        "MGEL.NS",
+        "MINDTECK.NS",
+        "MODISONLTD.NS",
+        "MOLBIO.NS",
+        "MOTHERSON.NS",
+        "MPHASIS.NS",
+        "MUTHOOTFIN.NS",
+        "MVELECTRO.NS",
+        "NACLIND.NS",
+        "NESTLEIND.NS",
+        "NETWEB.NS",
+        "NEWGEN.NS",
+        "NMDC.NS",
+        "NRL.NS",
+        "NTPC.NS",
+        "NTPCGREEN.NS",
+        "OFSS.NS",
+        "OMINFRAL.NS",
+        "OMPOWER.NS",
+        "ONGC.NS",
+        "ORIENTALTL.NS",
+        "ORIENTTECH.NS",
+        "OSWALAGRO.NS",
+        "PANACEABIO.NS",
+        "PASUPTAC.NS",
+        "PATINTLOG.NS",
+        "PCJEWELLER.NS",
+        "PDMJEPAPER.NS",
+        "PEARLPOLY.NS",
+        "PENINLAND.NS",
+        "PERSISTENT.NS",
+        "PFC.NS",
+        "PIDILITIND.NS",
+        "PNB.NS",
+        "POCL.NS",
+        "POLICYBZR.NS",
+        "POLYCAB.NS",
+        "POWERGRID.NS",
+        "PRAENG.NS",
+        "PRECAM.NS",
+        "PRECWIRE.NS",
+        "PREMIERENE.NS",
+        "PROZONER.NS",
+        "PVP.NS",
+        "QUADFUTURE.NS",
+        "RAMAPHO.NS",
+        "RAMBHAJO.NS",
+        "RAMCOSYS.NS",
+        "RECLTD.NS",
+        "RELIANCE.NS",
+        "RELTD.NS",
+        "ROTO.NS",
+        "RPEL.NS",
+        "RVNL.NS",
+        "SAIL.NS",
+        "SALSTEEL.NS",
+        "SANGAMIND.NS",
+        "SANSTAR.NS",
+        "SBIFUNDS.NS",
+        "SBILIFE.NS",
+        "SBIN.NS",
+        "SGL.NS",
+        "SINDHUTRAD.NS",
+        "SIYSIL.NS",
+        "SMSPHARMA.NS",
+        "SOMATEX.NS",
+        "SOUTHWEST.NS",
+        "SPANDANA.NS",
+        "SRM.NS",
+        "SRTL.NS",
+        "STCINDIA.NS",
+        "SUNPHARMA.NS",
+        "SUZLON.NS",
+        "SWIGGY.NS",
+        "TATACONSUM.NS",
+        "TATAELXSI.NS",
+        "TATAINVEST.NS",
+        "TATAPOWER.NS",
+        "TATASTEEL.NS",
+        "TATATECH.NS",
+        "TATVA.NS",
+        "TCS.NS",
+        "TECHM.NS",
+        "TECHNOCRAF.NS",
+        "TEMBO.NS",
+        "TIRUPATIFL.NS",
+        "TITAN.NS",
+        "TRENT.NS",
+        "TURTLEMINT.NS",
+        "TVSELECT.NS",
+        "TVSMOTOR.NS",
+        "ULTRACEMCO.NS",
+        "UNIVASTU.NS",
+        "UPL.NS",
+        "VASWANI.NS",
+        "VEDL.NS",
+        "VIMTALABS.NS",
+        "WIPRO.NS",
+        "XTRANET.NS",
+        "YATRA.NS"
+      ],
+      "market_close": {
+        "AVALON.NS": 2334.0,
+        "STCINDIA.NS": 122.79000091552734,
+        "VIMTALABS.NS": 643.9500122070312,
+        "BLISSGVS.NS": 598.0,
+        "BANDHANBNK.NS": 174.6300048828125,
+        "TATVA.NS": 1703.0999755859375,
+        "NETWEB.NS": 5282.5,
+        "MUTHOOTFIN.NS": 2967.89990234375,
+        "ARIES.NS": 453.0,
+        "LOTUSEYE.NS": 118.0199966430664,
+        "COFORGE.NS": 1872.4000244140625,
+        "KUSUMGAR.NS": 564.2999877929688,
+        "MOLBIO.NS": 1068.3499755859375
+      },
+      "patterns_count": 7892,
+      "patterns_fired": 74,
+      "fired_patterns": [
+        {
+          "rank": 940,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 60.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 3.72,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 2.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.17,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 2.28,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 5.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "BANDHANBNK.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 174.6,
+            "Volume": 555418,
+            "VolAvg20": 163142.0,
+            "RSI14": 77.4,
+            "Shoot_pct": 2.41,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 3.84,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "BANDHANBNK.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 174.6,
+            "Volume": 555418,
+            "VolAvg20": 163142.0,
+            "RSI14": 77.4,
+            "Shoot_pct": 3.31,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 4.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 3.84,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "LAXMIINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 132.47,
+            "Volume": 21372,
+            "VolAvg20": 7639.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 3.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "RELTD.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 163.5,
+            "Volume": 17894,
+            "VolAvg20": 7354.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 3.09,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "BANDHANBNK.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 174.6,
+            "Volume": 555418,
+            "VolAvg20": 163142.0,
+            "RSI14": 77.4,
+            "Shoot_pct": 3.31,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 4.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1872.1,
+            "Volume": 223819,
+            "VolAvg20": 82443.0,
+            "RSI14": 83.3,
+            "Shoot_pct": 3.34,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 3.48,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "BANDHANBNK.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 174.6,
+            "Volume": 555418,
+            "VolAvg20": 163142.0,
+            "RSI14": 77.4,
+            "Shoot_pct": 3.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 3.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1872.1,
+            "Volume": 223819,
+            "VolAvg20": 82443.0,
+            "RSI14": 83.3,
+            "Shoot_pct": 3.25,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "LTTS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 3641.2,
+            "Volume": 13315,
+            "VolAvg20": 3086.0,
+            "RSI14": 73.9,
+            "Shoot_pct": 2.86,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 3.48,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "RELTD.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 163.5,
+            "Volume": 17894,
+            "VolAvg20": 7354.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 3.09,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "BANDHANBNK.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 174.6,
+            "Volume": 555418,
+            "VolAvg20": 163142.0,
+            "RSI14": 77.4,
+            "Shoot_pct": 3.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 3.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1872.1,
+            "Volume": 223819,
+            "VolAvg20": 82443.0,
+            "RSI14": 83.3,
+            "Shoot_pct": 3.25,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "LTTS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 3641.2,
+            "Volume": 13315,
+            "VolAvg20": 3086.0,
+            "RSI14": 73.9,
+            "Shoot_pct": 2.86,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "PERSISTENT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5642.0,
+            "Volume": 69234,
+            "VolAvg20": 13499.0,
+            "RSI14": 76.3,
+            "Shoot_pct": 2.5,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "LOTUSEYE.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 118.02,
+            "Volume": 2214,
+            "VolAvg20": 669.0,
+            "RSI14": 62.9,
+            "Shoot_pct": 4.89,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 3.84,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 4.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 2.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 2.42,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1872.1,
+            "Volume": 223819,
+            "VolAvg20": 82443.0,
+            "RSI14": 83.3,
+            "Shoot_pct": 2.38,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 2.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 2.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 2.99,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 5.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 918,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G9: 15m +3.5%/30m vol2.0x RSI70",
+          "win_rate": 42.86,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 3.72,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 919,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+          "win_rate": 42.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 3.72,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 921,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+          "win_rate": 46.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 3.72,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 922,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+          "win_rate": 42.24,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 3.72,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 5.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 3.55,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 5.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "LOTUSEYE.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 118.02,
+            "Volume": 2214,
+            "VolAvg20": 669.0,
+            "RSI14": 62.9,
+            "Shoot_pct": 4.89,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1703.0,
+            "Volume": 6361,
+            "VolAvg20": 1197.0,
+            "RSI14": 75.1,
+            "Shoot_pct": 3.84,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 4.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 5.19,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2333.6,
+            "Volume": 73087,
+            "VolAvg20": 33535.0,
+            "RSI14": 80.8,
+            "Shoot_pct": 6.75,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 597.35,
+            "Volume": 228289,
+            "VolAvg20": 6721.0,
+            "RSI14": 94.7,
+            "Shoot_pct": 4.1,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 642.8,
+            "Volume": 30485,
+            "VolAvg20": 2388.0,
+            "RSI14": 80.2,
+            "Shoot_pct": 3.68,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5282.5,
+            "Volume": 253535,
+            "VolAvg20": 53502.0,
+            "RSI14": 70.3,
+            "Shoot_pct": 4.6,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 122.7,
+            "Volume": 17075,
+            "VolAvg20": 499.0,
+            "RSI14": 83.8,
+            "Shoot_pct": 6.14,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 453.0,
+            "Volume": 28860,
+            "VolAvg20": 1898.0,
+            "RSI14": 67.8,
+            "Shoot_pct": 4.8,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2968.0,
+            "Volume": 116374,
+            "VolAvg20": 15739.0,
+            "RSI14": 76.4,
+            "Shoot_pct": 3.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.61
+          }
+        },
+        {
+          "rank": 938,
+          "market": "NSE",
+          "ticker": "MOLBIO.NS",
+          "direction": "LONG",
+          "factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+          "win_rate": 61.4,
+          "reason": "Close > listing-day high (1064.75) breakout",
+          "signal_indicators": {
+            "Close": 1068.35,
+            "ListingHigh": 1064.75
+          }
+        }
+      ],
+      "entries": [
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "qty": 28,
+          "sl": 2364.34,
+          "target": 2242.97,
+          "rank": 940,
+          "win_rate": 60.0,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "qty": 674,
+          "sl": 124.02,
+          "target": 119.11,
+          "rank": 901,
+          "win_rate": 40.54,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "close": 643.9500122070312,
+          "qty": 131,
+          "sl": 650.39,
+          "target": 624.63,
+          "rank": 901,
+          "win_rate": 40.54,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "qty": 141,
+          "sl": 603.98,
+          "target": 580.06,
+          "rank": 901,
+          "win_rate": 40.54,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "BANDHANBNK.NS",
+          "direction": "SHORT",
+          "close": 174.6300048828125,
+          "qty": 473,
+          "sl": 176.38,
+          "target": 169.39,
+          "rank": 901,
+          "win_rate": 40.54,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "close": 1703.0999755859375,
+          "qty": 49,
+          "sl": 1720.13,
+          "target": 1652.01,
+          "rank": 901,
+          "win_rate": 40.54,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "qty": 13,
+          "sl": 5345.89,
+          "target": 5092.33,
+          "rank": 902,
+          "win_rate": 42.84,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "close": 2967.89990234375,
+          "qty": 24,
+          "sl": 3003.51,
+          "target": 2861.06,
+          "rank": 902,
+          "win_rate": 42.84,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "qty": 154,
+          "sl": 458.44,
+          "target": 439.41,
+          "rank": 903,
+          "win_rate": 45.41,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "LOTUSEYE.NS",
+          "direction": "SHORT",
+          "close": 118.0199966430664,
+          "qty": 549,
+          "sl": 119.55,
+          "target": 113.42,
+          "rank": 941,
+          "win_rate": 50.0,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "close": 1872.4000244140625,
+          "qty": 45,
+          "sl": 1891.12,
+          "target": 1825.59,
+          "rank": 909,
+          "win_rate": 41.29,
+          "tf": "FADE_1h"
+        },
+        {
+          "ticker": "MOLBIO.NS",
+          "direction": "LONG",
+          "close": 1068.3499755859375,
+          "qty": 7,
+          "sl": 940.15,
+          "target": 1282.02,
+          "rank": 938,
+          "win_rate": 61.4,
+          "tf": "IPO_1d"
+        }
+      ],
+      "skipped_entries": [
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 902,
+          "win_rate": 42.84,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 902,
+          "win_rate": 42.84,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "TATVA.NS",
+          "direction": "SHORT",
+          "close": 1703.0999755859375,
+          "rank": 902,
+          "win_rate": 42.84,
+          "reason": "Duplicate TATVA.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "close": 2967.89990234375,
+          "rank": 903,
+          "win_rate": 45.41,
+          "reason": "Duplicate MUTHOOTFIN.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "close": 2967.89990234375,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate MUTHOOTFIN.NS SHORT already open"
+        },
+        {
+          "ticker": "VIMTALABS.NS",
+          "direction": "SHORT",
+          "close": 643.9500122070312,
+          "rank": 905,
+          "win_rate": 41.53,
+          "reason": "Duplicate VIMTALABS.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "close": 2967.89990234375,
+          "rank": 906,
+          "win_rate": 42.12,
+          "reason": "Duplicate MUTHOOTFIN.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 941,
+          "win_rate": 50.0,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 941,
+          "win_rate": 50.0,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 941,
+          "win_rate": 50.0,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 941,
+          "win_rate": 50.0,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 909,
+          "win_rate": 41.29,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 909,
+          "win_rate": 41.29,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 915,
+          "win_rate": 40.31,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 915,
+          "win_rate": 40.31,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 915,
+          "win_rate": 40.31,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 916,
+          "win_rate": 43.98,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 916,
+          "win_rate": 43.98,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 918,
+          "win_rate": 42.86,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 919,
+          "win_rate": 42.09,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 921,
+          "win_rate": 46.09,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 922,
+          "win_rate": 42.24,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 924,
+          "win_rate": 41.18,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 924,
+          "win_rate": 41.18,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 927,
+          "win_rate": 41.48,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "LOTUSEYE.NS",
+          "direction": "SHORT",
+          "close": 118.0199966430664,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate LOTUSEYE.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 928,
+          "win_rate": 42.59,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 929,
+          "win_rate": 38.84,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 930,
+          "win_rate": 37.55,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 932,
+          "win_rate": 39.67,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2334.0,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate AVALON.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 933,
+          "win_rate": 36.55,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "STCINDIA.NS",
+          "direction": "SHORT",
+          "close": 122.79000091552734,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate STCINDIA.NS SHORT already open"
+        },
+        {
+          "ticker": "ARIES.NS",
+          "direction": "SHORT",
+          "close": 453.0,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate ARIES.NS SHORT already open"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5282.5,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate NETWEB.NS SHORT already open"
+        },
+        {
+          "ticker": "BLISSGVS.NS",
+          "direction": "SHORT",
+          "close": 598.0,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate BLISSGVS.NS SHORT already open"
+        },
+        {
+          "ticker": "MUTHOOTFIN.NS",
+          "direction": "SHORT",
+          "close": 2967.89990234375,
+          "rank": 934,
+          "win_rate": 37.59,
+          "reason": "Duplicate MUTHOOTFIN.NS SHORT already open"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100246.61000000002,
+          "CRYPTO": 101609.17,
+          "INTRADAY": 107113.18999999997,
+          "FADE": 89046.76000000005,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 100770.3
+        },
+        "total_capital": 799865.38,
+        "open_count": 25,
+        "total_pnl": -134.6199999999975,
+        "closed_count": 143,
+        "wins": 63,
+        "losses": 80
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 173.0
     }
   ],
   "latest_portfolio": {
@@ -280,7 +3140,7 @@
       "IPO": 100770.3
     },
     "total_capital": 799865.38,
-    "open_count": 13,
+    "open_count": 25,
     "total_pnl": -134.6199999999975,
     "closed_count": 143,
     "wins": 63,
