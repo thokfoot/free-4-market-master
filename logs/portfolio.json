@@ -4,7 +4,7 @@
     "US": 100246.61000000002,
     "CRYPTO": 101609.17,
     "INTRADAY": 107113.18999999997,
-    "FADE": 84985.81000000007,
+    "FADE": 86891.91000000008,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100770.3
@@ -451,29 +451,6 @@
       "Date": "2026-08-20",
       "Time_IST": "10:13:22 IST",
       "Mode": "INDIAN",
-      "Ticker": "ARIES.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 452.66,
-      "Qty": 154,
-      "SL": 458.44,
-      "Target": 439.41,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 903,
-      "Expected_WinRate": 45.41,
-      "Pattern_Factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Signal_Indicators": "{\"Close\": 453.0, \"Volume\": 28860, \"VolAvg20\": 1898.0, \"RSI14\": 67.8, \"Shoot_pct\": 4.8, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
-    },
-    {
-      "Date": "2026-08-20",
-      "Time_IST": "10:13:22 IST",
-      "Mode": "INDIAN",
       "Ticker": "LOTUSEYE.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -586,19 +563,19 @@
       "Signal_Indicators": "{\"Close\": 323.95, \"Volume\": 97265, \"VolAvg20\": 3772.0, \"RSI14\": 75.3, \"Shoot_pct\": 3.56, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
     }
   ],
-  "closed_count": 147,
-  "total_wins": 63,
+  "closed_count": 148,
+  "total_wins": 64,
   "total_losses": 84,
-  "total_pnl": -4195.569999999997,
+  "total_pnl": -2289.4699999999975,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
     "CRYPTO": 1609.17,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -15014.189999999999,
+    "FADE": -13108.089999999998,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 770.3
   },
-  "total_capital": 795804.43
+  "total_capital": 797710.5300000001
 }
