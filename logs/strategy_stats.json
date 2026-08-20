@@ -300,9 +300,9 @@
     "rank": 902,
     "factors": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | Expiry Square Off 15:30 IST",
     "wins": 1,
-    "losses": 7,
-    "total_pnl": -4819.049999999999,
-    "consec_losses": 1,
+    "losses": 9,
+    "total_pnl": -6852.079999999999,
+    "consec_losses": 3,
     "paused_since": null
   },
   "996": {
