@@ -13183,5 +13183,481 @@
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
     "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G2: 15m +4.0%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G3: 15m +4.0%/30m vol2.0x RSI70",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G4: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G5: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G8: 15m +3.5%/30m vol3.0x RSI70 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:08 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G9: 15m +3.5%/30m vol2.0x RSI70",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G16: 15m +3.5%/30m vol2.5x RSI70 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+    "skip_reason": "Cooldown: INDOBORAX.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MCLEODRUSS.NS",
+    "direction": "SHORT",
+    "entry_price": 49.9,
+    "qty": 1216,
+    "sl": 50.6,
+    "target": 48.0,
+    "pattern_rank": 996,
+    "expected_win_rate": 41.6,
+    "pattern_factors": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "reason": "#996ID Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "signal_indicators": "{\"Close\": 49.95, \"Volume\": 144294, \"VolAvg20\": 22556.0, \"RSI14\": 77.0, \"Shoot_pct\": 4.61, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MCLEODRUSS.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Duplicate MCLEODRUSS.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MCLEODRUSS.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Duplicate MCLEODRUSS.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Cooldown: INDORAMA.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 14:16:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MCLEODRUSS.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Duplicate MCLEODRUSS.NS SHORT already open"
   }
 ]
