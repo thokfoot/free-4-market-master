@@ -13021,5 +13021,111 @@
     "expected_win_rate": 40.54,
     "pattern_factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
     "reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "Duplicate INDOBORAX.NS SHORT already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "entry_price": 58.86,
+    "qty": 1145,
+    "sl": 59.63,
+    "target": 56.8,
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "signal_indicators": "{\"Close\": 58.75, \"Volume\": 139226, \"VolAvg20\": 1860.0, \"RSI14\": 77.0, \"Shoot_pct\": 3.67, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Duplicate INDOBORAX.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Duplicate INDORAMA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Duplicate INDORAMA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate INDORAMA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Duplicate INDOBORAX.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Duplicate INDORAMA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate INDORAMA.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 13:23:19 IST",
+    "mode": "INDIAN",
+    "ticker": "INDORAMA.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Duplicate INDORAMA.NS SHORT already open"
   }
 ]
