@@ -13854,5 +13854,23 @@
     "pattern_factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
     "reason": "#940ID Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri | Target Hit",
     "signal_indicators": ""
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-20 15:05:43 IST",
+    "entry_datetime": "2026-08-20 10:13:22 IST",
+    "mode": "INDIAN",
+    "ticker": "TATVA.NS",
+    "direction": "SHORT",
+    "entry_price": 1702.25,
+    "exit_price": 1652.84,
+    "qty": 49,
+    "pnl": 2321.2,
+    "pnl_pct": 2.78,
+    "hold": "4h 52m",
+    "pattern_rank": 901,
+    "expected_win_rate": 40.54,
+    "pattern_factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+    "reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | \ud83c\udfaf Target Hit (live)"
   }
 ]

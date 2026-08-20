@@ -4,7 +4,7 @@
     "US": 100246.61000000002,
     "CRYPTO": 101609.17,
     "INTRADAY": 107113.18999999997,
-    "FADE": 87591.31000000007,
+    "FADE": 89912.51000000007,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100770.3
@@ -359,29 +359,6 @@
       "Date": "2026-08-20",
       "Time_IST": "10:13:22 IST",
       "Mode": "INDIAN",
-      "Ticker": "TATVA.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 1702.25,
-      "Qty": 49,
-      "SL": 1720.13,
-      "Target": 1652.01,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 901,
-      "Expected_WinRate": 40.54,
-      "Pattern_Factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Signal_Indicators": "{\"Close\": 1703.0, \"Volume\": 6361, \"VolAvg20\": 1197.0, \"RSI14\": 75.1, \"Shoot_pct\": 2.28, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
-    },
-    {
-      "Date": "2026-08-20",
-      "Time_IST": "10:13:22 IST",
-      "Mode": "INDIAN",
       "Ticker": "MUTHOOTFIN.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -540,19 +517,19 @@
       "Signal_Indicators": "{\"Close\": 135.57, \"Volume\": 61998, \"VolAvg20\": 7639.0, \"RSI14\": 70.5, \"Shoot_pct\": 2.12, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
     }
   ],
-  "closed_count": 154,
-  "total_wins": 66,
+  "closed_count": 155,
+  "total_wins": 67,
   "total_losses": 88,
-  "total_pnl": -1590.0699999999974,
+  "total_pnl": 731.1300000000017,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
     "CRYPTO": 1609.17,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -12408.689999999999,
+    "FADE": -10087.49,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 770.3
   },
-  "total_capital": 798409.93
+  "total_capital": 800731.13
 }
