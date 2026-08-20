@@ -397,11 +397,11 @@
   },
   "901": {
     "rank": 901,
-    "factors": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | \ud83c\udfaf SL Hit (live)",
-    "wins": 1,
+    "factors": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | \ud83c\udfaf Target Hit (live)",
+    "wins": 2,
     "losses": 1,
-    "total_pnl": -781.4899999999999,
-    "consec_losses": 1,
+    "total_pnl": 1563.73,
+    "consec_losses": 0,
     "paused_since": null
   },
   "936": {
