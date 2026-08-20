@@ -12583,5 +12583,271 @@
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
     "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:09 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "PVP.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: PVP.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "PVP.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: PVP.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-20 11:31:10 IST",
+    "mode": "INDIAN",
+    "ticker": "MODISONLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Cooldown: MODISONLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-20 11:31:15 IST",
+    "mode": "INDIAN",
+    "ticker": "JNPR.NS",
+    "direction": "LONG",
+    "entry_price": 269.43,
+    "qty": 30,
+    "sl": 236.92,
+    "target": 323.08,
+    "pattern_rank": 938,
+    "expected_win_rate": 61.4,
+    "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+    "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
+    "signal_indicators": "{\"Close\": 269.23, \"ListingHigh\": 264.36}"
   }
 ]
