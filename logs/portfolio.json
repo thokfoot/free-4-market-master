@@ -4,7 +4,7 @@
     "US": 100246.61000000002,
     "CRYPTO": 101609.17,
     "INTRADAY": 107113.18999999997,
-    "FADE": 87019.64000000006,
+    "FADE": 85989.71000000006,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100770.3
@@ -607,44 +607,21 @@
       "Pattern_Factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
       "Reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
       "Signal_Indicators": "{\"Close\": 323.95, \"Volume\": 97265, \"VolAvg20\": 3772.0, \"RSI14\": 75.3, \"Shoot_pct\": 3.56, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.61}"
-    },
-    {
-      "Date": "2026-08-20",
-      "Time_IST": "10:48:49 IST",
-      "Mode": "INDIAN",
-      "Ticker": "PVP.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 41.51,
-      "Qty": 1630,
-      "SL": 42.05,
-      "Target": 40.3,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 903,
-      "Expected_WinRate": 45.41,
-      "Pattern_Factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Signal_Indicators": "{\"Close\": 41.59, \"Volume\": 321279, \"VolAvg20\": 76365.0, \"RSI14\": 65.7, \"Shoot_pct\": 5.4, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": 0.61}"
     }
   ],
-  "closed_count": 145,
+  "closed_count": 146,
   "total_wins": 63,
-  "total_losses": 82,
-  "total_pnl": -2161.739999999997,
+  "total_losses": 83,
+  "total_pnl": -3191.6699999999973,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 246.6099999999999,
     "CRYPTO": 1609.17,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -12980.359999999999,
+    "FADE": -14010.289999999999,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 770.3
   },
-  "total_capital": 797838.2600000001
+  "total_capital": 796808.3300000001
 }
