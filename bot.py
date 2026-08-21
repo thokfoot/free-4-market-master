@@ -56,6 +56,7 @@ from paper_trader import (
 )
 from logger import log_scan, log_trade_run, log_portfolio, log_error, now_ist
 from strategy_report import generate_strategy_report
+from integrity_check import validate_all
 import market_data
 
 
@@ -2026,6 +2027,9 @@ def main():
     # changed (new/updated trades) — otherwise every 15-min run would spam.
     try:
         xlsx_path = generate_strategy_report()
+        integrity_errors = validate_all()
+        if integrity_errors:
+            raise RuntimeError("; ".join(integrity_errors[:5]))
         if xlsx_path and os.path.exists(xlsx_path):
             mtime = os.path.getmtime(xlsx_path)
             marker = os.path.join("logs", "_last_xlsx_sent.txt")
@@ -2048,6 +2052,7 @@ def main():
     except Exception as e:
         log_error(f"Strategy Excel report failed: {e}")
         print(f"[WARN] Strategy Excel report: {e}")
+        raise
     
     elapsed = time.time() - start_time
     print(f"\n{'='*60}")

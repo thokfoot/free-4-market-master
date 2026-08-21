@@ -26,7 +26,7 @@ Provider selection is automatic: try yfinance; on ANY failure (exception,
 empty frame, JSONDecodeError) fall through to the next provider. When a
 fallback is used, a warning is printed so the bot log shows the source.
 """
-import os, json, threading, time
+import os, json, threading, time, gzip, hashlib, re
 import pandas as pd
 import numpy as np
 
@@ -226,6 +226,36 @@ def _days(period: str) -> int:
     return 60
 
 
+def _archive_audit_bars(ticker: str, interval: str, df: pd.DataFrame) -> None:
+    """Persist fetched bars for reproducible future paper-trade audits."""
+    if os.environ.get("PAPER_AUDIT_ARCHIVE", "0") != "1" or df is None or len(df) == 0:
+        return
+    try:
+        stamp = pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%d")
+        safe = re.sub(r"[^A-Za-z0-9_.-]", "_", ticker)
+        folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs", "candle_evidence", stamp)
+        os.makedirs(folder, exist_ok=True)
+        payload = {
+            "ticker": ticker,
+            "interval": interval,
+            "captured_at_utc": pd.Timestamp.now(tz="UTC").isoformat(),
+            "columns": ["Open", "High", "Low", "Close", "Volume"],
+            "bars": [[str(ts), *[float(row[c]) for c in ("Open", "High", "Low", "Close", "Volume")]]
+                     for ts, row in df.tail(_CACHE_MAX_BARS).iterrows()],
+        }
+        raw = json.dumps(payload, separators=(",", ":"), default=str).encode("utf-8")
+        digest = hashlib.sha256(raw).hexdigest()
+        path = os.path.join(folder, f"{safe}_{interval}.json.gz")
+        if os.path.exists(path):
+            return
+        with gzip.open(path, "wb") as f:
+            f.write(raw)
+        with open(path + ".sha256", "w", encoding="ascii") as f:
+            f.write(digest)
+    except Exception as exc:
+        print(f"[MarketData] audit archive failed for {ticker} {interval}: {exc}")
+
+
 # ─────────────────────────────────────────────────────────────
 # Persistent OHLC cache — survives GitHub ephemeral runners via
 # the actions/cache "ohlc-cache" steps (NOT committed to git).
@@ -360,6 +390,7 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
 
     # ── 4) persist successful download to cache ──
     if df is not None and len(df) > 0:
+        _archive_audit_bars(ticker, interval, df)
         try:
             with _cache_lock:
                 c = _load_cache()

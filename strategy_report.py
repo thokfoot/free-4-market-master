@@ -12,8 +12,10 @@ and after each live P&L check (live_pnl_updater.py main()).
 """
 
 import glob
+import hashlib
 import json
 import os
+import subprocess
 import zipfile as _zf
 
 import openpyxl
@@ -27,6 +29,7 @@ PAPER_FILE = os.path.join(LOG_DIR, "paper_trades.csv")
 SWING_FILE = config.STRATEGY_FILE
 INTRADAY_FILE = config.INTRADAY_STRATEGY_FILE
 REPORT_FILE = os.path.join(LOG_DIR, "strategy_report.xlsx")
+REPORT_SOURCE_FILE = os.path.join(LOG_DIR, "strategy_report_source.json")
 
 # ── Excel styles ──
 HDR_FILL = PatternFill(fill_type="solid", fgColor="1F4E79")
@@ -392,6 +395,14 @@ def generate_strategy_report(report_file=None):
     """Regenerate logs/strategy_report.xlsx. Returns the output path."""
     out = report_file or REPORT_FILE
 
+    # Rebuild portfolio before reporting so the workbook and portfolio are
+    # derived from the same authoritative paper_trades.csv snapshot.
+    try:
+        from paper_trader import rebuild_portfolio_from_csv
+        rebuild_portfolio_from_csv()
+    except Exception as exc:
+        print(f"[StrategyReport] Portfolio rebuild warning: {exc}")
+
     defs = _load_strategy_defs()
     trades = _load_trades()
     closes = _latest_close()
@@ -627,6 +638,7 @@ def generate_strategy_report(report_file=None):
         _save_deterministic(wb, out, dt_obj)
     except (ValueError, TypeError):
         _save_deterministic(wb, out, None)
+    _write_source_manifest(out, trades)
     print(f"[StrategyReport] Saved {out} ({len(fired_sum)} fired / {len(not_fired)} never-fired strategies)")
     return out
 
@@ -640,13 +652,15 @@ def _save_deterministic(wb, out, dt_obj):
     import datetime as _dtm
     import re as _re
 
-    wb.save(out)
+    tmp_out = out + ".tmp"
+    wb.save(tmp_out)
     if dt_obj is None:
+        os.replace(tmp_out, out)
         return
     stamp = dt_obj.strftime("%Y-%m-%dT%H:%M:%SZ")
     tmp = out + ".det"
     dt_tuple = (dt_obj.year, dt_obj.month, dt_obj.day, dt_obj.hour, dt_obj.minute, dt_obj.second)
-    with _zf.ZipFile(out, "r") as zin, _zf.ZipFile(tmp, "w", _zf.ZIP_DEFLATED) as zout:
+    with _zf.ZipFile(tmp_out, "r") as zin, _zf.ZipFile(tmp, "w", _zf.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
             data = zin.read(item.filename)
             item.date_time = dt_tuple
@@ -659,6 +673,37 @@ def _save_deterministic(wb, out, dt_obj):
                 data = text.encode("utf-8")
             zout.writestr(item, data)
     os.replace(tmp, out)
+    os.remove(tmp_out)
+
+
+def _write_source_manifest(report_file, trades):
+    """Record the exact ledger snapshot used to build the workbook."""
+    try:
+        with open(PAPER_FILE, "rb") as f:
+            ledger_hash = hashlib.sha256(f.read()).hexdigest()
+        dates = [str(t.get("Date", "")).strip() for t in trades if t.get("Date")]
+        try:
+            commit = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=os.path.dirname(__file__),
+                text=True, stderr=subprocess.DEVNULL,
+            ).strip()
+        except Exception:
+            commit = "unknown"
+        manifest = {
+            "report_file": os.path.abspath(report_file),
+            "ledger_file": os.path.abspath(PAPER_FILE),
+            "ledger_sha256": ledger_hash,
+            "ledger_rows": len(trades),
+            "ledger_latest_date": max(dates) if dates else "",
+            "git_commit": commit,
+        }
+        manifest_file = os.path.splitext(report_file)[0] + "_source.json"
+        tmp = manifest_file + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2)
+        os.replace(tmp, manifest_file)
+    except Exception as exc:
+        print(f"[StrategyReport] Source manifest warning: {exc}")
 
 
 if __name__ == "__main__":

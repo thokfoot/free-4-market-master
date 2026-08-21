@@ -6,6 +6,7 @@ Supports LONG and SHORT positions with SL/TP and max hold.
 """
 
 import os, json, math, pandas as pd
+import hashlib
 from datetime import datetime, timedelta
 import pytz
 import requests
@@ -931,6 +932,17 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         tf_label = "ID" if is_intraday else ("IPO" if tf == "IPO_1d" else "SW")
         full_reason = f"#{pattern_rank}{tf_label} {reason}"
     
+    signal_snapshot = dict(signal_indicators or {})
+    signal_snapshot.setdefault("_provenance", {
+        "captured_at_ist": now.strftime("%Y-%m-%d %H:%M:%S IST"),
+        "provider": "market_data.download",
+        "provider_chain": ["yfinance", "yahoo_chart", "nasdaq_or_binance", "ohlc_cache"],
+    })
+    snapshot_hash = hashlib.sha256(
+        json.dumps(signal_snapshot, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
+    ).hexdigest()
+    signal_snapshot["_provenance"]["snapshot_sha256"] = snapshot_hash
+
     trade = {
         "Date": date_str,
         "Time_IST": time_str,
@@ -952,7 +964,7 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         "Expected_WinRate": expected_win_rate if expected_win_rate else "",
         "Pattern_Factors": pattern_factors if pattern_factors else "",
         "Reason": full_reason,
-        "Signal_Indicators": json.dumps(signal_indicators) if signal_indicators else "",
+        "Signal_Indicators": json.dumps(signal_snapshot, sort_keys=True) if signal_snapshot else "",
     }
     
     print(f"[Paper] Signal snapshot saved for {ticker} Rank#{pattern_rank}: "
@@ -983,6 +995,12 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     # Log to persistent audit trail
     _log_audit_entry(trade)
+    try:
+        from audit_events import append_signal_event
+        append_signal_event(trade)
+    except Exception as exc:
+        print(f"[Audit] Signal event write failed: {exc}")
+        raise
     
     return trade
 

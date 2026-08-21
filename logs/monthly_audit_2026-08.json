@@ -1,0 +1,19 @@
+{
+  "generated_at_utc": "2026-08-21T16:51:45.616386+00:00",
+  "period": {
+    "from": "2026-07-27",
+    "to": "2026-08-19"
+  },
+  "ledger_rows": 142,
+  "closed": 133,
+  "open": 9,
+  "wins": 59,
+  "losses": 74,
+  "net_pnl": 205.93,
+  "signal_event_rows": 142,
+  "legacy_events_backfilled": 0,
+  "candle_evidence_dir": "C:\\Users\\Mind\\free-4-market-master\\logs\\candle_evidence",
+  "integrity": "OK",
+  "integrity_failures": [],
+  "event_file": "C:\\Users\\Mind\\free-4-market-master\\logs\\signal_events.jsonl"
+}

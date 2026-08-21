@@ -44,7 +44,11 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python bot.py --mode=fade 2>&1 | grep -vE 'Failed download|JSONDecodeError|Expecting value' || true
+          PAPER_AUDIT_ARCHIVE: '1'
+        run: python bot.py --mode=fade
+
+      - name: Validate ledger and Excel
+        run: python integrity_check.py --report
 
       - name: Commit logs
         run: |

@@ -1,0 +1,121 @@
+{
+  "generated": "2026-08-21 16:18:10.187376+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-08-21 16:18:10.187376+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "^DJT",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 21930.29,
+      "sl": 21489.54,
+      "target": 22805.22,
+      "exit_price": 21487.39,
+      "exit_reason": "SL Hit (intraday)",
+      "exit_utc": "2026-08-20 00:00:00+00:00",
+      "pnl": -894.57
+    },
+    {
+      "ticker": "ETH-USD",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 1880.0,
+      "sl": 1840.56,
+      "target": 1953.24,
+      "exit_price": 1951.29,
+      "exit_reason": "Target Hit",
+      "exit_utc": "2026-08-20 00:00:00+00:00",
+      "pnl": 1641.17
+    },
+    {
+      "ticker": "TRX-USD",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 0.332,
+      "sl": 0.3244,
+      "target": 0.3442,
+      "exit_price": 0.3364,
+      "exit_reason": "Expiry 5d",
+      "exit_utc": "2026-08-21 00:00:00+00:00",
+      "pnl": 34.12
+    },
+    {
+      "ticker": "XLI",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 186.53,
+      "sl": 182.78,
+      "target": 193.97,
+      "exit_price": 182.76,
+      "exit_reason": "SL Hit (intraday)",
+      "exit_utc": "2026-08-20 00:00:00+00:00",
+      "pnl": -1042.73
+    },
+    {
+      "ticker": "XLV",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 167.39,
+      "sl": 164.02,
+      "target": 174.06,
+      "exit_price": 174.04,
+      "exit_reason": "Target Hit",
+      "exit_utc": "2026-08-20 00:00:00+00:00",
+      "pnl": 2018.83
+    },
+    {
+      "ticker": "XLB",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 52.55,
+      "sl": 51.49,
+      "target": 54.64,
+      "exit_price": 52.41,
+      "exit_reason": "Expiry 5d",
+      "exit_utc": "2026-08-21 00:00:00+00:00",
+      "pnl": -141.68
+    },
+    {
+      "ticker": "BLS.NS",
+      "direction": "LONG",
+      "tf": "IPO_1d",
+      "entry": 267.94,
+      "sl": 246.32,
+      "target": 281.13,
+      "exit_price": 271.6,
+      "exit_reason": "Expiry",
+      "exit_utc": "2026-08-19 08:45:00+00:00",
+      "pnl": 770.3
+    },
+    {
+      "ticker": "TRX-USD",
+      "direction": "SHORT",
+      "tf": "INTRADAY_1h",
+      "entry": 0.3308,
+      "sl": 0.3368,
+      "target": 0.3219,
+      "exit_price": 0.3336,
+      "exit_reason": "Expiry",
+      "exit_utc": "2026-08-19 04:00:00+00:00",
+      "pnl": -38.27
+    },
+    {
+      "ticker": "LINK-USD",
+      "direction": "SHORT",
+      "tf": "INTRADAY_1h",
+      "entry": 9.42,
+      "sl": 9.59,
+      "target": 9.16,
+      "exit_price": 9.62,
+      "exit_reason": "SL Hit (intraday)",
+      "exit_utc": "2026-08-19 04:00:00+00:00",
+      "pnl": -1450.26
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}
