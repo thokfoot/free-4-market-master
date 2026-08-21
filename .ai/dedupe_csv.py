@@ -2,11 +2,12 @@
 
 Union-merge (git merge=union) can duplicate rows when two workflows update
 the same trade row concurrently (e.g. bot + live_pnl both exit the same
-trade, each writing its own reason string "Target Hit" vs "🎯 Target Hit (live)").
+trade with different exit values or reasons).
 
-Dedupe key = trade identity (Date, Time_IST, Ticker, Direction, Entry_Price,
-Qty, Exit_Price, Status). Rows that match on all of these are the SAME
-physical trade logged twice (only the Reason column differs) -> keep first.
+Dedupe key = entry identity (Date, Time_IST, Ticker, Direction, TimeFrame,
+Entry_Price, Qty, SL, Target). Rows that match on all of these are the SAME
+physical trade logged twice, even if concurrent writers recorded different
+exit values -> keep first.
 Rows with different qty/entry/exit are legitimately distinct trades (e.g.
 same ticker traded 3x with qty 116/119/121) -> untouched.
 
@@ -23,8 +24,8 @@ import sys
 
 import pandas as pd
 
-KEY_COLS = ["Date", "Time_IST", "Ticker", "Direction", "Entry_Price",
-            "Qty", "Exit_Price", "Status"]
+KEY_COLS = ["Date", "Time_IST", "Ticker", "Direction", "TimeFrame",
+            "Entry_Price", "Qty", "SL", "Target"]
 
 # Strategy/universe definition files — read-only config, never trade logs.
 # Never dedupe them (see SAFETY note above).
