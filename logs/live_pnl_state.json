@@ -84,7 +84,8 @@
     "JNPR.NS": "2026-08-21T10:31:52.115506+05:30",
     "INDOBORAX.NS": "2026-08-21T10:31:52.115506+05:30",
     "INDORAMA.NS": "2026-08-20T13:24:53.443934+05:30",
-    "MCLEODRUSS.NS": "2026-08-20T14:19:21.109728+05:30"
+    "MCLEODRUSS.NS": "2026-08-20T14:19:21.109728+05:30",
+    "POWERGRID.NS": "2026-08-21T10:52:17.478394+05:30"
   },
   "last_pnl": {
     "DIA": -1.74,
@@ -113,8 +114,8 @@
     "GARUDA.NS": 1.63,
     "LT.NS": -0.44,
     "PVP.NS": -0.92,
-    "BDL.NS": -0.24,
-    "RPEL.NS": 0.09,
+    "BDL.NS": -0.15,
+    "RPEL.NS": 0.0,
     "PRECWIRE.NS": 0.74,
     "^DJT": -1.98,
     "APEX.NS": 0.92,
@@ -125,7 +126,7 @@
     "BHARTIARTL.NS": 0.1,
     "TATAPOWER.NS": 1.92,
     "GSLSU.NS": 0.77,
-    "CALSOFT.NS": -0.62,
+    "CALSOFT.NS": -0.82,
     "KRN.NS": 0.68,
     "AVALON.NS": 3.59,
     "GOLDIAM.NS": 1.1,
@@ -167,10 +168,11 @@
     "MUTHOOTFIN.NS": -0.09,
     "LOTUSEYE.NS": 1.4,
     "COFORGE.NS": -0.3,
-    "MOLBIO.NS": -0.5,
-    "JNPR.NS": 0.5,
-    "INDOBORAX.NS": 0.86,
+    "MOLBIO.NS": 0.18,
+    "JNPR.NS": 1.2,
+    "INDOBORAX.NS": 1.36,
     "INDORAMA.NS": -0.82,
-    "MCLEODRUSS.NS": -0.1
+    "MCLEODRUSS.NS": -0.1,
+    "POWERGRID.NS": -0.28
   }
 }
