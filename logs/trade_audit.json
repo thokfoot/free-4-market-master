@@ -15125,5 +15125,23 @@
     "expected_win_rate": 40.54,
     "pattern_factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
     "reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-21 12:39:54 IST",
+    "entry_datetime": "2026-08-21 12:34:30 IST",
+    "mode": "INDIAN",
+    "ticker": "ARIES.NS",
+    "direction": "SHORT",
+    "entry_price": 444.92,
+    "exit_price": 448.71,
+    "qty": 246,
+    "pnl": -1062.76,
+    "pnl_pct": -0.97,
+    "hold": "5m 24s",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   }
 ]
