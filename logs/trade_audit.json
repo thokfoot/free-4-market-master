@@ -15407,5 +15407,121 @@
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
     "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+    "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #902 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+    "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #996 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "entry_price": 405.05,
+    "qty": 128,
+    "sl": 411.43,
+    "target": 390.15,
+    "pattern_rank": 995,
+    "expected_win_rate": 43.3,
+    "pattern_factors": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "reason": "#995ID Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "signal_indicators": "{\"Close\": 405.35, \"Volume\": 2426258, \"VolAvg20\": 30409.0, \"RSI14\": 85.4, \"Shoot_pct\": 4.74, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Duplicate QUADFUTURE.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Duplicate QUADFUTURE.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 15:13:31 IST",
+    "mode": "INDIAN",
+    "ticker": "PCJEWELLER.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
+    "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
   }
 ]
