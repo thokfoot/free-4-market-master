@@ -15523,5 +15523,41 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
     "skip_reason": "Cooldown: PCJEWELLER.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-21 15:15:44 IST",
+    "entry_datetime": "2026-08-21 10:15:02 IST",
+    "mode": "INDIAN",
+    "ticker": "BDL.NS",
+    "direction": "SHORT",
+    "entry_price": 1348.33,
+    "exit_price": 1362.68,
+    "qty": 54,
+    "pnl": -862.32,
+    "pnl_pct": -1.18,
+    "hold": "5h 0m",
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-21 15:15:44 IST",
+    "entry_datetime": "2026-08-21 10:15:02 IST",
+    "mode": "INDIAN",
+    "ticker": "INDOBORAX.NS",
+    "direction": "SHORT",
+    "entry_price": 518.04,
+    "exit_price": 514.16,
+    "qty": 141,
+    "pnl": 459.86,
+    "pnl_pct": 0.63,
+    "hold": "5h 0m",
+    "pattern_rank": 910,
+    "expected_win_rate": 43.46,
+    "pattern_factors": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+    "reason": "#910ID Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh | Expiry 5h"
   }
 ]
