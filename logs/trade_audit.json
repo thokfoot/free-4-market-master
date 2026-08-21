@@ -15613,5 +15613,61 @@
     "expected_win_rate": 43.3,
     "pattern_factors": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
     "reason": "#995ID Fade H2: 1h +3.5% vol1.8x RSI60 near-high | Expiry Square Off 15:30 IST"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-22 00:18:33 IST",
+    "mode": "US",
+    "ticker": "^NYA",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate ^NYA LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-22 00:18:33 IST",
+    "mode": "US",
+    "ticker": "^DJT",
+    "direction": "LONG",
+    "entry_price": 21574.15,
+    "qty": 2,
+    "sl": 21140.55,
+    "target": 22434.87,
+    "pattern_rank": 2,
+    "expected_win_rate": 60.75,
+    "pattern_factors": "Price>SMA20+SMA20<SMA50",
+    "reason": "#2SW Price>SMA20+SMA20<SMA50",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 22095.196229, \"BB_lo\": 20985.594982, \"Close\": 21571.990234, \"EMA20\": 21646.974173, \"EMA200\": 19908.947899, \"EMA50\": 21635.462685, \"EMA9\": 21563.034151, \"High\": 21665.400391, \"Low\": 21477.820312, \"Open\": 21480.509766, \"RSI14\": 47.699965, \"Ret\": 0.008874, \"SMA20\": 21540.395605, \"SMA50\": 21894.417578, \"Volume\": 30341318.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-22 00:18:33 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"2cb9ebe691a743091cd4a46c4f5ece28ed27ac8dd3b0eb394d3a9071dd8347b5\"}, \"high20\": 22727.460938, \"high50\": 22856.289062, \"low20\": 20877.189453, \"low50\": 20877.189453}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-22 00:18:33 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "skip_reason": "Duplicate ^SOX LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-22 00:18:33 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "Duplicate OEF LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-22 00:18:33 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA20+SMA20<SMA50",
+    "skip_reason": "Duplicate XLK LONG already open"
   }
 ]
