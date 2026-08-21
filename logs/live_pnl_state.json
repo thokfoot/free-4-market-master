@@ -116,7 +116,7 @@
     "GARUDA.NS": 1.63,
     "LT.NS": -0.44,
     "PVP.NS": -0.92,
-    "BDL.NS": -0.98,
+    "BDL.NS": -0.92,
     "RPEL.NS": -1.09,
     "PRECWIRE.NS": 0.74,
     "^DJT": -1.98,
@@ -170,13 +170,13 @@
     "MUTHOOTFIN.NS": -0.09,
     "LOTUSEYE.NS": 1.4,
     "COFORGE.NS": -0.3,
-    "MOLBIO.NS": 2.18,
-    "JNPR.NS": -0.48,
-    "INDOBORAX.NS": 0.79,
+    "MOLBIO.NS": 2.34,
+    "JNPR.NS": -0.56,
+    "INDOBORAX.NS": 0.92,
     "INDORAMA.NS": -0.82,
     "MCLEODRUSS.NS": -0.1,
     "POWERGRID.NS": -0.74,
-    "YATRA.NS": 1.44,
-    "PCJEWELLER.NS": 0.1
+    "YATRA.NS": 1.33,
+    "PCJEWELLER.NS": 0.2
   }
 }
