@@ -5417,6 +5417,78 @@
       },
       "telegram_status": "Sent",
       "duration_sec": 177.4
+    },
+    {
+      "time": "15:42:59 IST",
+      "mode": "FADE",
+      "tickers_scanned": [
+        "AASTHA.NS",
+        "ALPINETEX.NS",
+        "AMAGI.NS",
+        "ARDEE.NS",
+        "BAJAJHFL.NS",
+        "BLS.NS",
+        "CORDELIA.NS",
+        "CSM.NS",
+        "DHOOTTRANS.NS",
+        "DOMS.NS",
+        "FIRSTCRY.NS",
+        "FRACTAL.NS",
+        "INDOMIM.NS",
+        "INNOVISION.NS",
+        "IREDA.NS",
+        "JNPR.NS",
+        "JSWINFRA.NS",
+        "KNACK.NS",
+        "KUSUMGAR.NS",
+        "LASERPOWER.NS",
+        "LCL.NS",
+        "LEAPIND.NS",
+        "MANIPALHOS.NS",
+        "MOLBIO.NS",
+        "MVELECTRO.NS",
+        "NTPCGREEN.NS",
+        "OMPOWER.NS",
+        "PREMIERENE.NS",
+        "RAMBHAJO.NS",
+        "SANSTAR.NS",
+        "SBIFUNDS.NS",
+        "SRTL.NS",
+        "SWIGGY.NS",
+        "TATATECH.NS",
+        "TECHNOCRAF.NS",
+        "TURTLEMINT.NS",
+        "XTRANET.NS"
+      ],
+      "market_close": {
+        "MOLBIO.NS": 1098.449951171875,
+        "JNPR.NS": 265.79998779296875
+      },
+      "patterns_count": 37,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 100104.93000000002,
+          "CRYPTO": 101647.95999999999,
+          "INTRADAY": 107113.18999999997,
+          "FADE": 81990.31000000008,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 99963.31
+        },
+        "total_capital": 791899.05,
+        "open_count": 12,
+        "total_pnl": -8100.949999999997,
+        "closed_count": 179,
+        "wins": 74,
+        "losses": 105
+      },
+      "telegram_status": "Skipped (no events)",
+      "duration_sec": 5.3
     }
   ],
   "latest_portfolio": {
@@ -5425,16 +5497,16 @@
       "US": 100104.93000000002,
       "CRYPTO": 101647.95999999999,
       "INTRADAY": 107113.18999999997,
-      "FADE": 81996.7900000001,
+      "FADE": 81990.31000000008,
       "US_FADE": 100000.0,
       "LONG_BOUNCE": 101079.35,
       "IPO": 99963.31
     },
-    "total_capital": 791905.53,
-    "open_count": 17,
-    "total_pnl": -8094.4699999999975,
-    "closed_count": 174,
-    "wins": 71,
-    "losses": 103
+    "total_capital": 791899.05,
+    "open_count": 12,
+    "total_pnl": -8100.949999999997,
+    "closed_count": 179,
+    "wins": 74,
+    "losses": 105
   }
 }
