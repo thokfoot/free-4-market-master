@@ -255,9 +255,9 @@
     "rank": 904,
     "factors": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)",
     "wins": 4,
-    "losses": 9,
-    "total_pnl": 896.7600000000002,
-    "consec_losses": 2,
+    "losses": 10,
+    "total_pnl": -210.15999999999985,
+    "consec_losses": 3,
     "paused_since": null
   },
   "933": {

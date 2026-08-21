@@ -14677,5 +14677,23 @@
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
     "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-21 11:00:10 IST",
+    "entry_datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "POWERGRID.NS",
+    "direction": "SHORT",
+    "entry_price": 273.29,
+    "exit_price": 275.62,
+    "qty": 417,
+    "pnl": -1106.92,
+    "pnl_pct": -0.97,
+    "hold": "9m 54s",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   }
 ]
