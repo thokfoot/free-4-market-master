@@ -136,11 +136,11 @@
   },
   "1": {
     "rank": 1,
-    "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | Expiry 12h",
-    "wins": 3,
+    "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | Expiry 5d",
+    "wins": 4,
     "losses": 7,
-    "total_pnl": -453.74000000000007,
-    "consec_losses": 3,
+    "total_pnl": -414.95000000000005,
+    "consec_losses": 0,
     "paused_since": null
   },
   "4": {
@@ -192,9 +192,9 @@
     "rank": 2,
     "factors": "#2ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf SL Hit (live)",
     "wins": 1,
-    "losses": 2,
-    "total_pnl": -1904.78,
-    "consec_losses": 2,
+    "losses": 3,
+    "total_pnl": -2046.46,
+    "consec_losses": 3,
     "paused_since": null
   },
   "25": {
