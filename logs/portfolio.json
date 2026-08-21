@@ -4,7 +4,7 @@
     "US": 100104.93000000002,
     "CRYPTO": 101647.95999999999,
     "INTRADAY": 107113.18999999997,
-    "FADE": 85205.52000000008,
+    "FADE": 84200.09000000008,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 99963.31
@@ -359,29 +359,6 @@
       "Date": "2026-08-21",
       "Time_IST": "12:34:30 IST",
       "Mode": "INDIAN",
-      "Ticker": "QUADFUTURE.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 376.77,
-      "Qty": 210,
-      "SL": 380.82,
-      "Target": 365.74,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 901,
-      "Expected_WinRate": 40.54,
-      "Pattern_Factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Signal_Indicators": "{\"Close\": 377.3, \"Volume\": 303542, \"VolAvg20\": 6883.0, \"RSI14\": 83.1, \"Shoot_pct\": 2.49, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
-    },
-    {
-      "Date": "2026-08-21",
-      "Time_IST": "12:34:30 IST",
-      "Mode": "INDIAN",
       "Ticker": "PCJEWELLER.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -425,19 +402,19 @@
       "Signal_Indicators": "{\"Close\": 445.25, \"Volume\": 2359, \"VolAvg20\": 380.0, \"RSI14\": 67.0, \"Shoot_pct\": 2.05, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": 0.22}"
     }
   ],
-  "closed_count": 171,
+  "closed_count": 172,
   "total_wins": 71,
-  "total_losses": 100,
-  "total_pnl": -4885.739999999997,
+  "total_losses": 101,
+  "total_pnl": -5891.169999999997,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 104.93000000000006,
     "CRYPTO": 1647.96,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -14794.480000000001,
+    "FADE": -15799.910000000002,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": -36.690000000000055
   },
-  "total_capital": 795114.26
+  "total_capital": 794108.8300000001
 }
