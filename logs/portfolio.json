@@ -4,7 +4,7 @@
     "US": 100104.93000000002,
     "CRYPTO": 101647.95999999999,
     "INTRADAY": 107113.18999999997,
-    "FADE": 83137.33000000009,
+    "FADE": 81996.7900000001,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 99963.31
@@ -357,29 +357,6 @@
     },
     {
       "Date": "2026-08-21",
-      "Time_IST": "12:34:30 IST",
-      "Mode": "INDIAN",
-      "Ticker": "PCJEWELLER.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 9.99,
-      "Qty": 10650,
-      "SL": 10.07,
-      "Target": 9.79,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 9.99, \"Volume\": 2920221, \"VolAvg20\": 1429145.0, \"RSI14\": 72.1, \"Shoot_pct\": 2.67, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
-    },
-    {
-      "Date": "2026-08-21",
       "Time_IST": "14:25:37 IST",
       "Mode": "INDIAN",
       "Ticker": "KERNEX.NS",
@@ -402,19 +379,19 @@
       "Signal_Indicators": "{\"Close\": 1944.0, \"Volume\": 57666, \"VolAvg20\": 8974.0, \"RSI14\": 76.7, \"Shoot_pct\": 3.68, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
     }
   ],
-  "closed_count": 173,
+  "closed_count": 174,
   "total_wins": 71,
-  "total_losses": 102,
-  "total_pnl": -6953.929999999998,
+  "total_losses": 103,
+  "total_pnl": -8094.4699999999975,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 104.93000000000006,
     "CRYPTO": 1647.96,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -16862.670000000002,
+    "FADE": -18003.21,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": -36.690000000000055
   },
-  "total_capital": 793046.0700000001
+  "total_capital": 791905.53
 }
