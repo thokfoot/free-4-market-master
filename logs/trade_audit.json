@@ -14467,5 +14467,197 @@
     "expected_win_rate": 41.53,
     "pattern_factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
     "reason": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "JAICORPLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #902 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "JAICORPLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: JAICORPLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "HIRECT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: HIRECT.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "entry_price": 27.97,
+    "qty": 3846,
+    "sl": 28.2,
+    "target": 27.41,
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "signal_indicators": "{\"Close\": 28.0, \"Volume\": 12160, \"VolAvg20\": 1204.0, \"RSI14\": 72.2, \"Shoot_pct\": 8.95, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": 0.22}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "POWERGRID.NS",
+    "direction": "SHORT",
+    "entry_price": 273.29,
+    "qty": 417,
+    "sl": 275.41,
+    "target": 267.76,
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "signal_indicators": "{\"Close\": 273.5, \"Volume\": 355222, \"VolAvg20\": 136331.0, \"RSI14\": 80.0, \"Shoot_pct\": 3.21, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "POWERGRID.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate POWERGRID.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "JAICORPLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: JAICORPLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "POWERGRID.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S9: 5m +2.0%/90m vol2.0x RSI70 gap0.5",
+    "skip_reason": "Duplicate POWERGRID.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "JAICORPLTD.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: JAICORPLTD.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+    "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
   }
 ]
