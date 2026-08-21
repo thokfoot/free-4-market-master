@@ -15293,5 +15293,101 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
     "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:36 IST",
+    "mode": "INDIAN",
+    "ticker": "KERNEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #902 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "KERNEX.NS",
+    "direction": "SHORT",
+    "entry_price": 1941.53,
+    "qty": 34,
+    "sl": 1965.81,
+    "target": 1884.22,
+    "pattern_rank": 903,
+    "expected_win_rate": 45.41,
+    "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "signal_indicators": "{\"Close\": 1944.0, \"Volume\": 57666, \"VolAvg20\": 8974.0, \"RSI14\": 76.7, \"Shoot_pct\": 3.68, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "KERNEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Duplicate KERNEX.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "KERNEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Duplicate KERNEX.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "KERNEX.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Duplicate KERNEX.NS SHORT already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #996 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 14:25:37 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
   }
 ]
