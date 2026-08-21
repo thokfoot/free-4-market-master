@@ -4,7 +4,7 @@
     "US": 100104.93000000002,
     "CRYPTO": 101647.95999999999,
     "INTRADAY": 107113.18999999997,
-    "FADE": 88470.65000000008,
+    "FADE": 87348.52000000008,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 99963.31
@@ -359,29 +359,6 @@
       "Date": "2026-08-21",
       "Time_IST": "10:50:16 IST",
       "Mode": "INDIAN",
-      "Ticker": "CALSOFT.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 27.97,
-      "Qty": 3846,
-      "SL": 28.2,
-      "Target": 27.41,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 904,
-      "Expected_WinRate": 41.68,
-      "Pattern_Factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
-      "Signal_Indicators": "{\"Close\": 28.0, \"Volume\": 12160, \"VolAvg20\": 1204.0, \"RSI14\": 72.2, \"Shoot_pct\": 8.95, \"NearDayHigh\": true, \"BrkPrevHigh\": false, \"NIFTY_gap_pct\": 0.22}"
-    },
-    {
-      "Date": "2026-08-21",
-      "Time_IST": "10:50:16 IST",
-      "Mode": "INDIAN",
       "Ticker": "POWERGRID.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -402,19 +379,19 @@
       "Signal_Indicators": "{\"Close\": 273.5, \"Volume\": 355222, \"VolAvg20\": 136331.0, \"RSI14\": 80.0, \"Shoot_pct\": 3.21, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
     }
   ],
-  "closed_count": 168,
+  "closed_count": 169,
   "total_wins": 71,
-  "total_losses": 97,
-  "total_pnl": -1620.6099999999972,
+  "total_losses": 98,
+  "total_pnl": -2742.739999999997,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 104.93000000000006,
     "CRYPTO": 1647.96,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -11529.349999999999,
+    "FADE": -12651.48,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": -36.690000000000055
   },
-  "total_capital": 798379.3899999999
+  "total_capital": 797257.26
 }

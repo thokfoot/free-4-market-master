@@ -14659,5 +14659,23 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
     "skip_reason": "Duplicate CALSOFT.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-21 10:54:50 IST",
+    "entry_datetime": "2026-08-21 10:50:16 IST",
+    "mode": "INDIAN",
+    "ticker": "CALSOFT.NS",
+    "direction": "SHORT",
+    "entry_price": 27.97,
+    "exit_price": 28.23,
+    "qty": 3846,
+    "pnl": -1122.13,
+    "pnl_pct": -1.04,
+    "hold": "4m 34s",
+    "pattern_rank": 904,
+    "expected_win_rate": 41.68,
+    "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
+    "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
   }
 ]
