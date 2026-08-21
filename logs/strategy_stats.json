@@ -246,9 +246,9 @@
     "rank": 903,
     "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf Target Hit (live)",
     "wins": 5,
-    "losses": 11,
-    "total_pnl": -4771.66,
-    "consec_losses": 0,
+    "losses": 13,
+    "total_pnl": -6881.67,
+    "consec_losses": 2,
     "paused_since": null
   },
   "904": {
@@ -354,9 +354,9 @@
     "rank": 905,
     "factors": "#905ID Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8 | Expiry Square Off 15:30 IST",
     "wins": 2,
-    "losses": 1,
-    "total_pnl": 2693.4800000000005,
-    "consec_losses": 0,
+    "losses": 2,
+    "total_pnl": 1636.4400000000005,
+    "consec_losses": 1,
     "paused_since": null
   },
   "47": {
