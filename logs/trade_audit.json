@@ -15143,5 +15143,155 @@
     "expected_win_rate": 41.68,
     "pattern_factors": "Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh",
     "reason": "#904ID Fade S5: 5m +1.5%/90m vol1.5x RSI65 gap0.5 dayhigh | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #902 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H1: 1h +3.5% vol2.2x RSI65 prev-high gap1.5",
+    "skip_reason": "CIRCUIT_BREAKER: Rank #996 paused (5 consecutive losses, paused 2026-08-20)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H3: 1h +3.0% vol1.2x RSI60",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-21 13:31:50 IST",
+    "mode": "INDIAN",
+    "ticker": "QUADFUTURE.NS",
+    "direction": "SHORT",
+    "tf": "FADE_1h",
+    "pattern_reason": "Fade H4: 1h +4.0% vol2.2x RSI60 prev-high",
+    "skip_reason": "Cooldown: QUADFUTURE.NS SHORT FADE_1h closed <120m ago"
   }
 ]
