@@ -4,7 +4,7 @@
     "US": 100104.93000000002,
     "CRYPTO": 101647.95999999999,
     "INTRADAY": 107113.18999999997,
-    "FADE": 86241.60000000008,
+    "FADE": 85205.52000000008,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 99963.31
@@ -290,29 +290,6 @@
       "Date": "2026-08-21",
       "Time_IST": "10:15:02 IST",
       "Mode": "INDIAN",
-      "Ticker": "RPEL.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 1657.07,
-      "Qty": 44,
-      "SL": 1677.79,
-      "Target": 1608.16,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 903,
-      "Expected_WinRate": 45.41,
-      "Pattern_Factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
-      "Signal_Indicators": "{\"Close\": 1657.9, \"Volume\": 6206, \"VolAvg20\": 2547.0, \"RSI14\": 68.4, \"Shoot_pct\": 3.88, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
-    },
-    {
-      "Date": "2026-08-21",
-      "Time_IST": "10:15:02 IST",
-      "Mode": "INDIAN",
       "Ticker": "BDL.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -356,19 +333,19 @@
       "Signal_Indicators": "{\"Close\": 518.3, \"Volume\": 503105, \"VolAvg20\": 303640.0, \"RSI14\": 73.2, \"Shoot_pct\": 5.08, \"NearDayHigh\": true, \"BrkPrevHigh\": true, \"NIFTY_gap_pct\": 0.22}"
     }
   ],
-  "closed_count": 170,
+  "closed_count": 171,
   "total_wins": 71,
-  "total_losses": 99,
-  "total_pnl": -3849.659999999997,
+  "total_losses": 100,
+  "total_pnl": -4885.739999999997,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 104.93000000000006,
     "CRYPTO": 1647.96,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -13758.4,
+    "FADE": -14794.480000000001,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": -36.690000000000055
   },
-  "total_capital": 796150.3400000001
+  "total_capital": 795114.26
 }
