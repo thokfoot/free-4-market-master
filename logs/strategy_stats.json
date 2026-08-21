@@ -244,11 +244,11 @@
   },
   "903": {
     "rank": 903,
-    "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf Target Hit (live)",
-    "wins": 5,
+    "factors": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | Expiry Square Off 15:30 IST",
+    "wins": 6,
     "losses": 15,
-    "total_pnl": -8780.07,
-    "consec_losses": 4,
+    "total_pnl": -8673.56,
+    "consec_losses": 0,
     "paused_since": null
   },
   "904": {
@@ -334,11 +334,11 @@
   },
   "995": {
     "rank": 995,
-    "factors": "Fade H2: 1h +3.5% vol1.8x RSI60 near-high",
+    "factors": "#995ID Fade H2: 1h +3.5% vol1.8x RSI60 near-high | Expiry Square Off 15:30 IST",
     "wins": 1,
-    "losses": 0,
-    "total_pnl": 1509.79,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": 1370.26,
+    "consec_losses": 1,
     "paused_since": null
   },
   "994": {
@@ -397,11 +397,11 @@
   },
   "901": {
     "rank": 901,
-    "factors": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | \ud83c\udfaf Target Hit (live)",
-    "wins": 4,
+    "factors": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | Expiry Square Off 15:30 IST",
+    "wins": 5,
     "losses": 3,
-    "total_pnl": 3588.72,
-    "consec_losses": 2,
+    "total_pnl": 4017.72,
+    "consec_losses": 0,
     "paused_since": null
   },
   "936": {
