@@ -7,7 +7,7 @@
     "FADE": 81990.31000000008,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
-    "IPO": 99963.31
+    "IPO": 100068.87
   },
   "open_positions": [
     {
@@ -149,52 +149,6 @@
       "Signal_Indicators": "{\"high50\": 14655.290039, \"2Red\": 1.0, \"SMA50\": 12560.484199, \"SMA20\": 11879.24458, \"Volume\": 0.0, \"2Green\": 0.0, \"Ret\": -0.018728, \"RSI14\": 45.395373, \"Close\": 11767.862305, \"EMA50\": 12109.407205, \"BB_hi\": 12987.608313, \"High\": 12138.508789, \"high20\": 12770.709961, \"low50\": 10445.44043, \"EMA9\": 12123.512074, \"low20\": 10445.44043, \"BB_lo\": 10770.880847, \"EMA20\": 12106.515365, \"Low\": 11633.796875, \"EMA200\": 10051.141803, \"Open\": 12063.850586}"
     },
     {
-      "Date": "2026-08-20",
-      "Time_IST": "10:13:25 IST",
-      "Mode": "INDIAN",
-      "Ticker": "MOLBIO.NS",
-      "Direction": "LONG",
-      "TimeFrame": "IPO_1d",
-      "Entry_Price": 1068.88,
-      "Qty": 7,
-      "SL": 940.15,
-      "Target": 1282.02,
-      "MaxHold": 45,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 938,
-      "Expected_WinRate": 61.4,
-      "Pattern_Factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
-      "Reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
-      "Signal_Indicators": "{\"Close\": 1068.35, \"ListingHigh\": 1064.75}"
-    },
-    {
-      "Date": "2026-08-20",
-      "Time_IST": "11:31:15 IST",
-      "Mode": "INDIAN",
-      "Ticker": "JNPR.NS",
-      "Direction": "LONG",
-      "TimeFrame": "IPO_1d",
-      "Entry_Price": 269.43,
-      "Qty": 30,
-      "SL": 236.92,
-      "Target": 323.08,
-      "MaxHold": 45,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 938,
-      "Expected_WinRate": 61.4,
-      "Pattern_Factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
-      "Reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
-      "Signal_Indicators": "{\"Close\": 269.23, \"ListingHigh\": 264.36}"
-    },
-    {
       "Date": "2026-08-22",
       "Time_IST": "00:18:33 IST",
       "Mode": "US",
@@ -218,10 +172,10 @@
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 22095.196229, \"BB_lo\": 20985.594982, \"Close\": 21571.990234, \"EMA20\": 21646.974173, \"EMA200\": 19908.947899, \"EMA50\": 21635.462685, \"EMA9\": 21563.034151, \"High\": 21665.400391, \"Low\": 21477.820312, \"Open\": 21480.509766, \"RSI14\": 47.699965, \"Ret\": 0.008874, \"SMA20\": 21540.395605, \"SMA50\": 21894.417578, \"Volume\": 30341318.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-22 00:18:33 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"2cb9ebe691a743091cd4a46c4f5ece28ed27ac8dd3b0eb394d3a9071dd8347b5\"}, \"high20\": 22727.460938, \"high50\": 22856.289062, \"low20\": 20877.189453, \"low50\": 20877.189453}"
     }
   ],
-  "closed_count": 183,
-  "total_wins": 75,
-  "total_losses": 108,
-  "total_pnl": -8676.059999999996,
+  "closed_count": 185,
+  "total_wins": 76,
+  "total_losses": 109,
+  "total_pnl": -8570.499999999996,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -470.1800000000003,
@@ -230,7 +184,7 @@
     "FADE": -18009.69,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
-    "IPO": -36.690000000000055
+    "IPO": 68.86999999999993
   },
-  "total_capital": 791323.94
+  "total_capital": 791429.5
 }

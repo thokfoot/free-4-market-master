@@ -430,5 +430,14 @@
     "total_pnl": -428.61,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "938": {
+    "rank": 938,
+    "factors": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | Expiry",
+    "wins": 1,
+    "losses": 1,
+    "total_pnl": 105.55999999999999,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }

@@ -1,0 +1,37 @@
+{
+  "generated": "2026-08-22 21:48:41.302391+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-08-22 21:48:41.302391+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "MOLBIO.NS",
+      "direction": "LONG",
+      "tf": "IPO_1d",
+      "entry": 1068.88,
+      "sl": 940.15,
+      "target": 1282.02,
+      "exit_price": 1097.9,
+      "exit_reason": "Expiry",
+      "exit_utc": "2026-08-21 10:45:00+00:00",
+      "pnl": 194.17
+    },
+    {
+      "ticker": "JNPR.NS",
+      "direction": "LONG",
+      "tf": "IPO_1d",
+      "entry": 269.43,
+      "sl": 236.92,
+      "target": 323.08,
+      "exit_price": 266.8,
+      "exit_reason": "Expiry",
+      "exit_utc": "2026-08-21 10:45:00+00:00",
+      "pnl": -88.61
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}

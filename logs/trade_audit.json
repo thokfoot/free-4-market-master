@@ -15741,5 +15741,43 @@
     "expected_win_rate": 51.85,
     "pattern_factors": "2Red+EMA20>EMA50+Price>SMA50",
     "reason": "#5SW 2Red+EMA20>EMA50+Price>SMA50 | Expiry 5d"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-21 16:15:00 IST",
+    "entry_datetime": "2026-08-20 10:13:25 IST",
+    "mode": "INDIAN",
+    "ticker": "MOLBIO.NS",
+    "direction": "LONG",
+    "entry_price": 1068.88,
+    "exit_price": 1097.9,
+    "qty": "7",
+    "pnl": 194.17,
+    "pnl_pct": 2.6,
+    "hold": "30.0h",
+    "pattern_rank": 938,
+    "expected_win_rate": 61.4,
+    "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+    "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | Expiry",
+    "signal_indicators": "{\"Close\": 1068.35, \"ListingHigh\": 1064.75}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-21 16:15:00 IST",
+    "entry_datetime": "2026-08-20 11:31:15 IST",
+    "mode": "INDIAN",
+    "ticker": "JNPR.NS",
+    "direction": "LONG",
+    "entry_price": 269.43,
+    "exit_price": 266.8,
+    "qty": "30",
+    "pnl": -88.61,
+    "pnl_pct": -1.1,
+    "hold": "28.7h",
+    "pattern_rank": 938,
+    "expected_win_rate": 61.4,
+    "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+    "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | Expiry",
+    "signal_indicators": "{\"Close\": 269.23, \"ListingHigh\": 264.36}"
   }
 ]
