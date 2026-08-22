@@ -24,6 +24,12 @@ REQUIRED = [
 ]
 
 
+def _ledger_sha256():
+    """Hash normalized ledger bytes so Windows and CI agree on provenance."""
+    with open(PAPER_FILE, "rb") as handle:
+        return hashlib.sha256(handle.read().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def _norm(value):
     text = "" if pd.isna(value) else str(value).strip()
     try:
@@ -108,7 +114,7 @@ def validate_report(ledger):
     if os.path.exists(MANIFEST_FILE):
         try:
             manifest = json.load(open(MANIFEST_FILE, encoding="utf-8"))
-            digest = hashlib.sha256(open(PAPER_FILE, "rb").read()).hexdigest()
+            digest = _ledger_sha256()
             if manifest.get("ledger_sha256") != digest:
                 errors.append("report manifest ledger_sha256 does not match current ledger")
             if int(manifest.get("ledger_rows", -1)) != len(ledger):

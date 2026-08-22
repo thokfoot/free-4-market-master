@@ -204,7 +204,7 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
                         signal["reason"] = "Already entered (once-per-IPO)"
                     else:
                         signal["fired"] = True
-                        signal["reason"] = f"Crossed -10%% of listing anchor ({trigger:.2f})"
+                        signal["reason"] = f"Crossed -10% of listing anchor ({trigger:.2f})"
                 elif close <= trigger:
                     signal["reason"] = "Below trigger but cross was earlier (no backfill)"
                 else:

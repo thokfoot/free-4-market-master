@@ -337,7 +337,9 @@ def _match_def(defs, tf, rank, ticker, direction, factors):
     _fade_ranks = {v["rank"] for v in getattr(config, "FADE_VARIANTS", [])}
     _usfade_ranks = {v["rank"] for v in getattr(config, "US_FADE_VARIANTS", [])}
     _long_ranks = {v["rank"] for v in getattr(config, "LONG_BOUNCE_VARIANTS", [])}
+    _ipo_ranks = {v["rank"] for v in getattr(config, "IPO_VARIANTS", [])}
     if rank in (997, 998) or rank in _fade_ranks or rank in _usfade_ranks or rank in _long_ranks or \
+            rank in _ipo_ranks or \
             (getattr(config, "FADE_RANK", None) and rank == config.FADE_RANK):
         gd = [d for d in defs if d["tf"] == tf and d["rank"] == rank
               and d["direction"] == direction]
@@ -680,7 +682,7 @@ def _write_source_manifest(report_file, trades):
     """Record the exact ledger snapshot used to build the workbook."""
     try:
         with open(PAPER_FILE, "rb") as f:
-            ledger_hash = hashlib.sha256(f.read()).hexdigest()
+            ledger_hash = hashlib.sha256(f.read().replace(b"\r\n", b"\n")).hexdigest()
         dates = [str(t.get("Date", "")).strip() for t in trades if t.get("Date")]
         try:
             commit = subprocess.check_output(

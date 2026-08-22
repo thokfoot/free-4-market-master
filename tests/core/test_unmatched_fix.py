@@ -86,6 +86,17 @@ class TestMatchDefGapDown:
         assert d is None
 
 
+class TestMatchDefIPO:
+    def test_ipo_placeholder_matches_real_ticker(self):
+        defs = [
+            {"tf": "IPO_1d", "rank": 936, "ticker": "NSE",
+             "direction": "LONG", "factors": "IPO DIP"},
+        ]
+        matched = sr._match_def(defs, "IPO_1d", 936, "KUSUMGAR.NS", "LONG", "IPO DIP: listing-high -10% dip")
+        assert matched is not None
+        assert matched["rank"] == 936
+
+
 class TestRealDataZeroUnmatched:
     """End-to-end: every trade in the live CSV must resolve to a def."""
 
