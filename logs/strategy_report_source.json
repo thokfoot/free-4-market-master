@@ -4,5 +4,5 @@
   "ledger_sha256": "959653d9eb7a1d8093cbb4b2a16ee6fdb726cb92de75420d157e5064676d4c16",
   "ledger_rows": 192,
   "ledger_latest_date": "2026-08-22",
-  "git_commit": "cbc453497a1657b61e22b66fbcf0220388c0cb90"
+  "git_commit": "ab62ab65f79ac8a6f2822fd306e4cba276fa7212"
 }
