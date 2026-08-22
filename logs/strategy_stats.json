@@ -74,10 +74,10 @@
   "5": {
     "rank": 5,
     "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
-    "wins": 5,
+    "wins": 6,
     "losses": 2,
-    "total_pnl": 2201.3,
-    "consec_losses": 2,
+    "total_pnl": 2733.84,
+    "consec_losses": 0,
     "paused_since": null
   },
   "6": {
@@ -145,11 +145,11 @@
   },
   "4": {
     "rank": 4,
-    "factors": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf Target Hit (live)",
+    "factors": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
     "wins": 3,
-    "losses": 3,
-    "total_pnl": 2287.23,
-    "consec_losses": 1,
+    "losses": 4,
+    "total_pnl": 1838.49,
+    "consec_losses": 2,
     "paused_since": null
   },
   "43": {
