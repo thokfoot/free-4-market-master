@@ -66,9 +66,9 @@
     "rank": 3,
     "factors": "#3SW RSI>50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)",
     "wins": 8,
-    "losses": 2,
-    "total_pnl": 4968.719999999999,
-    "consec_losses": 1,
+    "losses": 3,
+    "total_pnl": 4772.589999999999,
+    "consec_losses": 2,
     "paused_since": null
   },
   "5": {
@@ -181,11 +181,11 @@
   },
   "76": {
     "rank": 76,
-    "factors": "Range<1%+SMA20<EMA20",
+    "factors": "#76SW Range<1%+SMA20<EMA20 | Expiry 5d",
     "wins": 0,
-    "losses": 2,
-    "total_pnl": -520.21,
-    "consec_losses": 2,
+    "losses": 3,
+    "total_pnl": -982.99,
+    "consec_losses": 3,
     "paused_since": null
   },
   "2": {

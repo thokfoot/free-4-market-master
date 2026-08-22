@@ -15669,5 +15669,41 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>SMA20+SMA20<SMA50",
     "skip_reason": "Duplicate XLK LONG already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-22 08:30:51 IST",
+    "entry_datetime": "2026-08-17 07:46:08 IST",
+    "mode": "US",
+    "ticker": "^NYA",
+    "direction": "LONG",
+    "entry_price": 24824.16,
+    "exit_price": 24731.06,
+    "qty": 2,
+    "pnl": -196.13,
+    "pnl_pct": -0.4,
+    "hold": "5d 0h 44m",
+    "pattern_rank": 3,
+    "expected_win_rate": 60.9,
+    "pattern_factors": "Range<1%+SMA20<EMA20",
+    "reason": "#3SW Range<1%+SMA20<EMA20 | Expiry 5d"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-22 08:30:51 IST",
+    "entry_datetime": "2026-08-17 07:46:08 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "entry_price": 536.85,
+    "exit_price": 532.14,
+    "qty": 96,
+    "pnl": -462.78,
+    "pnl_pct": -0.9,
+    "hold": "5d 0h 44m",
+    "pattern_rank": 76,
+    "expected_win_rate": 57.75,
+    "pattern_factors": "Range<1%+SMA20<EMA20",
+    "reason": "#76SW Range<1%+SMA20<EMA20 | Expiry 5d"
   }
 ]
