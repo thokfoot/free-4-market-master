@@ -65,18 +65,18 @@
   "3": {
     "rank": 3,
     "factors": "#3SW RSI>50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)",
-    "wins": 8,
-    "losses": 3,
-    "total_pnl": 4772.589999999999,
-    "consec_losses": 2,
+    "wins": 9,
+    "losses": 4,
+    "total_pnl": 4193.319999999999,
+    "consec_losses": 0,
     "paused_since": null
   },
   "5": {
     "rank": 5,
     "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
-    "wins": 6,
+    "wins": 7,
     "losses": 2,
-    "total_pnl": 2733.84,
+    "total_pnl": 2943.38,
     "consec_losses": 0,
     "paused_since": null
   },
@@ -93,9 +93,9 @@
     "rank": 31,
     "factors": "#31SW Price>SMA50+2Red | \ud83c\udfaf SL Hit (live)",
     "wins": 3,
-    "losses": 1,
-    "total_pnl": 1385.1100000000001,
-    "consec_losses": 1,
+    "losses": 2,
+    "total_pnl": 1188.48,
+    "consec_losses": 2,
     "paused_since": null
   },
   "52": {
@@ -226,11 +226,11 @@
   },
   "37": {
     "rank": 37,
-    "factors": "Price>SMA50+EMA9>EMA20+2Red",
+    "factors": "#37SW Price>SMA50+EMA9>EMA20+2Red | Expiry 5d",
     "wins": 1,
-    "losses": 0,
-    "total_pnl": 925.52,
-    "consec_losses": 0,
+    "losses": 1,
+    "total_pnl": 614.0,
+    "consec_losses": 1,
     "paused_since": null
   },
   "64": {
