@@ -15899,5 +15899,23 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>SMA20+SMA20<SMA50",
     "skip_reason": "Duplicate XLK LONG already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-23 11:27:12 IST",
+    "entry_datetime": "2026-08-23 07:51:10 IST",
+    "mode": "CRYPTO",
+    "ticker": "AVAX-USD",
+    "direction": "LONG",
+    "entry_price": 7.47,
+    "exit_price": 7.28,
+    "qty": 5979,
+    "pnl": -1281.36,
+    "pnl_pct": -2.87,
+    "hold": "3h 36m",
+    "pattern_rank": 7,
+    "expected_win_rate": 66.1,
+    "pattern_factors": "RSI>65+EMA9>EMA20+Close<Open",
+    "reason": "#7SW RSI>65+EMA9>EMA20+Close<Open | \ud83c\udfaf SL Hit (live)"
   }
 ]

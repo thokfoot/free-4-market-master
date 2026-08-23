@@ -439,5 +439,14 @@
     "total_pnl": 105.55999999999999,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "7": {
+    "rank": 7,
+    "factors": "#7SW RSI>65+EMA9>EMA20+Close<Open | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -1281.36,
+    "consec_losses": 1,
+    "paused_since": null
   }
 }
