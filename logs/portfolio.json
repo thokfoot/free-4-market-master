@@ -4,7 +4,7 @@
     "US": 98651.94,
     "CRYPTO": 100366.59999999999,
     "INTRADAY": 107113.18999999997,
-    "FADE": 80071.6000000001,
+    "FADE": 82165.69000000009,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100068.87
@@ -267,29 +267,6 @@
       "Date": "2026-08-24",
       "Time_IST": "10:28:02 IST",
       "Mode": "INDIAN",
-      "Ticker": "BANDHANBNK.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 179.36,
-      "Qty": 427,
-      "SL": 181.28,
-      "Target": 174.11,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 901,
-      "Expected_WinRate": 40.54,
-      "Pattern_Factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Signal_Indicators": "{\"BrkPrevHigh\": true, \"Close\": 179.52, \"NIFTY_gap_pct\": 0.14, \"NearDayHigh\": true, \"RSI14\": 75.1, \"Shoot_pct\": 3.17, \"VolAvg20\": 222348.0, \"Volume\": 1349037, \"_provenance\": {\"captured_at_ist\": \"2026-08-24 10:28:02 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"15a9e40226471105efd882793b733343ff5b14da3df4d48cbc8ff919e7be463e\"}}"
-    },
-    {
-      "Date": "2026-08-24",
-      "Time_IST": "10:28:02 IST",
-      "Mode": "INDIAN",
       "Ticker": "RAMCOSYS.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -356,19 +333,19 @@
       "Signal_Indicators": "{\"BrkPrevHigh\": true, \"Close\": 543.9, \"NIFTY_gap_pct\": 0.14, \"NearDayHigh\": true, \"RSI14\": 76.7, \"Shoot_pct\": 4.2, \"VolAvg20\": 11592.0, \"Volume\": 71778, \"_provenance\": {\"captured_at_ist\": \"2026-08-24 10:28:03 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"e15b17e262c0b7ebeaee5ef4cbbabf2bce58c07d25cea04c476fb0cc1746c69b\"}}"
     }
   ],
-  "closed_count": 193,
-  "total_wins": 78,
+  "closed_count": 194,
+  "total_wins": 79,
   "total_losses": 115,
-  "total_pnl": -12648.449999999999,
+  "total_pnl": -10554.359999999999,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -1348.0600000000002,
     "CRYPTO": 366.60000000000014,
     "INTRADAY": 7113.1900000000005,
-    "FADE": -19928.4,
+    "FADE": -17834.31,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 68.86999999999993
   },
-  "total_capital": 787351.55
+  "total_capital": 789445.64
 }

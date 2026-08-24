@@ -398,9 +398,9 @@
   "901": {
     "rank": 901,
     "factors": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | Expiry Square Off 15:30 IST",
-    "wins": 5,
+    "wins": 6,
     "losses": 3,
-    "total_pnl": 4017.72,
+    "total_pnl": 6111.8099999999995,
     "consec_losses": 0,
     "paused_since": null
   },
