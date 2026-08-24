@@ -106,7 +106,7 @@
     "XLK": -0.01,
     "^SOX": -0.23,
     "XLF": -0.37,
-    "TRX-USD": -0.59,
+    "TRX-USD": -0.58,
     "XLY": 1.06,
     "XLV": 1.38,
     "XLC": 0.45,
@@ -149,7 +149,7 @@
     "E2E.NS": -0.23,
     "PROZONER.NS": -0.72,
     "INFY.NS": -0.12,
-    "AVAX-USD": -0.64,
+    "AVAX-USD": -0.61,
     "NETWEB.NS": -0.81,
     "MODISONLTD.NS": -1.2,
     "POCL.NS": 0.36,
@@ -174,7 +174,7 @@
     "VIMTALABS.NS": 0.94,
     "BANDHANBNK.NS": 2.77,
     "TATVA.NS": 2.52,
-    "MUTHOOTFIN.NS": -0.49,
+    "MUTHOOTFIN.NS": -0.37,
     "LOTUSEYE.NS": 1.4,
     "COFORGE.NS": -0.3,
     "MOLBIO.NS": 2.77,
@@ -188,9 +188,9 @@
     "KERNEX.NS": 0.23,
     "QUADFUTURE.NS": -0.07,
     "XLRE": -0.04,
-    "BLEL.NS": -2.63,
+    "BLEL.NS": -2.73,
     "AFIL.NS": -1.11,
     "RAMCOSYS.NS": 0.97,
-    "NEWGEN.NS": 1.26
+    "NEWGEN.NS": 1.55
   }
 }
