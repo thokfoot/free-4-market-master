@@ -6,7 +6,7 @@
   },
   "SHORT": {},
   "_discovery": {
-    "last": "2026-08-24",
+    "last": "2026-08-25",
     "added": 2
   },
   "_sym_firstbar": {
@@ -39,7 +39,9 @@
     "MOLBIO.NS": "2026-08-17",
     "SHIPROCKET.NS": "2026-08-19",
     "BLEL.NS": "2026-08-19",
-    "MILKYMIST.NS": "2026-08-18"
+    "MILKYMIST.NS": "2026-08-18",
+    "HORIZONIND.NS": "2026-08-24",
+    "LALITHAA.NS": "2026-08-24"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
