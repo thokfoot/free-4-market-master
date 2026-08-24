@@ -16115,5 +16115,21 @@
     "pattern_factors": "Price>SMA20+SMA20<SMA50",
     "reason": "#4SW Price>SMA20+SMA20<SMA50",
     "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 196.538031, \"BB_lo\": 168.98497, \"Close\": 183.309998, \"EMA20\": 184.195274, \"EMA200\": 162.319471, \"EMA50\": 181.37184, \"EMA9\": 185.235542, \"High\": 184.559998, \"Low\": 181.899994, \"Open\": 184.419998, \"RSI14\": 49.506319, \"Ret\": 0.001147, \"SMA20\": 182.761501, \"SMA50\": 183.037601, \"Volume\": 5781100.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-24 07:49:44 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"9cd43fb2fce22359992785ee0c8999865fa0921ac7d384ea844ca58a7bed1bf0\"}, \"high20\": 191.75, \"high50\": 194.300003, \"low20\": 166.460007, \"low50\": 166.460007}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-24 09:30:43 IST",
+    "mode": "INDIAN",
+    "ticker": "BLEL.NS",
+    "direction": "LONG",
+    "entry_price": 486.81,
+    "qty": 127,
+    "sl": 447.53,
+    "target": 510.77,
+    "pattern_rank": 936,
+    "expected_win_rate": 100.0,
+    "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "signal_indicators": "{\"AnchorHigh\": 548.0, \"Close\": 486.45, \"Trigger\": 493.2, \"_provenance\": {\"captured_at_ist\": \"2026-08-24 09:30:43 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"1f7098bf8999dc487254d84d76cf5d59d57acc1bbc637579ffbf328c50cf991e\"}}"
   }
 ]

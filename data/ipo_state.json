@@ -1,7 +1,8 @@
 {
   "DIP": {
     "BLS.NS": "2026-08-18",
-    "KUSUMGAR.NS": "2026-08-19"
+    "KUSUMGAR.NS": "2026-08-19",
+    "BLEL.NS": "2026-08-24"
   },
   "SHORT": {},
   "_discovery": {
