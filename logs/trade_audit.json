@@ -16968,5 +16968,23 @@
     "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
     "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | SL Hit (intraday)",
     "signal_indicators": ""
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-24 19:29:02 IST",
+    "entry_datetime": "2026-08-24 07:49:44 IST",
+    "mode": "US",
+    "ticker": "XLK",
+    "direction": "LONG",
+    "entry_price": 183.33,
+    "exit_price": 179.62,
+    "qty": 267,
+    "pnl": -999.82,
+    "pnl_pct": -2.04,
+    "hold": "11h 39m",
+    "pattern_rank": 4,
+    "expected_win_rate": 52.13,
+    "pattern_factors": "Price>SMA20+SMA20<SMA50",
+    "reason": "#4SW Price>SMA20+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)"
   }
 ]
