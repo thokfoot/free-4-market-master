@@ -64,11 +64,11 @@
   },
   "3": {
     "rank": 3,
-    "factors": "#3SW RSI>50+SMA20<SMA50 | \ud83c\udfaf SL Hit (live)",
+    "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | SL Hit (intraday)",
     "wins": 9,
-    "losses": 4,
-    "total_pnl": 4193.319999999999,
-    "consec_losses": 0,
+    "losses": 5,
+    "total_pnl": 3233.1699999999987,
+    "consec_losses": 1,
     "paused_since": null
   },
   "5": {

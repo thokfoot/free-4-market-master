@@ -16949,5 +16949,24 @@
     "expected_win_rate": 40.54,
     "pattern_factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
     "reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75 | Expiry 5h"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-24 19:00:59 IST",
+    "entry_datetime": "2026-08-20 00:15:32 IST",
+    "mode": "US",
+    "ticker": "^SOX",
+    "direction": "LONG",
+    "entry_price": 11769.04,
+    "exit_price": 11531.36,
+    "qty": 4,
+    "pnl": -960.15,
+    "pnl_pct": -2.04,
+    "hold": "4d 18h 45m",
+    "pattern_rank": 3,
+    "expected_win_rate": 60.59,
+    "pattern_factors": "Price<SMA50+EMA20<EMA50+Close<Open",
+    "reason": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | SL Hit (intraday)",
+    "signal_indicators": ""
   }
 ]
