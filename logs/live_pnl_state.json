@@ -93,7 +93,7 @@
     "XLRE": "2026-08-23T08:39:45.553721+05:30",
     "BLEL.NS": "2026-08-24T10:50:28.568376+05:30",
     "AFIL.NS": "2026-08-24T11:46:52.109150+05:30",
-    "RAMCOSYS.NS": "2026-08-24T10:50:28.568376+05:30",
+    "RAMCOSYS.NS": "2026-08-24T14:10:35.384128+05:30",
     "NEWGEN.NS": "2026-08-24T10:50:28.568376+05:30"
   },
   "last_pnl": {
@@ -149,7 +149,7 @@
     "E2E.NS": -0.23,
     "PROZONER.NS": -0.72,
     "INFY.NS": -0.12,
-    "AVAX-USD": -1.45,
+    "AVAX-USD": -1.14,
     "NETWEB.NS": -0.81,
     "MODISONLTD.NS": -1.2,
     "POCL.NS": 0.36,
@@ -174,7 +174,7 @@
     "VIMTALABS.NS": 0.94,
     "BANDHANBNK.NS": 2.77,
     "TATVA.NS": 2.52,
-    "MUTHOOTFIN.NS": -0.75,
+    "MUTHOOTFIN.NS": -0.81,
     "LOTUSEYE.NS": 1.4,
     "COFORGE.NS": -0.3,
     "MOLBIO.NS": 2.77,
@@ -188,9 +188,9 @@
     "KERNEX.NS": 0.23,
     "QUADFUTURE.NS": -0.07,
     "XLRE": -0.04,
-    "BLEL.NS": -3.73,
+    "BLEL.NS": -3.62,
     "AFIL.NS": -1.11,
-    "RAMCOSYS.NS": 1.32,
-    "NEWGEN.NS": 2.2
+    "RAMCOSYS.NS": 0.63,
+    "NEWGEN.NS": 2.16
   }
 }
