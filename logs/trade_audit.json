@@ -16823,5 +16823,41 @@
     "tf": "FADE_1h",
     "pattern_reason": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
     "skip_reason": "Duplicate AFIL.NS SHORT already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-24 10:50:28 IST",
+    "entry_datetime": "2026-08-24 10:28:02 IST",
+    "mode": "INDIAN",
+    "ticker": "BANG.NS",
+    "direction": "SHORT",
+    "entry_price": 31.81,
+    "exit_price": 32.25,
+    "qty": 1999,
+    "pnl": -960.31,
+    "pnl_pct": -1.51,
+    "hold": "22m 26s",
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-24 10:50:28 IST",
+    "entry_datetime": "2026-08-24 10:28:02 IST",
+    "mode": "INDIAN",
+    "ticker": "TIRUPATIFL.NS",
+    "direction": "SHORT",
+    "entry_price": 71.33,
+    "exit_price": 72.33,
+    "qty": 881,
+    "pnl": -958.4,
+    "pnl_pct": -1.53,
+    "hold": "22m 26s",
+    "pattern_rank": 902,
+    "expected_win_rate": 42.84,
+    "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+    "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | \ud83c\udfaf SL Hit (live)"
   }
 ]
