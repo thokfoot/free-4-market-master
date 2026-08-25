@@ -194,5 +194,11 @@
     "RAMCOSYS.NS": -0.05,
     "NEWGEN.NS": 2.93,
     "MALUPAPER.NS": 0.77
+  },
+  "last_summary": {
+    "cap": 784983.64,
+    "pnl": -15016.36,
+    "open": 12,
+    "closed": 205
   }
 }
