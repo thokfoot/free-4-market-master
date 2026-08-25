@@ -118,11 +118,11 @@
   },
   "1": {
     "rank": 1,
-    "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf SL Hit (live)",
+    "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | \ud83c\udfaf SL Hit (live)",
     "wins": 4,
-    "losses": 8,
-    "total_pnl": -1833.41,
-    "consec_losses": 1,
+    "losses": 9,
+    "total_pnl": -1933.95,
+    "consec_losses": 2,
     "paused_since": null
   },
   "4": {
