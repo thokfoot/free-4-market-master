@@ -17864,5 +17864,23 @@
     "expected_win_rate": 42.84,
     "pattern_factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
     "reason": "#902ID Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8 | Expiry 5h"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-25 19:23:39 IST",
+    "entry_datetime": "2026-08-24 07:49:44 IST",
+    "mode": "CRYPTO",
+    "ticker": "AVAX-USD",
+    "direction": "LONG",
+    "entry_price": 7.53,
+    "exit_price": 7.34,
+    "qty": 5903,
+    "pnl": -1267.2,
+    "pnl_pct": -2.85,
+    "hold": "1d 11h 33m",
+    "pattern_rank": 7,
+    "expected_win_rate": 66.1,
+    "pattern_factors": "RSI>65+EMA9>EMA20+Close<Open",
+    "reason": "#7SW RSI>65+EMA9>EMA20+Close<Open | \ud83c\udfaf SL Hit (live)"
   }
 ]
