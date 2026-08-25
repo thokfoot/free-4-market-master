@@ -4,7 +4,7 @@
     "US": 96691.97,
     "CRYPTO": 100366.59999999999,
     "INTRADAY": 105694.72999999997,
-    "FADE": 80033.25000000009,
+    "FADE": 82040.91000000009,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 100068.87
@@ -244,29 +244,6 @@
       "Date": "2026-08-25",
       "Time_IST": "10:15:27 IST",
       "Mode": "INDIAN",
-      "Ticker": "AVROIND.NS",
-      "Direction": "SHORT",
-      "TimeFrame": "FADE_1h",
-      "Entry_Price": 9.47,
-      "Qty": 8200,
-      "SL": 9.57,
-      "Target": 9.2,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 901,
-      "Expected_WinRate": 40.54,
-      "Pattern_Factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Reason": "#901ID Fade S2: 15m +2.0%/45m vol3.0x RSI75",
-      "Signal_Indicators": "{\"BrkPrevHigh\": true, \"Close\": 9.48, \"NIFTY_gap_pct\": -0.18, \"NearDayHigh\": true, \"RSI14\": 78.1, \"Shoot_pct\": 4.18, \"VolAvg20\": 37908.0, \"Volume\": 160745, \"_provenance\": {\"captured_at_ist\": \"2026-08-25 10:15:27 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"51cf94a491f86dee7818fd3e089ac1a4ee9173f5e4c09cd3187c7b0825edf1d3\"}}"
-    },
-    {
-      "Date": "2026-08-25",
-      "Time_IST": "10:15:27 IST",
-      "Mode": "INDIAN",
       "Ticker": "KRN.NS",
       "Direction": "SHORT",
       "TimeFrame": "FADE_1h",
@@ -333,19 +310,19 @@
       "Signal_Indicators": "{\"BrkPrevHigh\": true, \"Close\": 32.61, \"NIFTY_gap_pct\": -0.18, \"NearDayHigh\": true, \"RSI14\": 66.6, \"Shoot_pct\": 2.71, \"VolAvg20\": 424.0, \"Volume\": 3509, \"_provenance\": {\"captured_at_ist\": \"2026-08-25 10:15:27 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"f06fac7dadaaec56302ab9822cce86c2df4def593a19b915a12a6d1d1eef61c2\"}}"
     }
   ],
-  "closed_count": 203,
-  "total_wins": 80,
+  "closed_count": 204,
+  "total_wins": 81,
   "total_losses": 123,
-  "total_pnl": -16065.229999999998,
+  "total_pnl": -14057.569999999998,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": -3308.03,
     "CRYPTO": 366.60000000000014,
     "INTRADAY": 5694.7300000000005,
-    "FADE": -19966.750000000004,
+    "FADE": -17959.090000000004,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 68.86999999999993
   },
-  "total_capital": 783934.77
+  "total_capital": 785942.43
 }
