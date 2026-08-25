@@ -624,7 +624,12 @@ FADE_TP_PCT = FADE_VARIANTS[0]["tp_pct"]
 FADE_MAX_TRADES_PER_DAY = FADE_VARIANTS[0]["max_per_day"]
 FADE_MAX_HOLD_HOURS = 5      # intraday: exit by 15:00 IST if no SL/TP
 FADE_RANK = FADE_VARIANTS[0]["rank"]
-FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
+FADE_ALLOW_SHORT = False     # v5.27 PAUSED: on the LIQUID universe (Rs10cr+/
+                             # day) the 60d replay is net NEGATIVE (-656%,
+                             # only 12/40 variants positive). The old broad-
+                             # universe "edge" came from micro-cap fills that
+                             # cannot be real. Re-enable only after a re-mine
+                             # on liquid names shows durable positive expectancy.
 FADE_MIN_PRICE = 8.0         # skip penny stocks (< Rs 5) — matches backtest
 # v5.27 liquidity floor: live FADE losses were concentrated in micro-caps
 # whose paper fills are fictional (circuit locks, no real short depth).
