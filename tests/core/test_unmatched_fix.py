@@ -123,6 +123,30 @@ class TestRealDataZeroUnmatched:
         ("FADE_1h", 900, "IDEA.NS", "SHORT"),
         ("FADE_1h", 907, "KERNEX.NS", "SHORT"),
         ("FADE_1h", 991, "V1", "SHORT"),
+        # ── v5.27 (2026-08-25): index strategies removed/ETF-swapped and
+        # consistent losers dropped by etf_retest.py + deploy. Their
+        # historical ledger trades can never match a current def.
+        ("INTRADAY_1h", 16, "^GSPC", "LONG"),   # SP500 -> SPY swap (old fills)
+        ("INTRADAY_1h", 6, "^NDX", "LONG"),     # Nasdaq100 -> QQQ swap
+        ("SWING_1d", 49, "^NDX", "LONG"),
+        ("SWING_1d", 45, "^NDX", "LONG"),
+        ("SWING_1d", 64, "^NDX", "LONG"),
+        ("SWING_1d", 31, "^NDX", "LONG"),
+        ("INTRADAY_1h", 25, "^NDX", "LONG"),    # + consistent loser
+        ("SWING_1d", 3, "^SOX", "LONG"),        # PHLX_Semi: SOXX transfer WEAK
+        ("SWING_1d", 46, "^SOX", "LONG"),
+        ("SWING_1d", 43, "^SOX", "LONG"),
+        ("SWING_1d", 47, "^SOX", "LONG"),
+        ("SWING_1d", 3, "^NYA", "LONG"),        # NYSE_Comp -> VTI swap
+        ("SWING_1d", 2, "^DJT", "LONG"),        # Dow_Trans: no proxy
+        ("INTRADAY_1h", 1, "TRX-USD", "SHORT"), # consistent losers (v5.27)
+        ("INTRADAY_1h", 1, "BTC-USD", "SHORT"),
+        ("INTRADAY_1h", 2, "LINK-USD", "SHORT"),
+        ("SWING_1d", 41, "ADA-USD", "SHORT"),
+        ("SWING_1d", 4, "XLI", "LONG"),
+        ("SWING_1d", 5, "XLC", "LONG"),
+        ("SWING_1d", 75, "XLK", "LONG"),
+        ("SWING_1d", 7, "AVAX-USD", "LONG"),
     }
 
     def test_zero_unmatched_on_live_data(self):

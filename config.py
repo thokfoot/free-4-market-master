@@ -788,6 +788,9 @@ TICKER_MAP = {
 for _tk in INDIAN_TICKERS + [
     "BTC-USD", "ETH-USD", "SOL-USD", "BNB-USD", "XRP-USD",
     "ADA-USD", "DOGE-USD", "AVAX-USD", "LINK-USD", "TRX-USD",
+    # v5.27 ETF proxies for de-listed index strategies (etf_retest.py)
+    "SOXX", "VTI", "IJH", "KBE", "XLU",
+    "NIFTYBEES.NS", "BANKBEES.NS",
 ]:
     TICKER_MAP.setdefault(_tk, _tk)
 

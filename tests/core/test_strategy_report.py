@@ -82,21 +82,33 @@ class TestStrategyDefs:
         assert "INTRADAY_1h" in tfs
 
     def test_tickers_mapped_via_config(self):
+        # v5.27: index-ticker strategies were removed/ETF-swapped, so no def
+        # may reference an untradable ^ symbol and every market must resolve
+        # through config TICKER_MAP.
         defs = sr._load_strategy_defs()
+        assert defs, "strategy defs must not be empty"
+        for d in defs:
+            assert d["ticker"], f"unmapped market {d['market']}"
+            assert not str(d["ticker"]).startswith("^"), \
+                f"index strategy leaked into deployment: {d['market']}"
         by_market = {d["market"]: d for d in defs}
-        assert by_market.get("Nasdaq100", {}).get("ticker") == "^NDX"
-        assert by_market.get("PHLX_Semi", {}).get("ticker") == "^SOX"
         assert by_market.get("ADA", {}).get("ticker") == "ADA-USD"
+        # ETF proxies deployed by etf_retest.py must resolve
+        for mkt in ("QQQ", "SPY", "SOXX", "VTI", "IJH", "KBE"):
+            if mkt in by_market:
+                assert by_market[mkt]["ticker"] == mkt
 
 
 class TestMatchDef:
     def test_matches_rank_across_markets(self):
         defs = sr._load_strategy_defs()
-        # rank 1 exists for many markets; factors disambiguate
-        d = sr._match_def(defs, "INTRADAY_1h", 1, "TRX-USD", "SHORT",
-                          "EMA9>EMA20+Price>SMA20+RSI<50")
+        # rank 1 exists for many markets; factors disambiguate.
+        # (v5.27: old sample TRX-USD #1 INTRADAY SHORT was a consistent
+        # loser and was removed from the deployment; IWM #14 is live.)
+        d = sr._match_def(defs, "INTRADAY_1h", 14, "IWM", "SHORT",
+                          "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open")
         assert d is not None
-        assert d["ticker"] == "TRX-USD"
+        assert d["ticker"] == "IWM"
 
     def test_no_match_returns_none(self):
         assert sr._match_def([], "SWING_1d", 1, "NOPE", "LONG", "x") is None
