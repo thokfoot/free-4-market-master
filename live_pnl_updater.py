@@ -884,8 +884,9 @@ def main():
     _commit_state_now()
     
     print(f"\n[Live] Check complete — {elapsed:.1f}s")
-    print(f"[Live] Closed: {len(closed_msgs)} | Updates: {len(update_msgs)} | "
-          f"Skipped (market closed): {skipped_closed_mkt}")
+    # NOTE: per-position skip reasons are printed inside process_open_trades();
+    # the skip counter lives there (not returned) so don't reference it here.
+    print(f"[Live] Closed: {len(closed_msgs)} | Updates: {len(update_msgs)}")
     
     # Telegram: ALL exits in ONE batched message (was one msg per trade —
     # 6 SL hits = 6 back-to-back messages of clutter).
