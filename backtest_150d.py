@@ -159,6 +159,8 @@ def main():
     live = pd.read_csv(LIVE_CSV, on_bad_lines="warn")
     lv = live[live["Pattern_Rank"].notna()].copy()
     lv["rank"] = pd.to_numeric(lv["Pattern_Rank"], errors="coerce").astype("Int64")
+    # COMBO families only (rule-based variants reported separately)
+    lv = lv[lv["TimeFrame"].isin(["SWING_1d", "INTRADAY_1h"]) & (lv["rank"] < 900)]
     closed = lv[lv["Status"].astype(str) == "CLOSED"].copy()
     closed["pnl"] = pd.to_numeric(closed["P&L"], errors="coerce").fillna(0)
     grp = closed.groupby(["Ticker", "rank", "TimeFrame"]).agg(
@@ -166,15 +168,33 @@ def main():
         live_losses=("pnl", lambda x: int((x < 0).sum())), live_pnl=("pnl", "sum")).reset_index()
 
     # mode ↔ region mapping for join
-    bt["mode_key"] = bt["region"].map({"INDIAN": "INDIAN", "US": "US", "CRYPTO": "CRYPTO"})
+    # NOTE: several deployed Market names map to the SAME yf ticker
+    # (XLK_Tech+XLK -> XLK, Nifty 50+GIFT Nifty -> ^NSEI, ...) and ranks
+    # restart per Market, so (yft,rank,tf) can collide. A live trade only
+    # knows ticker+rank+tf — aggregate colliding strategies into ONE unit
+    # or live P&L gets double-counted across duplicates.
     bt["yft"] = bt["market"].map(get_yf_ticker)
+    bt = bt.groupby(["yft", "rank", "tf"], as_index=False).agg(
+        market=("market", lambda x: ",".join(sorted(set(str(v) for v in x)))),
+        region=("region", "first"), direction=("direction", "first"),
+        factors=("factors", lambda x: " | ".join(str(v) for v in x)),
+        bt_n=("bt_n", "sum"),
+        bt_wr=("bt_wr", "mean"),
+        bt_net_pct=("bt_net_pct", "sum"),
+        bt_avg_per_trade_pct=("bt_avg_per_trade_pct", "mean"),
+        bt_recent_n=("bt_recent_n", "sum"),
+        bt_recent_wr=("bt_recent_wr", "mean"),
+        bt_recent_net_pct=("bt_recent_net_pct", "sum"))
     m = bt.merge(grp, left_on=["yft", "rank", "tf"],
                  right_on=["Ticker", "rank", "TimeFrame"], how="outer",
                  suffixes=("", "_live"), indicator=True)
     opk = lv[lv["Status"].astype(str) == "OPEN"].groupby(["Ticker", "rank", "TimeFrame"]).size().rename("live_open").reset_index()
     m = m.merge(opk, left_on=["yft", "rank", "tf"], right_on=["Ticker", "rank", "TimeFrame"],
                 how="left", suffixes=("", "_op"))
-    m = m[m["_merge"] != "right_only"].copy()  # keep strategies even if never traded live
+    # KEEP right_only: live groups whose (ticker,rank,tf) has no row in the
+    # CURRENT strategy files (pre-2026-08-14-truncation era trades) — they
+    # are reported as ORPHAN, never silently dropped.
+    m = m.copy()
     for c in ("live_open_x", "live_open_y"):
         if c in m.columns and "live_open" not in m.columns:
             m = m.rename(columns={c: "live_open"})
@@ -185,6 +205,8 @@ def main():
     m["live_open"] = pd.to_numeric(m["live_open"], errors="coerce").fillna(0).astype(int)
 
     def verdict(r):
+        if str(r.get("_merge")) == "right_only":
+            return "ORPHAN(no-strategy-def)"
         lp = float(r.get("live_pnl", 0) or 0)
         ln = int(pd.notna(r.get("live_n")) and r["live_n"] or 0)
         bn = int(pd.notna(r.get("bt_n")) and r["bt_n"] or 0)
@@ -232,6 +254,17 @@ def main():
             print(warn[["rank","market","tf","live_pnl","bt_net_pct","bt_recent_net_pct"]]
                   .to_string(index=False))
     print(f"\nsaved -> {OUT_CSV}")
+    # Reconciliation: matched + orphan live combo P&L must equal ledger COMBO total
+    livecol = pd.to_numeric(m.get('live_pnl'), errors='coerce')
+    isn = pd.to_numeric(m.get('live_n'), errors='coerce').fillna(0) > 0
+    matched = livecol[isn].sum()
+    g2 = pd.read_csv(LIVE_CSV, on_bad_lines='warn')
+    g2 = g2[(g2['Status'] == 'CLOSED') & g2['Pattern_Rank'].notna()].copy()
+    g2['rank'] = pd.to_numeric(g2['Pattern_Rank'], errors='coerce')
+    led = g2[(g2['TimeFrame'].isin(['SWING_1d', 'INTRADAY_1h'])) & (g2['rank'] < 900)]
+    led_total = round(pd.to_numeric(led['P&L'], errors='coerce').fillna(0).sum(), 2)
+    print(f"[RECON] matched ₹{matched:,.2f} | ledger COMBO ₹{led_total:,.2f} | "
+          f"{'MATCH ✔' if abs(matched - led_total) < 1 else 'MISMATCH ✘'}")
     print(f"[BT] done in {(datetime.now(timezone.utc)-t0).total_seconds():.0f}s")
 
 
