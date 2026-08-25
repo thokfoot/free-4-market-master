@@ -17,6 +17,24 @@
     "consec_losses": 0,
     "paused_since": null
   },
+  "46": {
+    "rank": 46,
+    "factors": "Close>Open+2Red",
+    "wins": 1,
+    "losses": 1,
+    "total_pnl": -826.15,
+    "consec_losses": 0,
+    "paused_since": null
+  },
+  "30": {
+    "rank": 30,
+    "factors": "Price>SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "wins": 1,
+    "losses": 3,
+    "total_pnl": -1584.57,
+    "consec_losses": 0,
+    "paused_since": null
+  },
   "16": {
     "rank": 16,
     "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
@@ -152,6 +170,24 @@
     "consec_losses": 0,
     "paused_since": null
   },
+  "41": {
+    "rank": 41,
+    "factors": "Price>SMA20+EMA20<EMA50+2Red",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -45.62,
+    "consec_losses": 1,
+    "paused_since": null
+  },
+  "76": {
+    "rank": 76,
+    "factors": "#76SW Range<1%+SMA20<EMA20 | Expiry 5d",
+    "wins": 0,
+    "losses": 3,
+    "total_pnl": -982.99,
+    "consec_losses": 3,
+    "paused_since": null
+  },
   "2": {
     "rank": 2,
     "factors": "#2ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf SL Hit (live)",
@@ -231,6 +267,15 @@
     "losses": 1,
     "total_pnl": -1223.36,
     "consec_losses": 1,
+    "paused_since": null
+  },
+  "900": {
+    "rank": 900,
+    "factors": "Fade S1: 15m +2.0%/45m vol2.2x RSI75 gap0.8",
+    "wins": 4,
+    "losses": 7,
+    "total_pnl": -2642.1899999999996,
+    "consec_losses": 0,
     "paused_since": null
   },
   "920": {
