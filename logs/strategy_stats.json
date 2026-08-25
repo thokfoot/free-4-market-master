@@ -457,5 +457,14 @@
     "total_pnl": 1814.91,
     "consec_losses": 0,
     "paused_since": null
+  },
+  "915": {
+    "rank": 915,
+    "factors": "#915ID Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh | \ud83c\udfaf Target Hit (live)",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 1825.5,
+    "consec_losses": 0,
+    "paused_since": null
   }
 }
