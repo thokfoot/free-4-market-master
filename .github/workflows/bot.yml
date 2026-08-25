@@ -7,10 +7,10 @@ on:
     # Weekdays ONLY — the old daily cron also ran Sat/Sun and produced
     # weekend entries at stale Friday prices.
     - cron: '0 1 * * 1-5'
-    # India close scan
-    - cron: '45 9 * * 1-5'
-    # Fade scans handled by dedicated fade_scan.yml (every 5 min, India hours)
-    # 09:45 UTC = India close scan (mode=both: swing + intraday + fade gated on India open)
+    # India post-close scan (was 09:45 UTC = 15:15 IST, 15 min BEFORE the
+    # NSE close -> swing entries filled on a still-forming daily bar).
+    # 10:10 UTC = 15:40 IST, 10 minutes after the NSE close.
+    - cron: '10 10 * * 1-5'
     # US pre-open scan
     - cron: '30 12 * * 1-5'
     # Intraday scans (US market hours)

@@ -666,9 +666,17 @@ def run_swing_scan() -> dict:
         for attempt in range(3):
             try:
                 df = market_data.download(yf_ticker, interval=YF_INTERVAL,
-                                          period=YF_PERIOD)
+                                          period=YF_PERIOD, allow_stale=False)
                 if df is not None and len(df) >= 60:
-                    return yf_ticker, compute_indicators(df), None
+                    df = compute_indicators(df)
+                    # v5.27 freshness guard: refuse to scan on old series.
+                    last_ts = df.index[-1]
+                    age_h = (pd.Timestamp.now(tz="UTC")
+                             - (last_ts.tz_localize("UTC") if last_ts.tz is None
+                                else last_ts.tz_convert("UTC"))).total_seconds() / 3600
+                    if age_h > 96:
+                        return yf_ticker, None, f"stale data (last bar {age_h:.0f}h old)"
+                    return yf_ticker, df, None
                 if attempt < 2:
                     time.sleep(1)
             except Exception as e:
@@ -853,9 +861,18 @@ def run_intraday_scan() -> dict:
         for attempt in range(3):
             try:
                 df = market_data.download(yf_ticker, interval=INTRADAY_INTERVAL,
-                                          period=INTRADAY_PERIOD)
+                                          period=INTRADAY_PERIOD, allow_stale=False)
                 if df is not None and len(df) >= 200:
-                    return yf_ticker, compute_indicators_1h(df), None
+                    df = compute_indicators_1h(df)
+                    # v5.27 freshness guard: hourly series older than ~30h
+                    # (missed sessions) must not produce signals.
+                    last_ts = df.index[-1]
+                    age_h = (pd.Timestamp.now(tz="UTC")
+                             - (last_ts.tz_localize("UTC") if last_ts.tz is None
+                                else last_ts.tz_convert("UTC"))).total_seconds() / 3600
+                    if age_h > 30:
+                        return yf_ticker, None, f"stale data (last bar {age_h:.0f}h old)"
+                    return yf_ticker, df, None
                 if attempt < 2:
                     time.sleep(1)
             except Exception as e:

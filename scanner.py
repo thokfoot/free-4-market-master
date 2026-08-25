@@ -8,7 +8,8 @@ checks all pattern conditions, returns fired signals.
 import pandas as pd
 import numpy as np
 import os, re
-from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHORT
+import market_data
+from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHORT, get_region
 
 
 def load_strategies() -> pd.DataFrame:
@@ -325,6 +326,13 @@ def scan_strategies(strategies: pd.DataFrame, ticker_data: dict) -> list:
         }]
     """
     signals = []
+    
+    # v5.27: evaluate signals on COMPLETED bars only. A scan that runs while
+    # the market is still open would otherwise read the forming bar (partial
+    # Close/Range) and enter at a price no backtest can reproduce.
+    ticker_data = {t: market_data.drop_incomplete_last_bar(
+                       df, get_region(t), "1d")
+                   for t, df in ticker_data.items()}
     
     for _, strat in strategies.iterrows():
         rank = int(strat["Final_Rank"])

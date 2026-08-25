@@ -226,6 +226,64 @@ def _days(period: str) -> int:
     return 60
 
 
+# ─────────────────────────────────────────────────────────────
+# Incomplete-bar guard (v5.27)
+#
+# Timestamp recon showed 17/47 verified live entries were filled on a
+# still-forming daily bar (scan ran mid-session; Yahoo returns the partial
+# row as iloc[-1]). Backtests only ever see COMPLETED bars, so those fills
+# can never reconcile. This helper truncates the forming bar so signals and
+# entry prices always reference a completed candle.
+#
+# Session close (UTC) used to declare the daily bar complete:
+#   US     -> 20:15 UTC Mar-Nov (EDT), 21:15 UTC Nov-Mar (EST)
+#   INDIAN -> 10:05 UTC (15:35 IST, no DST)
+#   CRYPTO -> bar covers [stamp, stamp+24h), complete after that
+# Hourly bars are complete 65 min after stamp (candle + settlement buffer).
+# ─────────────────────────────────────────────────────────────
+
+def _bar_close_utc(stamp_utc: pd.Timestamp, region: str, interval: str) -> pd.Timestamp:
+    """UTC instant at which the bar starting at `stamp_utc` is final."""
+    if interval == "1h":
+        return stamp_utc + pd.Timedelta(minutes=65)
+    month = stamp_utc.month
+    us_close = 20 if 3 <= month <= 10 else 21  # EDT vs EST approx
+    end_h, end_m = {"US": (us_close, 15),
+                    "INDIAN": (10, 5),
+                    "CRYPTO": (0, 0)}.get(region, (us_close, 15))
+    day = stamp_utc.normalize() + pd.Timedelta(hours=end_h, minutes=end_m)
+    if region == "CRYPTO":
+        day = day + pd.Timedelta(days=1)  # crypto daily bar ends next midnight
+    return day
+
+
+def drop_incomplete_last_bar(df, region: str = "US", interval: str = "1d",
+                             now_utc=None):
+    """Return df truncated to COMPLETED bars only (never mutates input).
+
+    Compares the last bar's close time against `now_utc` (default real UTC
+    now). Historical frames (replay/tests) are untouched because their last
+    bar closed long ago.
+    """
+    try:
+        if df is None or len(df) == 0:
+            return df
+        now = now_utc or pd.Timestamp.now(tz="UTC")
+        ix = df.index
+        last = ix[-1]
+        ts = last.tz_localize("UTC") if getattr(last, "tzinfo", None) is None \
+            else last.tz_convert("UTC")
+        if now >= _bar_close_utc(ts, region, interval):
+            return df
+        out = df.iloc[:-1]
+        print(f"[MarketData] incomplete-bar guard: dropped forming {interval} "
+              f"bar {ts.isoformat()} ({region}) — evaluating on completed bars")
+        return out
+    except Exception as e:
+        print(f"[MarketData] incomplete-bar guard error (kept frame): {e}")
+        return df
+
+
 def _archive_audit_bars(ticker: str, interval: str, df: pd.DataFrame) -> None:
     """Persist fetched bars for reproducible future paper-trade audits."""
     if os.environ.get("PAPER_AUDIT_ARCHIVE", "0") != "1" or df is None or len(df) == 0:
@@ -268,9 +326,14 @@ _CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                            "data", "ohlc_cache.json")
 _CACHE_TTL_SEC = {"1d": 26*3600, "1h": 75*60, "30m": 40*60, "15m": 20*60,
                   "10m": 14*60, "5m": 8*60, "3m": 5*60, "1m": 5*60}
-_CACHE_MAX_STALE = {"1d": 7*86400, "1h": 86400, "30m": 12*3600, "15m": 4*3600,
+_CACHE_MAX_STALE = {"1d": 3*86400, "1h": 10*3600, "30m": 6*3600, "15m": 4*3600,
                     "10m": 3*3600, "5m": 2*3600, "3m": 3600, "1m": 1800}
 _CACHE_MAX_BARS = 210
+# v5.27 stale-data guard: the old 7-day daily / 24h hourly windows let the
+# bot evaluate signals on week-old series (timestamp recon found live entries
+# acting on data 2-8 days old). Stale fallback stays available as a last
+# resort for exit-checks, but signal scans call download(allow_stale=False)
+# and would rather SKIP the ticker than fire on phantom bars.
 _cache = None
 _cache_lock = threading.RLock()  # reentrant: _load_cache() called inside with-lock
 _cache_last_save = 0.0
@@ -323,7 +386,8 @@ def _bars_to_df(bars, interval) -> pd.DataFrame:
 
 
 def download(ticker: str, interval: str = "15m", period: str = "60d",
-             start=None, end=None, force_refresh: bool = False) -> pd.DataFrame:
+             start=None, end=None, force_refresh: bool = False,
+             allow_stale: bool = True) -> pd.DataFrame:
     """Download OHLCV with automatic provider fallback + persistent cache.
 
     The cache (data/ohlc_cache.json) is restored/saved by the GitHub Actions
@@ -331,6 +395,10 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
     every provider fails, the last cached bars are returned as a STALE
     fallback (bounded by _CACHE_MAX_STALE) so scans still evaluate on
     rate-limited shared runner IPs (was: 39/739 tickers OK).
+
+    allow_stale=False (signal scans): the stale fallback is disabled — an
+    all-provider failure returns an EMPTY frame so callers skip the ticker
+    instead of evaluating indicators on days-old bars.
     """
     cache_key = f"{ticker}|{interval}|{period}"
     ttl = _CACHE_TTL_SEC.get(interval, 600)
@@ -416,11 +484,15 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
         return df
 
     # ── 5) stale cache fallback (rate-limited runner) ──
-    if entry and entry.get("bars") and (now - entry.get("ts", 0)) < _CACHE_MAX_STALE.get(interval, 6*3600):
+    if allow_stale and entry and entry.get("bars") \
+            and (now - entry.get("ts", 0)) < _CACHE_MAX_STALE.get(interval, 6*3600):
         stale = _bars_to_df(entry["bars"], interval)
         if len(stale) > 0:
             print(f"[MarketData] {ticker} {interval}: STALE cache fallback ({len(stale)} bars)")
             return stale
+    elif not allow_stale and entry and entry.get("bars"):
+        print(f"[MarketData] {ticker} {interval}: all providers failed — "
+              f"stale fallback SUPPRESSED (allow_stale=False, signal safety)")
 
     print(f"[MarketData] ALL providers failed for {ticker} {interval} {period}")
     return _empty(interval)
