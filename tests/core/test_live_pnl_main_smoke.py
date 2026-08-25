@@ -14,6 +14,7 @@ def test_live_pnl_main_runs_clean(monkeypatch):
     monkeypatch.setattr(lp, "_save_live_state", lambda s: None)
     monkeypatch.setattr(lp, "process_open_trades", lambda: ([], []))
     monkeypatch.setattr(lp, "_commit_state_now", lambda: None)
+    monkeypatch.setattr(lp, "_send_heartbeat_once_due", lambda: False)
     monkeypatch.setattr(lp, "send_telegram", lambda msg: sent.append(msg) or "Sent")
     monkeypatch.setattr(lp, "generate_strategy_report", lambda: None)
     monkeypatch.setattr(lp, "validate_all", lambda: [])
