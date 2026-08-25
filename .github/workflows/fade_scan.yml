@@ -2,8 +2,11 @@ name: FADE SCAN (5-min)
 
 on:
   schedule:
-    # India market hours 09:15-15:30 IST = 03:45-10:00 UTC. Every 5 min.
-    - cron: '*/15 3-9 * * 1-5'
+    # India market hours 09:15-15:30 IST = 03:45-10:00 UTC. Every 15 min,
+    # starting 04:00 UTC (09:30 IST) when the first 15m candle completes.
+    # Entry gating (paper_trader.check_entry_allowed) blocks any run that
+    # lands after the 15:30 close from creating post-close fills.
+    - cron: '*/15 4-9 * * 1-5'
   workflow_dispatch:
 
 permissions:

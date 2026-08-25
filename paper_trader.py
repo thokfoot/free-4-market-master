@@ -23,6 +23,8 @@ from config import (
     TELEGRAM_TOKEN, TELEGRAM_CHAT_ID,
     CIRCUIT_BREAKER_ENABLED, CIRCUIT_BREAKER_MAX_CONSEC_LOSSES,
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
+    MIN_LOT_ALLOW_OVER_RISK, MAX_OVER_RISK_FACTOR,
+    infer_market_mode, entry_market_open,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -95,20 +97,90 @@ def _bars_max(bars):
         return None
 
 
+def split_suspected(direction: str, trigger_px: float, ref_px: float) -> bool:
+    """
+    Corporate-action discontinuity heuristic (data-integrity guard).
+
+    A single-bar move through an SL beyond ±50% vs the prior reference close
+    is almost always a stock SPLIT / data-provider adjustment artifact, not
+    a real market fill (real -50% single-session crashes through a -2% SL do
+    exist but are rare; the asymmetry favours NOT booking a phantom loss).
+    Caller must SKIP the SL exit when True and let a human/MaxHold resolve.
+
+    Args:
+        direction: "LONG" (breach = low collapsing) | "SHORT" (high exploding)
+        trigger_px: the SL trigger price being evaluated
+        ref_px: previous session/bar close on the SAME adjustment basis
+    """
+    try:
+        t, r = float(trigger_px), float(ref_px)
+        if not t or not r or r <= 0 or t != t or r != r:
+            return False
+        ratio = t / r
+        if str(direction).upper() == "LONG":
+            return ratio <= 0.5   # low ≤ half of prior close → likely split (2:1 == exactly 0.5)
+        return ratio >= 2.0       # high ≥ double prior close → likely split
+    except Exception:
+        return False
+
+
 def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"):
     """First-touch SL/TP over post-entry bars (all supported modes).
 
-    bars: iterable of (utc_ts, high, low, close). Mirrors the replay
-    engine so a pre-entry bar (same-day low before the entry candle,
-    prior-session low) can never stop out a position, in ANY market.
+    bars: iterable of (utc_ts, high, low, close) or (utc_ts, high, low,
+    close, open). Mirrors the replay engine so a pre-entry bar (same-day
+    low before the entry candle, prior-session low) can never stop out a
+    position, in ANY market.
     US intraday uses the session-time live window; crypto/India use
     entry + max_hold hours (24/7-style), matching replay_engine.
+
+    Gap-aware fills: when a bar's OPEN is supplied and it already sits
+    beyond the trigger (overnight/session gap through SL or TP), the fill
+    happens at the OPEN — what you would actually get — instead of the
+    optimistic trigger price. Bars without an open keep trigger fills.
+
     Returns (exit_price, reason) or None.
     """
     try:
         if tf not in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "SWING_1d", "IPO_1d"):
             return None
         entry_utc = entry_date.astimezone(pytz.utc)
+
+        def _fill_long_sl(lo, op):
+            if op is not None and op <= sl:   # gapped through → real fill = open
+                return op
+            return sl
+
+        def _fill_short_sl(hi, op):
+            if op is not None and op >= sl:
+                return op
+            return sl
+
+        def _fill_long_tp(hi, op):
+            if op is not None and op >= target:  # gap up → better fill = open
+                return op
+            return target
+
+        def _fill_short_tp(lo, op):
+            if op is not None and op <= target:
+                return op
+            return target
+
+        def _hit(bar):
+            hi, lo = float(bar[1]), float(bar[2])
+            op = float(bar[4]) if len(bar) > 4 and bar[4] is not None else None
+            if direction == "LONG":
+                if lo <= sl:
+                    return (_fill_long_sl(lo, op), "SL Hit (intraday)")
+                if hi >= target:
+                    return (_fill_long_tp(hi, op), "Target Hit")
+            else:
+                if hi >= sl:
+                    return (_fill_short_sl(hi, op), "SL Hit (intraday)")
+                if lo <= target:
+                    return (_fill_short_tp(lo, op), "Target Hit")
+            return None
+
         if tf in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m"):
             if str(mode).upper() == "US":
                 lu = _session_live_until(entry_utc, max_hold)
@@ -116,36 +188,52 @@ def _bars_sl_tp(bars, tf, entry_date, direction, sl, target, max_hold, mode="US"
                     return None
             else:
                 lu = entry_utc + pd.Timedelta(hours=max_hold)
-            for ts, hi, lo, _cl in bars:
+            prev_close = None
+            for bar in bars:
+                ts = bar[0]
+                cl = float(bar[3]) if pd.notna(bar[3]) else None
                 if ts < entry_utc or ts >= lu:
+                    prev_close = cl if cl is not None else prev_close
                     continue
-                if direction == "LONG":
-                    if lo <= sl:
-                        return (sl, "SL Hit (intraday)")
-                    if hi >= target:
-                        return (target, "Target Hit")
-                else:
-                    if hi >= sl:
-                        return (sl, "SL Hit (intraday)")
-                    if lo <= target:
-                        return (target, "Target Hit")
+                if prev_close is not None:
+                    hi, lo = float(bar[1]), float(bar[2])
+                    if direction == "LONG" and lo <= sl and split_suspected("LONG", lo, prev_close):
+                        print(f"[Paper] SPLIT GUARD: LONG SL breach low={lo} "
+                              f"<={prev_close}/2 — skipping phantom SL, holding")
+                        return None
+                    if direction == "SHORT" and hi >= sl and split_suspected("SHORT", hi, prev_close):
+                        print(f"[Paper] SPLIT GUARD: SHORT SL breach high={hi} "
+                              f">=2x{prev_close} — skipping phantom SL, holding")
+                        return None
+                hit = _hit(bar)
+                if hit:
+                    return hit
+                prev_close = cl if cl is not None else prev_close
             return None
-        else:  # SWING_1d
+        else:  # SWING_1d / IPO_1d
             et = pytz.timezone("America/New_York")
             entry_session = entry_utc.astimezone(et).date()
-            for ts, hi, lo, _cl in bars:
+            prev_close = None
+            for bar in bars:
+                ts = bar[0]
+                cl = float(bar[3]) if pd.notna(bar[3]) else None
                 if pd.Timestamp(ts.date()) <= pd.Timestamp(entry_session):
+                    prev_close = cl if cl is not None else prev_close
                     continue
-                if direction == "LONG":
-                    if lo <= sl:
-                        return (sl, "SL Hit (intraday)")
-                    if hi >= target:
-                        return (target, "Target Hit")
-                else:
-                    if hi >= sl:
-                        return (sl, "SL Hit (intraday)")
-                    if lo <= target:
-                        return (target, "Target Hit")
+                if prev_close is not None:
+                    hi, lo = float(bar[1]), float(bar[2])
+                    if direction == "LONG" and lo <= sl and split_suspected("LONG", lo, prev_close):
+                        print(f"[Paper] SPLIT GUARD: swing LONG SL breach low={lo} "
+                              f"vs prev {prev_close} — skipping phantom SL")
+                        return None
+                    if direction == "SHORT" and hi >= sl and split_suspected("SHORT", hi, prev_close):
+                        print(f"[Paper] SPLIT GUARD: swing SHORT SL breach high={hi} "
+                              f"vs prev {prev_close} — skipping phantom SL")
+                        return None
+                hit = _hit(bar)
+                if hit:
+                    return hit
+                prev_close = cl if cl is not None else prev_close
             return None
     except Exception:
         return None
@@ -646,7 +734,13 @@ def rebuild_portfolio_from_csv() -> dict:
                 tpnl = port.setdefault("total_pnl_by_market", {})
                 tpnl[capital_key] = tpnl.get(capital_key, 0) + pnl
                 mkt_cap = port["capital_by_market"].get(capital_key, 100000)
-                port["capital_by_market"][capital_key] = max(0, mkt_cap + pnl)
+                new_cap = mkt_cap + pnl
+                if new_cap < 0:
+                    # No silent floor: a bucket that lost more than its capital
+                    # MUST stay negative or total_capital overstates equity.
+                    print(f"[Paper] WARNING: {capital_key} bucket capital "
+                          f"negative ({new_cap:+,.2f}) — losses exceed allocation")
+                port["capital_by_market"][capital_key] = new_cap
         except Exception as e:
             print(f"[Paper] rebuild_portfolio_from_csv error: {e}")
     port["total_capital"] = sum(port["capital_by_market"].values())
@@ -692,13 +786,22 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
         qty = min(qty, CAP_MAX_QTY_LOW)
     elif entry > 100:
         qty = min(qty, CAP_MAX_QTY_HIGH)
-    return max(1, qty)
+    if qty == 0 and MIN_LOT_ALLOW_OVER_RISK and risk_per_share <= risk_amt * MAX_OVER_RISK_FACTOR:
+        # Disclosed min-lot over-risk: one share, bounded by MAX_OVER_RISK_FACTOR.
+        print(f"[Paper] Qty floor: taking 1 share — per-share risk "
+              f"{risk_per_share:,.0f} = {risk_per_share / risk_amt:.2f}x of "
+              f"{risk_amt:,.0f} budget (<= {MAX_OVER_RISK_FACTOR}x policy)")
+        qty = 1
+    return int(qty)
 
 
 def check_entry_allowed(ticker: str, direction: str,
                         open_positions: list = None,
                         tf: str = None,
-                        pattern_rank: int = None) -> str:
+                        pattern_rank: int = None,
+                        mode: str = None,
+                        enforce_market_hours: bool = False,
+                        now: datetime = None) -> str:
     """
     Why an entry would currently be rejected, or None if it is allowed.
 
@@ -711,12 +814,39 @@ def check_entry_allowed(ticker: str, direction: str,
         direction: "LONG" | "SHORT"
         open_positions: optional pre-loaded open positions list (avoids a
             second portfolio read when the caller already has it)
+        mode: market for the market-hours gate ("INDIAN"|"US"|"CRYPTO").
+            Defaults to infer_market_mode(ticker) when not given.
+        enforce_market_hours: when True, reject entries while the market is
+            closed/weekend/holiday — a fill outside session hours would be an
+            unrealistic stale-price fill. bot.py live scanners enable this;
+            tests and the historical replay engine leave it off.
+        now: optional clock override for the gate (tests/replay); defaults
+            to the real current IST time.
 
     Returns:
         None if allowed, else a reason string such as
         "MAX_CONCURRENT (100) reached", "Duplicate SPY LONG already open",
-        or "CIRCUIT_BREAKER: Rank #N paused (M consecutive losses)".
+        "MARKET_CLOSED: US not tradable now (...)", or
+        "CIRCUIT_BREAKER: Rank #N paused (M consecutive losses)".
     """
+    # ── Market-hours gate: no entries into a closed market ──
+    # Fixes: weekend US swing entries (Sun 07:51 IST), post-close India fade
+    # fills (15:31 IST), pre-open fills at stale prior-session prices.
+    # Uses the STRICT session window (entry_market_open), not the buffered
+    # processing window — the 15:30 square-off sweep may run after close,
+    # but nothing may ENTER after close.
+    if enforce_market_hours:
+        mkt = mode or infer_market_mode(ticker)
+        # Index symbols (^NSEI, ^DJT, ^SOX, ...) are NOT tradable instruments —
+        # no shares exist to buy/short, so any "fill" is synthetic mock data.
+        # 25 such trades already exist in the ledger; block new ones.
+        if enforce_market_hours and str(ticker).startswith("^"):
+            return ("INDEX_NOT_TRADABLE: ^-symbols have no shares — "
+                    "refusing synthetic fill")
+        active, why = entry_market_open(mkt, now)
+        if not active:
+            return f"MARKET_CLOSED: {mkt} not tradable now ({why})"
+
     portfolio = load_portfolio() if open_positions is None else None
     positions = (open_positions if open_positions is not None
                  else portfolio.get("open_positions", []))
@@ -836,7 +966,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                  max_hold_override: int = None,
                  signal_indicators: dict = None,
                  risk_pct: float = None,
-                 entry_dt: datetime = None) -> dict:
+                 entry_dt: datetime = None,
+                 enforce_market_hours: bool = False) -> dict:
     """
     Enter a paper trade.
     
@@ -859,7 +990,10 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         entry_dt: Optional historical entry timestamp (tz-aware). Used by the
             replay engine to record entries at the time they would have fired
             during downtime. Defaults to now (IST).
-    
+        enforce_market_hours: when True, reject entries while the entry's
+            market is closed/weekend/holiday (evaluated against `now`, so
+            replayed historical entries are judged at their own timestamp).
+
     Returns:
         Trade dict or None if rejected
     """
@@ -876,7 +1010,10 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     # Total active-position cap + duplicate check (single source of truth
     # shared with bot.py so skipped entries get a persisted reason)
     skip_reason = check_entry_allowed(ticker, direction, open_positions,
-                                      tf=tf, pattern_rank=pattern_rank)
+                                      tf=tf, pattern_rank=pattern_rank,
+                                      mode=mode,
+                                      enforce_market_hours=enforce_market_hours,
+                                      now=now)
     if skip_reason:
         print(f"[Paper] {skip_reason}, skip {ticker}")
         _log_audit_skip(now, mode, ticker, direction, tf, reason, skip_reason)

@@ -21,6 +21,8 @@ import sys
 from datetime import datetime
 import zoneinfo
 
+from config import market_active_for_mode
+
 LOG_DIR = "logs"
 PORTFOLIO_FILE = f"{LOG_DIR}/portfolio.json"
 
@@ -30,21 +32,26 @@ TIME_SENSITIVE_TFS = ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LO
 
 
 def should_reschedule(opens, now) -> tuple:
-    """Return (go: bool, reason: str)."""
+    """Return (go: bool, reason: str).
+
+    Market windows come from config.market_active_for_mode — the same single
+    source of truth the live updater itself uses, so the keep-alive chain can
+    never reschedule for a market the updater would refuse to process.
+    (Fixes the old hand-rolled windows that treated Sat/Sun 00:00-03:00 IST
+    as a US session and Sat/Sun 15:00-15:35 IST as an India session.)
+    """
     ts = [o for o in opens if str(o.get("TimeFrame", "")) in TIME_SENSITIVE_TFS]
     if not ts:
         return False, "no time-sensitive positions"
-    modes = {str(o.get("Mode", "")).upper() for o in ts}
-    wd, hh, mm = now.weekday(), now.hour, now.minute
-    # India market window (IST): Mon-Fri 08:45-15:35
-    in_india = (wd < 5 and 8 <= hh < 15) or (hh == 15 and mm <= 35)
-    # US market window (IST): Mon 18:00 - Sat 02:30
-    in_us = (wd < 5 and hh >= 18) or hh < 3
-    active = (("INDIAN" in modes and in_india) or ("US" in modes and in_us)
-              or bool(modes & {"CRYPTO", "INTRADAY"}))
-    if not active:
-        return False, f"markets closed for {sorted(modes)}"
-    return True, f"{len(ts)} time-sensitive positions {sorted(modes)}"
+    modes = sorted({str(o.get("Mode", "")).upper() for o in ts})
+    active_modes = []
+    for m in modes:
+        active, why = market_active_for_mode(m, now)
+        if active:
+            active_modes.append(f"{m} ({why})")
+    if not active_modes:
+        return False, f"markets closed for {modes}"
+    return True, f"{len(ts)} time-sensitive positions {active_modes}"
 
 
 def main():

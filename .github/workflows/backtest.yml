@@ -2,16 +2,22 @@ name: DAILY BACKTESTER v5.10 (Data Integrity)
 
 on:
   schedule:
-    # Daily at 21:35 UTC (03:05 IST next day) — after the US close (20:00 UTC)
-    # and between live-pnl crypto runs, so it never races the live workflows.
-    - cron: '35 21 * * *'
+    # Weekly, Saturday 21:35 UTC (Sun 03:05 IST) — markets are closed, so
+    # the replay audit's retroactive paper_trades.csv corrections can never
+    # race live workflows or rewrite history mid-session.
+    # (Was daily at 21:35 UTC = 03:05 IST, which rewrote the trade ledger
+    # nightly and raced the crypto live-P&L runs.)
+    - cron: '35 21 * * 6'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: free4market-v5-backtest
+  # SHARED with bot/fade/gapdown/live_pnl: the replay audit rewrites
+  # paper_trades.csv + portfolio.json, so it must NEVER run alongside a
+  # live writer (its own group previously allowed exactly that race).
+  group: free4market-v5-bot
   cancel-in-progress: false
 
 jobs:

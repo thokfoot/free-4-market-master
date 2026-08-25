@@ -3,13 +3,16 @@ name: Gap-Down 1m Scan
 on:
   schedule:
     # Indian market hours: 9:15 AM to 3:30 PM IST = 03:45 to 10:00 UTC
-    # Runs every 5 minutes during 3-10 UTC (covers slightly wider range)
+    # Runs every 5 minutes during 4-9 UTC (09:25-15:55 IST), plus two late
+    # slots (10:10/10:20 UTC = 15:40/15:50 IST) so same-day square-offs are
+    # never missed. Entry gating blocks pre-open/post-close fills regardless.
     #
     # NOTE: GitHub Actions scheduled runs are subject to arbitrary delays and
     # can be dropped under heavy load (observed: most 5-min runs never fire,
     # and those that do can be minutes-to-hours late). This is a platform
     # limitation — the scanner itself runs in ~90s after the parallelization fix.
-    - cron: '*/5 3-10 * * 1-5'
+    - cron: '*/5 4-9 * * 1-5'
+    - cron: '10,20 10 * * 1-5'
   workflow_dispatch:
 
 permissions:

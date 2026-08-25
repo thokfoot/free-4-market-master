@@ -2,14 +2,24 @@ name: LIVE P&L v5.10 (Market Hours)
 
 on:
   schedule:
-    # ── India Market: 03:45-10:00 UTC (09:15-15:30 IST) Mon-Fri ──
-    - cron: '*/5 3-9 * * 1-5'
-    - cron: '*/5 10 * * 1-5'
-    
-    # ── US Market: 13:30-20:30 UTC (19:00-02:00 IST) Mon-Fri ──
+    # ── India Market: 09:10-15:45 IST (03:40-10:15 UTC) Mon-Fri ──
+    # Tightened from the old 08:30-16:25 IST window: pre-open/post-close
+    # runs just burned minutes; config.market_active_for_mode now enforces
+    # the same window in code. Late slots cover the 15:30 square-off.
+    - cron: '40,45,50,55 3 * * 1-5'
+    - cron: '*/5 4-9 * * 1-5'
+    - cron: '0,5,15 10 * * 1-5'
+
+    # ── US Market: 13:25-20:15 UTC (EDT) + 21:00-21:10 UTC EST tail ──
+    # Cron spans both DST variants; the code gate (US_ACTIVE_*_ET) is the
+    # DST-correct truth and skips runs outside the session.
     - cron: '*/5 13-20 * * 1-5'
-    
+    - cron: '0,10 21 * * 1-5'
+
     # ── Crypto: 24/7 every 30 min ──
+    # Crypto positions are processed around the clock; INDIAN/US positions
+    # are skipped outside their sessions by the per-market gate in
+    # live_pnl_updater.py, so night runs can only emit crypto messages.
     - cron: '*/30 * * * *'
 
   workflow_dispatch:

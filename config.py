@@ -56,6 +56,14 @@ CAP_MAX_QTY_ULTRA_LOW = 50000   # entry < 0.1  (penny stocks, low-cap crypto)
 CAP_MAX_QTY_LOW       = 10000   # entry < 1    (sub-dollar crypto, cheap stocks)
 CAP_MAX_QTY_HIGH      = 5000    # entry > 100  (expensive stocks like GOOGL, MRF)
 
+# ===== MIN-LOT OVER-RISK POLICY =====
+# When floor(risk_budget / per_share_risk) == 0 (one share risks more than the
+# whole budget — e.g. BTC @60k with a 2% SL on a ₹1L/1% bucket), the old code
+# SILENTLY forced qty=1. Policy now: allow 1 share only if the over-risk is
+# bounded and LOUD; anything beyond the factor is refused (qty=0 → skip).
+MIN_LOT_ALLOW_OVER_RISK = True
+MAX_OVER_RISK_FACTOR    = 2.0   # take 1 share iff per-share risk <= 2x budget
+
 # ===== SLIPPAGE MODEL =====
 # Realistic fill slippage as a fraction of price per trade.
 # Applied to both entry and exit prices — makes paper P&L more realistic.
@@ -832,16 +840,19 @@ INDIAN_HOLIDAYS = {
     "12-25",  # Christmas
 }
 US_HOLIDAYS = {
-    "01-01",  # New Year's Day
-    "01-15",  # Martin Luther King Jr. Day
-    "02-19",  # Presidents' Day
-    "03-29",  # Good Friday
-    "05-27",  # Memorial Day
-    "06-19",  # Juneteenth
-    "07-04",  # Independence Day
-    "09-02",  # Labor Day
-    "11-28",  # Thanksgiving
-    "12-25",  # Christmas
+    # NOTE: NYSE/Nasdaq closures are weekday-specific observances — these are
+    # the 2026 dates (the old list mixed 2024/2025 fixed dates like MLK on
+    # 01-15, which wrongly blocked trading on random Fridays). REVIEW ANNUALLY.
+    "01-01",  # New Year's Day (Thu)
+    "01-19",  # Martin Luther King Jr. Day (3rd Mon Jan)
+    "02-16",  # Presidents' Day (3rd Mon Feb)
+    "04-03",  # Good Friday
+    "05-25",  # Memorial Day (last Mon May)
+    "06-19",  # Juneteenth (Fri)
+    "07-03",  # Independence Day observed (Jul 4 falls on Sat)
+    "09-07",  # Labor Day (1st Mon Sep)
+    "11-26",  # Thanksgiving (4th Thu Nov)
+    "12-25",  # Christmas (Fri)
 }
 
 # ===== MARKET HOURS =====
@@ -866,7 +877,10 @@ def get_market_status(now_ist: datetime = None) -> dict:
     """
     if now_ist is None:
         now_ist = datetime.now(IST_TZ)
-    
+    elif now_ist.tzinfo is None:
+        # Naive input is treated as IST wall time (health_check passes naive).
+        now_ist = IST_TZ.localize(now_ist)
+
     date_str = now_ist.strftime("%m-%d")
     weekday = now_ist.weekday()  # 0=Mon, 6=Sun
     hour = now_ist.hour
@@ -890,26 +904,24 @@ def get_market_status(now_ist: datetime = None) -> dict:
     else:  # After 3:30 PM
         result["INDIAN"] = "CLOSED"
     
-    # US market (ET)
-    # Convert IST to ET: IST = ET + 9:30 (during EST) or + 10:30 (during EDT)
-    # Rough: US market 9:30 AM - 4:00 PM ET
-    if weekday >= 5:  # Sat/Sun
+    # US market (ET) — DST-correct via real timezone conversion.
+    # (The old fixed IST-offset approximation drifted 30 min Nov–Mar and
+    # marked Mon 00:00-01:30 IST "OPEN" even though it was Sunday in ET.)
+    now_et = now_ist.astimezone(ET_TZ)
+    et_date_str = now_et.strftime("%m-%d")
+    et_weekday = now_et.weekday()  # 0=Mon, 6=Sun (in ET — correct for US session)
+    et_minutes = now_et.hour * 60 + now_et.minute
+
+    if et_weekday >= 5:  # Sat/Sun in ET
         result["US"] = "WEEKEND"
-    elif date_str in US_HOLIDAYS:
+    elif et_date_str in US_HOLIDAYS:
         result["US"] = "HOLIDAY"
-    else:
-        # Convert IST to ET approximation
-        # During EDT (Mar-Nov): ET = IST - 9:30
-        # During EST (Nov-Mar): ET = IST - 10:30
-        # Rough check: 7:00 PM IST = 9:30 AM ET (EDT), 1:30 AM IST = 4:00 PM ET (EDT)
-        us_open_minutes = 19 * 60 + 0  # 7:00 PM IST = 9:30 AM ET
-        us_close_minutes = 1 * 60 + 30  # 1:30 AM IST = 4:00 PM ET
-        
-        if us_open_minutes <= current_ist_minutes or current_ist_minutes < us_close_minutes:
-            # Handles overnight session (after 7PM IST → before 1:30AM IST next day)
-            result["US"] = "OPEN"
-        else:
-            result["US"] = "CLOSED"
+    elif 570 <= et_minutes <= 960:  # 9:30 AM - 4:00 PM ET
+        result["US"] = "OPEN"
+    elif et_minutes < 570:  # Before 9:30 AM ET
+        result["US"] = "PRE-OPEN"
+    else:  # After 4:00 PM ET
+        result["US"] = "CLOSED"
     
     # Build human-readable message
     status_icons = {
@@ -927,6 +939,114 @@ def get_market_status(now_ist: datetime = None) -> dict:
     result["message"] = " | ".join(parts)
     
     return result
+
+
+# ===== PER-MARKET ACTIVE WINDOWS (entries + live P&L processing) ============
+# A paper fill is only realistic while the market can actually trade, so both
+# NEW ENTRIES (paper_trader) and LIVE PROCESSING/ALERTS (live_pnl_updater)
+# gate on these windows. Each window includes a small post-close buffer:
+#   - INDIAN: until 16:00 IST so the 15:30 same-day square-off always fires.
+#   - US:     until 16:10 ET so close-time SL/TP/expiry exits can land.
+# Crypto trades 24/7 — always active.
+INDIAN_ACTIVE_START = dtime(9, 10)   # IST
+INDIAN_ACTIVE_END = dtime(16, 0)     # IST (incl. 15:30 square-off sweep)
+US_ACTIVE_START_ET = dtime(9, 25)    # ET (9:30 open minus data lead-in)
+US_ACTIVE_END_ET = dtime(16, 10)     # ET (incl. post-close exit sweep)
+
+
+def infer_market_mode(ticker: str) -> str:
+    """Best-effort market for a yfinance ticker: .NS/.BO → INDIAN,
+    *-USD → CRYPTO, everything else (indices, ETFs, stocks) → US."""
+    t = str(ticker).upper()
+    if t.endswith(".NS") or t.endswith(".BO"):
+        return "INDIAN"
+    if "-USD" in t:
+        return "CRYPTO"
+    return "US"
+
+
+def tg_safe(s) -> str:
+    """Strip Telegram legacy-Markdown breakers from dynamic text.
+
+    Legacy Markdown has NO escape syntax — a single '_' or '*' inside a
+    ticker/reason toggles italics/bold and makes sendMessage fail (3x),
+    dropping the alert entirely. Replace risky chars at the source."""
+    s = str(s or "")
+    for ch, rep in (("_", "-"), ("*", ""), ("`", "'"), ("[", "("), ("]", ")")):
+        s = s.replace(ch, rep)
+    return s
+
+
+def market_active_for_mode(mode: str, now_ist: datetime = None) -> tuple:
+    """
+    Is this market currently tradable? Returns (active: bool, reason: str).
+
+    Single source of truth used by paper_trader (entry gating),
+    live_pnl_updater (per-position processing/alert gating) and
+    keepalive_guard (self-healing reschedule chain), so all three can never
+    disagree about market hours again.
+
+    Args:
+        mode: "INDIAN" | "US" | "CRYPTO"
+        now_ist: tz-aware IST datetime (or naive → assumed IST). Pass a
+            historical entry_dt to evaluate windows retroactively (replay).
+    """
+    if now_ist is None:
+        now_ist = datetime.now(IST_TZ)
+    if now_ist.tzinfo is None:
+        now_ist = IST_TZ.localize(now_ist)
+
+    mode = str(mode).upper()
+    if mode == "CRYPTO":
+        return True, "crypto 24/7"
+
+    if mode == "INDIAN":
+        wd = now_ist.weekday()
+        if wd >= 5:
+            return False, f"India weekend ({now_ist:%a})"
+        if now_ist.strftime("%m-%d") in INDIAN_HOLIDAYS:
+            return False, "India holiday"
+        t = now_ist.time()
+        if INDIAN_ACTIVE_START <= t <= INDIAN_ACTIVE_END:
+            return True, "India session"
+        return False, f"India closed ({now_ist:%H:%M} IST outside {INDIAN_ACTIVE_START:%H:%M}-{INDIAN_ACTIVE_END:%H:%M})"
+
+    if mode == "US":
+        now_et = now_ist.astimezone(ET_TZ)
+        if now_et.weekday() >= 5:
+            return False, f"US weekend ({now_et:%a})"
+        if now_et.strftime("%m-%d") in US_HOLIDAYS:
+            return False, "US holiday"
+        t = now_et.time()
+        if US_ACTIVE_START_ET <= t <= US_ACTIVE_END_ET:
+            return True, "US session"
+        return False, f"US closed ({now_et:%H:%M} ET outside {US_ACTIVE_START_ET:%H:%M}-{US_ACTIVE_END_ET:%H:%M})"
+
+    return False, f"unknown mode {mode!r}"
+
+
+def entry_market_open(mode: str, now_ist: datetime = None) -> tuple:
+    """
+    Strict gate for NEW ENTRIES: true only while the market is literally
+    OPEN (real session hours — no post-close buffer).
+
+    Exits/processing deliberately use the buffered market_active_for_mode()
+    windows so 15:30 square-offs and close-time sweeps always fire; but a
+    fill recorded outside the live session is a stale-price fiction, so
+    entries are held to the exact session (via get_market_status).
+    """
+    if now_ist is None:
+        now_ist = datetime.now(IST_TZ)
+    if now_ist.tzinfo is None:
+        now_ist = IST_TZ.localize(now_ist)
+
+    mode = str(mode).upper()
+    if mode == "CRYPTO":
+        return True, "crypto 24/7"
+    status = get_market_status(now_ist).get(mode)
+    if status == "OPEN":
+        return True, f"{mode} session open"
+    return False, f"{mode} status={status} — no entries into a closed market"
 
 
 # ===== INDICATOR FORMULAS (Documentation) =====

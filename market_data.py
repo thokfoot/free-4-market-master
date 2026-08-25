@@ -350,9 +350,15 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
 
     df = None
     # ── 1) yfinance ──
+    # auto_adjust=True is REQUIRED for cross-provider consistency: the direct
+    # Yahoo chart fallback (adjust=true) returns split+dividend ADJUSTED
+    # series. With yfinance's old auto_adjust=False the same ticker/bar could
+    # carry a DIFFERENT close depending on which provider answered — entries
+    # and exits would then be compared across mismatched price bases (phantom
+    # SL hits around splits/dividends). All providers must agree.
     try:
         import yfinance as yf
-        kw = dict(interval=interval, progress=False, auto_adjust=False, threads=False)
+        kw = dict(interval=interval, progress=False, auto_adjust=True, threads=False)
         if start is not None or end is not None:
             if start is not None:
                 kw["start"] = pd.Timestamp(start).strftime("%Y-%m-%d")
@@ -377,7 +383,15 @@ def download(ticker: str, interval: str = "15m", period: str = "60d",
                   f"({len(df)} bars)")
 
     # ── 2.5) Nasdaq API (US stocks/ETFs, 1d only, non-Yahoo source) ──
-    if df is None or len(df) == 0 and interval == "1d"             and not ticker.endswith(".NS") and "-USD" not in ticker             and not ticker.startswith("^"):
+    # NOTE: parentheses matter — without them `df is None or` short-circuits
+    # past the interval check and DAILY bars could be injected into an
+    # intraday request, silently corrupting every downstream indicator.
+    # Known residual risk: Nasdaq closes are UNadjusted; if it ever answers
+    # for a ticker with recent splits its history will not match Yahoo's
+    # adjusted basis. Only reached when BOTH Yahoo paths fail.
+    if (df is None or len(df) == 0) and interval == "1d" \
+            and not ticker.endswith(".NS") and "-USD" not in ticker \
+            and not ticker.startswith("^"):
         df = _nasdaq_daily(ticker, period)
         if df is not None and len(df) > 0:
             print(f"[MarketData] {ticker} {interval}: used NASDAQ API ({len(df)} bars)")

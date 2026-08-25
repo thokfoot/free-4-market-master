@@ -252,11 +252,26 @@ def _gross_net(trade):
     return gross, charges, net
 
 
-def _latest_close():
-    """Latest known close per ticker from daily_scan logs."""
+def _latest_close(max_age_days: int = 3):
+    """Latest known close per ticker from RECENT daily_scan logs only.
+
+    Files older than max_age_days are ignored: a mark from a weeks-old scan
+    presented as 'unrealized' is stale fiction. Tickers with no recent close
+    get NO mark in the workbook (blank cells) — an honest gap beats an
+    invented number."""
+    import re as _re
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
     closes = {}
+    cutoff = _dt.now(_tz.utc) - _td(days=max_age_days)
     scans = sorted(glob.glob(os.path.join(LOG_DIR, "daily_scan_*.json")))
     for path in scans:
+        m = _re.search(r"(\d{4}-\d{2}-\d{2})", os.path.basename(path))
+        if m:
+            try:
+                if _dt.strptime(m.group(1), "%Y-%m-%d").replace(tzinfo=_tz.utc) < cutoff:
+                    continue
+            except ValueError:
+                pass
         try:
             with open(path, encoding="utf-8") as f:
                 data = json.load(f)
@@ -558,31 +573,46 @@ def generate_strategy_report(report_file=None):
     n_open = 0
     for t in trades:
         g = c = n = 0.0
-        pnl_lbl = 0.0
+        net_cell = 0.0      # numeric Net P&L (CLOSED rows / totals)
+        pct_cell = _f(t.get("P&L_%"))
         if str(t.get("Status", "")).upper() == "CLOSED":
             g, c, n = _gross_net(t)
             gr_tot += g
             ch_tot += c
             net_tot += n
+            net_cell = round(n, 2)
         else:
+            # OPEN row: mark-to-market ONLY when a fresh close is available,
+            # and ALWAYS labelled as unrealized text — never presented like a
+            # booked number (the old code wrote a bare float that read as a
+            # realized P&L, with P&L% stuck at 0).
             n_open += 1
             entry = _f(t.get("Entry_Price"))
             qty = _f(t.get("Qty"))
             rate = _charge_rate(t.get("Mode"))
             c = round(entry * qty * rate, 2)
             cur = closes.get(t.get("Ticker"))
-            if cur is not None:
-                g = round((cur - entry) * qty, 2) if t.get("Direction") == "LONG" \
-                    else round((entry - cur) * qty, 2)
+            if cur is not None and entry > 0:
+                sign = 1 if t.get("Direction") == "LONG" else -1
+                g = round((cur - entry) * qty * sign, 2)
                 n = round(g - c, 2)
-                pnl_lbl = f"~{n:.2f} (unrealized)"
+                pct = round((cur - entry) / entry * 100 * sign, 2)
+                net_cell = f"~{n:,.2f} (unrealized)"
+                pct_cell = f"~{pct:+.2f}%"
+            else:
+                # No fresh price → NO invented mark. Blank cells, honest gap.
+                g = None
+                c = None
+                net_cell = ""
+                pct_cell = ""
         all_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"),
                          t.get("Ticker"), t.get("Direction"), t.get("TimeFrame"),
                          _f(t.get("Entry_Price")), _f(t.get("Qty")),
                          _f(t.get("SL")), _f(t.get("Target")), t.get("MaxHold"),
                          _f(t.get("Exit_Price")), t.get("Exit_Time"),
-                         round(g, 2), round(c, 2), n if isinstance(n, str) else round(n, 2),
-                         _f(t.get("P&L_%")), t.get("Status"),
+                         "" if g is None else round(g, 2),
+                         "" if c is None else round(c, 2),
+                         net_cell, pct_cell, t.get("Status"),
                          t.get("Pattern_Rank"), t.get("Expected_WinRate"),
                          t.get("Pattern_Factors"), t.get("Signal_Indicators"),
                          t.get("Reason")])

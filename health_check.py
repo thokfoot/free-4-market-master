@@ -22,6 +22,7 @@ from datetime import datetime, timedelta
 LOG_DIR = "logs"
 SNAPSHOT_FILE = os.path.join(LOG_DIR, "portfolio_snapshots.csv")
 LIVE_PNL_FILE = os.path.join(LOG_DIR, "live_pnl_snapshots.csv")
+PORTFOLIO_FILE = os.path.join(LOG_DIR, "portfolio.json")
 STATE_FILE = os.path.join(LOG_DIR, "health_state.json")
 
 OPEN_THRESHOLD_MIN = 150        # any market open
@@ -75,9 +76,23 @@ def last_heartbeat() -> datetime:
 
 
 def market_open_now(now: datetime) -> bool:
-    """Crude market-open check. Crypto is 24/7 so return True unless weekend
-    AND all equity markets closed. Conservative: weekends still have crypto."""
-    return True  # crypto 24/7 -> heartbeat expected around the clock
+    """True when heartbeats are expected soon:
+    - any equity market literally OPEN right now, or
+    - open CRYPTO positions exist (crypto trades 24/7 so its live-P&L
+      loop keeps writing snapshots around the clock).
+    With no exposure and both equity markets shut (nights/weekends), the
+    12-hour closed threshold applies instead of paging at night."""
+    from config import get_market_status
+    st = get_market_status(now)
+    if st.get("INDIAN") == "OPEN" or st.get("US") == "OPEN":
+        return True
+    try:
+        with open(PORTFOLIO_FILE, encoding="utf-8") as f:
+            opens = json.load(f).get("open_positions", [])
+        return any(str(o.get("Mode", "")).upper() in ("CRYPTO", "INTRADAY")
+                   for o in opens)
+    except Exception:
+        return True  # can't read portfolio — stay conservative (alert-ready)
 
 
 def send_telegram(msg: str) -> None:

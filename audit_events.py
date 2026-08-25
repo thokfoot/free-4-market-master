@@ -6,6 +6,17 @@ from datetime import datetime
 
 LOG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
 EVENT_FILE = os.path.join(LOG_DIR, "signal_events.jsonl")
+_MAX_EVENT_BYTES = 10 * 1024 * 1024  # rotate at 10 MB (append-only file grows forever otherwise)
+
+
+def _rotate_if_large():
+    """Size-based rotation: signal_events.jsonl -> signal_events.jsonl.1
+    (single previous generation kept; load_event_ids() reads both)."""
+    try:
+        if os.path.exists(EVENT_FILE) and os.path.getsize(EVENT_FILE) > _MAX_EVENT_BYTES:
+            os.replace(EVENT_FILE, EVENT_FILE + ".1")
+    except Exception:
+        pass
 
 
 def _event_id(trade):
@@ -33,6 +44,7 @@ def _event_id(trade):
 def append_signal_event(trade):
     """Append one immutable signal/entry evidence record."""
     os.makedirs(LOG_DIR, exist_ok=True)
+    _rotate_if_large()
     event = {
         "event": "ENTRY",
         "event_id": _event_id(trade),
@@ -57,17 +69,18 @@ def append_signal_event(trade):
 
 
 def load_event_ids():
-    if not os.path.exists(EVENT_FILE):
-        return set()
     ids = set()
-    with open(EVENT_FILE, encoding="utf-8") as f:
-        for line in f:
-            try:
-                item = json.loads(line)
-                if item.get("event_id"):
-                    ids.add(item["event_id"])
-            except json.JSONDecodeError:
-                continue
+    for path in (EVENT_FILE + ".1", EVENT_FILE):  # rotated generation first
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                try:
+                    item = json.loads(line)
+                    if item.get("event_id"):
+                        ids.add(item["event_id"])
+                except json.JSONDecodeError:
+                    continue
     return ids
 
 

@@ -371,8 +371,12 @@ def test_live_pnl_no_false_sl_on_pre_entry_low(test_env, monkeypatch):
     monkeypatch.setattr(lp, "LIVE_STATE_FILE", str(log_dir / "live_pnl_state.json"))
     monkeypatch.setattr(lp, "LIVE_PNL_LOG", str(log_dir / "live_pnl_snapshots.csv"))
 
+    # Check time INSIDE the US processing window: 2026-07-31 20:37 IST =
+    # 11:07 ET Fri. The per-market gate defers off-session US positions to
+    # their next session (v5.26), so live-P&L behaviour must be tested at a
+    # time the updater would actually process US positions.
     class FrozenLpDT:
-        _F = datetime(2026, 7, 31, 11, 37, 0)
+        _F = datetime(2026, 7, 31, 20, 37, 0)
 
         @classmethod
         def now(cls, tz=None):
@@ -429,8 +433,12 @@ def test_live_pnl_still_exits_on_post_entry_low(test_env, monkeypatch):
     monkeypatch.setattr(lp, "LIVE_STATE_FILE", str(log_dir / "live_pnl_state.json"))
     monkeypatch.setattr(lp, "LIVE_PNL_LOG", str(log_dir / "live_pnl_snapshots.csv"))
 
+    # Check time INSIDE the US processing window: 2026-07-31 20:37 IST =
+    # 11:07 ET Fri. The per-market gate defers off-session US positions to
+    # their next session (v5.26), so live-P&L behaviour must be tested at a
+    # time the updater would actually process US positions.
     class FrozenLpDT:
-        _F = datetime(2026, 7, 31, 11, 37, 0)
+        _F = datetime(2026, 7, 31, 20, 37, 0)
 
         @classmethod
         def now(cls, tz=None):

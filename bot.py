@@ -61,10 +61,13 @@ import market_data
 
 
 def _ohlc_bars(df):
-    """Normalize a yfinance DataFrame to [(utc_ts, high, low, close), ...].
+    """Normalize a yfinance DataFrame to [(utc_ts, high, low, close[, open]), ...].
 
-    Handles MultiIndex columns (auto_adjust=False) and preserves tz-aware
-    UTC bar timestamps so paper_trader can do post-entry bar filtering.
+    Handles MultiIndex columns and preserves tz-aware UTC bar timestamps so
+    paper_trader can do post-entry bar filtering. The 5th element (bar OPEN,
+    when available) enables gap-aware SL/TP fills in _bars_sl_tp — a bar that
+    OPENS beyond the trigger fills at the open, not at the trigger price.
+    Consumers must treat the 5th element as optional.
     """
     out = []
     try:
@@ -84,7 +87,11 @@ def _ohlc_bars(df):
                 t = pd.Timestamp(ts).tz_localize("UTC")
             else:
                 t = pd.Timestamp(ts).tz_convert("UTC")
-            out.append((t, hi, lo, cl))
+            op = _v("Open")
+            if op is not None:
+                out.append((t, hi, lo, cl, op))
+            else:
+                out.append((t, hi, lo, cl))
     except Exception as e:
         print(f"[Bot] _ohlc_bars failed: {e}")
     return out
@@ -680,6 +687,7 @@ def run_swing_scan() -> dict:
             pattern_rank=entry.get("rank"), expected_win_rate=entry.get("win_rate"),
             pattern_factors=entry.get("factors", ""), tf="SWING_1d",
             signal_indicators=entry.get("signal_indicators"),
+            enforce_market_hours=True,
         )
         if trade:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
@@ -692,7 +700,8 @@ def run_swing_scan() -> dict:
                 "close": entry["close"], "rank": entry.get("rank"),
                 "win_rate": entry.get("win_rate"),
                 "reason": check_entry_allowed(entry["ticker"], entry["direction"],
-                                              pattern_rank=entry.get("rank"))
+                                              pattern_rank=entry.get("rank"),
+                                              enforce_market_hours=True)
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[Swing] New entries: {len(entries)}")
@@ -830,6 +839,7 @@ def run_intraday_scan() -> dict:
             pattern_rank=entry.get("rank"), expected_win_rate=entry.get("win_rate"),
             pattern_factors=entry.get("factors", ""), tf="INTRADAY_1h",
             signal_indicators=entry.get("signal_indicators"),
+            enforce_market_hours=True,
         )
         if trade:
             entries.append({"ticker": entry["ticker"], "direction": entry["direction"],
@@ -975,6 +985,7 @@ def run_fade_scan() -> dict:
             tp_override=tp_price,
             max_hold_override=5,
             signal_indicators=s.get("signal_indicators"),
+            enforce_market_hours=True,
         )
         if trade:
             entries.append({"ticker": s["ticker"], "direction": "SHORT",
@@ -990,7 +1001,8 @@ def run_fade_scan() -> dict:
                 "ticker": s["ticker"], "direction": "SHORT",
                 "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
                 "reason": check_entry_allowed(s["ticker"], "SHORT", tf="FADE_1h",
-                                              pattern_rank=rank)
+                                              pattern_rank=rank,
+                                              enforce_market_hours=True)
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[Fade] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
@@ -1102,6 +1114,7 @@ def run_long_bounce_scan() -> dict:
             tp_override=tp_price,
             max_hold_override=LONG_BOUNCE_MAX_HOLD_HOURS,
             signal_indicators=s.get("signal_indicators"),
+            enforce_market_hours=True,
         )
         if trade:
             entries.append({"ticker": s["ticker"], "direction": "LONG",
@@ -1117,7 +1130,8 @@ def run_long_bounce_scan() -> dict:
                 "ticker": s["ticker"], "direction": "LONG",
                 "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
                 "reason": check_entry_allowed(s["ticker"], "LONG", tf="LONG_BOUNCE_5m",
-                                              pattern_rank=rank)
+                                              pattern_rank=rank,
+                                              enforce_market_hours=True)
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[Long] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
@@ -1258,7 +1272,8 @@ def run_ipo_scan() -> dict:
                 "ticker": s["ticker"], "direction": direction,
                 "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
                 "reason": check_entry_allowed(s["ticker"], direction, tf="IPO_1d",
-                                              pattern_rank=rank)
+                                              pattern_rank=rank,
+                                              enforce_market_hours=True)
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[IPO] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
@@ -1383,7 +1398,8 @@ def run_fade_us_scan() -> dict:
                 "ticker": s["ticker"], "direction": "SHORT",
                 "close": entry_price, "rank": rank, "win_rate": s.get("win_rate"),
                 "reason": check_entry_allowed(s["ticker"], "SHORT", tf="US_FADE_5m",
-                                              pattern_rank=rank)
+                                              pattern_rank=rank,
+                                              enforce_market_hours=True)
                           or "Rejected (position sizing / unknown)",
             })
     print(f"[FadeUS] New entries: {len(entries)}, skipped: {len(skipped_entries)}")
@@ -1481,6 +1497,7 @@ def run_gap_down_scan() -> dict:
                     sl_override=s["sl"],
                     tp_override=s["tp"],
                     max_hold_override=s["max_hold_minutes"],
+                    enforce_market_hours=True,
                 )
                 if trade:
                     entries.append({
@@ -1504,7 +1521,8 @@ def run_gap_down_scan() -> dict:
                         "win_rate": GAP_DOWN_A_EXPECTED_WIN_RATE if s["strategy"] == "gap_down_52wk_low" else GAP_DOWN_B_EXPECTED_WIN_RATE,
                         "reason": check_entry_allowed(s["ticker"], "LONG",
                                                       tf="GAP_DOWN_1m",
-                                                      pattern_rank=rank_id)
+                                                      pattern_rank=rank_id,
+                                                      enforce_market_hours=True)
                                   or "Rejected (position sizing / unknown)",
                     })
     except Exception as e:

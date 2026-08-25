@@ -25,6 +25,7 @@ from config import (
     SLIPPAGE_PCT, INTRADAY_SLIPPAGE_PCT,
     CIRCUIT_BREAKER_ENABLED, CIRCUIT_BREAKER_MAX_CONSEC_LOSSES,
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
+    market_active_for_mode, tg_safe,
 )
 from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until
 from logger import log_error
@@ -366,20 +367,33 @@ def send_telegram(msg: str) -> str:
 # ── Core: fetch live 1m data ─────────────────────────────────
 def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
     """
-    Fetch today's OHLC data using 1m interval.
+    Fetch recent OHLC data using 1m interval (5d window so the PREVIOUS
+    session close is available for the split/adjustment guard).
     If entry_dt (IST-aware datetime) is provided, only bars at/after the entry
     time are considered, so pre-entry price action (e.g., a prior session's low
     while the market is still closed) can never trigger a false SL/TP exit.
-    Returns {close, high, low, date, has_post_entry} or None if failed.
+    Returns {close, high, low, date, prev_close, has_post_entry} or None.
     """
     for attempt in range(3):
         try:
-            df = market_data.download(ticker, interval="1m", period="1d")
+            df = market_data.download(ticker, interval="1m", period="5d")
             if df is not None and len(df) > 0:
                 # Handle multi-index columns
                 if isinstance(df.columns, pd.MultiIndex):
                     df.columns = df.columns.get_level_values(0)
-                
+
+                latest_date = str(df.index[-1].date())
+
+                # Previous session close (last close strictly BEFORE the
+                # latest bar's date) — reference for split_suspected().
+                prev_close = None
+                try:
+                    older = df[df.index.date < df.index[-1].date()]
+                    if len(older) > 0 and pd.notna(older["Close"].iloc[-1]):
+                        prev_close = float(older["Close"].iloc[-1])
+                except Exception:
+                    prev_close = None
+
                 # Filter to bars at/after entry time (prevents false pre-entry exits)
                 has_post_entry = True
                 if entry_dt is not None:
@@ -397,18 +411,18 @@ def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
                             has_post_entry = False
                     except Exception as e:
                         print(f"[Live] {ticker}: entry-time filter error: {e}")
-                
+
                 last = df.iloc[-1]
                 current_close = float(last["Close"])
                 daily_high = float(df["High"].max())
                 daily_low = float(df["Low"].min())
-                latest_date = str(df.index[-1].date())
-                
+
                 return {
                     "close": current_close,
                     "high": daily_high,
                     "low": daily_low,
                     "date": latest_date,
+                    "prev_close": prev_close,
                     "has_post_entry": has_post_entry,
                 }
             print(f"[Live] {ticker}: No 1m data ({len(df) if df is not None else 0} rows)")
@@ -453,6 +467,7 @@ def process_open_trades() -> tuple:
     
     closed_msgs = []
     update_msgs = []
+    skipped_closed_mkt = 0
     now = datetime.now(IST)
     exit_dt_str = now.strftime("%Y-%m-%d %H:%M:%S IST")
     portfolio_updated = False
@@ -469,6 +484,22 @@ def process_open_trades() -> tuple:
         qty = int(_safe_float(row["Qty"]))
         
         if entry <= 0 or qty <= 0:
+            continue
+
+        # ── PER-MARKET PROCESSING GATE ────────────────────────────────
+        # Only touch a position while its market can actually trade.
+        # Fixes night-time Indian alerts/exits caused by the 24/7 crypto
+        # cron + keep-alive dispatch chain: an NSE fill at 2 AM IST is a
+        # stale-price fiction. Exits for INDIAN/US positions now defer to
+        # their next session window (config.market_active_for_mode);
+        # crypto stays 24/7.
+        _gate_mode = str(row.get("Mode", "")).upper()
+        if _gate_mode == "INDIA":
+            _gate_mode = "INDIAN"
+        _gate_active, _gate_why = market_active_for_mode(_gate_mode, now)
+        if not _gate_active:
+            print(f"[Live] {direction} {ticker}: skipped — {_gate_why}")
+            skipped_closed_mkt += 1
             continue
         
         # Parse entry datetime FIRST (needed to filter post-entry bars so a prior
@@ -575,17 +606,29 @@ def process_open_trades() -> tuple:
         # Only SL/TP-check when the market has actually traded since entry
         # (has_post_entry) — pre-entry lows must never stop out a position.
         if not is_expired and has_post_entry:
+            _prev_close = ohlc.get("prev_close")
+            def _split_blocks(direction_, trigger_):
+                """True when an SL 'hit' is actually a split/adjustment artifact."""
+                from paper_trader import split_suspected
+                blocked = bool(_prev_close and split_suspected(direction_, trigger_, _prev_close))
+                if blocked:
+                    print(f"[Live] SPLIT GUARD: {direction_} {ticker} SL "
+                          f"trigger {trigger_} vs prev close {_prev_close} — "
+                          f"phantom SL skipped, position held for review")
+                return blocked
             if direction == "LONG":
                 if daily_low <= sl * _TOLERANCE:
-                    exit_price = sl
-                    exit_reason = "🎯 SL Hit (live)"
+                    if not _split_blocks("LONG", sl):
+                        exit_price = sl
+                        exit_reason = "🎯 SL Hit (live)"
                 elif daily_high >= target / _TOLERANCE:
                     exit_price = target
                     exit_reason = "🎯 Target Hit (live)"
             else:  # SHORT
                 if daily_high >= sl / _TOLERANCE:
-                    exit_price = sl
-                    exit_reason = "🎯 SL Hit (live)"
+                    if not _split_blocks("SHORT", sl):
+                        exit_price = sl
+                        exit_reason = "🎯 SL Hit (live)"
                 elif daily_low <= target * _TOLERANCE:
                     exit_price = target
                     exit_reason = "🎯 Target Hit (live)"
@@ -687,7 +730,7 @@ def process_open_trades() -> tuple:
                 f"\u2523 SL: {round_price(sl)} | TP: {round_price(target)}\n"
                 f"\u2523 Qty: {qty} | {_pnl_icon} P&L: Rs {pnl:+,.0f} ({pnl_pct:+.2f}%)\n"
                 f"\u2523 *OHLC:* Close={cmp:.2f} High={daily_high:.2f} Low={daily_low:.2f}\n"
-                f"\u2517 Reason: {exit_reason}"
+                f"\u2517 Reason: {tg_safe(exit_reason)}"
             )
             portfolio_updated = True
             print(f"[Live] EXIT {direction} {ticker} @ {round_price(exit_price)} | P&L {pnl:+.0f} | {exit_reason}")
@@ -841,7 +884,8 @@ def main():
     _commit_state_now()
     
     print(f"\n[Live] Check complete — {elapsed:.1f}s")
-    print(f"[Live] Closed: {len(closed_msgs)} | Updates: {len(update_msgs)}")
+    print(f"[Live] Closed: {len(closed_msgs)} | Updates: {len(update_msgs)} | "
+          f"Skipped (market closed): {skipped_closed_mkt}")
     
     # Telegram: send exit messages immediately
     tg_exit_msgs = []

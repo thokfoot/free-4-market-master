@@ -2,8 +2,11 @@ name: FREE 3-Market v5.12 PAPER TRADE (SWING + INTRADAY + FADE)
 
 on:
   schedule:
-    # Morning scan (India pre-open + Crypto)
-    - cron: '0 1 * * *'
+    # Morning scan (Crypto only in practice: India + US are closed at this
+    # hour, and entry gating rejects fills into closed markets anyway).
+    # Weekdays ONLY — the old daily cron also ran Sat/Sun and produced
+    # weekend entries at stale Friday prices.
+    - cron: '0 1 * * 1-5'
     # India close scan
     - cron: '45 9 * * 1-5'
     # Fade scans handled by dedicated fade_scan.yml (every 5 min, India hours)
