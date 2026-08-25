@@ -626,6 +626,10 @@ FADE_MAX_HOLD_HOURS = 5      # intraday: exit by 15:00 IST if no SL/TP
 FADE_RANK = FADE_VARIANTS[0]["rank"]
 FADE_ALLOW_SHORT = True      # fade is inherently SHORT; paper trade simulates it
 FADE_MIN_PRICE = 8.0         # skip penny stocks (< Rs 5) — matches backtest
+# v5.27 liquidity floor: live FADE losses were concentrated in micro-caps
+# whose paper fills are fictional (circuit locks, no real short depth).
+# Universe rows below this avg daily traded value are dropped at load time.
+FADE_MIN_TURNOVER_CR = 10.0  # Rs crore average daily turnover (Close*Volume)
 FADE_SKIP_CIRCUIT_LOCK = True  # v5.25: skip SHORT when price is pinned at upper
                                # circuit (O==H==L==C on entry bar) — can't fill
                                # in reality, exits become fictional

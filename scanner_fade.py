@@ -31,6 +31,7 @@ from datetime import datetime
 from config import (
     FADE_UNIVERSE_FILE, FADE_VARIANTS, FADE_ALLOW_SHORT,
     FADE_MIN_PRICE, FADE_SKIP_CIRCUIT_LOCK, INDIAN_TICKERS,
+    FADE_MIN_TURNOVER_CR,
 )
 import market_data
 
@@ -134,10 +135,24 @@ def nifty_day_gap_pct() -> float:
 
 
 def load_fade_universe() -> list:
-    """Universe: top-fade-signal NSE stocks + the core liquid names."""
+    """Universe: top-fade-signal NSE stocks + the core liquid names.
+
+    v5.27: rows carrying an avg_turnover_cr column below
+    FADE_MIN_TURNOVER_CR are dropped — micro-cap fills are fictional.
+    """
     syms = []
+    dropped = 0
     if os.path.exists(FADE_UNIVERSE_FILE):
         df = pd.read_csv(FADE_UNIVERSE_FILE)
+        if "avg_turnover_cr" in df.columns:
+            before = len(df)
+            df = df[pd.to_numeric(df["avg_turnover_cr"],
+                                  errors="coerce").fillna(0)
+                    >= FADE_MIN_TURNOVER_CR]
+            dropped = before - len(df)
+            if dropped:
+                print(f"[Fade] liquidity guard: dropped {dropped} "
+                      f"sub-{FADE_MIN_TURNOVER_CR:.0f}cr names")
         syms = [str(s).strip() for s in df["symbol"].tolist() if str(s).strip()]
     core = [t for t in INDIAN_TICKERS if not t.startswith("^")]
     return list(dict.fromkeys(syms + core))
