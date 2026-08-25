@@ -17810,5 +17810,23 @@
     "expected_win_rate": 45.41,
     "pattern_factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
     "reason": "#903ID Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-25 13:45:45 IST",
+    "entry_datetime": "2026-08-24 09:30:43 IST",
+    "mode": "INDIAN",
+    "ticker": "BLEL.NS",
+    "direction": "LONG",
+    "entry_price": 486.81,
+    "exit_price": 447.19,
+    "qty": 127,
+    "pnl": -5105.38,
+    "pnl_pct": -8.26,
+    "hold": "1d 4h 15m",
+    "pattern_rank": 936,
+    "expected_win_rate": 100.0,
+    "pattern_factors": "IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d",
+    "reason": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d | \ud83c\udfaf SL Hit (live)"
   }
 ]

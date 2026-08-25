@@ -406,11 +406,11 @@
   },
   "936": {
     "rank": 936,
-    "factors": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d | Expiry",
+    "factors": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d | \ud83c\udfaf SL Hit (live",
     "wins": 1,
-    "losses": 1,
-    "total_pnl": -36.690000000000055,
-    "consec_losses": 1,
+    "losses": 2,
+    "total_pnl": -5142.07,
+    "consec_losses": 2,
     "paused_since": null
   },
   "941": {
