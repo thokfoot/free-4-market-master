@@ -903,3 +903,17 @@ Traceback (most recent call last):
                                 ^^^^^^^^^^^^^^^^^^
 NameError: name 'skipped_closed_mkt' is not defined
 
+
+============================================================
+[2026-08-25 11:46:20 IST] ERROR
+============================================================
+Live P&L updater crashed: name 'skipped_closed_mkt' is not defined
+Stack:
+Traceback (most recent call last):
+  File "/home/runner/work/free-4-market-master/free-4-market-master/live_pnl_updater.py", line 947, in <module>
+    main()
+  File "/home/runner/work/free-4-market-master/free-4-market-master/live_pnl_updater.py", line 888, in main
+    f"Skipped (market closed): {skipped_closed_mkt}")
+                                ^^^^^^^^^^^^^^^^^^
+NameError: name 'skipped_closed_mkt' is not defined
+
