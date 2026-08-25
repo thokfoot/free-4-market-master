@@ -167,6 +167,105 @@ def send_telegram_document(file_path: str, caption: str = "") -> str:
     return "Failed"
 
 
+def _sha256_file(path: str) -> str:
+    import hashlib
+    try:
+        with open(path, "rb") as f:
+            return hashlib.sha256(f.read()).hexdigest()
+    except Exception:
+        return ""
+
+
+def send_telegram_album(files: list, caption: str = "") -> str:
+    """Send multiple documents as ONE Telegram message (sendMediaGroup).
+
+    files: list of paths; caption rides on the first media. Falls back to
+    sequential sendDocument calls if the album API fails."""
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        print("[TG] Missing TELEGRAM_TOKEN or TELEGRAM_CHAT_ID")
+        return "NoToken"
+    present = [f for f in files if f and os.path.exists(f)]
+    if not present:
+        return "NoFile"
+    if len(present) == 1:
+        return send_telegram_document(present[0], caption=caption)
+    media, attach = [], {}
+    for i, fp in enumerate(present):
+        key = f"file{i}"
+        mime = ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                if fp.lower().endswith(".xlsx") else "text/html")
+        item = {"type": "document", "media": f"attach://{key}", "parse_mode": "Markdown"}
+        if i == 0 and caption:
+            item["caption"] = caption
+        media.append(item)
+        try:
+            attach[key] = open(fp, "rb")
+        except Exception:
+            return send_telegram_document(fp, caption=caption)
+    api_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMediaGroup"
+    for attempt in range(3):
+        try:
+            r = requests.post(api_url,
+                              data={"chat_id": TELEGRAM_CHAT_ID,
+                                    "media": json.dumps(media)},
+                              files=attach, timeout=60)
+            resp = r.json() if r.text else {}
+            if r.status_code == 200 and resp.get("ok"):
+                print(f"[TG] Album sent ({len(present)} files)")
+                return "Sent"
+            print(f"[TG] Album attempt {attempt+1} failed: "
+                  f"{resp.get('description', r.text[:120])}")
+            time.sleep(2)
+        except Exception as e:
+            print(f"[TG] Album attempt {attempt+1} exception: {e}")
+            time.sleep(2)
+        finally:
+            for fh in attach.values():
+                try:
+                    fh.close()
+                except Exception:
+                    pass
+    # Fallback: sequential single-file sends (still better than losing files)
+    status = [send_telegram_document(present[0], caption=caption)]
+    for fp in present[1:]:
+        status.append(send_telegram_document(fp))
+    return "/".join(status)
+
+
+def _send_reports_once_changed(html_path: str, xlsx_path: str, date_str: str) -> str:
+    """Send report files ONCE per unique content — one combined album message.
+
+    Fixes the duplicate-attachment clutter: the old mtime guard resent the
+    Excel on every regeneration (mtime bumps even when content is identical),
+    and the HTML report went out unguarded on every scan.
+    State: logs/_tg_files_state.json = {"html": sha, "xlsx": sha}.
+    """
+    state_path = os.path.join("logs", "_tg_files_state.json")
+    new_state = {"html": _sha256_file(html_path) if html_path else "",
+                 "xlsx": _sha256_file(xlsx_path) if xlsx_path else ""}
+    try:
+        if os.path.exists(state_path):
+            old = json.load(open(state_path))
+            if (old.get("html") == new_state["html"]
+                    and old.get("xlsx") == new_state["xlsx"]
+                    and any(new_state.values())):
+                print("[TG] Reports unchanged since last send — skipping")
+                return "Skipped"
+    except Exception:
+        pass
+    caption = (f"📎 *Daily Reports* — {date_str}\n"
+               f"• strategy_report.xlsx — per-strategy & per-trade\n"
+               f"• portfolio_report.html — visual portfolio view")
+    status = send_telegram_album([p for p in (xlsx_path, html_path) if p],
+                                 caption=caption)
+    if status.startswith("Sent"):
+        try:
+            json.dump(new_state, open(state_path, "w"))
+        except Exception:
+            pass
+    return status
+
+
 
 
 def _intraday_market_split():
@@ -375,12 +474,13 @@ def _country_summary_lines() -> list:
         for i, key in enumerate(sections):
             s = stats[key]
             cT += s["T"]; cW += s["W"]; cL += s["L"]; cpnl += s["pnl"]
+            # Declutter: hide never-traded buckets (they carry zero signal)
+            if s["T"] == 0:
+                continue
             tree = "└" if i == len(sections) - 1 else "├"
-            seg = f"{tree} {key:<7} [{strat[key]:>2}S] {s['T']:>3}T {s['W']:>2}W/{s['L']}L"
-            if s["T"] > 0 and s["pnl"] != 0:
+            seg = f"{tree} {key:<7} {s['T']:>3}T {s['W']:>2}W/{s['L']}L"
+            if s["pnl"] != 0:
                 seg += f"   {_compact_pnl(s['pnl']):>7}  {s['ret_pct']:+.1f}%"
-            else:
-                seg += "       0.0%"
             sec_lines.append("  " + seg)
         c_ret = cpnl / 200000.0 * 100.0
         pnl_sign = "+" if cpnl >= 0 else "-"
@@ -471,22 +571,22 @@ def build_telegram_msg(date_str: str, time_str: str, entries: list,
         if parts:
             lines.append(" | ".join(parts))
 
-    # ===== NEW TRADES (section block, only when entries fire) =====
+    # ===== NEW TRADES (one compact line each) =====
     if entries:
         lines.append("")
         lines.append(f"🆕 NEW TRADES ({len(entries)})")
         for t in entries:
-            action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SELL SHORT"
-            rank_str = f"#{t.get('rank','')}" if t.get('rank') else ""
+            action = "🟢 BUY" if t["direction"] == "LONG" else "🔴 SHORT"
+            rank_str = f" #{t.get('rank','')}" if t.get('rank') else ""
             tf_tag = t.get("tf", "") or ""
-            tf_badge = {"FADE_1h": "⚡FD", "US_FADE_5m": "🌎FD",
-                        "INTRADAY_1h": "⚡ID",
-                        "GAP_DOWN_1m": "📉GD", "SWING_1d": "🌙SW",
-                        "IPO_1d": "📌IPO"}.get(tf_tag, "")
+            tf_badge = {"FADE_1h": "FD", "US_FADE_5m": "US-FD",
+                        "INTRADAY_1h": "ID",
+                        "GAP_DOWN_1m": "GD", "SWING_1d": "SW",
+                        "IPO_1d": "IPO"}.get(tf_tag, "")
             tf_txt = f" {tf_badge}" if tf_badge else ""
-            rank_txt = f" {rank_str}" if rank_str else ""
-            lines.append(f"{action} `{t['ticker']}`{tf_txt}{rank_txt}")
-            lines.append(f"    Entry {round_price(t['close'])}  |  SL {t['sl']}  |  TGT {t['target']}")
+            lines.append(
+                f"{action} `{t['ticker']}`{tf_txt}{rank_str}"
+                f" | E {round_price(t['close'])} | SL {t['sl']} | TGT {t['target']}")
 
     # ===== COUNTRY SUMMARY (14D) with strategy counts =====
     lines.append("")
@@ -1979,13 +2079,7 @@ def main():
             if page_idx < len(tg_pages) - 1:
                 time.sleep(0.5)  # Small delay between pages
         tg_status = "/".join(tg_status_list) if tg_status_list else "NoPages"
-    
-        # Portfolio report document
-        if os.path.exists(PORTFOLIO_REPORT_FILE):
-            doc_caption = f"📊 *Full Portfolio Report* — {date_str}\n"
-            doc_caption += "Download & open in browser for beautiful formatted view"
-            send_telegram_document(PORTFOLIO_REPORT_FILE, caption=doc_caption)
-    
+
     # Log scan data
     fired_patterns = []
     for sr in scan_results:
@@ -2041,32 +2135,17 @@ def main():
     log_portfolio(total_cape, open_positions, closed_cnt, wins, losses, total_pnl,
                   capital_by_market=cap_by_mkt)
     
-    # Auto-refresh strategy Excel report + send to Telegram only when it
-    # changed (new/updated trades) — otherwise every 15-min run would spam.
+    # Auto-refresh strategy Excel report, then send BOTH reports (Excel +
+    # HTML) as ONE album message — only when their CONTENT actually changed
+    # (sha256 guard; the old mtime guard resent identical files and the HTML
+    # went out on every scan → duplicate-attachment clutter).
     try:
         xlsx_path = generate_strategy_report()
         integrity_errors = validate_all()
         if integrity_errors:
             raise RuntimeError("; ".join(integrity_errors[:5]))
         if xlsx_path and os.path.exists(xlsx_path):
-            mtime = os.path.getmtime(xlsx_path)
-            marker = os.path.join("logs", "_last_xlsx_sent.txt")
-            last_sent = None
-            try:
-                if os.path.exists(marker):
-                    with open(marker) as f:
-                        last_sent = float(f.read().strip())
-            except Exception:
-                last_sent = None
-            if last_sent is None or mtime > last_sent + 1:
-                xlsx_caption = f"📊 *Strategy Report (Excel)* — {date_str}\n"
-                xlsx_caption += "Download for full per-strategy & per-trade breakdown"
-                send_telegram_document(xlsx_path, caption=xlsx_caption)
-                try:
-                    with open(marker, "w") as f:
-                        f.write(str(mtime))
-                except Exception:
-                    pass
+            _send_reports_once_changed(PORTFOLIO_REPORT_FILE, xlsx_path, date_str)
     except Exception as e:
         log_error(f"Strategy Excel report failed: {e}")
         print(f"[WARN] Strategy Excel report: {e}")

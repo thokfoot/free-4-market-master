@@ -887,14 +887,15 @@ def main():
     print(f"[Live] Closed: {len(closed_msgs)} | Updates: {len(update_msgs)} | "
           f"Skipped (market closed): {skipped_closed_mkt}")
     
-    # Telegram: send exit messages immediately
-    tg_exit_msgs = []
-    for msg in closed_msgs:
-        tg_exit_msgs.append(msg)
-        # Send each exit as separate message for visibility.
-        # msg is now self-describing (icon + label + full telemetry),
-        # so send it directly — no redundant/misleading "LIVE EXIT" header.
-        send_telegram(msg)
+    # Telegram: ALL exits in ONE batched message (was one msg per trade —
+    # 6 SL hits = 6 back-to-back messages of clutter).
+    if closed_msgs:
+        batch_exits = (
+            f"🚨 *EXITS ({len(closed_msgs)})* — "
+            f"{datetime.now(IST).strftime('%H:%M:%S IST')}\n\n"
+            + "\n\n".join(closed_msgs)
+        )
+        send_telegram(batch_exits)
     
     # Telegram: send unrealized P&L updates (batched, max 1 per ticker per 25 min)
     if update_msgs:
@@ -908,7 +909,8 @@ def main():
         )
         send_telegram(upnl_tg)
     
-    # Summary if anything happened
+    # Summary only when something ACTUALLY changed since the last send —
+    # identical "Portfolio Summary" repeats were pure noise.
     if closed_msgs or update_msgs:
         portfolio = load_portfolio()
         cap_by_mkt = portfolio.get("capital_by_market", {})
@@ -916,15 +918,27 @@ def main():
         open_count = len(portfolio.get("open_positions", []))
         ret_pct = ((total_cape - TOTAL_CAPITAL) / TOTAL_CAPITAL * 100) if TOTAL_CAPITAL > 0 else 0
         total_pnl = portfolio.get("total_pnl", 0)
-        
-        summary = (
-            f"📊 *Portfolio Summary*\n"
-            f"Capital: ₹{total_cape:,.0f} ({ret_pct:+.2f}%)\n"
-            f"P&L: ₹{total_pnl:+,.0f}\n"
-            f"Open: {open_count} | Closed: {portfolio.get('closed_count', 0)}\n"
-            f"Wins: {portfolio.get('total_wins', 0)} | Losses: {portfolio.get('total_losses', 0)}"
-        )
-        send_telegram(summary)
+        closed_n = portfolio.get('closed_count', 0)
+        wins_n = portfolio.get('total_wins', 0)
+        losses_n = portfolio.get('total_losses', 0)
+
+        live_state = _load_live_state()
+        last = live_state.get("last_summary", {})
+        snapshot = {"cap": round(total_cape, 2), "pnl": round(total_pnl, 2),
+                    "open": open_count, "closed": closed_n}
+        if last == snapshot:
+            print("[TG] Portfolio Summary unchanged — skipping")
+        else:
+            summary = (
+                f"📊 *Portfolio Summary*\n"
+                f"Capital: ₹{total_cape:,.0f} ({ret_pct:+.2f}%)\n"
+                f"P&L: ₹{total_pnl:+,.0f}\n"
+                f"Open: {open_count} | Closed: {closed_n}\n"
+                f"Wins: {wins_n} | Losses: {losses_n}"
+            )
+            send_telegram(summary)
+            live_state["last_summary"] = snapshot
+            _save_live_state(live_state)
     
     # Auto-refresh strategy Excel report
     try:
