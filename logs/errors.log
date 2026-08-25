@@ -931,3 +931,8 @@ Traceback (most recent call last):
                                 ^^^^^^^^^^^^^^^^^^
 NameError: name 'skipped_closed_mkt' is not defined
 
+
+============================================================
+[2026-08-26 00:19:29 IST] ERROR
+============================================================
+Swing download failed BANKBEES.NS: stale data (last bar 115h old)
