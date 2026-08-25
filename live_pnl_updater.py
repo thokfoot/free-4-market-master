@@ -46,6 +46,7 @@ LIVE_PNL_LOG = os.path.join(LOG_DIR, "live_pnl_snapshots.csv")
 LIVE_STATE_FILE = os.path.join(LOG_DIR, "live_pnl_state.json")
 TG_COOLDOWN = timedelta(minutes=25)  # Don't send update msg more than once per 25 min
 PNL_CHANGE_THRESHOLD_PCT = 0.5  # Send update if unrealized P&L % changes by >0.5% (absolute)
+TG_HEARTBEAT_MINUTES = 60  # Periodic positions snapshot so silence never looks like death
 
 
 import market_data
@@ -749,21 +750,20 @@ def process_open_trades() -> tuple:
             prev_pnl_map = live_state.get("last_pnl", {})
             prev_tg_map = live_state.get("last_tg", {})
             
-            # Check if P&L % changed significantly (compare current % to previous %)
+            # Check if P&L % changed significantly SINCE THE LAST NOTIFY
+            # (not since the last run — the old code re-baselined every run,
+            # which under a 2.5-min keep-alive chain meant the threshold could
+            # literally never be crossed -> total silence).
             prev_upnl_pct = prev_pnl_map.get(ticker, None)
             should_send = False
             
             if prev_upnl_pct is not None:
-                # Both are percentages — correct comparison
                 pnl_change = abs(upnl_pct - prev_upnl_pct)
                 if pnl_change >= PNL_CHANGE_THRESHOLD_PCT:
                     should_send = True
             else:
                 # First time seeing this ticker — send initial update
                 should_send = True
-            
-            # Save current P&L % to state (not rupee value)
-            prev_pnl_map[ticker] = round(upnl_pct, 2)
             
             # Check cooldown (25 min since last TG for this ticker)
             last_tg_str = prev_tg_map.get(ticker, "")
@@ -778,17 +778,17 @@ def process_open_trades() -> tuple:
             should_send = should_send and cooldown_ok
             
             if should_send:
+                # Baseline moves ONLY on send (see comment above)
+                prev_pnl_map[ticker] = round(upnl_pct, 2)
                 prev_tg_map[ticker] = now.isoformat()
                 icon = "🟢" if upnl > 0 else ("🔴" if upnl < 0 else "⚪")
                 update_msgs.append(
                     f"{icon} {ticker} {direction} | Live: {round_price(cmp)} "
                     f"| P&L Rs {upnl:+,.0f} ({upnl_pct:+.2f}%)"
                 )
-            
-            # Save updated state
-            live_state["last_pnl"] = prev_pnl_map
-            live_state["last_tg"] = prev_tg_map
-            _save_live_state(live_state)
+                live_state["last_pnl"] = prev_pnl_map
+                live_state["last_tg"] = prev_tg_map
+                _save_live_state(live_state)
             
             print(f"[Live] {ticker} {direction} | CMP={round_price(cmp)} "
                   f"Unrealized P&L Rs {upnl:+,.0f} ({upnl_pct:+.2f}%)" + 
@@ -844,6 +844,69 @@ def _log_live_snapshot(portfolio: dict):
         print(f"[Live] Snapshot log error: {e}")
 
 
+def _send_heartbeat_once_due() -> bool:
+    """Send a compact open-positions snapshot at most once per
+    TG_HEARTBEAT_MINUTES, so a quiet market never looks like a dead bot.
+
+    Only positions whose market is ACTIVE right now are listed (per-market
+    gate respected); each line: ticker, dir, CMP, unrealized Rs/%."""
+    try:
+        state = _load_live_state()
+        now = datetime.now(IST)
+        last = state.get("last_heartbeat")
+        if last:
+            try:
+                if (now - datetime.fromisoformat(last)) < timedelta(minutes=TG_HEARTBEAT_MINUTES):
+                    return False
+            except ValueError:
+                pass
+
+        port = load_portfolio()
+        opens = port.get("open_positions", [])
+        lines = []
+        for o in opens:
+            mode = str(o.get("Mode", "")).upper()
+            if mode == "INDIA":
+                mode = "INDIAN"
+            active, _ = market_active_for_mode(mode, now)
+            if not active:
+                continue
+            ticker = o.get("Ticker", "")
+            direction = o.get("Direction", "LONG")
+            entry = _safe_float(o.get("Entry_Price"))
+            qty = int(_safe_float(o.get("Qty")))
+            if entry <= 0 or qty <= 0:
+                continue
+            ohlc = fetch_live_ohlc(ticker)
+            if not ohlc:
+                continue
+            cmp_ = float(ohlc["close"])
+            if direction == "LONG":
+                upnl = (cmp_ - entry) * qty
+                pct = (cmp_ - entry) / entry * 100
+            else:
+                upnl = (entry - cmp_) * qty
+                pct = (entry - cmp_) / entry * 100
+            icon = "🟢" if upnl > 0 else ("🔴" if upnl < 0 else "⚪")
+            lines.append(f"{icon} {ticker} {direction} | {round_price(cmp_)} "
+                         f"| ₹{upnl:+,.0f} ({pct:+.2f}%)")
+        if not lines:
+            return False
+        msg = (f"📋 *Positions Snapshot* — {now.strftime('%H:%M IST')}\n"
+               f"{len(lines)} active\n\n" + "\n".join(lines[:12]))
+        if len(lines) > 12:
+            msg += f"\n…+{len(lines) - 12} more"
+        send_telegram(msg)
+        state["last_heartbeat"] = now.isoformat()
+        _save_live_state(state)
+        print(f"[TG] Heartbeat snapshot sent ({len(lines)} positions)")
+        return True
+    except Exception as e:
+        log_error(f"Heartbeat failed: {e}")
+        print(f"[WARN] Heartbeat: {e}")
+        return False
+
+
 # ── Main ──────────────────────────────────────────────────────
 def _commit_state_now():
     """Ephemeral-runner safeguard: commit state files IMMEDIATELY after trades
@@ -875,6 +938,10 @@ def main():
     # ── Initialize persistent live_pnl_state file ──
     state = _load_live_state()
     _save_live_state(state)
+
+    # Periodic life-signal: hourly positions snapshot (first run after
+    # deploy fires immediately — last_heartbeat absent).
+    _send_heartbeat_once_due()
     
     start = time.time()
     closed_msgs, update_msgs = process_open_trades()
