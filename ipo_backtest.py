@@ -16,8 +16,7 @@ Charges INDIAN applied per side-roundtrip. One trade per IPO per strategy
 
 Run: python ipo_backtest.py
 """
-import os, sys, io, warnings
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+import os, sys, warnings
 warnings.filterwarnings("ignore")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -118,6 +117,7 @@ def replay(key, df, tk):
 
 
 def main():
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
     universe = load_ipo_universe()
     print(f"[ipobt] watchlist: {len(universe)} IPOs "
           f"({pd.Series([u['strategy'] for u in universe]).value_counts().to_dict()})")
