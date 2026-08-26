@@ -1101,8 +1101,8 @@ def run_fade_scan() -> dict:
             sl_override=sl_price,
             tp_override=tp_price,
             max_hold_override=5,
-            signal_indicators=s.get("signal_indicators"),
             enforce_market_hours=True,
+            signal_indicators=s.get("signal_indicators"),
         )
         if trade:
             entries.append({"ticker": s["ticker"], "direction": "SHORT",
@@ -1500,6 +1500,7 @@ def run_fade_us_scan() -> dict:
             tp_override=tp_price,
             max_hold_override=US_FADE_MAX_HOLD_HOURS,
             signal_indicators=s.get("signal_indicators"),
+            enforce_market_hours=True,
         )
         if trade:
             entries.append({"ticker": s["ticker"], "direction": "SHORT",

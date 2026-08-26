@@ -911,9 +911,9 @@ def get_market_status(now_ist: datetime = None) -> dict:
         result["INDIAN"] = "HOLIDAY"
     elif 555 <= current_ist_minutes <= 930:  # 9:15 AM to 3:30 PM IST
         result["INDIAN"] = "OPEN"
-    elif current_ist_minutes < 555:  # Before 9:15 AM
+    elif 540 <= current_ist_minutes < 555:  # 9:00-9:14 AM — real NSE pre-open
         result["INDIAN"] = "PRE-OPEN"
-    else:  # After 3:30 PM
+    else:  # Before 9:00 AM or after 3:30 PM
         result["INDIAN"] = "CLOSED"
     
     # US market (ET) — DST-correct via real timezone conversion.
@@ -930,9 +930,9 @@ def get_market_status(now_ist: datetime = None) -> dict:
         result["US"] = "HOLIDAY"
     elif 570 <= et_minutes <= 960:  # 9:30 AM - 4:00 PM ET
         result["US"] = "OPEN"
-    elif et_minutes < 570:  # Before 9:30 AM ET
+    elif 240 <= et_minutes < 570:  # 4:00-9:29 AM ET — real pre-market window
         result["US"] = "PRE-OPEN"
-    else:  # After 4:00 PM ET
+    else:  # After 4:00 PM ET or before 4:00 AM ET (overnight)
         result["US"] = "CLOSED"
     
     # Build human-readable message
