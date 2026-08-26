@@ -30,11 +30,20 @@ ARCH = os.path.join(HERE, "logs", "archive")
 def active_ranks():
     sw = pd.read_csv(os.path.join(HERE, "data", "strategies.csv"))
     it = pd.read_csv(os.path.join(HERE, "data", "intraday_strategies.csv"))
+    from scanner import get_yf_ticker
     ranks = set(sw.Final_Rank.astype(int)) | set(it.Final_Rank.astype(int))
     for fam in (FADE_VARIANTS, US_FADE_VARIANTS, LONG_BOUNCE_VARIANTS,
                 IPO_VARIANTS):
         ranks |= {int(v["rank"]) for v in fam}
-    return ranks
+    # (ticker, rank) pairs - a rank alone is NOT identity (ranks repeat
+    # across markets); a ledger row is valid only if its ticker+rank
+    # matches a deployed def.
+    pairs = set()
+    for d0 in (sw, it):
+        for _, r in d0.iterrows():
+            y = get_yf_ticker(str(r["Market"])) or str(r["Market"])
+            pairs.add((str(y), int(r["Final_Rank"])))
+    return ranks, pairs
 
 
 def main():
@@ -48,10 +57,14 @@ def main():
               index=False)
 
     tf = df["TimeFrame"].astype(str)
-    ranks = pd.to_numeric(df["Pattern_Rank"], errors="coerce")
-    live = active_ranks()
+    ranks, pairs = active_ranks()
+    rk_num = pd.to_numeric(df["Pattern_Rank"], errors="coerce")
     is_combo = tf.isin(["SWING_1d", "INTRADAY_1h"])
-    dead_rank = ~ranks.isin(live) | ranks.isna()
+    pair_ok = [(str(a), int(b)) in pairs
+               if pd.notna(b) else False
+               for a, b in zip(df["Ticker"].astype(str), rk_num)]
+    dead_rank = (~rk_num.isin(ranks)) | rk_num.isna() | \
+                ~pd.Series(pair_ok, index=df.index)
     mask = is_combo & dead_rank
     retired = df[mask].copy()
     kept = df[~mask].copy()
@@ -90,7 +103,7 @@ def main():
             except ValueError:
                 pruned[k] = v          # non-rank key, keep
                 continue
-            if r in live:
+            if r in ranks:
                 pruned[k] = v
         bpath = os.path.join(ARCH, f"strategy_stats_backup_{stamp}.json")
         json.dump(stats, open(bpath, "w", encoding="utf-8"), indent=2)
@@ -99,11 +112,17 @@ def main():
               f"(backup -> {os.path.basename(bpath)})")
 
     # ---- 3. portfolio rebuild ------------------------------------------
+    def _valid_pos(p):
+        if p.get("TimeFrame") not in ("SWING_1d", "INTRADAY_1h"):
+            return True
+        pr = str(p.get("Pattern_Rank", ""))
+        if not pr.isdigit():
+            return False
+        return (str(p.get("Ticker")), int(pr)) in pairs
+
     port = load_portfolio()
     port["open_positions"] = [p for p in port.get("open_positions", [])
-                              if not (((p.get("TimeFrame") in ("SWING_1d", "INTRADAY_1h"))
-                                       and (str(p.get("Pattern_Rank")) .isdigit()
-                                            and int(p["Pattern_Rank"]) not in live)))]
+                              if _valid_pos(p)]
     save_portfolio(port)
     rebuilt = rebuild_portfolio_from_csv()
     print(f"[clean] portfolio rebuilt: P&L {rebuilt.get('total_pnl'):+.2f} | "
