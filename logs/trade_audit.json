@@ -17946,5 +17946,73 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price<SMA20+EMA9>EMA20+Close<Open+2Red",
     "skip_reason": "Cooldown: DIA LONG INTRADAY_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-27 01:26:20 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "Duplicate OEF LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-27 01:26:20 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "entry_price": 86.53,
+    "qty": 596,
+    "sl": 84.79,
+    "target": 89.98,
+    "pattern_rank": 5,
+    "expected_win_rate": 58.26,
+    "pattern_factors": "Range<1%+SMA20<EMA20",
+    "reason": "#5SW Range<1%+SMA20<EMA20",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 87.262889, \"BB_lo\": 83.993112, \"Close\": 86.519997, \"EMA20\": 85.651886, \"EMA200\": 82.697308, \"EMA50\": 84.933173, \"EMA9\": 86.092409, \"High\": 87.010002, \"Low\": 86.25, \"Open\": 86.860001, \"RSI14\": 55.279506, \"Ret\": -0.010635, \"SMA20\": 85.628, \"SMA50\": 84.784211, \"Volume\": 7022700.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-27 01:26:20 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"4ec100efbb7eae0f145aebe59fea065b45da569430baeb0ea99b3a12db3915e9\"}, \"high20\": 88.779999, \"high50\": 88.779999, \"low20\": 83.860001, \"low50\": 82.150002}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-27 01:26:20 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "entry_price": 113.19,
+    "qty": 456,
+    "sl": 110.92,
+    "target": 117.71,
+    "pattern_rank": 3,
+    "expected_win_rate": 53.98,
+    "pattern_factors": "Price>EMA9+Range<1%",
+    "reason": "#3SW Price>EMA9+Range<1%",
+    "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 114.093707, \"BB_lo\": 107.914293, \"Close\": 113.18, \"EMA20\": 111.174983, \"EMA200\": 111.655481, \"EMA50\": 111.050282, \"EMA9\": 111.73869, \"High\": 113.275002, \"Low\": 112.294998, \"Open\": 112.410004, \"RSI14\": 58.133522, \"Ret\": 0.007657, \"SMA20\": 111.004, \"SMA50\": 110.009402, \"Volume\": 2701500.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-27 01:26:20 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"6517b7ae823c6f80e30c2d50df07393a2cb922775b5ebecb2ca0cf654bc08aff\"}, \"high20\": 113.5, \"high50\": 114.029999, \"low20\": 105.492996, \"low50\": 105.029999}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-27 01:26:29 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "skip_reason": "Duplicate QQQ LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-27 01:26:29 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "entry_price": 767.04,
+    "qty": 136,
+    "sl": 759.22,
+    "target": 782.23,
+    "pattern_rank": 16,
+    "expected_win_rate": 62.35,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "signal_indicators": "{\"2Red\": 0.0, \"Close\": 766.890015, \"EMA20\": 765.466694, \"EMA50\": 766.617135, \"EMA9\": 765.635192, \"High\": 767.349976, \"Low\": 765.52002, \"Open\": 765.609985, \"RSI14\": 55.731638, \"Ret\": 0.001672, \"SMA20\": 764.880759, \"SMA50\": 766.460079, \"Volume\": 3674140.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-27 01:26:29 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"3784c4c96c4bf403350ccfce032c365669554989a59e5f375dc6129ba567d139\"}}"
   }
 ]
