@@ -6,8 +6,8 @@
   },
   "SHORT": {},
   "_discovery": {
-    "last": "2026-08-26",
-    "added": 2
+    "last": "2026-08-27",
+    "added": 1
   },
   "_sym_firstbar": {
     "AEROPLANE.NS": "2026-04-02",
@@ -44,7 +44,8 @@
     "LALITHAA.NS": "2026-08-24",
     "SHANKESH.NS": "2026-08-25",
     "SUNSHINE.NS": "2026-08-25",
-    "CLEANMAX.NS": "2026-03-02"
+    "CLEANMAX.NS": "2026-03-02",
+    "GAJA.NS": "2026-08-26"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
