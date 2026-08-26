@@ -1,0 +1,1970 @@
+{
+  "date": "2026-08-26",
+  "runs": [
+    {
+      "time": "10:16:59 IST",
+      "mode": "FADE",
+      "tickers_scanned": [
+        "AAPL",
+        "AASTHA.NS",
+        "ABBV",
+        "ABFRL.NS",
+        "ABNB",
+        "ADANIENSOL.NS",
+        "ADANIENT.NS",
+        "ADANIGREEN.NS",
+        "ADANIPORTS.NS",
+        "ADBE",
+        "ADI",
+        "ADSK",
+        "AEP",
+        "ALGN",
+        "ALPINETEX.NS",
+        "AMAGI.NS",
+        "AMD",
+        "AMGN",
+        "AMT",
+        "AMZN",
+        "APEX.NS",
+        "APOLLO.NS",
+        "APOLLOHOSP.NS",
+        "APP",
+        "ARDEE.NS",
+        "ARM",
+        "ASHOKLEY.NS",
+        "ASIANPAINT.NS",
+        "AUBANK.NS",
+        "AVALON.NS",
+        "AVGO",
+        "AXISBANK.NS",
+        "BA",
+        "BAC",
+        "BAJAJ-AUTO.NS",
+        "BAJAJFINSV.NS",
+        "BAJAJHFL.NS",
+        "BAJAJHLDNG.NS",
+        "BAJFINANCE.NS",
+        "BANDHANBNK.NS",
+        "BANKBARODA.NS",
+        "BDL.NS",
+        "BEL.NS",
+        "BERGEPAINT.NS",
+        "BESTAGRO.NS",
+        "BHARTIARTL.NS",
+        "BIIB",
+        "BKNG",
+        "BKR",
+        "BLEL.NS",
+        "BLISSGVS.NS",
+        "BLS.NS",
+        "BLSE.NS",
+        "BPCL.NS",
+        "BRITANNIA.NS",
+        "BRK-B",
+        "CANBK.NS",
+        "CAT",
+        "CCI",
+        "CDNS",
+        "CHOLAFIN.NS",
+        "CHTR",
+        "CIPLA.NS",
+        "CL",
+        "CMCSA",
+        "COALINDIA.NS",
+        "COCHINSHIP.NS",
+        "COFORGE.NS",
+        "COIN",
+        "COP",
+        "CORDELIA.NS",
+        "COST",
+        "CPRT",
+        "CRWD",
+        "CSCO",
+        "CSM.NS",
+        "CSX",
+        "CTAS",
+        "CTSH",
+        "CUMMINSIND.NS",
+        "CVX",
+        "DASH",
+        "DCMSHRIRAM.NS",
+        "DDOG",
+        "DE",
+        "DHOOTTRANS.NS",
+        "DIA",
+        "DIS",
+        "DIVISLAB.NS",
+        "DKNG",
+        "DMART.NS",
+        "DOMS.NS",
+        "DRREDDY.NS",
+        "E2E.NS",
+        "EICHERMOT.NS",
+        "EXC",
+        "FAST",
+        "FDX",
+        "FEDERALBNK.NS",
+        "FIRSTCRY.NS",
+        "FRACTAL.NS",
+        "FTNT",
+        "GARUDA.NS",
+        "GFS",
+        "GILD",
+        "GODAVARIB.NS",
+        "GODFRYPHLP.NS",
+        "GOLDIAM.NS",
+        "GOOG",
+        "GOOGL",
+        "GRASIM.NS",
+        "GREAVESCOT.NS",
+        "GS",
+        "HAL.NS",
+        "HCLTECH.NS",
+        "HD",
+        "HDFCBANK.NS",
+        "HDFCLIFE.NS",
+        "HEROMOTOCO.NS",
+        "HINDALCO.NS",
+        "HINDUNILVR.NS",
+        "HIRECT.NS",
+        "HOMEFIRST.NS",
+        "HON",
+        "HOOD",
+        "ICICIBANK.NS",
+        "IDEA.NS",
+        "IDFCFIRSTB.NS",
+        "ILMN",
+        "INDIGO.NS",
+        "INDOBORAX.NS",
+        "INDOMIM.NS",
+        "INDUSINDBK.NS",
+        "INFY.NS",
+        "INNOVISION.NS",
+        "INTC",
+        "INTU",
+        "IRCTC.NS",
+        "IREDA.NS",
+        "IRFC.NS",
+        "ISRG",
+        "ITC.NS",
+        "IWM",
+        "JINDWORLD.NS",
+        "JNJ",
+        "JNPR.NS",
+        "JPM",
+        "JPPOWER.NS",
+        "JSWINFRA.NS",
+        "JSWSTEEL.NS",
+        "KDP",
+        "KEI.NS",
+        "KERNEX.NS",
+        "KHC",
+        "KIOCL.NS",
+        "KLAC",
+        "KNACK.NS",
+        "KO",
+        "KOTAKBANK.NS",
+        "KPITTECH.NS",
+        "KRN.NS",
+        "KUSUMGAR.NS",
+        "LASERPOWER.NS",
+        "LCL.NS",
+        "LEAPIND.NS",
+        "LMT",
+        "LOW",
+        "LRCX",
+        "LT.NS",
+        "LTTS.NS",
+        "M&M.NS",
+        "MANIPALHOS.NS",
+        "MAR",
+        "MARUTI.NS",
+        "MAZDOCK.NS",
+        "MCD",
+        "MDLZ",
+        "META",
+        "MILKYMIST.NS",
+        "MNST",
+        "MOLBIO.NS",
+        "MOTHERSON.NS",
+        "MPHASIS.NS",
+        "MRK",
+        "MRVL",
+        "MS",
+        "MSFT",
+        "MSTR",
+        "MUTHOOTFIN.NS",
+        "MVELECTRO.NS",
+        "NACLIND.NS",
+        "NESTLEIND.NS",
+        "NET",
+        "NETWEB.NS",
+        "NEWGEN.NS",
+        "NFLX",
+        "NKE",
+        "NMDC.NS",
+        "NOC",
+        "NOW",
+        "NTPC.NS",
+        "NTPCGREEN.NS",
+        "NVDA",
+        "NXPI",
+        "ODFL",
+        "OFSS.NS",
+        "OMPOWER.NS",
+        "ONGC.NS",
+        "ORLY",
+        "PANW",
+        "PAYX",
+        "PCAR",
+        "PCJEWELLER.NS",
+        "PEP",
+        "PERSISTENT.NS",
+        "PFC.NS",
+        "PFE",
+        "PG",
+        "PIDILITIND.NS",
+        "PLD",
+        "PLTR",
+        "PNB.NS",
+        "POCL.NS",
+        "POLICYBZR.NS",
+        "POLYCAB.NS",
+        "POWERGRID.NS",
+        "PRECWIRE.NS",
+        "PREMIERENE.NS",
+        "PVP.NS",
+        "QCOM",
+        "QQQ",
+        "QUADFUTURE.NS",
+        "RAMBHAJO.NS",
+        "RAMCOSYS.NS",
+        "RBLX",
+        "RECLTD.NS",
+        "REGN",
+        "RELIANCE.NS",
+        "RIVN",
+        "ROST",
+        "RPEL.NS",
+        "RTX",
+        "RVNL.NS",
+        "SAIL.NS",
+        "SANSTAR.NS",
+        "SBIFUNDS.NS",
+        "SBILIFE.NS",
+        "SBIN.NS",
+        "SBUX",
+        "SHIPROCKET.NS",
+        "SHOP",
+        "SIRI",
+        "SLB",
+        "SMCI",
+        "SNPS",
+        "SPG",
+        "SRTL.NS",
+        "SUNPHARMA.NS",
+        "SUZLON.NS",
+        "SWIGGY.NS",
+        "T",
+        "TATACONSUM.NS",
+        "TATAELXSI.NS",
+        "TATAINVEST.NS",
+        "TATAPOWER.NS",
+        "TATASTEEL.NS",
+        "TATATECH.NS",
+        "TATVA.NS",
+        "TCS.NS",
+        "TEAM",
+        "TECHM.NS",
+        "TECHNOCRAF.NS",
+        "TEMBO.NS",
+        "TGT",
+        "TITAN.NS",
+        "TRENT.NS",
+        "TSLA",
+        "TTD",
+        "TURTLEMINT.NS",
+        "TVSMOTOR.NS",
+        "TXN",
+        "UBER",
+        "ULTRACEMCO.NS",
+        "UNH",
+        "UPL.NS",
+        "UPS",
+        "VEDL.NS",
+        "VIMTALABS.NS",
+        "VRSK",
+        "VRTX",
+        "VZ",
+        "WDAY",
+        "WFC",
+        "WIPRO.NS",
+        "WMT",
+        "XEL",
+        "XOM",
+        "XTRANET.NS",
+        "YATRA.NS",
+        "ZS"
+      ],
+      "market_close": {},
+      "patterns_count": 6092,
+      "patterns_fired": 63,
+      "fired_patterns": [
+        {
+          "rank": 940,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade T1: 15m +3.5%/30m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 60.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.67,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12031.0,
+            "Volume": 27124,
+            "VolAvg20": 7360.0,
+            "RSI14": 85.2,
+            "Shoot_pct": 2.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 2.63,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 6.27,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5422.7,
+            "Volume": 222782,
+            "VolAvg20": 53134.0,
+            "RSI14": 71.5,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12031.0,
+            "Volume": 27124,
+            "VolAvg20": 7360.0,
+            "RSI14": 85.2,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 4.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "GODFRYPHLP.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2145.2,
+            "Volume": 16019,
+            "VolAvg20": 6166.0,
+            "RSI14": 78.8,
+            "Shoot_pct": 3.2,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 6.27,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5422.7,
+            "Volume": 222782,
+            "VolAvg20": 53134.0,
+            "RSI14": 71.5,
+            "Shoot_pct": 3.29,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12031.0,
+            "Volume": 27124,
+            "VolAvg20": 7360.0,
+            "RSI14": 85.2,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 4.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 58.05,
+            "Volume": 76899,
+            "VolAvg20": 28183.0,
+            "RSI14": 71.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 5.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12031.0,
+            "Volume": 27124,
+            "VolAvg20": 7360.0,
+            "RSI14": 85.2,
+            "Shoot_pct": 2.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 58.05,
+            "Volume": 76899,
+            "VolAvg20": 28183.0,
+            "RSI14": 71.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 5.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12031.0,
+            "Volume": 27124,
+            "VolAvg20": 7360.0,
+            "RSI14": 85.2,
+            "Shoot_pct": 2.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 58.05,
+            "Volume": 76899,
+            "VolAvg20": 28183.0,
+            "RSI14": 71.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2177.4,
+            "Volume": 24239,
+            "VolAvg20": 6925.0,
+            "RSI14": 62.5,
+            "Shoot_pct": 4.16,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 6.27,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 4.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 58.05,
+            "Volume": 76899,
+            "VolAvg20": 28183.0,
+            "RSI14": 71.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 910,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G1: 15m +4.0%/30m vol1.5x RSI65 dayhigh",
+          "win_rate": 43.46,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 911,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G2: 15m +4.0%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 44.39,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 912,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G3: 15m +4.0%/30m vol2.0x RSI70",
+          "win_rate": 39.77,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 913,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G4: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+          "win_rate": 43.73,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 914,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G5: 15m +4.0%/30m vol1.5x RSI70 dayhigh",
+          "win_rate": 38.93,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.67,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 917,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G8: 15m +3.5%/30m vol3.0x RSI70 dayhigh",
+          "win_rate": 42.81,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 918,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G9: 15m +3.5%/30m vol2.0x RSI70",
+          "win_rate": 42.86,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 919,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+          "win_rate": 42.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 920,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+          "win_rate": 47.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 921,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G12: 15m +3.5%/30m vol2.0x RSI65",
+          "win_rate": 46.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 922,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G13: 15m +3.5%/30m vol1.5x RSI60 gap1.0",
+          "win_rate": 42.24,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 923,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+          "win_rate": 38.58,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.67,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 925,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G16: 15m +3.5%/30m vol2.5x RSI70 dayhigh",
+          "win_rate": 43.93,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 926,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G17: 15m +3.5%/30m vol3.0x RSI75",
+          "win_rate": 39.35,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.67,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 58.05,
+            "Volume": 76899,
+            "VolAvg20": 28183.0,
+            "RSI14": 71.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2177.4,
+            "Volume": 24239,
+            "VolAvg20": 6925.0,
+            "RSI14": 62.5,
+            "Shoot_pct": 4.16,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 6.27,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 4.71,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 58.05,
+            "Volume": 76899,
+            "VolAvg20": 28183.0,
+            "RSI14": 71.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 5.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.67,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 931,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+          "win_rate": 41.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 4.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 5.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 5.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 5.23,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1870.3,
+            "Volume": 174329,
+            "VolAvg20": 53207.0,
+            "RSI14": 85.9,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 283.05,
+            "Volume": 3467771,
+            "VolAvg20": 258990.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        },
+        {
+          "rank": 992,
+          "market": "NSE",
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "factors": "Fade H5: 15m +2.0% vol2.2x RSI75 gap0.8 (legacy S5)",
+          "win_rate": 39.7,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 512.9,
+            "Volume": 76805,
+            "VolAvg20": 6383.0,
+            "RSI14": 77.0,
+            "Shoot_pct": 3.28,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.03
+          }
+        }
+      ],
+      "entries": [],
+      "skipped_entries": [
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12031.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12031.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NETWEB.NS",
+          "direction": "SHORT",
+          "close": 5422.7001953125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "close": 58.04999923706055,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12031.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "close": 58.04999923706055,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12031.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "close": 58.04999923706055,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12031.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2177.39990234375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "close": 58.04999923706055,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "close": 58.04999923706055,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "AVALON.NS",
+          "direction": "SHORT",
+          "close": 2177.39990234375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TEMBO.NS",
+          "direction": "SHORT",
+          "close": 58.04999923706055,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "POLICYBZR.NS",
+          "direction": "SHORT",
+          "close": 1870.300048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "close": 283.04998779296875,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "INDOBORAX.NS",
+          "direction": "SHORT",
+          "close": 512.9000244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 103717.13000000002,
+          "CRYPTO": 101593.04,
+          "INTRADAY": 106839.56999999998,
+          "FADE": 82922.7000000001,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 94963.48999999999
+        },
+        "total_capital": 791115.28,
+        "open_count": 5,
+        "total_pnl": -8884.720000000001,
+        "closed_count": 162,
+        "wins": 66,
+        "losses": 96
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 159.7
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 103717.13000000002,
+      "CRYPTO": 101593.04,
+      "INTRADAY": 106839.56999999998,
+      "FADE": 82922.7000000001,
+      "US_FADE": 100000.0,
+      "LONG_BOUNCE": 101079.35,
+      "IPO": 94963.48999999999
+    },
+    "total_capital": 791115.28,
+    "open_count": 5,
+    "total_pnl": -8884.720000000001,
+    "closed_count": 162,
+    "wins": 66,
+    "losses": 96
+  }
+}
