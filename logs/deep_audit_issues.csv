@@ -1,0 +1,16 @@
+check,item,detail
+P&L-MATH,XLK#3@2026-07-31,stored 1628.99 vs net-recomputed 1627.75
+P&L-%,TRX-USD#1@2026-08-05,stored 0.29% vs 0.58%
+P&L-MATH,XLV#4@2026-08-05,stored 1080.95 vs net-recomputed 1079.90
+P&L-MATH,XLB#2@2026-08-06,stored 440.05 vs net-recomputed 435.52
+P&L-%,ETH-USD#32@2026-08-11,stored 0.04% vs 0.34%
+P&L-%,TRX-USD#1@2026-08-11,stored -0.47% vs -0.18%
+P&L-MATH,XLP#5@2026-08-11,stored 733.41 vs net-recomputed 735.53
+P&L-MATH,MANAKSTEEL.NS#903@2026-08-13,stored 1177.60 vs net-recomputed 1180.11
+P&L-%,ETH-USD#32@2026-08-16,stored 3.49% vs 3.79%
+P&L-%,TRX-USD#1@2026-08-16,stored 1.17% vs 1.48%
+DUPLICATE,DIA#36@2026-07-29,same key twice
+DUPLICATE,DIA#36@2026-07-29,same key twice
+DUPLICATE,DIA#36@2026-07-29,same key twice
+DUPLICATE,QQQ#5@2026-07-31,same key twice
+DUPLICATE,QQQ#5@2026-07-31,same key twice

@@ -7,6 +7,16 @@ on:
     # Entry gating (paper_trader.check_entry_allowed) blocks any run that
     # lands after the 15:30 close from creating post-close fills.
     - cron: '*/15 4-9 * * 1-5'
+    # US market hours 13:30-20:00 UTC — mode=fade skips India scanners when
+    # India is closed and runs the US_FADE scanner instead (bot.py gates on
+    # mkt.US OPEN/PRE-OPEN). Without these crons the US fade scanner ran
+    # only on bot.yml's ~6 sparse both-mode runs and never caught signals
+    # that its own 30-day backtest proved abundant (171 trades/mo replayed,
+    # 0 captured live).
+    - cron: '30/15 13 * * 1-5'
+    - cron: '*/15 14-16 * * 1-5'
+    - cron: '*/15 17-19 * * 1-5'
+    - cron: '0 20 * * 1-5'
   workflow_dispatch:
 
 permissions:
