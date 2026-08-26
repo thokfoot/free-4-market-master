@@ -2,7 +2,7 @@
   "capital_by_market": {
     "INDIAN": 100000.0,
     "US": 103717.13000000002,
-    "CRYPTO": 101693.57999999999,
+    "CRYPTO": 101593.04,
     "INTRADAY": 106839.56999999998,
     "FADE": 82922.7000000001,
     "US_FADE": 100000.0,
@@ -32,29 +32,6 @@
       "Pattern_Factors": "Price>SMA20+EMA9<EMA20+Close<Open",
       "Reason": "#57SW Price>SMA20+EMA9<EMA20+Close<Open",
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 46.03132, \"BB_lo\": 44.109681, \"Close\": 45.080002, \"EMA20\": 44.957695, \"EMA200\": 43.466243, \"EMA50\": 44.780011, \"EMA9\": 44.94812, \"High\": 45.255001, \"Low\": 44.933998, \"Open\": 45.200001, \"RSI14\": 51.888379, \"Ret\": 0.0, \"SMA20\": 45.0705, \"SMA50\": 44.8678, \"Volume\": 3968900.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-23 07:51:10 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"45c6a11f08d41357e9b6038a6644a0c54ee887b4d9d2010526bd8ea4b0ea5250\"}, \"high20\": 46.455002, \"high50\": 46.455002, \"low20\": 44.009998, \"low50\": 43.48}"
-    },
-    {
-      "Date": "2026-08-23",
-      "Time_IST": "07:51:10 IST",
-      "Mode": "CRYPTO",
-      "Ticker": "TRX-USD",
-      "Direction": "LONG",
-      "TimeFrame": "SWING_1d",
-      "Entry_Price": 0.3462,
-      "Qty": 10000,
-      "SL": 0.3382,
-      "Target": 0.3589,
-      "MaxHold": 5,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 1,
-      "Expected_WinRate": 66.67,
-      "Pattern_Factors": "EMA9>EMA20+Price>SMA50+Range<1%",
-      "Reason": "#1SW EMA9>EMA20+Price>SMA50+Range<1%",
-      "Signal_Indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 0.342604, \"BB_lo\": 0.322249, \"Close\": 0.345137, \"EMA20\": 0.333753, \"EMA200\": 0.322532, \"EMA50\": 0.330808, \"EMA9\": 0.337211, \"High\": 0.345367, \"Low\": 0.34419, \"Open\": 0.344229, \"RSI14\": 75.347643, \"Ret\": 0.005205, \"SMA20\": 0.332427, \"SMA50\": 0.329547, \"Volume\": 896564352.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-23 07:51:10 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"841d75978c0b90d3d955daa219375d748b86c110612710892971f186fbc6b405\"}, \"high20\": 0.34335, \"high50\": 0.34335, \"low20\": 0.325217, \"low50\": 0.316794}"
     },
     {
       "Date": "2026-08-23",
@@ -124,21 +101,44 @@
       "Pattern_Factors": "EMA9>EMA20+Range<1%",
       "Reason": "#4SW EMA9>EMA20+Range<1%",
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 175.864131, \"BB_lo\": 159.419869, \"Close\": 174.529999, \"EMA20\": 168.30809, \"EMA200\": 154.030413, \"EMA50\": 162.961143, \"EMA9\": 171.440751, \"High\": 174.830002, \"Low\": 173.330002, \"Open\": 174.410004, \"RSI14\": 68.059204, \"Ret\": -0.000515, \"SMA20\": 167.642, \"SMA50\": 162.1152, \"Volume\": 4415397.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-25 00:21:29 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"0e5a554d6cdf867147a863dbaa87285229b6bdde8405ef04e62d923f28408cf2\"}, \"high20\": 176.600006, \"high50\": 176.600006, \"low20\": 160.729996, \"low50\": 148.789993}"
+    },
+    {
+      "Date": "2026-08-26",
+      "Time_IST": "00:19:41 IST",
+      "Mode": "US",
+      "Ticker": "VTI",
+      "Direction": "LONG",
+      "TimeFrame": "SWING_1d",
+      "Entry_Price": 377.11,
+      "Qty": 133,
+      "SL": 369.53,
+      "Target": 392.15,
+      "MaxHold": 5,
+      "Exit_Price": "",
+      "Exit_Time": "",
+      "P&L": "",
+      "P&L_%": "",
+      "Status": "OPEN",
+      "Pattern_Rank": 3,
+      "Expected_WinRate": 60.9,
+      "Pattern_Factors": "Range<1%+SMA20<EMA20",
+      "Reason": "#3SW Range<1%+SMA20<EMA20",
+      "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 390.418284, \"BB_lo\": 363.717712, \"Close\": 377.070007, \"EMA20\": 377.20007, \"EMA200\": 349.68499, \"EMA50\": 371.828667, \"EMA9\": 378.840176, \"High\": 378.0, \"Low\": 376.480011, \"Open\": 377.920013, \"RSI14\": 52.14451, \"Ret\": -0.003093, \"SMA20\": 377.067998, \"SMA50\": 371.565996, \"Volume\": 2963600.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-26 00:19:41 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"7d4507f7724401cf8e473ac67923b34d856a349cb42c70c444777355cfcb7c9b\"}, \"high20\": 385.119995, \"high50\": 385.119995, \"low20\": 360.200012, \"low50\": 356.723865}"
     }
   ],
-  "closed_count": 161,
+  "closed_count": 162,
   "total_wins": 66,
-  "total_losses": 95,
-  "total_pnl": -8784.18,
+  "total_losses": 96,
+  "total_pnl": -8884.720000000001,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 3717.1299999999987,
-    "CRYPTO": 1693.58,
+    "CRYPTO": 1593.04,
     "INTRADAY": 6839.570000000001,
     "FADE": -17077.300000000003,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": -5036.51
   },
-  "total_capital": 791215.82
+  "total_capital": 791115.28
 }
