@@ -18092,5 +18092,55 @@
     "expected_win_rate": 62.35,
     "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-28 01:53:36 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-28 01:53:36 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-28 01:53:36 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-28 01:53:36 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-28 01:53:36 IST",
+    "mode": "US",
+    "ticker": "XLB",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
