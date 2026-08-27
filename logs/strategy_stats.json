@@ -19,10 +19,10 @@
   },
   "16": {
     "rank": 16,
-    "factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
-    "wins": 2,
+    "factors": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h",
+    "wins": 3,
     "losses": 1,
-    "total_pnl": 1033.27,
+    "total_pnl": 1385.87,
     "consec_losses": 0,
     "paused_since": null
   },

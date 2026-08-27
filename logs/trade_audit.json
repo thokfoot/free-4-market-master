@@ -18074,5 +18074,23 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=PRE-OPEN \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-28 00:57:20 IST",
+    "entry_datetime": "2026-08-27 01:26:29 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "entry_price": 767.04,
+    "exit_price": 769.79,
+    "qty": 136,
+    "pnl": 352.6,
+    "pnl_pct": 0.34,
+    "hold": "23h 30m",
+    "pattern_rank": 16,
+    "expected_win_rate": 62.35,
+    "pattern_factors": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "reason": "#16ID Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open | Expiry 6h"
   }
 ]
