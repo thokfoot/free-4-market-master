@@ -128,10 +128,10 @@
   "4": {
     "rank": 4,
     "factors": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
-    "wins": 3,
+    "wins": 4,
     "losses": 5,
-    "total_pnl": 838.67,
-    "consec_losses": 3,
+    "total_pnl": 1212.59,
+    "consec_losses": 0,
     "paused_since": null
   },
   "43": {
@@ -420,6 +420,15 @@
     "losses": 0,
     "total_pnl": 1825.5,
     "consec_losses": 0,
+    "paused_since": null
+  },
+  "57": {
+    "rank": 57,
+    "factors": "#57SW Price>SMA20+EMA9<EMA20+Close<Open | Expiry 5d",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -479.0,
+    "consec_losses": 1,
     "paused_since": null
   }
 }

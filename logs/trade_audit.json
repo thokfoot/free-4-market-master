@@ -18142,5 +18142,43 @@
     "tf": "SWING_1d",
     "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-28 09:07:28 IST",
+    "entry_datetime": "2026-08-23 07:51:10 IST",
+    "mode": "US",
+    "ticker": "XLRE",
+    "direction": "LONG",
+    "entry_price": 45.08,
+    "exit_price": 44.66,
+    "qty": 1105,
+    "pnl": -479.0,
+    "pnl_pct": -0.96,
+    "hold": "5d 1h 16m",
+    "pattern_rank": 57,
+    "expected_win_rate": 69.23,
+    "pattern_factors": "Price>SMA20+EMA9<EMA20+Close<Open",
+    "reason": "#57SW Price>SMA20+EMA9<EMA20+Close<Open | Expiry 5d",
+    "signal_indicators": ""
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-28 09:07:28 IST",
+    "entry_datetime": "2026-08-23 07:51:10 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "entry_price": 377.9,
+    "exit_price": 380.85,
+    "qty": 130,
+    "pnl": 373.92,
+    "pnl_pct": 0.76,
+    "hold": "5d 1h 16m",
+    "pattern_rank": 4,
+    "expected_win_rate": 59.53,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
+    "signal_indicators": ""
   }
 ]
