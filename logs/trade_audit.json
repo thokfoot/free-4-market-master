@@ -18196,5 +18196,23 @@
     "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
     "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
     "signal_indicators": "{\"Close\": 429.75, \"ListingHigh\": 395.9, \"_provenance\": {\"captured_at_ist\": \"2026-08-28 18:06:59 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"8d3b60c39d3f79dde08a719919fc44fd41388a8f4c398d8f214bb31a05c4a79b\"}}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-08-28 21:08:12 IST",
+    "entry_datetime": "2026-08-25 00:21:29 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "entry_price": 174.55,
+    "exit_price": 171.02,
+    "qty": 275,
+    "pnl": -979.55,
+    "pnl_pct": -2.04,
+    "hold": "3d 20h 46m",
+    "pattern_rank": 4,
+    "expected_win_rate": 52.32,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf SL Hit (live)"
   }
 ]
