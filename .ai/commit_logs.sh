@@ -23,15 +23,17 @@ git config --local user.name "paper-trade-bot" 2>/dev/null || true
 
 # Strategy/universe definition files — source of truth is origin/main.
 STRATEGY_FILES="data/strategies.csv data/intraday_strategies.csv data/nse_fade_universe.csv data/us_fade_universe.csv"
+# Self-healing fix files — also protected so a stale runner never overwrites the fix (2026-08-28: health_check lost after rebase).
+PROTECTED_FIX="health_check.py keepalive_guard.py config.py .github/workflows/health.yml .github/workflows/live_pnl.yml"
 
 # Restore protected files from origin/main (or HEAD if origin ref missing).
 # The runner only ever READS these; any local divergence is corruption from
 # a bad merge, so the remote version always wins.
 protect_strategy_files() {
   if git rev-parse --verify origin/main >/dev/null 2>&1; then
-    git checkout origin/main -- $STRATEGY_FILES 2>/dev/null || true
+    git checkout origin/main -- $STRATEGY_FILES $PROTECTED_FIX 2>/dev/null || true
   else
-    git checkout HEAD -- $STRATEGY_FILES 2>/dev/null || true
+    git checkout HEAD -- $STRATEGY_FILES $PROTECTED_FIX 2>/dev/null || true
   fi
 }
 
