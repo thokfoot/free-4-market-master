@@ -18180,5 +18180,21 @@
     "pattern_factors": "EMA9>EMA20+Price>SMA20+Range<1%",
     "reason": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
     "signal_indicators": ""
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-28 18:06:59 IST",
+    "mode": "INDIAN",
+    "ticker": "SUNSHINE.NS",
+    "direction": "LONG",
+    "entry_price": 430.07,
+    "qty": 18,
+    "sl": 378.18,
+    "target": 515.7,
+    "pattern_rank": 938,
+    "expected_win_rate": 61.4,
+    "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+    "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
+    "signal_indicators": "{\"Close\": 429.75, \"ListingHigh\": 395.9, \"_provenance\": {\"captured_at_ist\": \"2026-08-28 18:06:59 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"8d3b60c39d3f79dde08a719919fc44fd41388a8f4c398d8f214bb31a05c4a79b\"}}"
   }
 ]
