@@ -843,7 +843,7 @@ INDIAN_HOLIDAYS = {
     "06-17",  # Bakri Eid (approx)
     "07-17",  # Muharram (approx)
     "08-15",  # Independence Day
-    "08-27",  # Ganesh Chaturthi (approx)
+    # "08-27" Ganesh Chaturthi - REMOVED 2026-08-28 recheck: market was OPEN 27-28 Aug (yfinance), use real NSE calendar
     "10-02",  # Gandhi Jayanti
     "10-12",  # Dussehra (approx)
     "10-31",  # Diwali (approx)

@@ -27,8 +27,10 @@ LOG_DIR = "logs"
 PORTFOLIO_FILE = f"{LOG_DIR}/portfolio.json"
 
 # Only these intraday frames need a fast self-healing loop. Swing positions
-# (multi-day holds, wider SL) are covered by the regular cron scans.
-TIME_SENSITIVE_TFS = ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m")
+# (multi-day holds, wider SL) are covered by the regular cron + health self-heal.
+# v5.23 fix: include IPO_1d so a missed daily scan that leaves an IPO position
+# without an exit check still self-heals via live_pnl.
+TIME_SENSITIVE_TFS = ("GAP_DOWN_1m", "INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "IPO_1d")
 
 
 def should_reschedule(opens, now) -> tuple:

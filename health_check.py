@@ -112,6 +112,64 @@ def send_telegram(msg: str) -> None:
         print(f"[Health] TG alert failed: {e}")
 
 
+def trigger_workflow(workflow_file: str, ref: str = "main") -> bool:
+    """Self-healing: trigger a workflow via GitHub API when heartbeat is stale."""
+    gh_token = os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
+    repo = os.getenv("GITHUB_REPOSITORY", "thokfoot/free-4-market-master")
+    if not gh_token:
+        try:
+            import subprocess
+            name_map = {
+                "bot.yml": "FREE 3-Market v5.12 PAPER TRADE (SWING + INTRADAY + FADE)",
+                "live_pnl.yml": "LIVE P&L v5.10 (Market Hours)",
+                "fade_scan.yml": "FADE SCAN (5-min)",
+                "gap_down.yml": "Gap-Down 1m Scan",
+            }
+            wf_name = name_map.get(workflow_file, workflow_file)
+            r = subprocess.run(["gh", "workflow", "run", wf_name, "--ref", ref],
+                               capture_output=True, text=True, timeout=15)
+            if r.returncode == 0:
+                print(f"[Health] gh trigger OK: {wf_name}")
+                return True
+            print(f"[Health] gh trigger failed {wf_name}: {r.stderr[:200]}")
+        except Exception as e:
+            print(f"[Health] gh trigger exception {workflow_file}: {e}")
+        return False
+    try:
+        import requests
+        url = f"https://api.github.com/repos/{repo}/actions/workflows/{workflow_file}/dispatches"
+        r = requests.post(url,
+                          headers={"Authorization": f"Bearer {gh_token}",
+                                   "Accept": "application/vnd.github+json",
+                                   "X-GitHub-Api-Version": "2022-11-28"},
+                          json={"ref": ref},
+                          timeout=15)
+        if r.status_code in (204, 201):
+            print(f"[Health] API trigger OK: {workflow_file} -> {r.status_code}")
+            return True
+        print(f"[Health] API trigger failed {workflow_file}: {r.status_code} {r.text[:200]}")
+        try:
+            import subprocess
+            name_map = {
+                "bot.yml": "FREE 3-Market v5.12 PAPER TRADE (SWING + INTRADAY + FADE)",
+                "live_pnl.yml": "LIVE P&L v5.10 (Market Hours)",
+                "fade_scan.yml": "FADE SCAN (5-min)",
+                "gap_down.yml": "Gap-Down 1m Scan",
+            }
+            wf_name = name_map.get(workflow_file, workflow_file)
+            r2 = subprocess.run(["gh", "workflow", "run", wf_name, "--ref", ref],
+                                capture_output=True, text=True, timeout=15)
+            if r2.returncode == 0:
+                print(f"[Health] gh fallback OK: {wf_name}")
+                return True
+        except Exception:
+            pass
+        return False
+    except Exception as e:
+        print(f"[Health] trigger exception {workflow_file}: {e}")
+        return False
+
+
 def main() -> int:
     now = now_ist()
     hb = last_heartbeat()
@@ -150,16 +208,38 @@ def main() -> int:
         with open(STATE_FILE, "w", encoding="utf-8") as f:
             json.dump(state, f, indent=2)
         print(f"[Health] ALERT sent (gap {gap_min:.0f} min)")
+        for wf in ["bot.yml", "live_pnl.yml", "fade_scan.yml", "gap_down.yml"]:
+            ok = trigger_workflow(wf)
+            try:
+                time.sleep(1)
+            except Exception:
+                pass
+            if ok:
+                print(f"[Health] Self-heal triggered {wf} (gap {gap_min:.0f}m)")
         return 1
     elif stale:
         print(f"[Health] Still stale ({gap_min:.0f} min) — already alerted, "
               f"next re-alert in {180 - alert_age_min:.0f} min")
+        last_heal = state.get("last_heal_ts")
+        heal_age = (now - datetime.fromisoformat(last_heal)).total_seconds() / 60.0 if last_heal else 999999
+        if heal_age > 35:
+            print(f"[Health] Self-heal retry (heal_age {heal_age:.0f}m)")
+            for wf in ["bot.yml", "live_pnl.yml"]:
+                trigger_workflow(wf)
+                try:
+                    time.sleep(1)
+                except Exception:
+                    pass
+            state["last_heal_ts"] = now.isoformat()
+            with open(STATE_FILE, "w", encoding="utf-8") as f:
+                json.dump(state, f, indent=2)
         return 1
     else:
         # Healthy — clear the alert state so the next outage re-alerts
         if state:
             state.pop("last_alert_ts", None)
             state.pop("last_gap_min", None)
+            state.pop("last_heal_ts", None)
             with open(STATE_FILE, "w", encoding="utf-8") as f:
                 json.dump(state, f, indent=2)
         print(f"[Health] OK — heartbeat {gap_min:.0f} min ago (threshold {threshold:.0f})")
