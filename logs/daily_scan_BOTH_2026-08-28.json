@@ -1544,6 +1544,2550 @@
       },
       "telegram_status": "Sent",
       "duration_sec": 159.6
+    },
+    {
+      "time": "09:56:06 IST",
+      "mode": "BOTH",
+      "tickers_scanned": [
+        "AASTHA.NS",
+        "ABFRL.NS",
+        "ADA-USD",
+        "ADANIENSOL.NS",
+        "ADANIENT.NS",
+        "ADANIGREEN.NS",
+        "ADANIPORTS.NS",
+        "ALPINETEX.NS",
+        "AMAGI.NS",
+        "APEX.NS",
+        "APOLLO.NS",
+        "APOLLOHOSP.NS",
+        "ARDEE.NS",
+        "ASHOKLEY.NS",
+        "ASIANPAINT.NS",
+        "AUBANK.NS",
+        "AVALON.NS",
+        "AVAX-USD",
+        "AXISBANK.NS",
+        "BAJAJ-AUTO.NS",
+        "BAJAJFINSV.NS",
+        "BAJAJHFL.NS",
+        "BAJAJHLDNG.NS",
+        "BAJFINANCE.NS",
+        "BANDHANBNK.NS",
+        "BANKBARODA.NS",
+        "BANKBEES.NS",
+        "BDL.NS",
+        "BEL.NS",
+        "BERGEPAINT.NS",
+        "BESTAGRO.NS",
+        "BHARTIARTL.NS",
+        "BLEL.NS",
+        "BLISSGVS.NS",
+        "BLS.NS",
+        "BLSE.NS",
+        "BNB-USD",
+        "BPCL.NS",
+        "BRITANNIA.NS",
+        "CANBK.NS",
+        "CHOLAFIN.NS",
+        "CIPLA.NS",
+        "COALINDIA.NS",
+        "COCHINSHIP.NS",
+        "COFORGE.NS",
+        "CORDELIA.NS",
+        "CSM.NS",
+        "CUMMINSIND.NS",
+        "DCMSHRIRAM.NS",
+        "DHOOTTRANS.NS",
+        "DIA",
+        "DIVISLAB.NS",
+        "DMART.NS",
+        "DOGE-USD",
+        "DOMS.NS",
+        "DRREDDY.NS",
+        "E2E.NS",
+        "EICHERMOT.NS",
+        "ETH-USD",
+        "FEDERALBNK.NS",
+        "FIRSTCRY.NS",
+        "FRACTAL.NS",
+        "GARUDA.NS",
+        "GODAVARIB.NS",
+        "GODFRYPHLP.NS",
+        "GOLDIAM.NS",
+        "GRASIM.NS",
+        "GREAVESCOT.NS",
+        "HAL.NS",
+        "HCLTECH.NS",
+        "HDFCBANK.NS",
+        "HDFCLIFE.NS",
+        "HEROMOTOCO.NS",
+        "HINDALCO.NS",
+        "HINDUNILVR.NS",
+        "HIRECT.NS",
+        "HOMEFIRST.NS",
+        "HORIZONIND.NS",
+        "IBB",
+        "ICICIBANK.NS",
+        "IDEA.NS",
+        "IDFCFIRSTB.NS",
+        "IJH",
+        "INDIGO.NS",
+        "INDOBORAX.NS",
+        "INDOMIM.NS",
+        "INDUSINDBK.NS",
+        "INFY.NS",
+        "INNOVISION.NS",
+        "IRCTC.NS",
+        "IREDA.NS",
+        "IRFC.NS",
+        "ITC.NS",
+        "IWB",
+        "IWM",
+        "JINDWORLD.NS",
+        "JNPR.NS",
+        "JPPOWER.NS",
+        "JSWINFRA.NS",
+        "JSWSTEEL.NS",
+        "KBE",
+        "KEI.NS",
+        "KERNEX.NS",
+        "KIOCL.NS",
+        "KNACK.NS",
+        "KOTAKBANK.NS",
+        "KPITTECH.NS",
+        "KRN.NS",
+        "KUSUMGAR.NS",
+        "LALITHAA.NS",
+        "LASERPOWER.NS",
+        "LCL.NS",
+        "LEAPIND.NS",
+        "LINK-USD",
+        "LT.NS",
+        "LTTS.NS",
+        "M&M.NS",
+        "MANIPALHOS.NS",
+        "MARUTI.NS",
+        "MAZDOCK.NS",
+        "MILKYMIST.NS",
+        "MOLBIO.NS",
+        "MOTHERSON.NS",
+        "MPHASIS.NS",
+        "MUTHOOTFIN.NS",
+        "MVELECTRO.NS",
+        "NACLIND.NS",
+        "NESTLEIND.NS",
+        "NETWEB.NS",
+        "NEWGEN.NS",
+        "NMDC.NS",
+        "NTPC.NS",
+        "NTPCGREEN.NS",
+        "OEF",
+        "OFSS.NS",
+        "OMPOWER.NS",
+        "ONGC.NS",
+        "PCJEWELLER.NS",
+        "PERSISTENT.NS",
+        "PFC.NS",
+        "PIDILITIND.NS",
+        "PNB.NS",
+        "POCL.NS",
+        "POLICYBZR.NS",
+        "POLYCAB.NS",
+        "POWERGRID.NS",
+        "PRECWIRE.NS",
+        "PREMIERENE.NS",
+        "PVP.NS",
+        "QQQ",
+        "QUADFUTURE.NS",
+        "RAMBHAJO.NS",
+        "RAMCOSYS.NS",
+        "RECLTD.NS",
+        "RELIANCE.NS",
+        "RPEL.NS",
+        "RVNL.NS",
+        "SAIL.NS",
+        "SANSTAR.NS",
+        "SBIFUNDS.NS",
+        "SBILIFE.NS",
+        "SBIN.NS",
+        "SHANKESH.NS",
+        "SHIPROCKET.NS",
+        "SOL-USD",
+        "SOXX",
+        "SPY",
+        "SRTL.NS",
+        "SUNPHARMA.NS",
+        "SUNSHINE.NS",
+        "SUZLON.NS",
+        "SWIGGY.NS",
+        "TATACONSUM.NS",
+        "TATAELXSI.NS",
+        "TATAINVEST.NS",
+        "TATAPOWER.NS",
+        "TATASTEEL.NS",
+        "TATATECH.NS",
+        "TATVA.NS",
+        "TCS.NS",
+        "TECHM.NS",
+        "TECHNOCRAF.NS",
+        "TEMBO.NS",
+        "TITAN.NS",
+        "TRENT.NS",
+        "TRX-USD",
+        "TURTLEMINT.NS",
+        "TVSMOTOR.NS",
+        "ULTRACEMCO.NS",
+        "UPL.NS",
+        "VEDL.NS",
+        "VIMTALABS.NS",
+        "VTI",
+        "WIPRO.NS",
+        "XLB",
+        "XLC",
+        "XLE",
+        "XLF",
+        "XLI",
+        "XLK",
+        "XLP",
+        "XLRE",
+        "XLU",
+        "XLV",
+        "XLY",
+        "XRP-USD",
+        "XTRANET.NS",
+        "YATRA.NS"
+      ],
+      "market_close": {
+        "BANKBEES.NS": 596.7100219726562,
+        "DOGE-USD": 0.08792000263929367,
+        "ETH-USD": 2491.0,
+        "ADA-USD": 0.2105800062417984,
+        "AVAX-USD": 7.454999923706055,
+        "DIA": 535.1699829101562,
+        "IJH": 76.6500015258789,
+        "IWB": 422.3699951171875,
+        "IWM": 299.82000732421875,
+        "IBB": 214.8000030517578,
+        "OEF": 380.8900146484375,
+        "KBE": 68.41999816894531,
+        "SOXX": 525.4299926757812,
+        "QQQ": 721.0599975585938,
+        "SPY": 771.0399780273438,
+        "TRX-USD": 0.33864763379096985,
+        "VTI": 380.6300048828125,
+        "XLB": 53.22999954223633,
+        "XLC": 111.41000366210938,
+        "XLI": 178.8000030517578,
+        "XLE": 62.290000915527344,
+        "XLF": 57.900001525878906,
+        "XLP": 85.08000183105469,
+        "XLK": 188.63999938964844,
+        "XLRE": 44.65999984741211,
+        "XLU": 43.18000030517578,
+        "XLY": 115.87999725341797,
+        "XLV": 171.5800018310547,
+        "XRP-USD": 1.4276000261306763,
+        "LINK-USD": 11.767999649047852,
+        "SOL-USD": 107.08999633789062,
+        "BNB-USD": 711.0
+      },
+      "patterns_count": 5493,
+      "patterns_fired": 71,
+      "fired_patterns": [
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1963.1,
+            "Volume": 568945,
+            "VolAvg20": 62109.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.32,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "HCLTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1322.8,
+            "Volume": 290400,
+            "VolAvg20": 82426.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.18,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "INFY.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1139.6,
+            "Volume": 800594,
+            "VolAvg20": 263335.0,
+            "RSI14": 78.1,
+            "Shoot_pct": 2.59,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1576.3,
+            "Volume": 35392,
+            "VolAvg20": 3535.0,
+            "RSI14": 75.2,
+            "Shoot_pct": 3.16,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "MPHASIS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2470.1,
+            "Volume": 40186,
+            "VolAvg20": 5434.0,
+            "RSI14": 86.4,
+            "Shoot_pct": 2.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 2.87,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "PERSISTENT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5776.0,
+            "Volume": 65937,
+            "VolAvg20": 7370.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 2.34,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 901,
+          "market": "NSE",
+          "ticker": "WIPRO.NS",
+          "direction": "SHORT",
+          "factors": "Fade S2: 15m +2.0%/45m vol3.0x RSI75",
+          "win_rate": 40.54,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 180.0,
+            "Volume": 1126390,
+            "VolAvg20": 154662.0,
+            "RSI14": 79.6,
+            "Shoot_pct": 2.04,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1963.1,
+            "Volume": 568945,
+            "VolAvg20": 62109.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "HCLTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1322.8,
+            "Volume": 290400,
+            "VolAvg20": 82426.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.18,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1576.3,
+            "Volume": 35392,
+            "VolAvg20": 3535.0,
+            "RSI14": 75.2,
+            "Shoot_pct": 3.3,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 3.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 902,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S3: 15m +3.0%/90m vol3.0x RSI70 gap0.8",
+          "win_rate": 42.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1963.1,
+            "Volume": 568945,
+            "VolAvg20": 62109.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "HCLTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1322.8,
+            "Volume": 290400,
+            "VolAvg20": 82426.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.18,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1576.3,
+            "Volume": 35392,
+            "VolAvg20": 3535.0,
+            "RSI14": 75.2,
+            "Shoot_pct": 3.3,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 3.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "RAMCOSYS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 570.65,
+            "Volume": 26917,
+            "VolAvg20": 3306.0,
+            "RSI14": 65.3,
+            "Shoot_pct": 3.33,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1791.0,
+            "Volume": 7838,
+            "VolAvg20": 2727.0,
+            "RSI14": 68.9,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "TECHM.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1632.0,
+            "Volume": 187045,
+            "VolAvg20": 77066.0,
+            "RSI14": 79.9,
+            "Shoot_pct": 3.03,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 903,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S4: 15m +3.0%/90m vol2.0x RSI65 gap1.0",
+          "win_rate": 45.41,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1963.1,
+            "Volume": 568945,
+            "VolAvg20": 62109.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "HCLTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1322.8,
+            "Volume": 290400,
+            "VolAvg20": 82426.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.18,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "INFY.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1139.6,
+            "Volume": 800594,
+            "VolAvg20": 263335.0,
+            "RSI14": 78.1,
+            "Shoot_pct": 2.87,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1576.3,
+            "Volume": 35392,
+            "VolAvg20": 3535.0,
+            "RSI14": 75.2,
+            "Shoot_pct": 3.3,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "MPHASIS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2470.1,
+            "Volume": 40186,
+            "VolAvg20": 5434.0,
+            "RSI14": 86.4,
+            "Shoot_pct": 2.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 3.4,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 905,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S6: 15m +2.5%/60m vol2.5x RSI70 gap0.8",
+          "win_rate": 41.53,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1963.1,
+            "Volume": 568945,
+            "VolAvg20": 62109.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 3.36,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "HCLTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1322.8,
+            "Volume": 290400,
+            "VolAvg20": 82426.0,
+            "RSI14": 76.6,
+            "Shoot_pct": 3.18,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "INFY.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1139.6,
+            "Volume": 800594,
+            "VolAvg20": 263335.0,
+            "RSI14": 78.1,
+            "Shoot_pct": 2.87,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1576.3,
+            "Volume": 35392,
+            "VolAvg20": 3535.0,
+            "RSI14": 75.2,
+            "Shoot_pct": 3.3,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "MPHASIS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2470.1,
+            "Volume": 40186,
+            "VolAvg20": 5434.0,
+            "RSI14": 86.4,
+            "Shoot_pct": 2.98,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 3.4,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "PERSISTENT.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 5776.0,
+            "Volume": 65937,
+            "VolAvg20": 7370.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 2.34,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "TECHM.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1632.0,
+            "Volume": 187045,
+            "VolAvg20": 77066.0,
+            "RSI14": 79.9,
+            "Shoot_pct": 3.03,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "VEDL.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 287.15,
+            "Volume": 1277329,
+            "VolAvg20": 366854.0,
+            "RSI14": 73.1,
+            "Shoot_pct": 2.37,
+            "NearDayHigh": true,
+            "BrkPrevHigh": false,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 906,
+          "market": "NSE",
+          "ticker": "WIPRO.NS",
+          "direction": "SHORT",
+          "factors": "Fade S7: 15m +2.0%/60m vol2.0x RSI70 gap1.0",
+          "win_rate": 42.12,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 180.0,
+            "Volume": 1126390,
+            "VolAvg20": 154662.0,
+            "RSI14": 79.6,
+            "Shoot_pct": 2.04,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 3.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1791.0,
+            "Volume": 7838,
+            "VolAvg20": 2727.0,
+            "RSI14": 68.9,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 941,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-verified)",
+          "win_rate": 50.0,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1963.1,
+            "Volume": 568945,
+            "VolAvg20": 62109.0,
+            "RSI14": 82.3,
+            "Shoot_pct": 2.44,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 3.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "KRN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1576.3,
+            "Volume": 35392,
+            "VolAvg20": 3535.0,
+            "RSI14": 75.2,
+            "Shoot_pct": 2.24,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 2.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 3.11,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 909,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade S10: 15m +2.0%/30m vol2.2x RSI75 gap0.8",
+          "win_rate": 41.29,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 2.58,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 3.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 3.11,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "RAMCOSYS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 570.65,
+            "Volume": 26917,
+            "VolAvg20": 3306.0,
+            "RSI14": 65.3,
+            "Shoot_pct": 2.59,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1791.0,
+            "Volume": 7838,
+            "VolAvg20": 2727.0,
+            "RSI14": 68.9,
+            "Shoot_pct": 2.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 915,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G6: 15m +2.5%/30m vol2.5x RSI60 dayhigh",
+          "win_rate": 40.31,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 2.58,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 916,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G7: 15m +4.0%/45m vol2.0x RSI60 dayhigh",
+          "win_rate": 43.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 919,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+          "win_rate": 42.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 3.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 919,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G10: 15m +3.0%/30m vol2.0x RSI65 dayhigh",
+          "win_rate": 42.09,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 3.11,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 920,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+          "win_rate": 47.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 3.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 920,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G11: 15m +3.0%/30m vol2.5x RSI60",
+          "win_rate": 47.68,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 3.11,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 923,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+          "win_rate": 38.58,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 3.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 923,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G14: 15m +3.0%/30m vol3.0x RSI60",
+          "win_rate": 38.58,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 3.11,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 924,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G15: 15m +4.0%/45m vol1.5x RSI60",
+          "win_rate": 41.18,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 927,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G18: 15m +3.5%/45m vol1.5x RSI60",
+          "win_rate": 41.48,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.51,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 12191.0,
+            "Volume": 57681,
+            "VolAvg20": 6650.0,
+            "RSI14": 80.7,
+            "Shoot_pct": 3.81,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 1791.0,
+            "Volume": 7838,
+            "VolAvg20": 2727.0,
+            "RSI14": 68.9,
+            "Shoot_pct": 3.53,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 928,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G19: 15m +3.5%/90m vol2.0x RSI60 dayhigh",
+          "win_rate": 42.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 929,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G20: 15m +4.0%/60m vol2.5x RSI60",
+          "win_rate": 38.84,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 930,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G21: 15m +4.0%/45m vol2.5x RSI60",
+          "win_rate": 37.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 931,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+          "win_rate": 41.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 3.45,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 931,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G22: 15m +3.0%/30m vol2.5x RSI65 dayhigh",
+          "win_rate": 41.98,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 3.11,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 932,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G23: 15m +4.0%/60m vol2.0x RSI65 dayhigh",
+          "win_rate": 39.67,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 933,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G24: 15m +4.0%/60m vol1.5x RSI65 dayhigh",
+          "win_rate": 36.55,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 610.35,
+            "Volume": 670606,
+            "VolAvg20": 42191.0,
+            "RSI14": 81.1,
+            "Shoot_pct": 4.43,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 541.7,
+            "Volume": 508190,
+            "VolAvg20": 10446.0,
+            "RSI14": 80.5,
+            "Shoot_pct": 4.01,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        },
+        {
+          "rank": 934,
+          "market": "NSE",
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "factors": "Fade G25: 15m +3.5%/60m vol3.0x RSI65",
+          "win_rate": 37.59,
+          "reason": "All factors met",
+          "signal_indicators": {
+            "Close": 2330.8,
+            "Volume": 526109,
+            "VolAvg20": 61935.0,
+            "RSI14": 82.1,
+            "Shoot_pct": 3.66,
+            "NearDayHigh": true,
+            "BrkPrevHigh": true,
+            "NIFTY_gap_pct": 0.13
+          }
+        }
+      ],
+      "entries": [],
+      "skipped_entries": [
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "close": 1963.0999755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "HCLTECH.NS",
+          "direction": "SHORT",
+          "close": 1322.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "close": 1963.0999755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "close": 1791.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "close": 1963.0999755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "close": 1963.0999755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "close": 1791.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "COFORGE.NS",
+          "direction": "SHORT",
+          "close": 1963.0999755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "close": 1791.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "RAMCOSYS.NS",
+          "direction": "SHORT",
+          "close": 570.6500244140625,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "OFSS.NS",
+          "direction": "SHORT",
+          "close": 12191.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "RPEL.NS",
+          "direction": "SHORT",
+          "close": 1791.0,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "KPITTECH.NS",
+          "direction": "SHORT",
+          "close": 610.3499755859375,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "NEWGEN.NS",
+          "direction": "SHORT",
+          "close": 541.7000122070312,
+          "reason": "FADE_ALLOW_SHORT=False"
+        },
+        {
+          "ticker": "TCS.NS",
+          "direction": "SHORT",
+          "close": 2330.800048828125,
+          "reason": "FADE_ALLOW_SHORT=False"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 103612.05000000002,
+          "CRYPTO": 101593.04,
+          "INTRADAY": 107192.16999999998,
+          "FADE": 82922.7000000001,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 94963.48999999999
+        },
+        "total_capital": 791362.8,
+        "open_count": 5,
+        "total_pnl": -8637.199999999999,
+        "closed_count": 165,
+        "wins": 68,
+        "losses": 97
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 174.3
     }
   ],
   "latest_portfolio": {
