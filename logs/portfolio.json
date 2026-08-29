@@ -7,7 +7,7 @@
     "FADE": 100000.0,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
-    "IPO": 94963.48999999999
+    "IPO": 94015.06999999999
   },
   "open_positions": [
     {
@@ -78,35 +78,12 @@
       "Pattern_Factors": "Price>EMA9+Range<1%",
       "Reason": "#3SW Price>EMA9+Range<1%",
       "Signal_Indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 114.093707, \"BB_lo\": 107.914293, \"Close\": 113.18, \"EMA20\": 111.174983, \"EMA200\": 111.655481, \"EMA50\": 111.050282, \"EMA9\": 111.73869, \"High\": 113.275002, \"Low\": 112.294998, \"Open\": 112.410004, \"RSI14\": 58.133522, \"Ret\": 0.007657, \"SMA20\": 111.004, \"SMA50\": 110.009402, \"Volume\": 2701500.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-27 01:26:20 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"6517b7ae823c6f80e30c2d50df07393a2cb922775b5ebecb2ca0cf654bc08aff\"}, \"high20\": 113.5, \"high50\": 114.029999, \"low20\": 105.492996, \"low50\": 105.029999}"
-    },
-    {
-      "Date": "2026-08-28",
-      "Time_IST": "18:06:59 IST",
-      "Mode": "INDIAN",
-      "Ticker": "SUNSHINE.NS",
-      "Direction": "LONG",
-      "TimeFrame": "IPO_1d",
-      "Entry_Price": 430.07,
-      "Qty": 18,
-      "SL": 378.18,
-      "Target": 515.7,
-      "MaxHold": 45,
-      "Exit_Price": "",
-      "Exit_Time": "",
-      "P&L": "",
-      "P&L_%": "",
-      "Status": "OPEN",
-      "Pattern_Rank": 938,
-      "Expected_WinRate": 61.4,
-      "Pattern_Factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
-      "Reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
-      "Signal_Indicators": "{\"Close\": 429.75, \"ListingHigh\": 395.9, \"_provenance\": {\"captured_at_ist\": \"2026-08-28 18:06:59 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"8d3b60c39d3f79dde08a719919fc44fd41388a8f4c398d8f214bb31a05c4a79b\"}}"
     }
   ],
-  "closed_count": 54,
+  "closed_count": 55,
   "total_wins": 32,
-  "total_losses": 22,
-  "total_pnl": 7644.5399999999945,
+  "total_losses": 23,
+  "total_pnl": 6696.119999999994,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 2816.489999999999,
@@ -115,7 +92,7 @@
     "FADE": 0.0,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
-    "IPO": -5036.51
+    "IPO": -5984.93
   },
-  "total_capital": 807644.5399999999
+  "total_capital": 806696.1199999999
 }

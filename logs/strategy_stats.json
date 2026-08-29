@@ -388,11 +388,11 @@
   },
   "938": {
     "rank": 938,
-    "factors": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | Expiry",
+    "factors": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | SL Hit (i",
     "wins": 1,
-    "losses": 1,
-    "total_pnl": 105.55999999999999,
-    "consec_losses": 1,
+    "losses": 2,
+    "total_pnl": -842.86,
+    "consec_losses": 2,
     "paused_since": null
   },
   "7": {

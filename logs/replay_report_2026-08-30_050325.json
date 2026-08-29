@@ -1,0 +1,25 @@
+{
+  "generated": "2026-08-29 23:33:14.398842+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-08-29 23:33:14.398842+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "SUNSHINE.NS",
+      "direction": "LONG",
+      "tf": "IPO_1d",
+      "entry": 430.07,
+      "sl": 378.18,
+      "target": 515.7,
+      "exit_price": 377.9,
+      "exit_reason": "SL Hit (intraday)",
+      "exit_utc": "2026-08-29 00:00:00+00:00",
+      "pnl": -948.42
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}
