@@ -123,7 +123,8 @@ def _load_strategy_defs():
     # ── NSE FADE strategy family (ranks 992-996, v5.14) — hardcoded defs so
     # the live trades appear properly in the report even though the strategies
     # are driven by scanner_fade.py instead of a strategies CSV.
-    variants = getattr(config, "FADE_VARIANTS", None)
+    # Omitted entirely while paused (FADE_ALLOW_SHORT=False).
+    variants = getattr(config, "FADE_VARIANTS", None) if getattr(config, "FADE_ALLOW_SHORT", False) else None
     if variants:
         for v in variants:
             defs.append({
@@ -187,7 +188,7 @@ def _load_strategy_defs():
                 "trades": v.get("trades_count", 0),
                 "cost_rt": 0.10,
             })
-    elif getattr(config, "FADE_RANK", None):
+    elif getattr(config, "FADE_ALLOW_SHORT", False) and getattr(config, "FADE_RANK", None):
         defs.append({
             "tf": "FADE_1h",
             "market": "NSE",

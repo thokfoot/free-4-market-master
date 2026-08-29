@@ -4,5 +4,3 @@ INTRADAY_1h,35,118,,73.34,"active-30d (repo engine, 30d)"
 US_FADE,5,171,,68.06,active-30d
 LONG_BOUNCE,1,12,,3.68,active-30d
 IPO (3 var),10,10,,63.64,active-30d
-GAP_DOWN A,1,286,40.6,-42.22,30d 1m replay
-"NSE FADE (40, PAUSED)",40,3087,30.2,-581.0,60d replay sliced -> last 30d

@@ -420,7 +420,8 @@ def _strategy_counts() -> dict:
                 counts["ID-₿"] += 1
     except Exception:
         pass
-    counts["FADE"] = len(FADE_VARIANTS)
+    # NSE FADE is paused (FADE_ALLOW_SHORT=False) — don't count it as active
+    counts["FADE"] = len(FADE_VARIANTS) if FADE_ALLOW_SHORT else 0
     counts["LONG"] = len(LONG_BOUNCE_VARIANTS)
     counts["IPO"] = len(IPO_VARIANTS)
     counts["US-FD"] = len(US_FADE_VARIANTS)

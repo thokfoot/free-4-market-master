@@ -4,7 +4,7 @@
     "US": 102816.49000000002,
     "CRYPTO": 101593.04,
     "INTRADAY": 107192.16999999998,
-    "FADE": 82922.7000000001,
+    "FADE": 100000.0,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
     "IPO": 94963.48999999999
@@ -103,19 +103,19 @@
       "Signal_Indicators": "{\"Close\": 429.75, \"ListingHigh\": 395.9, \"_provenance\": {\"captured_at_ist\": \"2026-08-28 18:06:59 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"8d3b60c39d3f79dde08a719919fc44fd41388a8f4c398d8f214bb31a05c4a79b\"}}"
     }
   ],
-  "closed_count": 167,
-  "total_wins": 69,
-  "total_losses": 98,
-  "total_pnl": -9432.76,
+  "closed_count": 54,
+  "total_wins": 32,
+  "total_losses": 22,
+  "total_pnl": 7644.5399999999945,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 2816.489999999999,
     "CRYPTO": 1593.04,
     "INTRADAY": 7192.170000000001,
-    "FADE": -17077.300000000003,
+    "FADE": 0.0,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": -5036.51
   },
-  "total_capital": 790567.2400000001
+  "total_capital": 807644.5399999999
 }
