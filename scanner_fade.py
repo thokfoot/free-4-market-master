@@ -122,7 +122,7 @@ def compute_fade_indicators(df: pd.DataFrame) -> pd.DataFrame:
 def nifty_day_gap_pct() -> float:
     """Today's ^NSEI gap: (open - prev_close)/prev_close * 100. NaN if unavailable."""
     try:
-        df = market_data.download("^NSEI", interval="1d", period="5d")
+        df = market_data.download("^NSEI", interval="1d", period="5d", allow_stale=False)
         if df is None or len(df) < 2:
             return float("nan")
         if isinstance(df.columns, pd.MultiIndex):
@@ -163,7 +163,8 @@ def _download(ticker: str, interval: str, period: str) -> pd.DataFrame:
     import time as _time
     for attempt in range(3):
         try:
-            df = market_data.download(ticker, interval=interval, period=period)
+            df = market_data.download(ticker, interval=interval, period=period,
+                                       allow_stale=False)
             if df is not None and len(df) > 0:
                 return df
         except Exception:

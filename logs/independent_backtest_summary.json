@@ -1,0 +1,20 @@
+{
+  "SWING_1d": {
+    "total": 159,
+    "ok": 159,
+    "DEGRADE": 119,
+    "PASS": 27,
+    "FAIL": 13,
+    "mean_claimed_net%": 49.57,
+    "mean_independent_net%": 11.57
+  },
+  "INTRADAY_1h": {
+    "total": 37,
+    "ok": 35,
+    "PASS": 20,
+    "DEGRADE": 9,
+    "FAIL": 6,
+    "mean_claimed_net%": 6.54,
+    "mean_independent_net%": 5.93
+  }
+}

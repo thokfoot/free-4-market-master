@@ -24,3 +24,6 @@ logs/miner_*.csv
 # OHLC cache (managed by GitHub actions/cache, NOT committed)
 data/ohlc_cache.json
 data/ohlc_cache.json.tmp
+
+# Independent backtest fresh-download cache (regenerable, ~20MB)
+data/indbt_cache/

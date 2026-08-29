@@ -50,7 +50,7 @@ def _download(ticker: str, interval: str, period: str, force: bool = False) -> p
     for attempt in range(3):
         try:
             df = market_data.download(ticker, interval=interval, period=period,
-                                       force_refresh=force)
+                                       force_refresh=force, allow_stale=False)
             if df is not None and len(df) > 0:
                 return df
         except Exception:

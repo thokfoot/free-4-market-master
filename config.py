@@ -102,6 +102,11 @@ GAP_DOWN_MAX_HOLD_MINUTES = 60   # Max hold time per trade (minutes, GAP_DOWN_1m
 
 # Strategy A: f_gap_down + f_52wk_low (the ONLY verified edge — 52w filter is what
 # makes it positive; verified on 2015-2022 real data with SL1.5/TP3/60m hold)
+#
+# PAUSED (2026-08-30): fresh 30-day replay on real 1m bars = -42.2% (286 trades,
+# 40.6% win, ~94% TIME-exits) — the live system had 0 fills but the sim edge is
+# negative, so entries are gated off until a re-verified config replaces it.
+GAP_DOWN_A_ENABLED = False
 GAP_DOWN_A_SL_PCT = 0.015        # 1.5% stop loss (was 0.3% — too tight, stopped out)
 GAP_DOWN_A_TP_PCT = 0.030         # 3.0% take profit (was 1.0%)
 
@@ -826,6 +831,8 @@ def get_region(yf_ticker: str, csv_region: str = None) -> str:
     if yf_ticker.endswith(CRYPTO_SUFFIX):
         return "CRYPTO"
     if yf_ticker.startswith(INDIA_PREFIXES):
+        return "INDIAN"
+    if yf_ticker.upper().endswith((".NS", ".BO")):
         return "INDIAN"
     return "US"
 

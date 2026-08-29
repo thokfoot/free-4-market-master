@@ -22,6 +22,8 @@ from config import (
     YF_PERIOD, YF_INTERVAL, get_region, get_market_status,
     INTRADAY_PERIOD, INTRADAY_INTERVAL, INTRADAY_CAPITAL,
     GAP_DOWN_MAX_SIGNALS_PER_RUN, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
+    GAP_DOWN_A_ENABLED,
+    GAP_DOWN_A_EXPECTED_WIN_RATE, GAP_DOWN_B_EXPECTED_WIN_RATE,
     FADE_ALLOW_SHORT, FADE_SL_PCT, FADE_TP_PCT, FADE_MAX_HOLD_HOURS,
     FADE_RANK, FADE_MAX_TRADES_PER_DAY, FADE_CAPITAL, FADE_VARIANTS,
     US_FADE_VARIANTS, US_FADE_CAPITAL, US_FADE_ALLOW_SHORT, US_FADE_MAX_HOLD_HOURS,
@@ -635,6 +637,31 @@ def _load_swing_scan_date() -> str:
     return None
 
 
+def _swing_scan_should_save_sentinel(best_entries: list, entries: list,
+                                     skipped_entries: list) -> bool:
+    """Whether the once-per-day full-swing-scan sentinel should be saved.
+
+    The sentinel prevents re-running a full daily scan multiple times/day, so
+    it must only be saved after a scan that could actually FILL. The pre-market
+    06:30 IST run (India + US still closed) rejects every candidate as
+    MARKET_CLOSED but used to consume the sentinel anyway, so the later
+    post-open scan was skipped and Indian/US swing entries never fired. If
+    every candidate was rejected purely because its market was closed, don't
+    burn the day's slot — let a later run retry a real fillable scan.
+
+    Returns True when the sentinel should be saved (normal behaviour), False
+    when the scan was entirely blocked by closed markets and should be retried.
+    """
+    market_closed_blocked = (
+        len(best_entries) > 0
+        and len(entries) == 0
+        and bool(skipped_entries)
+        and all("MARKET_CLOSED" in (r.get("reason") or "")
+                for r in skipped_entries)
+    )
+    return not market_closed_blocked
+
+
 def run_swing_scan() -> dict:
     """Run the SWING (daily) scan — 81 strategies, daily data.
     
@@ -776,10 +803,12 @@ def run_swing_scan() -> dict:
             current_prices[yf_ticker] = st["latest_close"]
             ohlc_data[yf_ticker] = {"close": st["latest_close"], "high": st["latest_high"],
                                     "low": st["latest_low"], "date": st.get("latest_date", "")}
-        # Swing ohlc_data carries full daily bars for post-entry bar-level SL/TP
-        for yf_ticker, df in ticker_data.items():
-            if yf_ticker in ohlc_data and df is not None and len(df) > 0:
-                ohlc_data[yf_ticker]["bars"] = _ohlc_bars(df)
+    # Swing ohlc_data carries full daily bars for post-entry bar-level SL/TP
+    # (compute bars once per ticker — not inside the loop above, which was O(N^2))
+    for yf_ticker in list(ohlc_data.keys()):
+        df = ticker_data.get(yf_ticker)
+        if df is not None and len(df) > 0:
+            ohlc_data[yf_ticker]["bars"] = _ohlc_bars(df)
     
     closed_msgs = update_trades(ohlc_data)
     print(f"[Swing] Closed: {len(closed_msgs)}")
@@ -814,8 +843,12 @@ def run_swing_scan() -> dict:
             })
     print(f"[Swing] New entries: {len(entries)}")
     
-    # Save today's date ONLY AFTER full scan completes successfully
-    _save_swing_scan_date(today_date)
+    # Save today's date ONLY AFTER a full scan that could actually fill.
+    # (See _swing_scan_should_save_sentinel — a scan entirely blocked by
+    # closed markets, e.g. the pre-market 06:30 IST run, does NOT consume
+    # the day's sentinel so a later post-open run can still fill.)
+    if _swing_scan_should_save_sentinel(best_entries, entries, skipped_entries):
+        _save_swing_scan_date(today_date)
     
     return {
         "mode": "SWING",
@@ -937,10 +970,12 @@ def run_intraday_scan() -> dict:
                 "low": st.get("daily_low", st["latest_low"]),
                 "date": st.get("latest_date", ""),
             }
-        # Intraday ohlc_data carries full 1h bars for post-entry bar-level SL/TP
-        for yf_ticker, df in ticker_data.items():
-            if yf_ticker in ohlc_data and df is not None and len(df) > 0:
-                ohlc_data[yf_ticker]["bars"] = _ohlc_bars(df)
+    # Intraday ohlc_data carries full 1h bars for post-entry bar-level SL/TP
+    # (compute bars once per ticker — not inside the loop above, which was O(N^2))
+    for yf_ticker in list(ohlc_data.keys()):
+        df = ticker_data.get(yf_ticker)
+        if df is not None and len(df) > 0:
+            ohlc_data[yf_ticker]["bars"] = _ohlc_bars(df)
     
     closed_msgs = update_trades(ohlc_data)
     print(f"[Intraday] Closed: {len(closed_msgs)}")
@@ -1602,6 +1637,14 @@ def run_gap_down_scan() -> dict:
             ))
             for s in all_signals:
                 rank_id = GAP_DOWN_RANK_A if s["strategy"] == "gap_down_52wk_low" else GAP_DOWN_RANK_B
+                if s["strategy"] == "gap_down_52wk_low" and not GAP_DOWN_A_ENABLED:
+                    skipped_entries.append({
+                        "ticker": s["ticker"], "direction": "LONG",
+                        "close": s["entry_price"], "rank": rank_id,
+                        "win_rate": GAP_DOWN_A_EXPECTED_WIN_RATE,
+                        "reason": "GAP_DOWN_A_ENABLED=False (30d replay -42.2%, paused)",
+                    })
+                    continue
                 trade = enter_trade(
                     mode="INDIAN",
                     ticker=s["ticker"],
@@ -1774,7 +1817,8 @@ def sweep_open_positions() -> list:
             interval = rank_interval.get(rank) or tf_interval.get(tf, "1d")
             period = period_map.get(interval, "5d")
             try:
-                df = market_data.download(ticker, interval=interval, period=period)
+                df = market_data.download(ticker, interval=interval, period=period,
+                                      allow_stale=False)
                 if df is not None and len(df) > 0:
                     last = df.iloc[-1]
                     ohlc_data[ticker] = {

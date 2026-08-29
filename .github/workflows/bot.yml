@@ -7,6 +7,10 @@ on:
     # Weekdays ONLY — the old daily cron also ran Sat/Sun and produced
     # weekend entries at stale Friday prices.
     - cron: '0 1 * * 1-5'
+    # India open swing run (04:00 UTC = 09:30 IST, shortly after NSE open).
+    # Without this, no scheduled run falls inside India's 09:15-15:30 IST
+    # window, so Indian swing entries could only ever fire manually.
+    - cron: '0 4 * * 1-5'
     # India post-close scan (was 09:45 UTC = 15:15 IST, 15 min BEFORE the
     # NSE close -> swing entries filled on a still-forming daily bar).
     # 10:10 UTC = 15:40 IST, 10 minutes after the NSE close.

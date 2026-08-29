@@ -45,7 +45,8 @@ def _download(ticker: str, interval: str, period: str) -> pd.DataFrame:
     import time as _time
     for attempt in range(3):
         try:
-            df = market_data.download(ticker, interval=interval, period=period)
+            df = market_data.download(ticker, interval=interval, period=period,
+                                       allow_stale=False)
             if df is not None and len(df) > 0:
                 return df
         except Exception:

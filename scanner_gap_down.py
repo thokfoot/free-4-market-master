@@ -56,7 +56,7 @@ def download_1m_data(ticker: str, period_days: int = None) -> pd.DataFrame:
         print(f"[GapDown] yfinance failed {ticker}: {e} - trying fallback")
         df = None
     if df is None or df.empty:
-        df = market_data.download(ticker, interval="1m", period="7d")
+        df = market_data.download(ticker, interval="1m", period="7d", allow_stale=False)
         if df is None or len(df) == 0:
             return None
     

@@ -377,7 +377,7 @@ def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
     """
     for attempt in range(3):
         try:
-            df = market_data.download(ticker, interval="1m", period="5d")
+            df = market_data.download(ticker, interval="1m", period="5d", allow_stale=False)
             if df is not None and len(df) > 0:
                 # Handle multi-index columns
                 if isinstance(df.columns, pd.MultiIndex):

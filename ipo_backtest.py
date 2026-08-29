@@ -16,7 +16,7 @@ Charges INDIAN applied per side-roundtrip. One trade per IPO per strategy
 
 Run: python ipo_backtest.py
 """
-import os, sys, warnings
+import io, os, sys, warnings
 warnings.filterwarnings("ignore")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
