@@ -18244,5 +18244,24 @@
     "tf": "SWING_1d",
     "pattern_reason": "EMA9>EMA50+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-29 08:16:22 IST",
+    "entry_datetime": "2026-08-24 07:49:44 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 713.51,
+    "exit_price": 716.36,
+    "qty": 68,
+    "pnl": 183.99,
+    "pnl_pct": 0.38,
+    "hold": "5d 0h 26m",
+    "pattern_rank": 66,
+    "expected_win_rate": 55.7,
+    "pattern_factors": "RSI>50+SMA20<SMA50",
+    "reason": "#66SW RSI>50+SMA20<SMA50 | Expiry 5d",
+    "signal_indicators": ""
   }
 ]

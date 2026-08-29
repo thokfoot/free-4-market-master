@@ -430,5 +430,14 @@
     "total_pnl": -479.0,
     "consec_losses": 1,
     "paused_since": null
+  },
+  "66": {
+    "rank": 66,
+    "factors": "#66SW RSI>50+SMA20<SMA50 | Expiry 5d",
+    "wins": 1,
+    "losses": 0,
+    "total_pnl": 183.99,
+    "consec_losses": 0,
+    "paused_since": null
   }
 }
