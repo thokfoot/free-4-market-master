@@ -134,7 +134,7 @@ def _fetch_bars(ticker: str, start_utc, end_utc, interval: str) -> list:
 
 
 def _bar_interval(tf: str) -> str:
-    if tf == "SWING_1d":
+    if tf in ("SWING_1d", "IPO_1d"):
         return "1d"
     return "1h"
 
@@ -174,7 +174,7 @@ def _find_exit(row, bars, cutoff_utc):
     bars = [b for b in bars if b[1] > 0 and b[2] > 0 and b[3] > 0]
     post = [b for b in bars if entry_utc <= b[0] <= cutoff]
 
-    if tf == "SWING_1d":
+    if tf in ("SWING_1d", "IPO_1d"):
         et = pytz.timezone("America/New_York")
         entry_session = entry_utc.astimezone(et).date()
         for ts, hi, lo, _cl in post:

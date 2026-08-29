@@ -141,6 +141,44 @@ def test_find_exit_swing_expiry_5d():
     assert ep == 100.0
 
 
+def test_bar_interval_ipo_1d_is_daily():
+    """IPO_1d must fetch DAILY bars for replay/catch-up (parity with the
+    live IPO scanner), not the intraday 1h fallback."""
+    assert replay_engine._bar_interval("IPO_1d") == "1d"
+    assert replay_engine._bar_interval("SWING_1d") == "1d"
+    assert replay_engine._bar_interval("INTRADAY_1h") == "1h"
+
+
+def test_find_exit_ipo_uses_days_not_hours():
+    """IPO_1d is a DAILY strategy: a DIP/BREAK position entered after the
+    close must NOT be expired at ~entry + max_hold HOURS (the bug that
+    closed BLS/KUSUMGAR/MOLBIO/JNPR one session after entry with reason
+    'Expiry'). It must stay open until entry + max_hold DAYS."""
+    r = _row(TimeFrame="IPO_1d", Mode="INDIAN", Date="2026-08-03",
+             Time_IST="18:00:00 IST", sl=90.0, target=110.0, MaxHold=5)
+    entry_utc = _parse_entry_utc(r)
+
+    # 24 hours of post-entry action, nothing near SL/TP: the old hours-window
+    # would already have expired this at ~entry + max_hold HOURS.
+    bars = [(entry_utc + pd.Timedelta(hours=h), 100.0, 99.0, 100.0)
+            for h in range(1, 24)]
+    hit = _find_exit(r, bars, entry_utc + pd.Timedelta(hours=24))
+    assert hit is None, f"IPO_1d must not expire at ~max_hold HOURS: {hit}"
+
+    # True expiry: entry_utc + max_hold DAYS, at the last post-entry close
+    # within the window (mirrors SWING_1d daily semantics).
+    bars_d = []
+    for day in range(4, 12):
+        ts = pd.Timestamp(f"2026-08-{day:02d}").tz_localize("UTC")
+        bars_d.append((ts, 100.0, 99.0, 100.0))
+    hit = _find_exit(r, bars_d, pd.Timestamp("2026-08-12").tz_localize("UTC"))
+    assert hit is not None
+    ep, reason, ts = hit
+    assert reason == "Expiry 5d"
+    assert ep == 100.0
+    assert ts == pd.Timestamp("2026-08-08").tz_localize("UTC")
+
+
 # =====================================================================
 # _close_trade — mirrors update_trades (charges, IST timestamp)
 # =====================================================================
