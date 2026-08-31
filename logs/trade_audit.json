@@ -9563,5 +9563,21 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
     "skip_reason": "Cooldown: DIA LONG INTRADAY_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-31 23:06:52 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 714.35,
+    "qty": 147,
+    "sl": 707.07,
+    "target": 728.49,
+    "pattern_rank": 28,
+    "expected_win_rate": 70.0,
+    "pattern_factors": "Price>SMA50+EMA9<EMA20+Close<Open",
+    "reason": "#28ID Price>SMA50+EMA9<EMA20+Close<Open",
+    "signal_indicators": "{\"2Red\": 0.0, \"Close\": 714.210022, \"EMA20\": 715.593002, \"EMA50\": 715.141861, \"EMA9\": 715.5511, \"High\": 715.280029, \"Low\": 714.119995, \"Open\": 714.849976, \"RSI14\": 47.204746, \"Ret\": -0.000881, \"SMA20\": 716.956372, \"SMA50\": 712.822756, \"Volume\": 19649223.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 23:06:52 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"4d8f81bb1d8b0ed32d3ea68374a8f0d64391e66af7d9350d42db441cd1a960dd\"}}"
   }
 ]
