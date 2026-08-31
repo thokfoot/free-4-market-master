@@ -9579,5 +9579,41 @@
     "pattern_factors": "Price>SMA50+EMA9<EMA20+Close<Open",
     "reason": "#28ID Price>SMA50+EMA9<EMA20+Close<Open",
     "signal_indicators": "{\"2Red\": 0.0, \"Close\": 714.210022, \"EMA20\": 715.593002, \"EMA50\": 715.141861, \"EMA9\": 715.5511, \"High\": 715.280029, \"Low\": 714.119995, \"Open\": 714.849976, \"RSI14\": 47.204746, \"Ret\": -0.000881, \"SMA20\": 716.956372, \"SMA50\": 712.822756, \"Volume\": 19649223.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 23:06:52 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"4d8f81bb1d8b0ed32d3ea68374a8f0d64391e66af7d9350d42db441cd1a960dd\"}}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-01 01:27:38 IST",
+    "entry_datetime": "2026-08-27 01:26:20 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "entry_price": 86.53,
+    "exit_price": 85.03,
+    "qty": 596,
+    "pnl": -903.42,
+    "pnl_pct": -1.75,
+    "hold": "5d 0h 1m",
+    "pattern_rank": 5,
+    "expected_win_rate": 58.26,
+    "pattern_factors": "Range<1%+SMA20<EMA20",
+    "reason": "#5SW Range<1%+SMA20<EMA20 | Expiry 5d"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-01 01:27:38 IST",
+    "entry_datetime": "2026-08-27 01:26:20 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "entry_price": 113.19,
+    "exit_price": 111.54,
+    "qty": 456,
+    "pnl": -760.97,
+    "pnl_pct": -1.47,
+    "hold": "5d 0h 1m",
+    "pattern_rank": 3,
+    "expected_win_rate": 53.98,
+    "pattern_factors": "Price>EMA9+Range<1%",
+    "reason": "#3SW Price>EMA9+Range<1% | Expiry 5d"
   }
 ]
