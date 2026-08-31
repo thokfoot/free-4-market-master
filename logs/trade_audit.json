@@ -9511,5 +9511,57 @@
     "tf": "SWING_1d",
     "pattern_reason": "EMA9>EMA50+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=PRE-OPEN \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-31 20:17:47 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "Duplicate XLP LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-31 20:17:47 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "entry_price": 171.18,
+    "qty": 299,
+    "sl": 167.74,
+    "target": 178.01,
+    "pattern_rank": 4,
+    "expected_win_rate": 52.32,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Range<1%",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 177.80833, \"BB_lo\": 160.692668, \"Close\": 171.160004, \"EMA20\": 169.767931, \"EMA200\": 153.951283, \"EMA50\": 164.324372, \"EMA9\": 172.083661, \"High\": 171.710007, \"Low\": 170.589996, \"Open\": 171.429993, \"RSI14\": 57.156114, \"Ret\": -0.002448, \"SMA20\": 169.250499, \"SMA50\": 163.729879, \"Volume\": 4879300.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 20:17:47 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"9c5b13218a3d2ce328cb2f2e7d32803533390f839d04812e416383140bb7e387\"}, \"high20\": 176.600006, \"high50\": 176.600006, \"low20\": 160.729996, \"low50\": 148.136666}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-08-31 20:17:47 IST",
+    "mode": "US",
+    "ticker": "XLE",
+    "direction": "LONG",
+    "entry_price": 62.69,
+    "qty": 818,
+    "sl": 61.43,
+    "target": 65.19,
+    "pattern_rank": 3,
+    "expected_win_rate": 51.28,
+    "pattern_factors": "EMA9>EMA50+Range<1%",
+    "reason": "#3SW EMA9>EMA50+Range<1%",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 65.566256, \"BB_lo\": 56.952745, \"Close\": 62.68, \"EMA20\": 61.482668, \"EMA200\": 54.449219, \"EMA50\": 59.472604, \"EMA9\": 62.477193, \"High\": 62.740002, \"Low\": 62.119999, \"Open\": 62.349998, \"RSI14\": 62.129968, \"Ret\": 0.006261, \"SMA20\": 61.259501, \"SMA50\": 58.1441, \"Volume\": 20599600.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 20:17:47 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"f528add80b6c836a8e80c29430bea8d83def03a9307763f51342341e85b6e147\"}, \"high20\": 64.699997, \"high50\": 64.699997, \"low20\": 57.110001, \"low50\": 52.619999}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-31 20:17:49 IST",
+    "mode": "US",
+    "ticker": "DIA",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "RSI<45+EMA20>EMA50+Close<Open+2Red",
+    "skip_reason": "Cooldown: DIA LONG INTRADAY_1h closed <120m ago"
   }
 ]
