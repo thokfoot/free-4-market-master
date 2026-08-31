@@ -9625,5 +9625,21 @@
     "tf": "SWING_1d",
     "pattern_reason": "Range<1%+SMA20<EMA20",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-01 04:45:09 IST",
+    "mode": "CRYPTO",
+    "ticker": "SOL-USD",
+    "direction": "SHORT",
+    "entry_price": 103.03,
+    "qty": 630,
+    "sl": 104.73,
+    "target": 100.08,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"2Red\": 1.0, \"Close\": 103.18, \"EMA20\": 103.411299, \"EMA50\": 103.800477, \"EMA9\": 103.432655, \"High\": 103.779999, \"Low\": 103.099998, \"Open\": 103.720001, \"RSI14\": 47.470892, \"Ret\": -0.004438, \"SMA20\": 103.072001, \"SMA50\": 104.206801, \"Volume\": 1157376.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-01 04:45:09 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"ef6d7a045ffc2750af734b317d97fc5a28f2a347c94512fa8743ba341861e0eb\"}}"
   }
 ]
