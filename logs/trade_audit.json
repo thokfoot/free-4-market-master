@@ -9432,5 +9432,54 @@
     "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
     "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | SL Hit (intraday)",
     "signal_indicators": "{\"Close\": 429.75, \"ListingHigh\": 395.9, \"_provenance\": {\"captured_at_ist\": \"2026-08-28 18:06:59 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"8d3b60c39d3f79dde08a719919fc44fd41388a8f4c398d8f214bb31a05c4a79b\"}}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-08-31 12:20:47 IST",
+    "entry_datetime": "2026-08-26 00:19:41 IST",
+    "mode": "US",
+    "ticker": "VTI",
+    "direction": "LONG",
+    "entry_price": 377.11,
+    "exit_price": 379.32,
+    "qty": 133,
+    "pnl": 284.17,
+    "pnl_pct": 0.57,
+    "hold": "5d 12h 1m",
+    "pattern_rank": 3,
+    "expected_win_rate": 60.9,
+    "pattern_factors": "Range<1%+SMA20<EMA20",
+    "reason": "#3SW Range<1%+SMA20<EMA20 | Expiry 5d",
+    "signal_indicators": ""
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-31 12:20:48 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-31 12:20:48 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-08-31 12:20:48 IST",
+    "mode": "US",
+    "ticker": "XLE",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA50+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
