@@ -9615,5 +9615,15 @@
     "expected_win_rate": 53.98,
     "pattern_factors": "Price>EMA9+Range<1%",
     "reason": "#3SW Price>EMA9+Range<1% | Expiry 5d"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-01 01:46:52 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Range<1%+SMA20<EMA20",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
