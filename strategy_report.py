@@ -376,6 +376,8 @@ def _suffix(tf):
         return "ID"
     if tf == "GAP_DOWN_1m":
         return "GD"
+    if tf == "IPO_1d":
+        return "IPO"
     return "SW"
 
 
