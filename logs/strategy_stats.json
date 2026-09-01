@@ -119,10 +119,10 @@
   "1": {
     "rank": 1,
     "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | \ud83c\udfaf SL Hit (live)",
-    "wins": 4,
+    "wins": 5,
     "losses": 9,
-    "total_pnl": -1933.95,
-    "consec_losses": 2,
+    "total_pnl": -1752.83,
+    "consec_losses": 0,
     "paused_since": null
   },
   "4": {
