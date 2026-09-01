@@ -54,3 +54,5 @@ Date,Time,Mode,Tickers_Scanned,Errors,Patterns_Total,Patterns_Fired,New_Entries,
 2026-09-01,04:45:04 IST,INTRADAY,14.0,0.0,37.0,1.0,1.0,0.0,4.0,805316.0,5316.0,Sent
 2026-09-01,04:45:04 IST,IPO,45.0,4.0,45.0,0.0,0.0,0.0,4.0,805316.0,5316.0,Sent
 2026-09-01,19:36:57 IST,GAPDOWN,0.0,0.0,0.0,0.0,0.0,0.0,2.0,804385.0,4385.0,Skipped (no events)
+2026-09-01,19:45:45 IST,IPO,45.0,4.0,45.0,0.0,0.0,0.0,2.0,804385.0,4385.0,Skipped (no events)
+2026-09-01,19:45:45 IST,US_FADE,128.0,0.0,640.0,0.0,0.0,0.0,2.0,804385.0,4385.0,Skipped (no events)
