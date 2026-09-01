@@ -25,6 +25,8 @@ from config import (
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
     MIN_LOT_ALLOW_OVER_RISK, MAX_OVER_RISK_FACTOR,
     infer_market_mode, entry_market_open,
+    FADE_ALLOW_SHORT, FADE_VARIANTS,
+    GAP_DOWN_A_ENABLED, GAP_DOWN_B_ENABLED, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -1249,12 +1251,35 @@ def resume_strategy(rank: int) -> bool:
     return False
 
 
+def _paused_ranks() -> set:
+    """Ranks of strategy families that are PAUSED (gated off from new entries).
+
+    Report-layer only: paused strategies' *data is still kept* in
+    strategy_stats.json (they are PAUSED, not REMOVED) but their ranks are
+    excluded from the live top/worst strategy report so a paused family
+    doesn't crowd out ACTIVE strategies. Mirrors config-driven gating used by
+    bot.py / strategy_report.py (FADE_ALLOW_SHORT, GAP_DOWN_*_ENABLED).
+    """
+    paused = set()
+    if not FADE_ALLOW_SHORT:
+        paused |= {int(v["rank"]) for v in FADE_VARIANTS}
+    if not GAP_DOWN_A_ENABLED:
+        paused.add(GAP_DOWN_RANK_A)
+    if not GAP_DOWN_B_ENABLED:
+        paused.add(GAP_DOWN_RANK_B)
+    return paused
+
+
 def get_strategy_stats(top_n: int = 5) -> list:
     """
     Get best and worst strategies by average P&L per trade.
     Both win rate and P&L matter: avg = total_pnl / trades
     (which equals win_rate*avg_win - (1-win_rate)*avg_loss).
-    
+
+    PAUSED strategy families (e.g. NSE FADE while FADE_ALLOW_SHORT=False,
+    gap-down) are excluded from the ranking so they don't crowd out active
+    strategies -- their historical data in strategy_stats.json is left intact.
+
     Returns:
         {
             "top": [{rank, factors, wins, losses, win_rate, total_pnl, avg_pnl}, ...],
@@ -1264,9 +1289,13 @@ def get_strategy_stats(top_n: int = 5) -> list:
     stats = _load_strategy_stats()
     if not stats:
         return {"top": [], "bottom": []}
-    
+
+    _paused = _paused_ranks()
     rows = []
     for key, data in stats.items():
+        rank = data.get("rank")
+        if rank in _paused:
+            continue
         total = data.get("wins", 0) + data.get("losses", 0)
         wr = round(data["wins"] / total * 100, 1) if total > 0 else 0
         pnl = data.get("total_pnl", 0)
