@@ -6,8 +6,8 @@
   },
   "SHORT": {},
   "_discovery": {
-    "last": "2026-09-02",
-    "added": 2
+    "last": "2026-09-03",
+    "added": 1
   },
   "_sym_firstbar": {
     "AEROPLANE.NS": "2026-04-02",
@@ -49,7 +49,8 @@
     "TEMPSENS.NS": "2026-08-28",
     "AUGMONT.NS": "2026-08-31",
     "SKYWAYS.NS": "2026-09-01",
-    "SYMBIOTEC.NS": "2026-09-01"
+    "SYMBIOTEC.NS": "2026-09-01",
+    "ANNU.NS": "2026-09-02"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
