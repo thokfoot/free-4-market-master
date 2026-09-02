@@ -27,7 +27,7 @@ from config import (
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
     market_active_for_mode, tg_safe,
 )
-from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until
+from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until, _recompute_chain
 from logger import log_error
 from strategy_report import generate_strategy_report
 from integrity_check import validate_all
@@ -796,6 +796,7 @@ def process_open_trades() -> tuple:
     
     # Save updated data
     if portfolio_updated:
+        _recompute_chain(df, changed_writer="live_pnl_updater.exit")
         df.to_csv(PAPER_FILE, index=False)
         # Rebuild portfolio from the CSV (single source of truth) so bot.py and
         # live_pnl_updater.py can never diverge — both compute the same result.

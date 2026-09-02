@@ -92,16 +92,18 @@ def assert_portfolio_equals(expected: Dict[str, Any], actual: Dict[str, Any],
             )
 
 
-from paper_trader import COLUMNS as _COLUMNS
+from paper_trader import LEGACY_COLS as _INPUT_COLS  # lineage cols (Writer_ID/Row_Seq/Row_Hash) are writer-derived
 
 
 def assert_valid_trade_columns(trade: Dict[str, Any], msg: str = ""):
     """
-    Assert that a trade dict has all required columns.
-    
-    This does NOT check values — only key presence.
+    Assert that a trade dict has all required INPUT columns.
+
+    S2-D: Writer_ID / Row_Seq / Row_Hash are stamped by the ledger writers
+    (enter_trade / update / live_pnl / replay), not supplied by callers,
+    so they are not part of the input contract.
     """
-    for col in _COLUMNS:
+    for col in _INPUT_COLS:
         if col not in trade:
             raise AssertionError(
                 f"{msg} Missing required column '{col}' in trade dict. "

@@ -324,6 +324,7 @@ def replay_exits(cutoff_utc, fetch=True, df=None) -> list:
             print(f"  [replay] CLOSE {row['Direction']} {row['Ticker']} {reason} "
                   f"@{round_price(ep)} at {ets}")
     if closed:
+        df = pt._recompute_chain(df, changed_writer="replay_engine.rebuild")
         df.to_csv(pt.PAPER_FILE, index=False)
         rebuild_portfolio_from_csv()
     return closed
@@ -539,6 +540,7 @@ def run_audit():
     # 1. Entry-price integrity (auto-fix impossible fills)
     _verify_entry_prices(df, now_utc, report)
     if report["entry_anomalies"]:
+        df = pt._recompute_chain(df, changed_writer="replay_engine.rebuild")
         df.to_csv(pt.PAPER_FILE, index=False)
         rebuild_portfolio_from_csv()
 

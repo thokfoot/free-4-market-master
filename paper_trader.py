@@ -340,6 +340,9 @@ def initialize_system():
         except Exception as e:
             print(f"[Init] Warning: Could not verify {PAPER_FILE}: {e}")
     
+    # S2-D lineage: ensure Writer_ID / Row_Seq / Row_Hash (chained hash)
+    _migrate_ledger_lineage()
+    
     # 2. strategy_stats.json
     if not os.path.exists(STRATEGY_STATS_FILE):
         _atomic_write_json(STRATEGY_STATS_FILE, {})
@@ -398,8 +401,83 @@ COLUMNS = [
     "Entry_Price","Qty","SL","Target","MaxHold",
     "Exit_Price","Exit_Time","P&L","P&L_%","Status",
     "Pattern_Rank","Expected_WinRate","Pattern_Factors","Reason",
-    "Signal_Indicators"
+    "Signal_Indicators",
+    "Writer_ID","Row_Seq","Row_Hash"      # S2-D lineage (append-only at END)
 ]
+
+# ── S2-D: ledger lineage / integrity chain ─────────────────────
+# Row_Hash = sha256(prev_hash | canonical row) over the 21 data columns.
+# File row order is chain order; any out-of-band edit breaks the chain.
+LEDGER_CHAIN_SEED = "paper_trades:v1"
+LEGACY_COLS = [c for c in COLUMNS if c not in ("Writer_ID", "Row_Seq", "Row_Hash")]
+
+
+def _row_canonical(row):
+    vals = []
+    for c in LEGACY_COLS:
+        try:
+            v = row[c] if hasattr(row, "__getitem__") else ""
+        except Exception:
+            v = ""
+        vals.append("" if pd.isna(v) else str(v))
+    return "|".join(vals)
+
+
+def _chain_hash(prev_hash, row):
+    import hashlib
+    return hashlib.sha256(f"{prev_hash}|{_row_canonical(row)}".encode("utf-8")).hexdigest()
+
+
+def _recompute_chain(df, changed_writer=None):
+    """Recompute Row_Seq + chained Row_Hash over the whole ledger (deterministic).
+
+    changed_writer: writer credited to rows whose content changed since their
+    recorded hash (used by update/exit writers). Rows with a still-valid hash
+    keep their original Writer_ID.
+    """
+    if df is None or len(df) == 0:
+        return df
+    for c in ("Writer_ID", "Row_Seq", "Row_Hash"):
+        if c not in df.columns:
+            df[c] = ""
+    prev = LEDGER_CHAIN_SEED
+    for i in range(len(df)):
+        cur = _chain_hash(prev, df.iloc[i])
+        old = "" if pd.isna(df.iloc[i].get("Row_Hash")) else str(df.iloc[i].get("Row_Hash"))
+        if old != cur:
+            df.iloc[i, df.columns.get_loc("Row_Hash")] = cur
+            if changed_writer and old:
+                df.iloc[i, df.columns.get_loc("Writer_ID")] = changed_writer
+        df.iloc[i, df.columns.get_loc("Row_Seq")] = i + 1
+        prev = cur
+    return df
+
+
+def _migrate_ledger_lineage():
+    """Backfill/sync the S2-D lineage columns on an existing paper_trades.csv."""
+    if not os.path.exists(PAPER_FILE):
+        return
+    try:
+        df = pd.read_csv(PAPER_FILE, on_bad_lines="warn")
+        has_all = all(c in df.columns for c in ("Writer_ID", "Row_Seq", "Row_Hash"))
+        if len(df) == 0:
+            if not has_all:
+                for c in ("Writer_ID", "Row_Seq", "Row_Hash"):
+                    df[c] = ""
+                df.to_csv(PAPER_FILE, index=False)
+            return
+        if has_all and df["Row_Hash"].notna().all() \
+                and (df["Row_Hash"].astype(str).str.strip() != "").all():
+            return  # already chained — fast path on every boot
+        missing = [c for c in ("Writer_ID", "Row_Seq", "Row_Hash") if c not in df.columns]
+        if missing:
+            for c in missing:
+                df[c] = ""
+        print(f"[Init] S2-D lineage chain backfilled on {PAPER_FILE} ({len(df)} rows)")
+        _recompute_chain(df, changed_writer=None)
+        df.to_csv(PAPER_FILE, index=False)
+    except Exception as e:
+        print(f"[Init] Warning: lineage migration skipped: {e}")
 
 AUDIT_FILE = os.path.join(LOG_DIR, "trade_audit.json")
 
@@ -1110,8 +1188,9 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
           f"{json.dumps(signal_indicators) if signal_indicators else 'N/A'}")
     
     # Append to CSV (handle TimeFrame column migration for old rows)
-    df_new = pd.DataFrame([trade])[COLUMNS]
     os.makedirs(LOG_DIR, exist_ok=True)
+    prev_hash = LEDGER_CHAIN_SEED
+    df_old = None
     if os.path.exists(PAPER_FILE):
         df_old = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
         # ── Ensure string columns are object dtype (prevent float64 inference) ──
@@ -1121,9 +1200,18 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                 df_old[col] = df_old[col].astype(object)
         if "TimeFrame" not in df_old.columns:
             df_old["TimeFrame"] = "SWING_1d"
-        df_comb = pd.concat([df_old, df_new], ignore_index=True)
-    else:
-        df_comb = df_new
+        for col in ("Writer_ID", "Row_Seq", "Row_Hash"):
+            if col not in df_old.columns:
+                df_old[col] = ""
+        if len(df_old) and str(df_old.iloc[-1].get("Row_Hash", "")) not in ("", "nan", "None"):
+            prev_hash = str(df_old.iloc[-1]["Row_Hash"])
+    # S2-D lineage stamp (writer / seq / chained hash)
+    df_new = pd.DataFrame([trade])
+    df_new["Writer_ID"] = "paper_trader.enter"
+    df_new["Row_Seq"] = (len(df_old) + 1) if df_old is not None else 1
+    df_new["Row_Hash"] = _chain_hash(prev_hash, df_new.iloc[0])
+    df_new = df_new[COLUMNS]
+    df_comb = pd.concat([df_old, df_new], ignore_index=True) if df_old is not None else df_new
     df_comb.to_csv(PAPER_FILE, index=False)
     
     # Update portfolio (market-specific capital remains unchanged at entry)
@@ -2151,6 +2239,7 @@ def update_trades(ohlc_data: dict) -> list:
                   f"P&L {pnl:+.0f} | {exit_reason}")
     
     if updated:
+        _recompute_chain(df, changed_writer="paper_trader.update")
         df.to_csv(PAPER_FILE, index=False)
         # ── Rebuild portfolio from CSV (single source of truth) ──
         # Previously the per-market capital/wins/losses were updated incrementally
