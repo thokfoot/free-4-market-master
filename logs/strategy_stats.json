@@ -10,10 +10,10 @@
   },
   "14": {
     "rank": 14,
-    "factors": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
-    "wins": 1,
+    "factors": "#14SW Price>SMA50+Range>1.5%+2Red | \ud83c\udfaf Target Hit (live)",
+    "wins": 2,
     "losses": 0,
-    "total_pnl": 1163.12,
+    "total_pnl": 2835.1499999999996,
     "consec_losses": 0,
     "paused_since": null
   },

@@ -9790,5 +9790,23 @@
     "pattern_factors": "Price>SMA50+Range>1.5%+2Red",
     "reason": "#14SW Price>SMA50+Range>1.5%+2Red",
     "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 2795.732764, \"BB_lo\": 1802.401318, \"Close\": 2391.500977, \"EMA20\": 2315.842983, \"EMA200\": 2165.750484, \"EMA50\": 2125.223481, \"EMA9\": 2416.411271, \"High\": 2427.401611, \"Low\": 2356.188232, \"Open\": 2417.828369, \"RSI14\": 61.419955, \"Ret\": -0.010894, \"SMA20\": 2299.067041, \"SMA50\": 2053.502986, \"Volume\": 14227785690.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-04 00:18:23 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"bceb614e24f483f8b97a38b58fddecc676f19d19395d1082c77cf9b320b6f87a\"}, \"high20\": 2564.274414, \"high50\": 2564.274414, \"low20\": 1861.92041, \"low50\": 1772.0177}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-04 01:13:45 IST",
+    "entry_datetime": "2026-09-04 00:18:23 IST",
+    "mode": "CRYPTO",
+    "ticker": "ETH-USD",
+    "direction": "LONG",
+    "entry_price": 2393.89,
+    "exit_price": 2484.67,
+    "qty": 20,
+    "pnl": 1672.03,
+    "pnl_pct": 3.49,
+    "hold": "55m 22s",
+    "pattern_rank": 14,
+    "expected_win_rate": 63.36,
+    "pattern_factors": "Price>SMA50+Range>1.5%+2Red",
+    "reason": "#14SW Price>SMA50+Range>1.5%+2Red | \ud83c\udfaf Target Hit (live)"
   }
 ]
