@@ -9748,5 +9748,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "skip_reason": "Cooldown: IWM SHORT INTRADAY_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-03 23:28:20 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "skip_reason": "Cooldown: IWM SHORT INTRADAY_1h closed <120m ago"
   }
 ]
