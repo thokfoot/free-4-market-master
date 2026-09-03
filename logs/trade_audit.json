@@ -9818,5 +9818,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-04 03:16:18 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
