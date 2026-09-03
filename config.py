@@ -726,6 +726,33 @@ ALLOW_SHORT = {
     "INDIAN": False,  # India cash market NO SHORT
 }
 
+# ===== DISABLED STRATEGY RANKS =====
+# Manually paused strategies — checked in check_entry_allowed() and scanners.
+# Set-based O(1) lookup. Add/remove ranks here to pause/resume strategies.
+# Pattern follows FADE_ALLOW_SHORT / GAP_DOWN_*_ENABLED but at rank granularity.
+#
+# WARNING: Only ranks that are UNIQUE to the strategy being disabled belong here.
+# Ranks 936/938 are IPO-only (not in strategies.csv / intraday_strategies.csv).
+# AVAX SHORT uses DISABLED_TICKER_DIRECTIONS below because rank 1 and rank 10
+# are shared by many other healthy strategies (rank 1 = 18 swing + 8 intraday rows,
+# rank 10 = QQQ LONG intraday). Using rank would kill healthy strategies.
+DISABLED_STRATEGY_RANKS = {
+    936,  # IPO DIP — disabled (losing money in live: -₹5,142)
+    938,  # IPO BREAK — disabled (losing money in live: -₹842)
+}
+# NOTE: IPO SHORT (rank 937) intentionally LEFT ACTIVE (75% win backtest, no live trades yet)
+
+# ===== DISABLED TICKER+DIRECTION PAIRS =====
+# For disabling a specific instrument-direction (e.g. AVAX SHORT) without
+# touching other strategies that share the same rank. Filtered in scanners by
+# (Market, Direction). Pure CSV-level disable, non-destructive (no CSV edits).
+DISABLED_TICKER_DIRECTIONS = {
+    ("AVAX", "SHORT"),  # AVAX SHORT (both swing rank 10 and intraday rank 1)
+}
+
+# Kill switch: file-based emergency halt (instant, no restart needed)
+KILL_FLAG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "kill.flag")
+
 # ===== TRADING COSTS (Round Turn — entry + exit) =====
 # From V3 verified analysis
 CHARGES_PER_MARKET = {

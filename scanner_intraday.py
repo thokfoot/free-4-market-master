@@ -12,7 +12,7 @@ import numpy as np
 import os, re
 from config import (
     INTRADAY_STRATEGY_FILE, TICKER_MAP, INTRADAY_PERIOD, INTRADAY_INTERVAL,
-    ALLOW_SHORT, INTRADAY_CAPITAL,
+    ALLOW_SHORT, INTRADAY_CAPITAL, DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS,
 )
 
 
@@ -26,6 +26,23 @@ def load_intraday_strategies() -> pd.DataFrame:
         if col not in df.columns:
             raise ValueError(f"Missing column {col} in intraday strategies CSV")
     df = df.dropna(subset=["Factors"])
+    # Filter out manually disabled strategies (rank-based, non-destructive)
+    if len(DISABLED_STRATEGY_RANKS) > 0:
+        before = len(df)
+        df = df[~df["Final_Rank"].isin(DISABLED_STRATEGY_RANKS)]
+        removed = before - len(df)
+        if removed > 0:
+            print(f"[IntradayScanner] Disabled {removed} intraday strategies by rank: {sorted(DISABLED_STRATEGY_RANKS)}")
+    # Filter out disabled ticker+direction pairs (e.g. AVAX SHORT)
+    if len(DISABLED_TICKER_DIRECTIONS) > 0:
+        before = len(df)
+        pairs = df.apply(lambda r: (str(r.get("Market", "")).strip().upper(),
+                                    str(r.get("Direction", "")).strip().upper()), axis=1)
+        disabled_mask = pairs.isin(DISABLED_TICKER_DIRECTIONS)
+        df = df[~disabled_mask]
+        removed = before - len(df)
+        if removed > 0:
+            print(f"[IntradayScanner] Disabled {removed} intraday strategies by ticker+direction: {sorted(DISABLED_TICKER_DIRECTIONS)}")
     print(f"[IntradayScanner] Loaded {len(df)} intraday strategies from {INTRADAY_STRATEGY_FILE}")
     return df
 

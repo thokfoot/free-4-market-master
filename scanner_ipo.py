@@ -39,6 +39,7 @@ from datetime import datetime
 from config import (
     IPO_UNIVERSE_FILE, IPO_STATE_FILE, IPO_VARIANTS,
     IPO_DIP_RANK, IPO_SHORT_RANK, IPO_BREAK_RANK,
+    DISABLED_STRATEGY_RANKS,
 )
 import market_data
 
@@ -172,6 +173,10 @@ def scan_ipo(limit: int = None, dry: bool = False) -> dict:
         strat = u["strategy"]
         v = _variant(strat)
         if v is None:
+            continue
+        rank = v["rank"]
+        # Skip manually disabled IPO strategies (rank-based, non-destructive)
+        if rank in DISABLED_STRATEGY_RANKS:
             continue
         df = ticker_data.get((v["interval"], tk))
         if df is None:
@@ -509,6 +514,10 @@ def discover_new_ipos() -> list:
             strat = "BREAK"  # flat listing: listing-high breakout edge (verified 61% win)
         else:
             continue
+        # Map strategy name to rank via IPO_VARIANTS to check disabled status
+        _v = _variant(strat)
+        if _v is None or _v["rank"] in DISABLED_STRATEGY_RANKS:
+            continue  # strategy disabled — don't add new IPOs for it
         sym = _ysearch_symbol(name)
         if not sym:
             print(f"[IPO] Discovery: no Yahoo symbol for '{name}' (gain {gain:+.1f}%) — skipped")

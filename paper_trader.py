@@ -27,6 +27,7 @@ from config import (
     infer_market_mode, entry_market_open,
     FADE_ALLOW_SHORT, FADE_VARIANTS,
     GAP_DOWN_A_ENABLED, GAP_DOWN_B_ENABLED, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
+    DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS, KILL_FLAG_PATH,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -909,6 +910,29 @@ def check_entry_allowed(ticker: str, direction: str,
         "MARKET_CLOSED: US not tradable now (...)", or
         "CIRCUIT_BREAKER: Rank #N paused (M consecutive losses)".
     """
+    # ── KILL SWITCH — first gate: if data/kill.flag exists, block ALL new entries.
+    # Instant emergency halt, no restart needed. See kill_switch.py.
+    if os.path.exists(KILL_FLAG_PATH):
+        return "KILL_SWITCH: data/kill.flag present — all new entries blocked"
+
+    # ── Manually disabled strategy ranks (IPO ranks 936, 938) ──
+    # Non-destructive rank-based disable; see config DISABLED_STRATEGY_RANKS.
+    if pattern_rank and int(pattern_rank) in DISABLED_STRATEGY_RANKS:
+        return (f"DISABLED: Rank #{pattern_rank} manually disabled "
+                f"(DISABLED_STRATEGY_RANKS)")
+
+    # ── Disabled ticker+direction pairs (e.g. AVAX SHORT) ──
+    # Defense-in-depth hand: scanners filter these out, but this guard also
+    # blocks any entry that slips through. Normalize ticker: CSV uses 'AVAX',
+    # yfinance ticker is 'AVAX-USD' — strip suffix for the lookup.
+    if direction and DISABLED_TICKER_DIRECTIONS:
+        t_raw = str(ticker).strip().upper()
+        for prefix in ("-USD", "-USDT", ".NS", ".BO"):
+            t_base = t_raw.replace(prefix, "")
+            if (t_base, direction.upper()) in DISABLED_TICKER_DIRECTIONS:
+                return (f"DISABLED: {ticker} {direction} manually disabled "
+                        f"(DISABLED_TICKER_DIRECTIONS)")
+
     # ── Market-hours gate: no entries into a closed market ──
     # Fixes: weekend US swing entries (Sun 07:51 IST), post-close India fade
     # fills (15:31 IST), pre-open fills at stale prior-session prices.

@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import os, re
 import market_data
-from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHORT, get_region
+from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHORT, get_region, DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS
 
 
 def load_strategies() -> pd.DataFrame:
@@ -23,6 +23,24 @@ def load_strategies() -> pd.DataFrame:
         if col not in df.columns:
             raise ValueError(f"Missing column {col} in strategies CSV")
     df = df.dropna(subset=["Factors"])
+    # Filter out manually disabled strategies (rank-based, non-destructive)
+    if len(DISABLED_STRATEGY_RANKS) > 0:
+        before = len(df)
+        df = df[~df["Final_Rank"].isin(DISABLED_STRATEGY_RANKS)]
+        removed = before - len(df)
+        if removed > 0:
+            print(f"[Scanner] Disabled {removed} strategies by rank: {sorted(DISABLED_STRATEGY_RANKS)}")
+    # Filter out disabled ticker+direction pairs (e.g. AVAX SHORT)
+    if len(DISABLED_TICKER_DIRECTIONS) > 0:
+        before = len(df)
+        pairs = df.apply(lambda r: (str(r.get("Market", "")).strip().upper(),
+                                    str(r.get("Direction", "")).strip().upper()), axis=1)
+        disabled_mask = pairs.isin(DISABLED_TICKER_DIRECTIONS)
+        df = df[~disabled_mask]
+        removed = before - len(df)
+        if removed > 0:
+            removed_rows = [tuple(x) for x in df.index if False]
+            print(f"[Scanner] Disabled {removed} strategies by ticker+direction: {sorted(DISABLED_TICKER_DIRECTIONS)}")
     print(f"[Scanner] Loaded {len(df)} strategies from {STRATEGY_FILE}")
     return df
 
