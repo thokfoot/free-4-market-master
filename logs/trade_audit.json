@@ -9808,5 +9808,15 @@
     "expected_win_rate": 63.36,
     "pattern_factors": "Price>SMA50+Range>1.5%+2Red",
     "reason": "#14SW Price>SMA50+Range>1.5%+2Red | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-04 02:24:02 IST",
+    "mode": "US",
+    "ticker": "IWM",
+    "direction": "SHORT",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
