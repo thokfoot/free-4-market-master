@@ -9712,5 +9712,21 @@
     "pattern_factors": "EMA9>EMA50+Range<1%",
     "reason": "#3SW EMA9>EMA50+Range<1% | Target Hit",
     "signal_indicators": ""
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-03 11:07:37 IST",
+    "mode": "INDIAN",
+    "ticker": "LALITHAA.NS",
+    "direction": "LONG",
+    "entry_price": 275.36,
+    "qty": 28,
+    "sl": 242.13,
+    "target": 330.18,
+    "pattern_rank": 938,
+    "expected_win_rate": 61.4,
+    "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
+    "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
+    "signal_indicators": "{\"Close\": 275.15, \"ListingHigh\": 274.4, \"_provenance\": {\"captured_at_ist\": \"2026-09-03 11:07:37 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"20cd75c62e8a47e886cd50fb177d203dfc0092e6844251a4b5d1fb9acce48f84\"}}"
   }
 ]
