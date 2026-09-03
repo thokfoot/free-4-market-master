@@ -1,0 +1,85 @@
+{
+  "date": "2026-09-03",
+  "runs": [
+    {
+      "time": "18:26:03 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 0,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 103465.68000000002,
+          "CRYPTO": 101593.04,
+          "INTRADAY": 106261.33999999998,
+          "FADE": 100000.0,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 94015.06999999999
+        },
+        "total_capital": 806414.48,
+        "open_count": 3,
+        "total_pnl": 6414.479999999994,
+        "closed_count": 61,
+        "wins": 35,
+        "losses": 26
+      },
+      "telegram_status": "Skipped (no events)",
+      "duration_sec": 15.4
+    },
+    {
+      "time": "20:01:32 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 0,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 103465.68000000002,
+          "CRYPTO": 101593.04,
+          "INTRADAY": 106261.33999999998,
+          "FADE": 100000.0,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 101079.35,
+          "IPO": 94015.06999999999
+        },
+        "total_capital": 806414.48,
+        "open_count": 3,
+        "total_pnl": 6414.479999999994,
+        "closed_count": 61,
+        "wins": 35,
+        "losses": 26
+      },
+      "telegram_status": "Skipped (no events)",
+      "duration_sec": 14.4
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 103465.68000000002,
+      "CRYPTO": 101593.04,
+      "INTRADAY": 106261.33999999998,
+      "FADE": 100000.0,
+      "US_FADE": 100000.0,
+      "LONG_BOUNCE": 101079.35,
+      "IPO": 94015.06999999999
+    },
+    "total_capital": 806414.48,
+    "open_count": 3,
+    "total_pnl": 6414.479999999994,
+    "closed_count": 61,
+    "wins": 35,
+    "losses": 26
+  }
+}

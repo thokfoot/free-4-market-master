@@ -47,10 +47,10 @@
   "3": {
     "rank": 3,
     "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | SL Hit (intraday)",
-    "wins": 10,
+    "wins": 11,
     "losses": 6,
-    "total_pnl": 2756.369999999999,
-    "consec_losses": 1,
+    "total_pnl": 4785.779999999999,
+    "consec_losses": 0,
     "paused_since": null
   },
   "5": {

@@ -6,7 +6,7 @@
   },
   "SHORT": {},
   "_discovery": {
-    "last": "2026-09-01",
+    "last": "2026-09-03",
     "added": 1
   },
   "_sym_firstbar": {
@@ -47,7 +47,10 @@
     "CLEANMAX.NS": "2026-03-02",
     "GAJA.NS": "2026-08-26",
     "TEMPSENS.NS": "2026-08-28",
-    "AUGMONT.NS": "2026-08-31"
+    "AUGMONT.NS": "2026-08-31",
+    "SKYWAYS.NS": "2026-09-01",
+    "SYMBIOTEC.NS": "2026-09-01",
+    "ANNU.NS": "2026-09-02"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
@@ -189,6 +192,7 @@
   "BREAK": {
     "MOLBIO.NS": "2026-08-20",
     "JNPR.NS": "2026-08-20",
-    "SUNSHINE.NS": "2026-08-28"
+    "SUNSHINE.NS": "2026-08-28",
+    "LALITHAA.NS": "2026-09-03"
   }
 }
