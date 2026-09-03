@@ -27,3 +27,9 @@ data/ohlc_cache.json.tmp
 
 # Independent backtest fresh-download cache (regenerable, ~20MB)
 data/indbt_cache/
+
+# Local archive & cleanup scripts
+logs/archive/
+clean_*.py
+prune_*.py
+*_cleanup.py

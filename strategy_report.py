@@ -101,7 +101,14 @@ def _load_strategy_defs():
                     rank = int(float(row["Final_Rank"]))
                 except (KeyError, ValueError, TypeError):
                     continue
+                # Skip disabled strategy ranks (config DISABLED_STRATEGY_RANKS)
+                if rank in getattr(config, "DISABLED_STRATEGY_RANKS", set()):
+                    continue
                 market = str(row.get("Market", "")).strip()
+                # Skip disabled ticker+direction pairs (e.g. AVAX SHORT)
+                if (market.upper(), str(row.get("Direction", "")).strip().upper()) in \
+                        getattr(config, "DISABLED_TICKER_DIRECTIONS", set()):
+                    continue
                 ticker = _resolve_ticker(market)
                 tf = _resolve_tf(file_default, row.get("TF"))
                 region = str(row.get("Region", "")).strip().upper()
@@ -175,6 +182,9 @@ def _load_strategy_defs():
     ipo_variants = getattr(config, "IPO_VARIANTS", None)
     if ipo_variants:
         for v in ipo_variants:
+            # Skip disabled IPO variants (config DISABLED_STRATEGY_RANKS)
+            if v["rank"] in getattr(config, "DISABLED_STRATEGY_RANKS", set()):
+                continue
             defs.append({
                 "tf": "IPO_1d",
                 "market": "NSE",

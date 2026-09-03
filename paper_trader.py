@@ -1379,6 +1379,26 @@ def _paused_ranks() -> set:
         paused.add(GAP_DOWN_RANK_A)
     if not GAP_DOWN_B_ENABLED:
         paused.add(GAP_DOWN_RANK_B)
+    # Manually disabled strategy ranks (config DISABLED_STRATEGY_RANKS)
+    paused |= set(DISABLED_STRATEGY_RANKS)
+    # Manually disabled ticker+direction pairs (e.g. AVAX SHORT)
+    # — their ranks are excluded from the live top/worst report too
+    if DISABLED_TICKER_DIRECTIONS:
+        try:
+            import pandas as _pd
+            for _f in (STRATEGY_FILE, INTRADAY_STRATEGY_FILE):
+                if os.path.exists(_f):
+                    _df = _pd.read_csv(_f, on_bad_lines='warn')
+                    for _idx, _row in _df.iterrows():
+                        _pair = (str(_row.get("Market", "")).strip().upper(),
+                                 str(_row.get("Direction", "")).strip().upper())
+                        if _pair in DISABLED_TICKER_DIRECTIONS:
+                            try:
+                                paused.add(int(float(_row["Final_Rank"])))
+                            except (KeyError, ValueError, TypeError):
+                                pass
+        except Exception:
+            pass
     return paused
 
 

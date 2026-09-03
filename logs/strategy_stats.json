@@ -359,15 +359,6 @@
     "consec_losses": 0,
     "paused_since": null
   },
-  "936": {
-    "rank": 936,
-    "factors": "#936IPO IPO DIP: listing-high -10% dip LONG, exit +5%, hold 20d | \ud83c\udfaf SL Hit (live",
-    "wins": 1,
-    "losses": 2,
-    "total_pnl": -5142.07,
-    "consec_losses": 2,
-    "paused_since": null
-  },
   "941": {
     "rank": 941,
     "factors": "#941ID Fade T2: 15m +3.5%/90m vol2.0x RSI60 SL1.3/TP3.9 (fresh-veri | Expiry 5h",
@@ -384,15 +375,6 @@
     "losses": 1,
     "total_pnl": -428.61,
     "consec_losses": 1,
-    "paused_since": null
-  },
-  "938": {
-    "rank": 938,
-    "factors": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout  | SL Hit (i",
-    "wins": 1,
-    "losses": 2,
-    "total_pnl": -842.86,
-    "consec_losses": 2,
     "paused_since": null
   },
   "7": {
