@@ -33,8 +33,8 @@
       "Reason": "#4SW EMA9>EMA20+Range<1%",
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 177.80833, \"BB_lo\": 160.692668, \"Close\": 171.160004, \"EMA20\": 169.767931, \"EMA200\": 153.951283, \"EMA50\": 164.324372, \"EMA9\": 172.083661, \"High\": 171.710007, \"Low\": 170.589996, \"Open\": 171.429993, \"RSI14\": 57.156114, \"Ret\": -0.002448, \"SMA20\": 169.250499, \"SMA50\": 163.729879, \"Volume\": 4879300.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 20:17:47 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"9c5b13218a3d2ce328cb2f2e7d32803533390f839d04812e416383140bb7e387\"}, \"high20\": 176.600006, \"high50\": 176.600006, \"low20\": 160.729996, \"low50\": 148.136666}",
       "Writer_ID": "",
-      "Row_Seq": "",
-      "Row_Hash": ""
+      "Row_Seq": 51.0,
+      "Row_Hash": "ec9bace514ae05e4b66a9dcdcbf6c0505e353d60ef0957c29508d92d09b68456"
     },
     {
       "Date": "2026-09-03",
@@ -59,8 +59,8 @@
       "Reason": "#5SW EMA9>EMA20+Range<1%",
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 53.933542, \"BB_lo\": 51.668459, \"Close\": 52.07, \"EMA20\": 52.631511, \"EMA200\": 49.788698, \"EMA50\": 52.014955, \"EMA9\": 52.846097, \"High\": 52.459999, \"Low\": 52.02, \"Open\": 52.439999, \"RSI14\": 46.449627, \"Ret\": -0.011767, \"SMA20\": 52.801, \"SMA50\": 51.74, \"Volume\": 15500500.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-03 00:20:14 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"4c008560e6adf2a2b92f03ff3aba914bff4c1422744acab60897e94b0403e513\"}, \"high20\": 54.189999, \"high50\": 54.189999, \"low20\": 51.029999, \"low50\": 49.849998}",
       "Writer_ID": "",
-      "Row_Seq": "",
-      "Row_Hash": ""
+      "Row_Seq": 55.0,
+      "Row_Hash": "25bdd781e3b5411b9e983f412e8fd44aeb887e94feaa5262c86f6a7d9a3e4038"
     },
     {
       "Date": "2026-09-04",
@@ -86,7 +86,7 @@
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 191.712855, \"BB_lo\": 179.688148, \"Close\": 183.600006, \"EMA20\": 184.253928, \"EMA200\": 163.733288, \"EMA50\": 182.113823, \"EMA9\": 184.580211, \"High\": 183.779999, \"Low\": 182.270004, \"Open\": 183.460007, \"RSI14\": 49.503374, \"Ret\": -0.000218, \"SMA20\": 185.700501, \"SMA50\": 182.494601, \"Volume\": 5698700.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-04 00:18:23 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"6b9dec175776d38099bfb1914d0a25629c9baa7f345badebe6a04ece751808ef\"}, \"high20\": 191.75, \"high50\": 191.75, \"low20\": 178.820007, \"low50\": 166.460007}",
       "Writer_ID": "paper_trader.enter",
       "Row_Seq": 56.0,
-      "Row_Hash": "b9cea9f4d68278534d4c9961cc6e51fca396f1332b67faa2e2d04e786ae1ecdf"
+      "Row_Hash": "66833bd7a2b459f7c02df6aa93a5026c72b33338d5241376b593dd33e99683c3"
     },
     {
       "Date": "2026-09-04",
@@ -112,7 +112,7 @@
       "Signal_Indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 2795.732764, \"BB_lo\": 1802.401318, \"Close\": 2391.500977, \"EMA20\": 2315.842983, \"EMA200\": 2165.750484, \"EMA50\": 2125.223481, \"EMA9\": 2416.411271, \"High\": 2427.401611, \"Low\": 2356.188232, \"Open\": 2417.828369, \"RSI14\": 61.419955, \"Ret\": -0.010894, \"SMA20\": 2299.067041, \"SMA50\": 2053.502986, \"Volume\": 14227785690.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-04 00:18:23 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"bceb614e24f483f8b97a38b58fddecc676f19d19395d1082c77cf9b320b6f87a\"}, \"high20\": 2564.274414, \"high50\": 2564.274414, \"low20\": 1861.92041, \"low50\": 1772.0177}",
       "Writer_ID": "paper_trader.enter",
       "Row_Seq": 57.0,
-      "Row_Hash": "f6d0c2d4f6e783f51aede71f50e779544e863bd35a6e8b6a1d5e50d8cd36fea5"
+      "Row_Hash": "a4743725a519a6afb6f21d03929ae2680ea247ea1b82700f4fc8cf8658f6ea3c"
     }
   ],
   "closed_count": 53,
