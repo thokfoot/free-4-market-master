@@ -9728,5 +9728,15 @@
     "pattern_factors": "IPO BREAK: flat listing (0-30%) close>listing-high breakout LONG, exit +20%, hold 45d",
     "reason": "#938IPO IPO BREAK: flat listing (0-30%) close>listing-high breakout ",
     "signal_indicators": "{\"Close\": 275.15, \"ListingHigh\": 274.4, \"_provenance\": {\"captured_at_ist\": \"2026-09-03 11:07:37 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"20cd75c62e8a47e886cd50fb177d203dfc0092e6844251a4b5d1fb9acce48f84\"}}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-03 20:02:33 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "skip_reason": "Cooldown: SPY LONG INTRADAY_1h closed <120m ago"
   }
 ]
