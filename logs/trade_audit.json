@@ -9878,5 +9878,37 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price<SMA50+EMA9>EMA20+EMA20<EMA50+Close>Open",
     "skip_reason": "Cooldown: IWM SHORT INTRADAY_1h closed <120m ago"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-05 00:01:07 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "entry_price": 384.36,
+    "qty": 133,
+    "sl": 376.63,
+    "target": 399.69,
+    "pattern_rank": 4,
+    "expected_win_rate": 59.53,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Price>SMA20+Range<1%",
+    "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 384.914412, \"BB_lo\": 375.582585, \"Close\": 384.320007, \"EMA20\": 378.7841, \"EMA200\": 352.821272, \"EMA50\": 374.004443, \"EMA9\": 380.273856, \"High\": 385.049988, \"Low\": 381.329987, \"Open\": 381.329987, \"RSI14\": 62.100647, \"Ret\": 0.011235, \"SMA20\": 380.248499, \"SMA50\": 373.018998, \"Volume\": 152400.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-05 00:01:07 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"abfffaa65e4253b95842b79cc0c4fd24b91e723a3bb5a1c71936a4e0ad957b60\"}, \"high20\": 384.809998, \"high50\": 384.820007, \"low20\": 376.040009, \"low50\": 354.809998}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-05 00:01:07 IST",
+    "mode": "US",
+    "ticker": "KBE",
+    "direction": "LONG",
+    "entry_price": 69.12,
+    "qty": 744,
+    "sl": 67.73,
+    "target": 71.87,
+    "pattern_rank": 5,
+    "expected_win_rate": 50.67,
+    "pattern_factors": "EMA9<EMA50+Price>EMA50",
+    "reason": "#5SW EMA9<EMA50+Price>EMA50",
+    "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 71.993154, \"BB_lo\": 66.775846, \"Close\": 69.110001, \"EMA20\": 68.962509, \"EMA200\": 64.180507, \"EMA50\": 68.553847, \"EMA9\": 68.515681, \"High\": 69.43, \"Low\": 68.519997, \"Open\": 68.690002, \"RSI14\": 50.566608, \"Ret\": 0.011119, \"SMA20\": 69.3845, \"SMA50\": 69.3494, \"Volume\": 1003500.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-05 00:01:07 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"06ac2e6e1d165122d46e93bfcd73629fb535999a67502c91a31dd356f9c3e061\"}, \"high20\": 71.919998, \"high50\": 71.919998, \"low20\": 66.809998, \"low50\": 66.809998}"
   }
 ]
