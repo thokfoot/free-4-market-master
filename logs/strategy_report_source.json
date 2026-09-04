@@ -1,8 +1,8 @@
 {
   "report_file": "/home/runner/work/free-4-market-master/free-4-market-master/logs/strategy_report.xlsx",
   "ledger_file": "/home/runner/work/free-4-market-master/free-4-market-master/logs/paper_trades.csv",
-  "ledger_sha256": "5c44e2cc3f9573a10e77eb023b41e6677bf476e67bb93c5ec7313c815e45dbe5",
-  "ledger_rows": 57,
-  "ledger_latest_date": "2026-09-04",
-  "git_commit": "c343cb36f3a5ca7fec39f85982c07cff7a96f06c"
+  "ledger_sha256": "c4d7037f8b9571b3ddc4350dabbfec50c7b02270bc5fd52f1d3b18f1b35fbfba",
+  "ledger_rows": 59,
+  "ledger_latest_date": "2026-09-05",
+  "git_commit": "38f8a8940f463f77364b7726eafb29e658e6f298"
 }
