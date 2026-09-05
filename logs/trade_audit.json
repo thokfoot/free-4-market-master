@@ -9910,5 +9910,24 @@
     "pattern_factors": "EMA9<EMA50+Price>EMA50",
     "reason": "#5SW EMA9<EMA50+Price>EMA50",
     "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 71.993154, \"BB_lo\": 66.775846, \"Close\": 69.110001, \"EMA20\": 68.962509, \"EMA200\": 64.180507, \"EMA50\": 68.553847, \"EMA9\": 68.515681, \"High\": 69.43, \"Low\": 68.519997, \"Open\": 68.690002, \"RSI14\": 50.566608, \"Ret\": 0.011119, \"SMA20\": 69.3845, \"SMA50\": 69.3494, \"Volume\": 1003500.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-05 00:01:07 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"06ac2e6e1d165122d46e93bfcd73629fb535999a67502c91a31dd356f9c3e061\"}, \"high20\": 71.919998, \"high50\": 71.919998, \"low20\": 66.809998, \"low50\": 66.809998}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-09-05 05:30:00 IST",
+    "entry_datetime": "2026-08-31 20:17:47 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "entry_price": 171.18,
+    "exit_price": 171.43,
+    "qty": "299",
+    "pnl": 65.36,
+    "pnl_pct": 0.13,
+    "hold": "105.2h",
+    "pattern_rank": 4,
+    "expected_win_rate": 52.32,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Range<1% | Expiry 5d",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 177.80833, \"BB_lo\": 160.692668, \"Close\": 171.160004, \"EMA20\": 169.767931, \"EMA200\": 153.951283, \"EMA50\": 164.324372, \"EMA9\": 172.083661, \"High\": 171.710007, \"Low\": 170.589996, \"Open\": 171.429993, \"RSI14\": 57.156114, \"Ret\": -0.002448, \"SMA20\": 169.250499, \"SMA50\": 163.729879, \"Volume\": 4879300.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 20:17:47 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"9c5b13218a3d2ce328cb2f2e7d32803533390f839d04812e416383140bb7e387\"}, \"high20\": 176.600006, \"high50\": 176.600006, \"low20\": 160.729996, \"low50\": 148.136666}"
   }
 ]

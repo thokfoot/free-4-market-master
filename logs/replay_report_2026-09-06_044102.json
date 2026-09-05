@@ -1,0 +1,25 @@
+{
+  "generated": "2026-09-05 23:10:56.389867+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-09-05 23:10:56.389867+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "XLV",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 171.18,
+      "sl": 167.74,
+      "target": 178.01,
+      "exit_price": 171.43,
+      "exit_reason": "Expiry 5d",
+      "exit_utc": "2026-09-05 00:00:00+00:00",
+      "pnl": 65.36
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}
