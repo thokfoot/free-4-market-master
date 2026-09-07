@@ -9975,5 +9975,45 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>EMA20+SMA20<SMA50",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-08 00:19:07 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+Range<1%",
+    "skip_reason": "Duplicate TRX-USD LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-08 00:19:07 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-08 00:19:07 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-08 00:19:07 IST",
+    "mode": "US",
+    "ticker": "KBE",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>EMA20+SMA20<SMA50",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
   }
 ]
