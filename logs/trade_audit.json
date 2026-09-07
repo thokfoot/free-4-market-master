@@ -9929,5 +9929,51 @@
     "pattern_factors": "EMA9>EMA20+Range<1%",
     "reason": "#4SW EMA9>EMA20+Range<1% | Expiry 5d",
     "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 177.80833, \"BB_lo\": 160.692668, \"Close\": 171.160004, \"EMA20\": 169.767931, \"EMA200\": 153.951283, \"EMA50\": 164.324372, \"EMA9\": 172.083661, \"High\": 171.710007, \"Low\": 170.589996, \"Open\": 171.429993, \"RSI14\": 57.156114, \"Ret\": -0.002448, \"SMA20\": 169.250499, \"SMA50\": 163.729879, \"Volume\": 4879300.0, \"_provenance\": {\"captured_at_ist\": \"2026-08-31 20:17:47 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"9c5b13218a3d2ce328cb2f2e7d32803533390f839d04812e416383140bb7e387\"}, \"high20\": 176.600006, \"high50\": 176.600006, \"low20\": 160.729996, \"low50\": 148.136666}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-07 11:22:34 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "entry_price": 0.3349,
+    "qty": 10000,
+    "sl": 0.3272,
+    "target": 0.3473,
+    "pattern_rank": 2,
+    "expected_win_rate": 66.28,
+    "pattern_factors": "Price>SMA50+Range<1%",
+    "reason": "#2SW Price>SMA50+Range<1%",
+    "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 0.34818, \"BB_lo\": 0.323418, \"Close\": 0.333927, \"EMA20\": 0.333584, \"EMA200\": 0.324153, \"EMA50\": 0.332375, \"EMA9\": 0.332427, \"High\": 0.334747, \"Low\": 0.331477, \"Open\": 0.331539, \"RSI14\": 50.659837, \"Ret\": 0.007209, \"SMA20\": 0.335799, \"SMA50\": 0.331667, \"Volume\": 308281984.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-07 11:22:34 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"7600fa929fe73fa7401d6bfbe86db098b69cda878289f54ac466b6c9a918540c\"}, \"high20\": 0.349996, \"high50\": 0.349996, \"low20\": 0.321569, \"low50\": 0.321457}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-07 11:22:34 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-07 11:22:34 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-07 11:22:34 IST",
+    "mode": "US",
+    "ticker": "KBE",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>EMA20+SMA20<SMA50",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
   }
 ]
