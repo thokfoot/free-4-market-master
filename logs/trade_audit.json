@@ -10015,5 +10015,24 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>EMA20+SMA20<SMA50",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=HOLIDAY \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-09-08 00:47:43 IST",
+    "entry_datetime": "2026-09-03 00:20:14 IST",
+    "mode": "US",
+    "ticker": "XLB",
+    "direction": "LONG",
+    "entry_price": 52.08,
+    "exit_price": 52.43,
+    "qty": 966,
+    "pnl": 332.63,
+    "pnl_pct": 0.66,
+    "hold": "5d 0h 27m",
+    "pattern_rank": 5,
+    "expected_win_rate": 50.21,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#5SW EMA9>EMA20+Range<1% | Expiry 5d",
+    "signal_indicators": ""
   }
 ]

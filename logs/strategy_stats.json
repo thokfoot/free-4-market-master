@@ -56,10 +56,10 @@
   "5": {
     "rank": 5,
     "factors": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
-    "wins": 7,
+    "wins": 8,
     "losses": 3,
-    "total_pnl": 2039.96,
-    "consec_losses": 1,
+    "total_pnl": 2372.59,
+    "consec_losses": 0,
     "paused_since": null
   },
   "6": {
