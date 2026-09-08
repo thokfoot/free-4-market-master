@@ -413,7 +413,10 @@ def _write_sheet(wb, title, header, rows, widths, center_cols=(), num_cols=()):
             elif c in num_cols:
                 cell.alignment = RIGHT
             if c in num_cols and isinstance(v, (int, float)):
-                cell.number_format = "#,##0.00"
+                if 0 < abs(v) < 1.0:
+                    cell.number_format = "#,##0.0000"
+                else:
+                    cell.number_format = "#,##0.00"
     for c, w in enumerate(widths, 1):
         ws.column_dimensions[get_column_letter(c)].width = w
     ws.freeze_panes = "A2"
@@ -618,11 +621,12 @@ def generate_strategy_report(report_file=None):
                 c = None
                 net_cell = ""
                 pct_cell = ""
+        exit_price_val = _f(t.get("Exit_Price")) if str(t.get("Status", "")).upper() == "CLOSED" else ""
         all_rows.append([t.get("Date"), t.get("Time_IST"), t.get("Mode"),
                          t.get("Ticker"), t.get("Direction"), t.get("TimeFrame"),
                          _f(t.get("Entry_Price")), _f(t.get("Qty")),
                          _f(t.get("SL")), _f(t.get("Target")), t.get("MaxHold"),
-                         _f(t.get("Exit_Price")), t.get("Exit_Time"),
+                         exit_price_val, t.get("Exit_Time"),
                          "" if g is None else round(g, 2),
                          "" if c is None else round(c, 2),
                          net_cell, pct_cell, t.get("Status"),
@@ -641,7 +645,7 @@ def generate_strategy_report(report_file=None):
                      "", f"{len(trades)} trades ({len(trades) - n_open} closed / {n_open} open)",
                      "", "", "", "", ""])
     all_ws = _write_sheet(wb, "All Trades", all_header, all_rows,
-                          widths=[12, 12, 9, 12, 10, 13, 11, 8, 10, 10, 8, 11,
+                          widths=[12, 12, 9, 12, 10, 13, 11, 12, 11, 11, 8, 11,
                                   18, 11, 10, 12, 9, 12, 9, 10, 45, 40, 50],
                           center_cols=(3, 4, 5, 6, 9, 10, 12, 18, 19),
                           num_cols=(7, 8, 9, 10, 14, 15, 16, 17))
