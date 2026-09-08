@@ -63,12 +63,12 @@ class TestGrossNet:
 
 class TestChargeRate:
     def test_india_normalized(self):
-        assert sr._charge_rate("India") == 0.0012
-        assert sr._charge_rate("INDIAN") == 0.0012
+        assert sr._charge_rate("India") == 0.0030
+        assert sr._charge_rate("INDIAN") == 0.0030
 
     def test_us_and_crypto(self):
         assert sr._charge_rate("US") == 0.0002
-        assert sr._charge_rate("CRYPTO") == 0.003
+        assert sr._charge_rate("CRYPTO") == 0.0030
 
     def test_unknown_falls_back(self):
         assert sr._charge_rate("XYZ") == 0.001

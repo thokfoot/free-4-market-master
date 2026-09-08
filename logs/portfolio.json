@@ -6,7 +6,7 @@
     "INTRADAY": 209327.92,
     "FADE": 100000.0,
     "US_FADE": 100000.0,
-    "LONG_BOUNCE": 101079.35,
+    "LONG_BOUNCE": 100845.81,
     "IPO": 0.0
   },
   "open_positions": [
@@ -118,7 +118,7 @@
   "closed_count": 50,
   "total_wins": 35,
   "total_losses": 15,
-  "total_pnl": 20841.589999999997,
+  "total_pnl": 20608.05,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
     "US": 7169.249999999998,
@@ -126,8 +126,8 @@
     "INTRADAY": 9327.920000000002,
     "FADE": 0.0,
     "US_FADE": 0.0,
-    "LONG_BOUNCE": 1079.35,
+    "LONG_BOUNCE": 845.81,
     "IPO": 0.0
   },
-  "total_capital": 820841.59
+  "total_capital": 820608.05
 }

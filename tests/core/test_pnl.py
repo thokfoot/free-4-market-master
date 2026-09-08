@@ -20,6 +20,7 @@ Does NOT modify production code or existing fixtures.
 """
 
 import pytest
+import config
 from paper_trader import (
     round_price, _safe_float, _safe_num,
     _calc_unrealized_pnl, update_last_prices, _get_current_price,
@@ -346,7 +347,7 @@ def test_market_charges_crypto(test_env):
 
 
 def test_market_charges_indian(test_env):
-    """Indian trade: charges = entry * qty * 0.0012."""
+    """Indian trade: charges = entry * qty * config.CHARGES_PER_MARKET['INDIAN']."""
     t = enter_trade("INDIAN", "^BSESN", "LONG", 100.00, "Charges INDIA",
                     pattern_rank=5, expected_win_rate=60.0,
                     pattern_factors="Test", tf="SWING_1d")
@@ -362,7 +363,7 @@ def test_market_charges_indian(test_env):
     csv_pnl, _ = _read_closed_pnl(test_env)
     actual_exit = _apply_slippage(target, "LONG", "EXIT", "INDIAN", "SWING_1d")
     gross = (actual_exit - entry) * qty
-    expected_charges = round((entry * qty) * 0.0012, 2)
+    expected_charges = round((entry * qty) * config.CHARGES_PER_MARKET["INDIAN"], 2)
     expected_net = round(gross - expected_charges, 2)
     assert csv_pnl == pytest.approx(expected_net, abs=0.05)
 

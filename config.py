@@ -798,11 +798,13 @@ def is_strategy_disabled(ticker: str, rank: int, tf: str = None, direction: str 
 KILL_FLAG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "kill.flag")
 
 # ===== TRADING COSTS (Round Turn — entry + exit) =====
-# From V3 verified analysis
+# Realistic fee structure:
+# INDIAN: 0.30% (0.0030) RT — Zerodha delivery / cash swing:
+#   STT 0.1% Buy + 0.1% Sell (0.20%) + Stamp 0.015% + Exchange 0.00345% + GST 18% + SEBI + slippage buffer
 CHARGES_PER_MARKET = {
-    "INDIAN": 0.0012,     # 0.12% RT — Zerodha: Brokerage 0.03% + STT 0.01% + Exchange 0.003% + GST 18% + Stamp 0.003% + slippage
+    "INDIAN": 0.0030,     # 0.30% RT — Zerodha realistic equity delivery/cash swing
     "US": 0.0002,          # 0.02% RT — $0 commission + SEC 0.0008% + FINRA 0.000145% + Exchange 0.003% + slippage 0.01%
-    "CRYPTO": 0.003,       # 0.30% RT — Binance 0.1% per side (0.2%) + slippage 0.05% per side (0.1%)
+    "CRYPTO": 0.0030,      # 0.30% RT — Binance 0.1% per side (0.2%) + slippage 0.05% per side (0.1%)
 }
 
 # ===== YAHOO FINANCE =====

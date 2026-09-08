@@ -158,14 +158,14 @@ The codebase contains strict safeguards implemented to eliminate common algorith
 As of **September 8, 2026**, after purging the 4 persistently bleeding counter-trend strategies, the live portfolio performance stands as follows:
 
 ### High-Level Summary
-* **Total Portfolio Capital:** **₹8,20,841.59 INR** (+2.61% net capital growth)
-* **Total Realized Net Profit:** **+₹20,841.59 INR**
+* **Total Portfolio Capital:** **₹8,20,608.05 INR** (+2.58% net capital growth)
+* **Total Realized Net Profit:** **+₹20,608.05 INR**
 * **Total Executed Trades:** **54** (50 Closed, 4 Currently Open)
 * **Realized Win / Loss Record:** **35 Wins / 15 Losses**
 * **Live Realized Win Rate:** **70.00%**
 * **Gross Profit:** ₹22,182.22 INR
-* **Total Brokerage / Regulatory Charges:** ₹1,340.63 INR
-* **Net P&L:** ₹20,841.59 INR *(Gross - Charges = Net exact reconciliation)*
+* **Total Brokerage / Regulatory Charges:** ₹1,574.17 INR
+* **Net P&L:** ₹20,608.05 INR *(Gross - Charges = Net exact reconciliation)*
 
 ### Performance by Market & Strategy Category
 
@@ -176,10 +176,10 @@ As of **September 8, 2026**, after purging the 4 persistently bleeding counter-t
 │ 🇺🇸 US Intraday  │ 15       │ 12       │ 3        │ 80.00%     │ +₹9,146.80  │
 │ 🇺🇸 US Swing     │ 28       │ 16       │ 9        │ 64.00%     │ +₹7,169.25  │
 │ ₿ Crypto Swing  │ 8        │ 5        │ 2        │ 71.43%     │ +₹3,265.07  │
-│ 🇮🇳 India Bounce │ 2        │ 1        │ 1        │ 50.00%     │ +₹1,079.35  │
+│ 🇮🇳 India Bounce │ 2        │ 1        │ 1        │ 50.00%     │ +₹845.81    │
 │ ₿ Crypto ID     │ 1        │ 1        │ 0        │ 100.00%    │ +₹181.12    │
 ├─────────────────┼──────────┼──────────┼──────────┼────────────┼─────────────┤
-│ TOTAL CLOSED    │ 50       │ 35       │ 15       │ 70.00%     │ +₹20,841.59 │
+│ TOTAL CLOSED    │ 50       │ 35       │ 15       │ 70.00%     │ +₹20,608.05 │
 └─────────────────┴──────────┴──────────┴──────────┴────────────┴─────────────┘
 ```
 
