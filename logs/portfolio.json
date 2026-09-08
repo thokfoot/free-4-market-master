@@ -1,9 +1,9 @@
 {
   "capital_by_market": {
     "INDIAN": 100000.0,
-    "US": 103863.67000000003,
+    "US": 107169.25000000001,
     "CRYPTO": 103265.06999999999,
-    "INTRADAY": 208215.97,
+    "INTRADAY": 209327.92,
     "FADE": 100000.0,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
@@ -115,19 +115,19 @@
       "Row_Hash": "5b3034775bbc6823d9037d669acbcabca2ab780e306b44e1bc4cac45e1d1da0c"
     }
   ],
-  "closed_count": 56,
-  "total_wins": 36,
-  "total_losses": 20,
-  "total_pnl": 16424.059999999994,
+  "closed_count": 50,
+  "total_wins": 35,
+  "total_losses": 15,
+  "total_pnl": 20841.589999999997,
   "total_pnl_by_market": {
     "INDIAN": 0.0,
-    "US": 3863.669999999999,
+    "US": 7169.249999999998,
     "CRYPTO": 3265.0699999999997,
-    "INTRADAY": 8215.970000000001,
+    "INTRADAY": 9327.920000000002,
     "FADE": 0.0,
     "US_FADE": 0.0,
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 816424.06
+  "total_capital": 820841.59
 }
