@@ -1666,3 +1666,8 @@ Intraday download failed XLF: stale data (last bar 85h old)
 [2026-09-08 14:02:45 IST] ERROR
 ============================================================
 Intraday download failed XLK: stale data (last bar 85h old)
+
+============================================================
+[2026-09-09 00:20:39 IST] ERROR
+============================================================
+Swing download failed BANKBEES.NS: stale data (last bar 115h old)

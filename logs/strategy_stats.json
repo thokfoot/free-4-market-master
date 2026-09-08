@@ -182,9 +182,9 @@
   "28": {
     "rank": 28,
     "factors": "#28ID Price>SMA50+EMA9<EMA20+Close<Open | \ud83c\udfaf SL Hit (live)",
-    "wins": 1,
+    "wins": 2,
     "losses": 0,
-    "total_pnl": 194.6,
+    "total_pnl": 1429.98,
     "consec_losses": 0,
     "paused_since": null
   },
