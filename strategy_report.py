@@ -101,16 +101,21 @@ def _load_strategy_defs():
                     rank = int(float(row["Final_Rank"]))
                 except (KeyError, ValueError, TypeError):
                     continue
+                market = str(row.get("Market", "")).strip()
+                tf = _resolve_tf(file_default, row.get("TF"))
+                direction_str = str(row.get("Direction", "LONG")).strip().upper()
                 # Skip disabled strategy ranks (config DISABLED_STRATEGY_RANKS)
                 if rank in getattr(config, "DISABLED_STRATEGY_RANKS", set()):
                     continue
-                market = str(row.get("Market", "")).strip()
                 # Skip disabled ticker+direction pairs (e.g. AVAX SHORT)
-                if (market.upper(), str(row.get("Direction", "")).strip().upper()) in \
+                if (market.upper(), direction_str) in \
                         getattr(config, "DISABLED_TICKER_DIRECTIONS", set()):
                     continue
+                # Skip specific disabled strategies (e.g. #3SW XLK, #4SW XLK, #68SW QQQ, #28ID QQQ)
+                if hasattr(config, "is_strategy_disabled"):
+                    if config.is_strategy_disabled(market, rank, tf, direction_str):
+                        continue
                 ticker = _resolve_ticker(market)
-                tf = _resolve_tf(file_default, row.get("TF"))
                 region = str(row.get("Region", "")).strip().upper()
                 if region == "INDIA":
                     region = "INDIAN"

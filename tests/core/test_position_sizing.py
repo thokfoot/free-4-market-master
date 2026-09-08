@@ -64,19 +64,19 @@ def test_short_swing_crypto_capped(isolated_fs):
 def test_long_intraday_us(isolated_fs):
     """LONG Intraday US: uses INTRADAY capital pool (separate from US)."""
     qty = calculate_qty(200.00, 198.00, "US", "INTRADAY_1h")
-    # tf=INTRADAY_1h → uses INTRADAY capital (100000)
-    # risk_per_share=2, risk_amt=1000, qty=int(1000/2)=500
-    # entry>100 → min(500,5000)=500, max(1,500)=500
-    assert qty == 500
+    # tf=INTRADAY_1h → uses INTRADAY capital (200000)
+    # risk_per_share=2, risk_amt=2000, qty=int(2000/2)=1000
+    # entry>100 → min(1000,5000)=1000, max(1,1000)=1000
+    assert qty == 1000
 
 
 def test_short_intraday_crypto(isolated_fs):
     """SHORT Intraday Crypto: no hard cap applies at entry=1.50."""
     qty = calculate_qty(1.50, 1.53, "CRYPTO", "INTRADAY_1h")
-    # risk_per_share=0.03, risk_amt=1000, qty=int(1000/0.03)=33333
+    # risk_per_share=0.03, risk_amt=2000, qty=int(2000/0.03)=66666
     # entry=1.50 → not <0.1, not <1, not >100 → no cap
-    # max(1,33333)=33333
-    assert qty == 33333
+    # max(1,66666)=66666
+    assert qty == 66666
 
 
 def test_zero_risk_distance(isolated_fs):
@@ -148,9 +148,9 @@ def test_minimum_qty_floor(isolated_fs):
     (500.00, 490.00,    "US",      "SWING_1d",      100),    # US swing
     (2500.00,2450.00,   "INDIAN",  "SWING_1d",      20),     # India swing
     (1.50,   1.47,      "CRYPTO",  "SWING_1d",      33333),  # Crypto swing
-    (200.00, 198.00,    "US",      "INTRADAY_1h",   500),    # US intraday
-    (1.50,   1.53,      "CRYPTO",  "INTRADAY_1h",   33333),  # Crypto intraday
-    (2500.00,2475.00,   "INDIAN",  "INTRADAY_1h",   40),     # India intraday
+    (200.00, 198.00,    "US",      "INTRADAY_1h",   1000),   # US intraday
+    (1.50,   1.53,      "CRYPTO",  "INTRADAY_1h",   66666),  # Crypto intraday
+    (2500.00,2475.00,   "INDIAN",  "INTRADAY_1h",   80),     # India intraday
 
     # Group 3: Cap boundaries — entry<0.1 → 50000 cap (using FP-safe values)
     (0.05,   0.04,      "CRYPTO",  "SWING_1d",      50000),

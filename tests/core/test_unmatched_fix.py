@@ -147,6 +147,10 @@ class TestRealDataZeroUnmatched:
         ("SWING_1d", 5, "XLC", "LONG"),
         ("SWING_1d", 75, "XLK", "LONG"),
         ("SWING_1d", 7, "AVAX-USD", "LONG"),
+        ("SWING_1d", 3, "XLK", "LONG"),
+        ("SWING_1d", 4, "XLK", "LONG"),
+        ("SWING_1d", 68, "QQQ", "LONG"),
+        ("INTRADAY_1h", 28, "QQQ", "LONG"),
     }
 
     def test_zero_unmatched_on_live_data(self):

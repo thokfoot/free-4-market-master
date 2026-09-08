@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import os, re
 import market_data
-from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHORT, get_region, DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS
+from config import STRATEGY_FILE, TICKER_MAP, YF_PERIOD, YF_INTERVAL, ALLOW_SHORT, get_region, DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS, is_strategy_disabled
 
 
 def load_strategies() -> pd.DataFrame:
@@ -41,6 +41,13 @@ def load_strategies() -> pd.DataFrame:
         if removed > 0:
             removed_rows = [tuple(x) for x in df.index if False]
             print(f"[Scanner] Disabled {removed} strategies by ticker+direction: {sorted(DISABLED_TICKER_DIRECTIONS)}")
+    # Filter out specific disabled strategies (e.g. #3SW XLK, #4SW XLK, #68SW QQQ)
+    before = len(df)
+    gran_mask = df.apply(lambda r: is_strategy_disabled(r.get("Market"), r.get("Final_Rank"), "SWING_1d", r.get("Direction")), axis=1)
+    df = df[~gran_mask]
+    removed = before - len(df)
+    if removed > 0:
+        print(f"[Scanner] Disabled {removed} swing strategies via is_strategy_disabled")
     print(f"[Scanner] Loaded {len(df)} strategies from {STRATEGY_FILE}")
     return df
 

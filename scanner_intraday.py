@@ -13,6 +13,7 @@ import os, re
 from config import (
     INTRADAY_STRATEGY_FILE, TICKER_MAP, INTRADAY_PERIOD, INTRADAY_INTERVAL,
     ALLOW_SHORT, INTRADAY_CAPITAL, DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS,
+    is_strategy_disabled,
 )
 
 
@@ -43,6 +44,13 @@ def load_intraday_strategies() -> pd.DataFrame:
         removed = before - len(df)
         if removed > 0:
             print(f"[IntradayScanner] Disabled {removed} intraday strategies by ticker+direction: {sorted(DISABLED_TICKER_DIRECTIONS)}")
+    # Filter out specific disabled strategies (e.g. #28ID QQQ)
+    before = len(df)
+    gran_mask = df.apply(lambda r: is_strategy_disabled(r.get("Market"), r.get("Final_Rank"), "INTRADAY_1h", r.get("Direction")), axis=1)
+    df = df[~gran_mask]
+    removed = before - len(df)
+    if removed > 0:
+        print(f"[IntradayScanner] Disabled {removed} intraday strategies via is_strategy_disabled")
     print(f"[IntradayScanner] Loaded {len(df)} intraday strategies from {INTRADAY_STRATEGY_FILE}")
     return df
 

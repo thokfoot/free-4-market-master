@@ -27,7 +27,8 @@ from config import (
     infer_market_mode, entry_market_open,
     FADE_ALLOW_SHORT, FADE_VARIANTS,
     GAP_DOWN_A_ENABLED, GAP_DOWN_B_ENABLED, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
-    DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS, KILL_FLAG_PATH,
+    DISABLED_STRATEGY_RANKS, DISABLED_TICKER_DIRECTIONS, DISABLED_STRATEGIES,
+    is_strategy_disabled, KILL_FLAG_PATH,
 )
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -932,6 +933,11 @@ def check_entry_allowed(ticker: str, direction: str,
             if (t_base, direction.upper()) in DISABLED_TICKER_DIRECTIONS:
                 return (f"DISABLED: {ticker} {direction} manually disabled "
                         f"(DISABLED_TICKER_DIRECTIONS)")
+
+    # ── Manually disabled specific strategies (e.g. #3SW XLK, #4SW XLK, #68SW QQQ, #28ID QQQ) ──
+    if is_strategy_disabled(ticker, pattern_rank, tf, direction):
+        return (f"DISABLED: {ticker} #{pattern_rank} {tf or ''} {direction or ''} manually disabled "
+                f"(DISABLED_STRATEGIES)")
 
     # ── Market-hours gate: no entries into a closed market ──
     # Fixes: weekend US swing entries (Sun 07:51 IST), post-close India fade

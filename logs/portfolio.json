@@ -3,11 +3,11 @@
     "INDIAN": 100000.0,
     "US": 103863.67000000003,
     "CRYPTO": 103265.06999999999,
-    "INTRADAY": 108215.96999999999,
+    "INTRADAY": 208215.97,
     "FADE": 100000.0,
     "US_FADE": 100000.0,
     "LONG_BOUNCE": 101079.35,
-    "IPO": 100000.0
+    "IPO": 0.0
   },
   "open_positions": [
     {
@@ -129,5 +129,5 @@
     "LONG_BOUNCE": 1079.35,
     "IPO": 0.0
   },
-  "total_capital": 816424.0599999999
+  "total_capital": 816424.06
 }

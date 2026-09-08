@@ -107,7 +107,7 @@ def test_rebuild_portfolio_from_csv_single_source_of_truth(test_env, monkeypatch
     # OPEN trade does not touch capital
     assert port["capital_by_market"]["CRYPTO"] == pytest.approx(100000.0)
     # Both intraday trades (INTRADAY_1h + GAP_DOWN_1m) draw from the INTRADAY bucket
-    assert port["capital_by_market"]["INTRADAY"] == pytest.approx(100000 - 40.0 - 9.0)
+    assert port["capital_by_market"]["INTRADAY"] == pytest.approx(pt.INTRADAY_CAPITAL - 40.0 - 9.0)
     assert port["total_capital"] == pytest.approx(sum(port["capital_by_market"].values()))
     # open_positions mirrors the OPEN row
     assert len(port["open_positions"]) == 1

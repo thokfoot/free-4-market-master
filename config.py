@@ -18,16 +18,16 @@ CAPITAL_BY_MARKET = {
     "CRYPTO": 100000.0,
 }
 
-# Intraday gets separate ₹1L (defined BEFORE TOTAL_CAPITAL to avoid NameError)
-INTRADAY_CAPITAL = 100000.0
+# Intraday gets separate ₹2L (increased from ₹1L: 76.5% live win rate, top performer)
+INTRADAY_CAPITAL = 200000.0
 # FADE (NSE 1h Big-Player-Exit) gets its OWN ₹1L bucket (v5.13)
 FADE_CAPITAL = 100000.0
 # US FADE (5m Big-Player-Exit on US large-caps) own ₹1L bucket (v5.18)
 US_FADE_CAPITAL = 100000.0
 # LONG-BOUNCE (NSE 5m dip-buy, verified v5.19) own ₹1L bucket
 LONG_BOUNCE_CAPITAL = 100000.0
-# IPO (v5.21) own ₹1L bucket — listing-gain dip-buy (DIP) + negative-opening short (SHORT)
-IPO_CAPITAL = 100000.0
+# IPO capital reallocated to INTRADAY (IPO strategies disabled, capital shifted to Intraday 1h)
+IPO_CAPITAL = 0.0
 
 TOTAL_CAPITAL = (sum(CAPITAL_BY_MARKET.values()) + INTRADAY_CAPITAL + FADE_CAPITAL
                  + US_FADE_CAPITAL + LONG_BOUNCE_CAPITAL + IPO_CAPITAL)  # ₹8,00,000
@@ -749,6 +749,50 @@ DISABLED_STRATEGY_RANKS = {
 DISABLED_TICKER_DIRECTIONS = {
     ("AVAX", "SHORT"),  # AVAX SHORT (both swing rank 10 and intraday rank 1)
 }
+
+# ===== GRANULAR DISABLED STRATEGIES =====
+# Tuple of (Ticker/Market, Rank, TimeFrame, Direction)
+# Allows disabling specific underperforming strategies without collateral damage to other strategies
+# sharing the same rank across tickers (e.g. Rank 3 on XLK is disabled, but Rank 3 on XLE remains active).
+DISABLED_STRATEGIES = {
+    ("XLK", 3, "SWING_1d", "LONG"),     # #3SW XLK LONG (losing money: -₹1,262, live WR 33%)
+    ("XLK", 4, "SWING_1d", "LONG"),     # #4SW XLK LONG (losing money: -₹999, live WR 0%)
+    ("QQQ", 68, "SWING_1d", "LONG"),    # #68SW QQQ LONG (losing money: -₹1,043, live WR 0%)
+    ("QQQ", 28, "INTRADAY_1h", "LONG"), # #28ID QQQ LONG (losing money: -₹1,112, live WR 0%)
+}
+
+def is_strategy_disabled(ticker: str, rank: int, tf: str = None, direction: str = None) -> bool:
+    """Check whether a strategy is disabled via any blacklist mechanism."""
+    if rank is not None:
+        try:
+            if int(rank) in DISABLED_STRATEGY_RANKS:
+                return True
+        except (ValueError, TypeError):
+            pass
+    if ticker and direction:
+        t_base = str(ticker).replace(".NS", "").replace("-USD", "").strip().upper()
+        d_norm = str(direction).strip().upper()
+        if (t_base, d_norm) in DISABLED_TICKER_DIRECTIONS:
+            return True
+        if (str(ticker).strip().upper(), d_norm) in DISABLED_TICKER_DIRECTIONS:
+            return True
+    if ticker and rank is not None:
+        t_base = str(ticker).replace(".NS", "").replace("-USD", "").strip().upper()
+        t_clean = t_base.replace("_TECH", "")
+        try:
+            r_int = int(rank)
+        except (ValueError, TypeError):
+            return False
+        tf_norm = str(tf or "").strip()
+        dir_norm = str(direction or "").strip().upper()
+        for d_t, d_r, d_tf, d_dir in DISABLED_STRATEGIES:
+            if d_r == r_int:
+                t_match = (d_t == t_base or d_t == t_clean or d_t == str(ticker).strip().upper())
+                tf_match = (not d_tf or d_tf == tf_norm or not tf_norm)
+                dir_match = (not d_dir or d_dir == dir_norm or not dir_norm)
+                if t_match and tf_match and dir_match:
+                    return True
+    return False
 
 # Kill switch: file-based emergency halt (instant, no restart needed)
 KILL_FLAG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "kill.flag")
