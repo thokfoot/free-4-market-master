@@ -10089,5 +10089,23 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>EMA20+SMA20<SMA50",
     "skip_reason": "Duplicate KBE LONG already open"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-09 01:02:44 IST",
+    "entry_datetime": "2026-09-09 00:20:42 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "entry_price": 171.47,
+    "exit_price": 168.0,
+    "qty": 314,
+    "pnl": -1099.35,
+    "pnl_pct": -2.04,
+    "hold": "42m 2s",
+    "pattern_rank": 4,
+    "expected_win_rate": 52.32,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf SL Hit (live)"
   }
 ]
