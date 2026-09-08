@@ -439,19 +439,25 @@ def _recompute_chain(df, changed_writer=None):
     """
     if df is None or len(df) == 0:
         return df
-    for c in ("Writer_ID", "Row_Seq", "Row_Hash"):
-        if c not in df.columns:
-            df[c] = ""
+    df["Row_Seq"] = list(range(1, len(df) + 1))
+    if "Writer_ID" not in df.columns:
+        df["Writer_ID"] = ""
+    if "Row_Hash" not in df.columns:
+        df["Row_Hash"] = ""
+
+    writer_ids = list(df["Writer_ID"])
+    row_hashes = []
     prev = LEDGER_CHAIN_SEED
     for i in range(len(df)):
         cur = _chain_hash(prev, df.iloc[i])
         old = "" if pd.isna(df.iloc[i].get("Row_Hash")) else str(df.iloc[i].get("Row_Hash"))
         if old != cur:
-            df.iloc[i, df.columns.get_loc("Row_Hash")] = cur
             if changed_writer and old:
-                df.iloc[i, df.columns.get_loc("Writer_ID")] = changed_writer
-        df.iloc[i, df.columns.get_loc("Row_Seq")] = i + 1
+                writer_ids[i] = changed_writer
+        row_hashes.append(cur)
         prev = cur
+    df["Row_Hash"] = row_hashes
+    df["Writer_ID"] = writer_ids
     return df
 
 
@@ -1230,9 +1236,11 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
                 df_old[col] = df_old[col].astype(object)
         if "TimeFrame" not in df_old.columns:
             df_old["TimeFrame"] = "SWING_1d"
-        for col in ("Writer_ID", "Row_Seq", "Row_Hash"):
+        for col in ("Writer_ID", "Row_Hash"):
             if col not in df_old.columns:
                 df_old[col] = ""
+        if "Row_Seq" not in df_old.columns:
+            df_old["Row_Seq"] = list(range(1, len(df_old) + 1))
         if len(df_old) and str(df_old.iloc[-1].get("Row_Hash", "")) not in ("", "nan", "None"):
             prev_hash = str(df_old.iloc[-1]["Row_Hash"])
     # S2-D lineage stamp (writer / seq / chained hash)
