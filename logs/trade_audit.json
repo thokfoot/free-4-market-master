@@ -10107,5 +10107,21 @@
     "expected_win_rate": 52.32,
     "pattern_factors": "EMA9>EMA20+Range<1%",
     "reason": "#4SW EMA9>EMA20+Range<1% | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-09 17:10:43 IST",
+    "mode": "CRYPTO",
+    "ticker": "SOL-USD",
+    "direction": "SHORT",
+    "entry_price": 103.63,
+    "qty": 1217,
+    "sl": 105.35,
+    "target": 100.68,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"2Red\": 0.0, \"Close\": 103.790001, \"EMA20\": 103.838416, \"EMA50\": 103.876237, \"EMA9\": 103.993741, \"High\": 104.050003, \"Low\": 103.480003, \"Open\": 103.489998, \"RSI14\": 49.770588, \"Ret\": 0.002802, \"SMA20\": 103.7825, \"SMA50\": 103.7752, \"Volume\": 17383936.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-09 17:10:43 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"9aaf3858637b395153a1eb6f1f3f5a4337236e3bc92c730aee983cd6ceb4eec1\"}}"
   }
 ]
