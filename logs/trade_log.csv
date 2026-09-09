@@ -42,3 +42,4 @@ Date,Time,Mode,Tickers_Scanned,Errors,Patterns_Total,Patterns_Fired,New_Entries,
 2026-09-08,00:19:03 IST,SWING,28.0,0.0,158.0,5.0,0.0,0.0,5.0,816091.0,16091.0,Sent
 2026-09-09,00:20:39 IST,SWING,27.0,1.0,155.0,3.0,1.0,1.0,4.0,821843.0,21843.0,Sent
 2026-09-09,17:12:18 IST,GAPDOWN,0.0,0.0,0.0,0.0,0.0,0.0,3.0,820744.0,20744.0,Skipped (no events)
+2026-09-10,03:53:36 IST,IPO,50.0,2.0,10.0,0.0,0.0,0.0,1.0,821968.0,21968.0,Skipped (no events)
