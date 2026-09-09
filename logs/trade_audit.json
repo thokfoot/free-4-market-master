@@ -10141,5 +10141,23 @@
     "expected_win_rate": 50.67,
     "pattern_factors": "EMA9<EMA50+Price>EMA50",
     "reason": "#5SW EMA9<EMA50+Price>EMA50 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-10 00:01:43 IST",
+    "entry_datetime": "2026-09-05 00:01:07 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "entry_price": 384.36,
+    "exit_price": 378.76,
+    "qty": 133,
+    "pnl": -754.74,
+    "pnl_pct": -1.48,
+    "hold": "5d 0h 0m",
+    "pattern_rank": 4,
+    "expected_win_rate": 59.53,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d"
   }
 ]
