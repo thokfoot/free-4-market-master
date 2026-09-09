@@ -1,0 +1,54 @@
+{
+  "date": "2026-09-09",
+  "runs": [
+    {
+      "time": "14:01:28 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 0,
+      "patterns_fired": 0,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 107305.28000000001,
+          "CRYPTO": 103265.06999999999,
+          "INTRADAY": 209327.92,
+          "FADE": 100000.0,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 100845.81,
+          "IPO": 0.0
+        },
+        "total_capital": 820744.0800000001,
+        "open_count": 3,
+        "total_pnl": 20744.08,
+        "closed_count": 52,
+        "wins": 36,
+        "losses": 16
+      },
+      "telegram_status": "Skipped (no events)",
+      "duration_sec": 15.9
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 107305.28000000001,
+      "CRYPTO": 103265.06999999999,
+      "INTRADAY": 209327.92,
+      "FADE": 100000.0,
+      "US_FADE": 100000.0,
+      "LONG_BOUNCE": 100845.81,
+      "IPO": 0.0
+    },
+    "total_capital": 820744.0800000001,
+    "open_count": 3,
+    "total_pnl": 20744.08,
+    "closed_count": 52,
+    "wins": 36,
+    "losses": 16
+  }
+}
