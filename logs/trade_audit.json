@@ -10213,5 +10213,24 @@
     "tf": "SWING_1d",
     "pattern_reason": "EMA9>EMA20+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-09-10 18:10:19 IST",
+    "entry_datetime": "2026-09-10 04:11:58 IST",
+    "mode": "CRYPTO",
+    "ticker": "ETH-USD",
+    "direction": "LONG",
+    "entry_price": 2487.43,
+    "exit_price": 2432.8,
+    "qty": 19,
+    "pnl": -1179.66,
+    "pnl_pct": -2.5,
+    "hold": "13h 58m",
+    "pattern_rank": 14,
+    "expected_win_rate": 63.36,
+    "pattern_factors": "Price>SMA50+Range>1.5%+2Red",
+    "reason": "#14SW Price>SMA50+Range>1.5%+2Red | SL Hit (intraday)",
+    "signal_indicators": ""
   }
 ]
