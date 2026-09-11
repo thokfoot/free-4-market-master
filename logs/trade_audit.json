@@ -10306,5 +10306,41 @@
     "pattern_factors": "Price>SMA20+RSI<45",
     "reason": "#1ID Price>SMA20+RSI<45",
     "signal_indicators": "{\"2Red\": 0.0, \"Close\": 0.08408, \"EMA20\": 0.08417, \"EMA50\": 0.085792, \"EMA9\": 0.083724, \"High\": 0.08414, \"Low\": 0.08364, \"Open\": 0.08372, \"RSI14\": 44.169679, \"Ret\": 0.0043, \"SMA20\": 0.083904, \"SMA50\": 0.086466, \"Volume\": 9846336.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-11 11:14:08 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"52faf51891c7541754ee8666a227d22c17b888d769d3894f56f2ba75ece3eaed\"}}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-11 19:38:41 IST",
+    "entry_datetime": "2026-09-11 00:05:22 IST",
+    "mode": "CRYPTO",
+    "ticker": "ETH-USD",
+    "direction": "LONG",
+    "entry_price": 2469.38,
+    "exit_price": 2563.02,
+    "qty": 19,
+    "pnl": 1638.49,
+    "pnl_pct": 3.49,
+    "hold": "19h 33m",
+    "pattern_rank": 32,
+    "expected_win_rate": 80.0,
+    "pattern_factors": "Price<SMA20+Price>SMA50+2Red",
+    "reason": "#32SW Price<SMA20+Price>SMA50+2Red | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-11 19:38:41 IST",
+    "entry_datetime": "2026-09-11 11:14:08 IST",
+    "mode": "CRYPTO",
+    "ticker": "DOGE-USD",
+    "direction": "SHORT",
+    "entry_price": 0.083828,
+    "exit_price": 0.085597,
+    "qty": 50000,
+    "pnl": -101.02,
+    "pnl_pct": -2.41,
+    "hold": "8h 24m",
+    "pattern_rank": 1,
+    "expected_win_rate": 50.67,
+    "pattern_factors": "Price>SMA20+RSI<45",
+    "reason": "#1ID Price>SMA20+RSI<45 | \ud83c\udfaf SL Hit (live)"
   }
 ]

@@ -29,9 +29,9 @@
   "32": {
     "rank": 32,
     "factors": "#32SW Price<SMA20+Price>SMA50+2Red | \ud83c\udfaf Target Hit (live)",
-    "wins": 3,
+    "wins": 4,
     "losses": 1,
-    "total_pnl": 2033.67,
+    "total_pnl": 3672.16,
     "consec_losses": 0,
     "paused_since": null
   },
@@ -120,9 +120,9 @@
     "rank": 1,
     "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf Target Hit (live)",
     "wins": 6,
-    "losses": 9,
-    "total_pnl": 1275.1800000000003,
-    "consec_losses": 0,
+    "losses": 10,
+    "total_pnl": 1174.1600000000003,
+    "consec_losses": 1,
     "paused_since": null
   },
   "4": {
