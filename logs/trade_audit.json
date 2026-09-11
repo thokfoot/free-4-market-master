@@ -10342,5 +10342,41 @@
     "expected_win_rate": 50.67,
     "pattern_factors": "Price>SMA20+RSI<45",
     "reason": "#1ID Price>SMA20+RSI<45 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-12 00:10:42 IST",
+    "mode": "CRYPTO",
+    "ticker": "ETH-USD",
+    "direction": "LONG",
+    "entry_price": 2439.54,
+    "qty": 20,
+    "sl": 2388.36,
+    "target": 2534.58,
+    "pattern_rank": 32,
+    "expected_win_rate": 80.0,
+    "pattern_factors": "Price<SMA20+Price>SMA50+2Red",
+    "reason": "#32SW Price<SMA20+Price>SMA50+2Red",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 2532.765429, \"BB_lo\": 2393.56941, \"Close\": 2437.098633, \"EMA20\": 2404.555507, \"EMA200\": 2189.831855, \"EMA50\": 2222.045575, \"EMA9\": 2463.211647, \"High\": 2483.719971, \"Low\": 2406.906494, \"Open\": 2466.913086, \"RSI14\": 57.778434, \"Ret\": -0.012086, \"SMA20\": 2463.167419, \"SMA50\": 2147.895715, \"Volume\": 16781828594.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-12 00:10:42 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"1ef31696acc1cd4efe2bcd7470c35cf39eec58504bbcfa1e511fce897866faa4\"}, \"high20\": 2564.274414, \"high50\": 2564.274414, \"low20\": 2324.709473, \"low50\": 1821.485107}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-12 00:10:42 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Close>Open+2Red",
+    "skip_reason": "Duplicate QQQ LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-12 00:10:42 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "skip_reason": "Duplicate TRX-USD LONG already open"
   }
 ]
