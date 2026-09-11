@@ -29,9 +29,9 @@
   "32": {
     "rank": 32,
     "factors": "#32SW Price<SMA20+Price>SMA50+2Red | \ud83c\udfaf Target Hit (live)",
-    "wins": 4,
+    "wins": 5,
     "losses": 1,
-    "total_pnl": 3672.16,
+    "total_pnl": 5375.9,
     "consec_losses": 0,
     "paused_since": null
   },
