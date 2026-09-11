@@ -10396,5 +10396,15 @@
     "expected_win_rate": 80.0,
     "pattern_factors": "Price<SMA20+Price>SMA50+2Red",
     "reason": "#32SW Price<SMA20+Price>SMA50+2Red | \ud83c\udfaf Target Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-12 02:21:57 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
