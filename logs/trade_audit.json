@@ -10290,5 +10290,21 @@
     "pattern_factors": "EMA9>EMA20+Range<1%",
     "reason": "#4SW EMA9>EMA20+Range<1%",
     "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 1.0, \"BB_hi\": 177.039339, \"BB_lo\": 165.311657, \"Close\": 166.580002, \"EMA20\": 169.967704, \"EMA200\": 155.06167, \"EMA50\": 165.803089, \"EMA9\": 170.19262, \"High\": 167.410004, \"Low\": 166.389999, \"Open\": 167.309998, \"RSI14\": 43.5919, \"Ret\": -0.003291, \"SMA20\": 171.175498, \"SMA50\": 165.980599, \"Volume\": 8018100.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-11 00:05:22 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"b1bd4acf19438d5c9145df22921236f8ae2c9a49fd069b3fdf994b5e8ccf5871\"}, \"high20\": 176.600006, \"high50\": 176.600006, \"low20\": 165.759995, \"low50\": 157.229996}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-11 11:14:08 IST",
+    "mode": "CRYPTO",
+    "ticker": "DOGE-USD",
+    "direction": "SHORT",
+    "entry_price": 0.083828,
+    "qty": 50000,
+    "sl": 0.085341,
+    "target": 0.081558,
+    "pattern_rank": 1,
+    "expected_win_rate": 50.67,
+    "pattern_factors": "Price>SMA20+RSI<45",
+    "reason": "#1ID Price>SMA20+RSI<45",
+    "signal_indicators": "{\"2Red\": 0.0, \"Close\": 0.08408, \"EMA20\": 0.08417, \"EMA50\": 0.085792, \"EMA9\": 0.083724, \"High\": 0.08414, \"Low\": 0.08364, \"Open\": 0.08372, \"RSI14\": 44.169679, \"Ret\": 0.0043, \"SMA20\": 0.083904, \"SMA50\": 0.086466, \"Volume\": 9846336.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-11 11:14:08 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"52faf51891c7541754ee8666a227d22c17b888d769d3894f56f2ba75ece3eaed\"}}"
   }
 ]
