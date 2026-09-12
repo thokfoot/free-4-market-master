@@ -10426,5 +10426,23 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price>SMA20+Price<SMA50+EMA9>EMA20+EMA20<EMA50",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-12 16:01:47 IST",
+    "entry_datetime": "2026-09-07 11:22:34 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "entry_price": 0.3349,
+    "exit_price": 0.3384,
+    "qty": 10000,
+    "pnl": 24.96,
+    "pnl_pct": 0.75,
+    "hold": "5d 4h 39m",
+    "pattern_rank": 2,
+    "expected_win_rate": 66.28,
+    "pattern_factors": "Price>SMA50+Range<1%",
+    "reason": "#2SW Price>SMA50+Range<1% | Expiry 5d"
   }
 ]
