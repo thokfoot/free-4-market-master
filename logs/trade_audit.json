@@ -10504,5 +10504,51 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>EMA9+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-14 15:01:27 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "entry_price": 0.3393,
+    "qty": 10000,
+    "sl": 0.3315,
+    "target": 0.3518,
+    "pattern_rank": 1,
+    "expected_win_rate": 66.67,
+    "pattern_factors": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "reason": "#1SW EMA9>EMA20+Price>SMA50+Range<1%",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 0.345453, \"BB_lo\": 0.325368, \"Close\": 0.338307, \"EMA20\": 0.336164, \"EMA200\": 0.325217, \"EMA50\": 0.333945, \"EMA9\": 0.3375, \"High\": 0.341545, \"Low\": 0.338295, \"Open\": 0.339846, \"RSI14\": 54.726192, \"Ret\": -0.004528, \"SMA20\": 0.33541, \"SMA50\": 0.333187, \"Volume\": 302053356.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-14 15:01:27 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"65ee6ec20afd1eadd50216b1a8c8746e16e10a009a93786d32249e8209218bb5\"}, \"high20\": 0.346589, \"high50\": 0.349996, \"low20\": 0.321569, \"low50\": 0.321569}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-14 15:01:27 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=PRE-OPEN \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-14 15:01:27 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=PRE-OPEN \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-14 15:01:27 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>EMA9+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=PRE-OPEN \u2014 no entries into a closed market)"
   }
 ]
