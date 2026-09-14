@@ -10474,5 +10474,35 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>EMA9+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-14 11:27:29 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-14 11:27:29 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-14 11:27:29 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>EMA9+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
