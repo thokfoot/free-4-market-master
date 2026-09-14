@@ -10550,5 +10550,63 @@
     "tf": "SWING_1d",
     "pattern_reason": "Price>EMA9+Range<1%",
     "skip_reason": "MARKET_CLOSED: US not tradable now (US status=PRE-OPEN \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-15 00:18:15 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "skip_reason": "Duplicate TRX-USD LONG already open"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-15 00:18:15 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "entry_price": 83.39,
+    "qty": 627,
+    "sl": 81.71,
+    "target": 86.72,
+    "pattern_rank": 4,
+    "expected_win_rate": 61.78,
+    "pattern_factors": "EMA20<EMA50+Range<1%",
+    "reason": "#4SW EMA20<EMA50+Range<1%",
+    "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 87.544832, \"BB_lo\": 82.866166, \"Close\": 83.379997, \"EMA20\": 84.743425, \"EMA200\": 82.927356, \"EMA50\": 84.782471, \"EMA9\": 84.151368, \"High\": 83.690002, \"Low\": 83.040001, \"Open\": 83.510002, \"RSI14\": 40.412033, \"Ret\": 0.00349, \"SMA20\": 85.205499, \"SMA50\": 84.994, \"Volume\": 10836500.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-15 00:18:15 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"0799e2a4d605288db1a0c1ff7b2ca5488b29bfdd8b1fd343b412e39dd964746b\"}, \"high20\": 87.470001, \"high50\": 88.779999, \"low20\": 82.849998, \"low50\": 82.769997}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-15 00:18:16 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "entry_price": 380.39,
+    "qty": 137,
+    "sl": 372.74,
+    "target": 395.56,
+    "pattern_rank": 4,
+    "expected_win_rate": 59.53,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Price>SMA20+Range<1%",
+    "signal_indicators": "{\"2Green\": 0.0, \"2Red\": 0.0, \"BB_hi\": 383.727455, \"BB_lo\": 375.490547, \"Close\": 380.350006, \"EMA20\": 379.149401, \"EMA200\": 354.178396, \"EMA50\": 375.052856, \"EMA9\": 379.809738, \"High\": 381.670013, \"Low\": 380.200012, \"Open\": 380.519989, \"RSI14\": 53.707446, \"Ret\": 0.008351, \"SMA20\": 379.609001, \"SMA50\": 374.815799, \"Volume\": 202800.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-15 00:18:16 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"fd0e07c7006d9e581a4d30f0d710b0d5f91f55641de9d507f3b73b03768e2faa\"}, \"high20\": 385.049988, \"high50\": 385.049988, \"low20\": 376.040009, \"low50\": 358.170013}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-15 00:18:16 IST",
+    "mode": "US",
+    "ticker": "XLC",
+    "direction": "LONG",
+    "entry_price": 112.61,
+    "qty": 466,
+    "sl": 110.35,
+    "target": 117.1,
+    "pattern_rank": 3,
+    "expected_win_rate": 53.98,
+    "pattern_factors": "Price>EMA9+Range<1%",
+    "reason": "#3SW Price>EMA9+Range<1%",
+    "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 113.656097, \"BB_lo\": 110.021903, \"Close\": 112.599998, \"EMA20\": 111.705223, \"EMA200\": 111.692649, \"EMA50\": 111.394685, \"EMA9\": 111.897336, \"High\": 113.040001, \"Low\": 112.309998, \"Open\": 112.339996, \"RSI14\": 53.98306, \"Ret\": 0.009865, \"SMA20\": 111.839, \"SMA50\": 110.8982, \"Volume\": 3979800.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-15 00:18:16 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"d624b259f32b23afed94634d2f685958792df81f76287970bd56314d73deee6e\"}, \"high20\": 114.290001, \"high50\": 114.290001, \"low20\": 110.25, \"low50\": 105.254997}"
   }
 ]
