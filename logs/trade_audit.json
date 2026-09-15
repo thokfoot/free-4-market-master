@@ -10608,5 +10608,53 @@
     "pattern_factors": "Price>EMA9+Range<1%",
     "reason": "#3SW Price>EMA9+Range<1%",
     "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 113.656097, \"BB_lo\": 110.021903, \"Close\": 112.599998, \"EMA20\": 111.705223, \"EMA200\": 111.692649, \"EMA50\": 111.394685, \"EMA9\": 111.897336, \"High\": 113.040001, \"Low\": 112.309998, \"Open\": 112.339996, \"RSI14\": 53.98306, \"Ret\": 0.009865, \"SMA20\": 111.839, \"SMA50\": 110.8982, \"Volume\": 3979800.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-15 00:18:16 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"d624b259f32b23afed94634d2f685958792df81f76287970bd56314d73deee6e\"}, \"high20\": 114.290001, \"high50\": 114.290001, \"low20\": 110.25, \"low50\": 105.254997}"
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-09-16 00:37:33 IST",
+    "entry_datetime": "2026-09-11 00:05:22 IST",
+    "mode": "US",
+    "ticker": "QQQ",
+    "direction": "LONG",
+    "entry_price": 716.38,
+    "exit_price": 704.52,
+    "qty": 73,
+    "pnl": -876.27,
+    "pnl_pct": -1.68,
+    "hold": "5d 0h 32m",
+    "pattern_rank": 31,
+    "expected_win_rate": 65.29,
+    "pattern_factors": "Price>SMA50+2Red",
+    "reason": "#31SW Price>SMA50+2Red | Expiry 5d",
+    "signal_indicators": ""
+  },
+  {
+    "event": "EXIT",
+    "datetime": "2026-09-16 00:37:33 IST",
+    "entry_datetime": "2026-09-11 00:05:22 IST",
+    "mode": "US",
+    "ticker": "XLV",
+    "direction": "LONG",
+    "entry_price": 166.6,
+    "exit_price": 167.5,
+    "qty": 314,
+    "pnl": 273.16,
+    "pnl_pct": 0.52,
+    "hold": "5d 0h 32m",
+    "pattern_rank": 4,
+    "expected_win_rate": 52.32,
+    "pattern_factors": "EMA9>EMA20+Range<1%",
+    "reason": "#4SW EMA9>EMA20+Range<1% | Expiry 5d",
+    "signal_indicators": ""
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-16 00:37:35 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+Range<1%",
+    "skip_reason": "Duplicate XLP LONG already open"
   }
 ]

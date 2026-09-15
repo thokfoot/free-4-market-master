@@ -75,9 +75,9 @@
     "rank": 31,
     "factors": "#31SW Price>SMA50+2Red | \ud83c\udfaf SL Hit (live)",
     "wins": 3,
-    "losses": 2,
-    "total_pnl": 1188.48,
-    "consec_losses": 2,
+    "losses": 3,
+    "total_pnl": 312.21000000000004,
+    "consec_losses": 3,
     "paused_since": null
   },
   "52": {
@@ -128,10 +128,10 @@
   "4": {
     "rank": 4,
     "factors": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
-    "wins": 5,
+    "wins": 6,
     "losses": 7,
-    "total_pnl": -555.8699999999999,
-    "consec_losses": 2,
+    "total_pnl": -282.70999999999987,
+    "consec_losses": 0,
     "paused_since": null
   },
   "43": {
