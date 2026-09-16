@@ -11,7 +11,7 @@ Entries are handled by bot.py (runs 3x/day after market close).
 Designed to work alongside bot.py without conflicts.
 """
 
-import os, sys, json, math, time, traceback
+import os, sys, json, math, random, time, traceback
 from datetime import datetime, timedelta
 import pandas as pd
 import requests
@@ -27,7 +27,7 @@ from config import (
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
     market_active_for_mode, tg_safe,
 )
-from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until, _recompute_chain
+from paper_trader import initialize_system, rebuild_portfolio_from_csv, _session_live_until, _session_minutes_until, _recompute_chain, _atomic_write_csv, _file_lock, _atomic_write_json
 from logger import log_error
 from strategy_report import generate_strategy_report
 from integrity_check import validate_all
@@ -62,10 +62,9 @@ def _load_live_state() -> dict:
 
 
 def _save_live_state(state: dict):
-    """Save persistent state."""
+    """Save persistent state (atomic write — prevents mid-write truncation)."""
     os.makedirs(LOG_DIR, exist_ok=True)
-    with open(LIVE_STATE_FILE, "w") as f:
-        json.dump(state, f, indent=2)
+    _atomic_write_json(LIVE_STATE_FILE, state)
 
 
 # ── Helpers (standalone copies so no import cycles) ─────────────
@@ -84,7 +83,7 @@ def _price_slip_multiplier(price: float, mode: str = "INDIAN") -> float:
     return 1.0
 
 
-def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str) -> float:
+def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str, jitter: bool = False) -> float:
     """
     Apply realistic fill slippage to a price (mirrors paper_trader._apply_slippage).
 
@@ -100,6 +99,8 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         action: "ENTRY" or "EXIT"
         mode: "INDIAN" | "US" | "CRYPTO"
         tf: "SWING_1d" or "INTRADAY_1h"
+        jitter: when True (or STOCHASTIC_SLIPPAGE=1), multiply the base slip
+            by a random 0.5-1.5x factor to model fill-to-fill noise.
 
     Returns:
         Slipped price (always worse for the trader).
@@ -114,6 +115,10 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
     )
     # Price-adaptive: cheap thin small-caps pay wider relative spread (v5.22)
     slip_pct *= _price_slip_multiplier(price, mode)
+    if not jitter:
+        jitter = os.getenv("STOCHASTIC_SLIPPAGE", "") == "1"
+    if jitter and slip_pct > 0:
+        slip_pct *= random.uniform(0.5, 1.5)
     if slip_pct <= 0:
         return price
 
@@ -260,7 +265,7 @@ def _save_strategy_stats(stats: dict):
         raise
 
 
-def update_strategy_stats(reason: str, pnl: float):
+def update_strategy_stats(reason: str, pnl: float, ticker: str = None, tf: str = None):
     """
     Update win/loss tracking for the pattern that generated this trade.
     Called when a trade is closed.
@@ -269,6 +274,12 @@ def update_strategy_stats(reason: str, pnl: float):
     the circuit-breaker state per strategy - WIN resets the losing streak
     and lifts a pause; LOSS increments it and auto-pauses the strategy at
     CIRCUIT_BREAKER_MAX_CONSEC_LOSSES.
+
+    Isolation: when ticker+tf are supplied, tracking AND the pause go under a
+    COMPOSITE key "rank|TF|TICKER" so one losing strategy can never pause a
+    different ticker/timeframe that merely shares the same rank number.
+    The legacy rank-only block is maintained without pause state so
+    existing reports and resume_strategy keep working.
     """
     rank = _extract_rank(reason)
     if rank == 0:
@@ -276,61 +287,75 @@ def update_strategy_stats(reason: str, pnl: float):
 
     stats = _load_strategy_stats()
     key = str(rank)
+    composite_key = None
+    if ticker:
+        composite_key = f"{rank}|{str(tf or 'SWING_1d')}|{str(ticker).upper()}"
 
-    if key not in stats:
-        stats[key] = {
-            "rank": rank,
-            "factors": reason[:80],
-            "wins": 0,
-            "losses": 0,
-            "total_pnl": 0.0,
-            "consec_losses": 0,
-            "paused_since": None,
-        }
-    else:
-        stats[key].setdefault("consec_losses", 0)
-        stats[key].setdefault("paused_since", None)
+    def _ensure(block):
+        if block not in stats:
+            stats[block] = {
+                "rank": rank,
+                "factors": reason[:80],
+                "wins": 0,
+                "losses": 0,
+                "total_pnl": 0.0,
+                "consec_losses": 0,
+                "paused_since": None,
+            }
+        stats[block].setdefault("consec_losses", 0)
+        stats[block].setdefault("paused_since", None)
+        return stats[block]
 
-    stats[key]["total_pnl"] += pnl
-    if pnl > 0:
-        stats[key]["wins"] += 1
-        stats[key]["consec_losses"] = 0
-        if stats[key].get("paused_since"):
-            stats[key]["paused_since"] = None
-            print(f"[CircuitBreaker] Rank #{rank} resumed on WIN")
-    elif pnl < 0:
-        stats[key]["losses"] += 1
-        stats[key]["consec_losses"] = stats[key].get("consec_losses", 0) + 1
-        if (CIRCUIT_BREAKER_ENABLED
-                and stats[key]["consec_losses"] >= CIRCUIT_BREAKER_MAX_CONSEC_LOSSES
-                and not stats[key].get("paused_since")):
-            stats[key]["paused_since"] = datetime.now(IST).strftime("%Y-%m-%d")
-            print(f"[CircuitBreaker] Rank #{rank} PAUSED after "
-                  f"{stats[key]['consec_losses']} consecutive losses")
+    _ensure(key)
+    targets = [stats[key]]
+    active_key = key
+    if composite_key:
+        _ensure(composite_key)
+        targets.append(stats[composite_key])
+        active_key = composite_key
 
-    # Update the reason/factors in case it was truncated
-    if len(reason) > len(stats[key]["factors"]):
-        stats[key]["factors"] = reason[:80]
+    for block in targets:
+        block["total_pnl"] += pnl
+        if pnl > 0:
+            block["wins"] += 1
+            block["consec_losses"] = 0
+            if block.get("paused_since"):
+                block["paused_since"] = None
+                print(f"[CircuitBreaker] Rank #{rank} resumed on WIN")
+        elif pnl < 0:
+            block["losses"] += 1
+            block["consec_losses"] = block.get("consec_losses", 0) + 1
+            # Each block pauses at its own streak threshold — legacy rank
+            # contract preserved, composite (rank|tf|ticker) layer added.
+            if (CIRCUIT_BREAKER_ENABLED
+                    and block["consec_losses"] >= CIRCUIT_BREAKER_MAX_CONSEC_LOSSES
+                    and not block.get("paused_since")):
+                block["paused_since"] = datetime.now(IST).strftime("%Y-%m-%d")
+                print(f"[CircuitBreaker] Rank #{rank} PAUSED after "
+                      f"{block['consec_losses']} consecutive losses")
+
+        if len(reason) > len(block["factors"]):
+            block["factors"] = reason[:80]
 
     _save_strategy_stats(stats)
-    total = stats[key]["wins"] + stats[key]["losses"]
-    wr = round(stats[key]["wins"] / total * 100, 1) if total > 0 else 0
-    print(f"[Strategy] Rank #{rank} updated: {stats[key]['wins']}W/{stats[key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
+    total = stats[active_key]["wins"] + stats[active_key]["losses"]
+    wr = round(stats[active_key]["wins"] / total * 100, 1) if total > 0 else 0
+    print(f"[Strategy] Rank #{rank} updated: "
+          f"{stats[active_key]['wins']}W/{stats[active_key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
 
 
 def load_portfolio() -> dict:
+    # Imported the canonical default from paper_trader so this fallback can
+    # never drift from the source-of-truth bucket set (INDIAN..IPO, incl.
+    # US_FADE / LONG_BOUNCE / IPO which were missing before).
     if os.path.exists(PORTFOLIO_FILE):
         try:
             with open(PORTFOLIO_FILE, "r") as f:
                 return json.load(f)
         except:
             pass
-    return {
-        "capital_by_market": {"INDIAN": 100000, "US": 100000, "CRYPTO": 100000, "INTRADAY": 100000, "FADE": 100000},
-        "open_positions": [],
-        "closed_count": 0, "total_wins": 0, "total_losses": 0, "total_pnl": 0,
-        "total_pnl_by_market": {"INDIAN": 0, "US": 0, "CRYPTO": 0, "INTRADAY": 0, "FADE": 0},
-    }
+    from paper_trader import _default_portfolio
+    return _default_portfolio()
 
 
 def save_portfolio(port: dict):
@@ -338,8 +363,7 @@ def save_portfolio(port: dict):
     # Recalculate total_capital from actual capital_by_market (mirrors paper_trader.py fix)
     # Prevents stale total_capital after live exits update capital_by_market.
     port["total_capital"] = sum(port.get("capital_by_market", {}).values())
-    with open(PORTFOLIO_FILE, "w") as f:
-        json.dump(port, f, indent=2)
+    _atomic_write_json(PORTFOLIO_FILE, port)
 
 
 # ── Telegram ──────────────────────────────────────────────────
@@ -418,6 +442,26 @@ def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
                 daily_high = float(df["High"].max())
                 daily_low = float(df["Low"].min())
 
+                # Post-entry bars (utc_ts, high, low, close, open) — enables the
+                # gap-aware first-touch exit (_bars_sl_tp) so overnight/session
+                # gaps fill at the OPEN instead of the optimistic trigger price.
+                bars = []
+                if len(df):
+                    try:
+                        idx = df.index
+                        if idx.tz is None:
+                            idx = idx.tz_localize("UTC")
+                        elif str(idx.tz) != "UTC":
+                            idx = idx.tz_convert("UTC")
+                        opens = df["Open"] if "Open" in df.columns else df["Close"]
+                        for ts, hi, lo, cl, op in zip(
+                            idx, df["High"], df["Low"], df["Close"], opens
+                        ):
+                            bars.append((ts, float(hi), float(lo), float(cl), float(op)))
+                    except Exception as e:
+                        print(f"[Live] {ticker}: bar-bundle build failed: {e}")
+                        bars = []
+
                 return {
                     "close": current_close,
                     "high": daily_high,
@@ -425,6 +469,7 @@ def fetch_live_ohlc(ticker: str, entry_dt=None) -> dict:
                     "date": latest_date,
                     "prev_close": prev_close,
                     "has_post_entry": has_post_entry,
+                    "bars": bars,
                 }
             print(f"[Live] {ticker}: No 1m data ({len(df) if df is not None else 0} rows)")
             if attempt < 2:
@@ -602,37 +647,65 @@ def process_open_trades() -> tuple:
         except Exception as e:
             print(f"[Live] MaxHold check error {ticker}: {e}")
 
-        # ── SL/TP Check (intraday High/Low priority, with tolerance guard) ──
-        # Use 0.01% tolerance to prevent 1-cent data noise from triggering exit
+        # ── SL/TP Check (first-touch bars, gap-aware; aggregate fallback) ──
+        # Priority 1: _bars_sl_tp over the post-entry 1m bars — mirrors the
+        # bot path exactly, including gap-through fills at the OPEN (an
+        # overnight gap past SL must fill at the gap price, not the SL).
+        # Priority 2 (fallback): intraday High/Low aggregate with tolerance
+        # guard, retained for tickers whose bars couldn't be bundled.
         # Only SL/TP-check when the market has actually traded since entry
         # (has_post_entry) — pre-entry lows must never stop out a position.
         if not is_expired and has_post_entry:
-            _prev_close = ohlc.get("prev_close")
-            def _split_blocks(direction_, trigger_):
-                """True when an SL 'hit' is actually a split/adjustment artifact."""
-                from paper_trader import split_suspected
-                blocked = bool(_prev_close and split_suspected(direction_, trigger_, _prev_close))
-                if blocked:
-                    print(f"[Live] SPLIT GUARD: {direction_} {ticker} SL "
-                          f"trigger {trigger_} vs prev close {_prev_close} — "
-                          f"phantom SL skipped, position held for review")
-                return blocked
-            if direction == "LONG":
-                if daily_low <= sl * _TOLERANCE:
-                    if not _split_blocks("LONG", sl):
-                        exit_price = sl
-                        exit_reason = "🎯 SL Hit (live)"
-                elif daily_high >= target / _TOLERANCE:
-                    exit_price = target
-                    exit_reason = "🎯 Target Hit (live)"
-            else:  # SHORT
-                if daily_high >= sl / _TOLERANCE:
-                    if not _split_blocks("SHORT", sl):
-                        exit_price = sl
-                        exit_reason = "🎯 SL Hit (live)"
-                elif daily_low <= target * _TOLERANCE:
-                    exit_price = target
-                    exit_reason = "🎯 Target Hit (live)"
+            bars = ohlc.get("bars") or []
+            if bars:
+                try:
+                    from paper_trader import _bars_sl_tp
+                    _hold_live = None
+                    if pd.notna(row.get("MaxHold")):
+                        _hold_live = int(row.get("MaxHold"))
+                    elif trade_tf_live == "INTRADAY_1h":
+                        _hold_live = INTRADAY_MAX_HOLD_HOURS.get(str(row.get("Mode", "")).upper(), 6)
+                    else:
+                        _hold_live = MAX_HOLD_DAYS
+                    _hit_first = _bars_sl_tp(
+                        bars, trade_tf_live, entry_dt, direction, sl, target,
+                        _hold_live, str(row.get("Mode", "US")),
+                    )
+                    if _hit_first:
+                        exit_price, _exit_reason_live = _hit_first
+                        if "Target" in _exit_reason_live:
+                            exit_reason = "🎯 Target Hit (live)"
+                        else:
+                            exit_reason = "🎯 SL Hit (live)"
+                except Exception as e:
+                    print(f"[Live] _bars_sl_tp failed for {ticker}: {e}")
+            if not exit_price and has_post_entry:
+                _prev_close = ohlc.get("prev_close")
+                def _split_blocks(direction_, trigger_):
+                    """True when an SL 'hit' is actually a split/adjustment artifact."""
+                    from paper_trader import split_suspected
+                    blocked = bool(_prev_close and split_suspected(direction_, trigger_, _prev_close))
+                    if blocked:
+                        print(f"[Live] SPLIT GUARD: {direction_} {ticker} SL "
+                              f"trigger {trigger_} vs prev close {_prev_close} — "
+                              f"phantom SL skipped, position held for review")
+                    return blocked
+                if direction == "LONG":
+                    if daily_low <= sl * _TOLERANCE:
+                        if not _split_blocks("LONG", sl):
+                            exit_price = sl
+                            exit_reason = "🎯 SL Hit (live)"
+                    elif daily_high >= target / _TOLERANCE:
+                        exit_price = target
+                        exit_reason = "🎯 Target Hit (live)"
+                else:  # SHORT
+                    if daily_high >= sl / _TOLERANCE:
+                        if not _split_blocks("SHORT", sl):
+                            exit_price = sl
+                            exit_reason = "🎯 SL Hit (live)"
+                    elif daily_low <= target * _TOLERANCE:
+                        exit_price = target
+                        exit_reason = "🎯 Target Hit (live)"
         
         if exit_price:
             # ── CLOSE THE TRADE ──
@@ -707,8 +780,11 @@ def process_open_trades() -> tuple:
             })
             
             # Strategy stats (pass full reason with exit context, rounded PnL)
+            # Composite (rank|tf|ticker) key — engine parity with paper_trader.
             full_reason = str(row["Reason"]) + f" | {exit_reason}"
-            update_strategy_stats(full_reason, round(pnl, 2))
+            update_strategy_stats(full_reason, round(pnl, 2),
+                                  ticker=str(row.get("Ticker", "")),
+                                  tf=str(row.get("TimeFrame", "SWING_1d")))
             
             # ── Detailed exit alert (mirrors paper_trader._send_sl_tp_alert) ──
             # Includes OHLC telemetry so LIVE EXIT messages show the exact data
@@ -797,7 +873,8 @@ def process_open_trades() -> tuple:
     # Save updated data
     if portfolio_updated:
         _recompute_chain(df, changed_writer="live_pnl_updater.exit")
-        df.to_csv(PAPER_FILE, index=False)
+        with _file_lock():
+            _atomic_write_csv(PAPER_FILE, df)
         # Rebuild portfolio from the CSV (single source of truth) so bot.py and
         # live_pnl_updater.py can never diverge — both compute the same result.
         portfolio = rebuild_portfolio_from_csv()

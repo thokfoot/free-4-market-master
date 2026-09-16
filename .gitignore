@@ -33,3 +33,6 @@ logs/archive/
 clean_*.py
 prune_*.py
 *_cleanup.py
+
+# Ledger mutation lock file (created at runtime by _file_lock())
+logs/.ledger.lock

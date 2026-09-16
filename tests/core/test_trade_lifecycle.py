@@ -123,6 +123,41 @@ def test_100_total_position_cap(test_env):
     assert t101 is None, "101st entry should be rejected (cap = 100)"
 
 
+def test_aggregate_risk_cap_blocks_explicit_risk_recipe(test_env):
+    """Explicit risk_pct recipes are bounded per BUCKET (AGGREGATE_RISK_CAP).
+
+    Default 100k bucket equity, cap = 50% = 50k. A 5% recipe = 5k per trade,
+    so the 11th concurrent position in the same bucket must be rejected well
+    before the 100-trade MAX_CONCURRENT cap.
+    """
+    entered = 0
+    for i in range(1, 20):
+        t = enter_trade("US", f"AR{i}", "LONG", 450.00, f"Risk recipe {i}",
+                        pattern_rank=i, expected_win_rate=60.0,
+                        pattern_factors="Test", tf="SWING_1d", risk_pct=0.05)
+        if t is None:
+            break
+        entered += 1
+    assert 8 <= entered <= 11, f"explicit 5% recipes should fill the 50% cap (~10), got {entered}"
+    assert entered < 19, "aggregate risk cap must block far before MAX_CONCURRENT"
+
+    tail = enter_trade("US", "AR99", "LONG", 450.00, "Over aggregate cap",
+                       pattern_rank=99, expected_win_rate=60.0,
+                       pattern_factors="Test", tf="SWING_1d", risk_pct=0.05)
+    assert tail is None, "entry at 5% over the filled bucket must be rejected"
+
+
+def test_aggregate_risk_cap_ignored_without_risk_pct(test_env):
+    """Default-recipe entries keep MAX_CONCURRENT as their only aggregate cap
+    (legacy contract — 100 concurrent positions still allowed)."""
+    for i in range(1, 101):
+        tr = enter_trade("US", f"DF{i}", "LONG", 450.00, f"Default {i}",
+                         pattern_rank=i, expected_win_rate=60.0,
+                         pattern_factors="Test", tf="SWING_1d")
+        assert tr is not None, f"Entry #{i} should succeed"
+    assert len(load_portfolio()["open_positions"]) == 100
+
+
 def test_intraday_separate_pool_from_swing(test_env):
     """3 intraday open → swing entry still works (separate pools)."""
     tickers = ["SPY", "QQQ", "IWM"]

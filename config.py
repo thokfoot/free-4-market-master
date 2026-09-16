@@ -44,6 +44,35 @@ MAX_CONCURRENT = 100            # Total active positions allowed (all TFs/market
 # every fired signal is entered so each strategy's real long-run performance can
 # be measured without loss-based entry caps distorting results.
 
+# ===== AGGREGATE RISK CAP =====
+# Max fraction of a bucket's equity that may be simultaneously at risk across
+# ALL its open positions (sum of per-trade risk). Guards against the
+# 100-responsibility exposure a MAX_CONCURRENT=100 cap alone allows (100 x 1%
+# positions = 100% of a bucket at risk at the same close). Real brokers impose
+# equivalent portfolio margin/VaR limits, so a paper system that allows more is
+# unrealistic. 0.5 = 50% of the bucket's capital can ever be at risk at once.
+AGGREGATE_RISK_CAP = 0.50
+
+# ===== PRE-REGISTERED AUTO-DISABLE RULES =====
+# Replaces the old ad-hoc manual DISABLED_STRATEGIES (which biased reported
+# WR by removing live losers after the fact). Rules are mechanically applied
+# so the reported portfolio stats can never be upward-biased by selective
+# post-hoc disabling. SAFE defaults: high thresholds + minimum sample sizes
+# mean the rules never fire until statistically meaningful evidence exists.
+#
+# AUTO_DISABLE_MIN_SAMPLE: minimum number of CLOSED trades under a legacy
+# rank key before the rule can evaluate. 10 is conservative; backtests
+# recommend n >= 30 for directional signal, but 10 catches catastrophic
+# bleed while still providing some protection against false positives.
+# AUTO_DISABLE_MAX_LOSS_RUPEES: cumulative total_pnl threshold (in ₹) for
+# the legacy rank block; if <= this AND n >= MIN_SAMPLE, block entries.
+# Any rank so underwater after meaningful samples is statistically unlikely
+# to recover in-sample — the same data-snooping hazard as DISABLED_STRATEGIES,
+# but mechanistic and auditable.
+PREREGISTERED_DISABLE = True
+AUTO_DISABLE_MIN_SAMPLE = 10
+AUTO_DISABLE_MAX_LOSS_RUPEES = -3000.0
+
 # ===== STRATEGY FILE =====
 STRATEGY_FILE = os.path.join(os.path.dirname(__file__), "data", "strategies.csv")
 

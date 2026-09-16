@@ -5,8 +5,9 @@ Portfolio & trade management for paper trading.
 Supports LONG and SHORT positions with SL/TP and max hold.
 """
 
-import os, json, math, pandas as pd
+import os, json, math, random, pandas as pd
 import hashlib
+import contextlib
 from datetime import datetime, timedelta
 import pytz
 import requests
@@ -24,6 +25,8 @@ from config import (
     CIRCUIT_BREAKER_ENABLED, CIRCUIT_BREAKER_MAX_CONSEC_LOSSES,
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
     MIN_LOT_ALLOW_OVER_RISK, MAX_OVER_RISK_FACTOR,
+    AGGREGATE_RISK_CAP,
+    PREREGISTERED_DISABLE, AUTO_DISABLE_MIN_SAMPLE, AUTO_DISABLE_MAX_LOSS_RUPEES,
     infer_market_mode, entry_market_open,
     FADE_ALLOW_SHORT, FADE_VARIANTS,
     GAP_DOWN_A_ENABLED, GAP_DOWN_B_ENABLED, GAP_DOWN_RANK_A, GAP_DOWN_RANK_B,
@@ -305,6 +308,78 @@ def _atomic_write_json(filepath: str, data):
         raise
 
 
+# ── Atomic CSV Writer ────────────────────────────────────────
+def _atomic_write_csv(filepath: str, df):
+    """
+    Write a DataFrame to CSV via temp-file + os.replace() (atomic on POSIX).
+    Prevents the read-modify-write truncation hazard: a process killed
+    mid-write previously left an empty/partial paper_trades.csv. The temp
+    file carries the PID, so parallel writers cannot collide on it.
+    """
+    tmp = filepath + ".tmp." + str(os.getpid())
+    try:
+        df.to_csv(tmp, index=False)
+        os.replace(tmp, filepath)
+    except Exception as e:
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except:
+                pass
+        raise
+
+
+# ── Advisory file lock (cross-platform) ──────────────────────
+# The GitHub Actions concurrency group (free4market-v5-bot) already
+# serializes the bot/live_pnl workflows at the platform level. This lock is
+# belt-and-suspenders: it protects the ledger even when a workflow runs
+# without the concurrency group (local runs, replays, external tools).
+try:
+    import fcntl  # POSIX (GitHub Actions Linux runner)
+    _HAVE_FCNTL = True
+except ImportError:
+    _HAVE_FCNTL = False
+
+try:
+    import msvcrt  # Windows (local dev)
+    _HAVE_MSVCRT = True
+except ImportError:
+    _HAVE_MSVCRT = False
+
+LEDGER_LOCK_FILE = os.path.join(LOG_DIR, ".ledger.lock")
+
+
+@contextlib.contextmanager
+def _file_lock(timeout_sec: float = 60.0):
+    """Best-effort advisory lock around a paper_trades.csv read-modify-write.
+
+    POSIX: flock on a lockfile. Windows: msvcrt.locking (length-1 region).
+    If neither is available (rare platforms) the lock degrades to a no-op so
+    the ledger is never blocked — the caller keeps working as before.
+    """
+    if not (_HAVE_FCNTL or _HAVE_MSVCRT):
+        yield
+        return
+
+    os.makedirs(LOG_DIR, exist_ok=True)
+    lock_fh = open(LEDGER_LOCK_FILE, "a+")
+    try:
+        if _HAVE_FCNTL:
+            fcntl.flock(lock_fh.fileno(), fcntl.LOCK_EX)
+            yield
+            fcntl.flock(lock_fh.fileno(), fcntl.LOCK_UN)
+        else:
+            lock_fh.seek(0)
+            msvcrt.locking(lock_fh.fileno(), msvcrt.LK_LOCK, 1)
+            try:
+                yield
+            finally:
+                lock_fh.seek(0)
+                msvcrt.locking(lock_fh.fileno(), msvcrt.LK_UNLCK, 1)
+    finally:
+        lock_fh.close()
+
+
 # ── System Initialization ────────────────────────────────────
 def initialize_system():
     """
@@ -324,8 +399,10 @@ def initialize_system():
     
     # 1. paper_trades.csv with correct 20 columns
     if not os.path.exists(PAPER_FILE):
-        pd.DataFrame(columns=COLUMNS).to_csv(PAPER_FILE, index=False)
-        print(f"[Init] Created {PAPER_FILE} ({len(COLUMNS)} columns, 0 rows)")
+        with _file_lock():
+            if not os.path.exists(PAPER_FILE):
+                _atomic_write_csv(PAPER_FILE, pd.DataFrame(columns=COLUMNS))
+                print(f"[Init] Created {PAPER_FILE} ({len(COLUMNS)} columns, 0 rows)")
     else:
         # Verify columns are complete — add missing ones if needed
         try:
@@ -338,7 +415,8 @@ def initialize_system():
                 df_full = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
                 for col in missing:
                     df_full[col] = ""
-                df_full.to_csv(PAPER_FILE, index=False)
+                with _file_lock():
+                    _atomic_write_csv(PAPER_FILE, df_full)
         except Exception as e:
             print(f"[Init] Warning: Could not verify {PAPER_FILE}: {e}")
     
@@ -472,7 +550,8 @@ def _migrate_ledger_lineage():
             if not has_all:
                 for c in ("Writer_ID", "Row_Seq", "Row_Hash"):
                     df[c] = ""
-                df.to_csv(PAPER_FILE, index=False)
+                with _file_lock():
+                    _atomic_write_csv(PAPER_FILE, df)
             return
         if has_all and df["Row_Hash"].notna().all() \
                 and (df["Row_Hash"].astype(str).str.strip() != "").all():
@@ -483,7 +562,8 @@ def _migrate_ledger_lineage():
                 df[c] = ""
         print(f"[Init] S2-D lineage chain backfilled on {PAPER_FILE} ({len(df)} rows)")
         _recompute_chain(df, changed_writer=None)
-        df.to_csv(PAPER_FILE, index=False)
+        with _file_lock():
+            _atomic_write_csv(PAPER_FILE, df)
     except Exception as e:
         print(f"[Init] Warning: lineage migration skipped: {e}")
 
@@ -614,7 +694,7 @@ def _price_slip_multiplier(price: float, mode: str = "INDIAN") -> float:
     return 1.0
 
 
-def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str) -> float:
+def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: str, jitter: bool = False) -> float:
     """
     Apply realistic fill slippage to a price.
     
@@ -630,6 +710,9 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
         action: "ENTRY" or "EXIT"
         mode: "INDIAN" | "US" | "CRYPTO"
         tf: "SWING_1d" or "INTRADAY_1h"
+        jitter: when True (or STOCHASTIC_SLIPPAGE=1), multiply the base slip
+            by a random 0.5-1.5x factor to model fill-to-fill noise. Tests
+            leave it False so exact-price assertions stay deterministic.
     
     Returns:
         Slipped price (always worse for the trader).
@@ -644,6 +727,10 @@ def _apply_slippage(price: float, direction: str, action: str, mode: str, tf: st
     )
     # Price-adaptive: cheap thin small-caps pay wider relative spread (v5.22)
     slip_pct *= _price_slip_multiplier(price, mode)
+    if not jitter:
+        jitter = os.getenv("STOCHASTIC_SLIPPAGE", "") == "1"
+    if jitter and slip_pct > 0:
+        slip_pct *= random.uniform(0.5, 1.5)
     if slip_pct <= 0:
         return price
     
@@ -883,13 +970,91 @@ def calculate_qty(entry: float, sl: float, market: str = "US", tf: str = "SWING_
     return int(qty)
 
 
+def _bucket_key(tf: str = None, mode: str = None) -> str:
+    """Resolve the capital_by_market key a trade belongs to (mirrors calculate_qty)."""
+    if tf == "FADE_1h":
+        return "FADE"
+    if tf == "LONG_BOUNCE_5m":
+        return "LONG_BOUNCE"
+    if tf == "US_FADE_5m":
+        return "US_FADE"
+    if tf == "IPO_1d":
+        return "IPO"
+    if tf in ("INTRADAY_1h", "GAP_DOWN_1m"):
+        return "INTRADAY"
+    key = str(mode or "US").upper()
+    return "INDIAN" if key == "INDIA" else key
+
+
+def _aggregate_bucket_risk(tf: str = None, mode: str = None) -> float:
+    """Sum of per-trade risk (qty x |entry - SL|) over OPEN rows in one bucket.
+
+    Reads paper_trades.csv (the source of truth) so a stale portfolio.json
+    open_positions list can never understate live exposure.
+    """
+    bkey = _bucket_key(tf, mode)
+    total = 0.0
+    try:
+        if os.path.exists(PAPER_FILE):
+            df_pt = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            open_mask = (
+                df_pt["Status"].astype(str).str.upper().str.strip() == "OPEN"
+            ) if "Status" in df_pt.columns else pd.Series(False, index=df_pt.index)
+            for _, prow in df_pt[open_mask].iterrows():
+                p_tf = str(prow.get("TimeFrame", "SWING_1d"))
+                p_mode = str(prow.get("Mode", "US")).upper().replace("INDIA", "INDIAN")
+                if _bucket_key(p_tf, p_mode) != bkey:
+                    continue
+                e = _safe_float(prow.get("Entry_Price"))
+                s = _safe_float(prow.get("SL"))
+                q = int(_safe_float(prow.get("Qty")))
+                if e > 0 and s > 0 and q > 0:
+                    total += q * abs(e - s)
+    except Exception as e:
+        print(f"[Paper] aggregate-bucket-risk scan error: {e}")
+    return total
+
+
+def _auto_disabled_ranks() -> set:
+    """Ranks auto-disabled by PREREGISTERED_DISABLE rules.
+
+    Scans strategy_stats.json (legacy rank-only block) and marks any rank
+    whose cumulative PnL is below AUTO_DISABLE_MAX_LOSS_RUPEES AND whose
+    sample size >= AUTO_DISABLE_MIN_SAMPLE. This replaces the old
+    DISABLED_STRATEGIES mechanism with a deterministic, auditable rule.
+    Returns the set of auto-disabled rank integers.
+    """
+    if not PREREGISTERED_DISABLE:
+        return set()
+    disabled = set()
+    try:
+        stats = _load_strategy_stats()
+        for k, v in stats.items():
+            if "|" in k:
+                continue  # composite key — gate is applied via legacy rank only
+            try:
+                rank_i = int(k)
+            except ValueError:
+                continue
+            n = v.get("wins", 0) + v.get("losses", 0)
+            pnl = v.get("total_pnl", 0)
+            if n >= AUTO_DISABLE_MIN_SAMPLE and pnl <= AUTO_DISABLE_MAX_LOSS_RUPEES:
+                disabled.add(rank_i)
+    except Exception:
+        pass
+    return disabled
+
+
 def check_entry_allowed(ticker: str, direction: str,
                         open_positions: list = None,
                         tf: str = None,
                         pattern_rank: int = None,
                         mode: str = None,
                         enforce_market_hours: bool = False,
-                        now: datetime = None) -> str:
+                        now: datetime = None,
+                        entry: float = None,
+                        sl: float = None,
+                        risk_pct: float = None) -> str:
     """
     Why an entry would currently be rejected, or None if it is allowed.
 
@@ -945,6 +1110,15 @@ def check_entry_allowed(ticker: str, direction: str,
         return (f"DISABLED: {ticker} #{pattern_rank} {tf or ''} {direction or ''} manually disabled "
                 f"(DISABLED_STRATEGIES)")
 
+    # ── Pre-registered auto-disable (mechanistic, auditable) ──
+    # Not adaptive: the rule (n >= AUTO_DISABLE_MIN_SAMPLE AND cumulative PnL
+    # <= AUTO_DISABLE_MAX_LOSS_RUPEES) was fixed in config BEFORE deployment,
+    # so live losers are never removed by hand after the fact.
+    if pattern_rank and int(pattern_rank) in _auto_disabled_ranks():
+        return (f"AUTO_DISABLE: Rank #{pattern_rank} cumulative ≤ "
+                f"{AUTO_DISABLE_MAX_LOSS_RUPEES:,.0f} on ≥{AUTO_DISABLE_MIN_SAMPLE} trades "
+                f"(pre-registered rule)")
+
     # ── Market-hours gate: no entries into a closed market ──
     # Fixes: weekend US swing entries (Sun 07:51 IST), post-close India fade
     # fills (15:31 IST), pre-open fills at stale prior-session prices.
@@ -970,32 +1144,82 @@ def check_entry_allowed(ticker: str, direction: str,
     # Circuit breaker: a strategy on a losing streak is paused from NEW
     # entries until it wins, the cooldown elapses, or resume_strategy() is
     # called. Forward-looking: only losses from deployment count.
+    # Composite key (rank|tf|ticker) isolates families so one losing ticker
+    # never pauses a different ticker sharing the same rank. Legacy rank-only
+    # pause is checked as a fallback for callers without full context (tests).
     if CIRCUIT_BREAKER_ENABLED and pattern_rank:
         stats = _load_strategy_stats()
-        entry_stats = stats.get(str(pattern_rank))
-        if entry_stats and entry_stats.get("paused_since"):
-            paused_date = entry_stats.get("paused_since")
+        # Composite check (preferred — isolated per strategy family)
+        _composite_key = (f"{pattern_rank}|{tf or ''}|{ticker.upper()}"
+                          if ticker and tf else None)
+        for _ck in ([_composite_key] if _composite_key else []) + [str(pattern_rank)]:
+            entry_stats = stats.get(_ck or str(pattern_rank))
+            if not entry_stats or not entry_stats.get("paused_since"):
+                continue
+            _label = (f"Rank #{pattern_rank} ({_ck})"
+                      if _ck != str(pattern_rank) else f"Rank #{pattern_rank}")
+            paused_date = entry_stats["paused_since"]
             try:
                 paused_dt = datetime.strptime(paused_date, "%Y-%m-%d").date()
                 today = datetime.now(IST).date()
                 if (today - paused_dt).days >= CIRCUIT_BREAKER_COOLDOWN_DAYS:
-                    # Cooldown elapsed - auto-resume with a fresh budget
                     entry_stats["paused_since"] = None
                     entry_stats["consec_losses"] = 0
                     _save_strategy_stats(stats)
-                    print(f"[CircuitBreaker] Rank #{pattern_rank} auto-resumed "
+                    print(f"[CircuitBreaker] {_label} auto-resumed "
                           f"after {CIRCUIT_BREAKER_COOLDOWN_DAYS}d cooldown")
                 else:
                     consec = entry_stats.get("consec_losses", 0)
-                    return (f"CIRCUIT_BREAKER: Rank #{pattern_rank} paused "
+                    return (f"CIRCUIT_BREAKER: {_label} paused "
                             f"({consec} consecutive losses, paused {paused_date})")
             except Exception as e:
-                print(f"[CircuitBreaker] Rank #{pattern_rank} corrupt pause "
+                print(f"[CircuitBreaker] {_label} corrupt pause "
                       f"date {paused_date!r} ({e}) - treated as not paused")
 
     # Total active-position cap (swing + intraday combined)
     if len(positions) >= MAX_CONCURRENT:
         return f"MAX_CONCURRENT ({MAX_CONCURRENT}) reached"
+
+    # ── Aggregate per-bucket risk cap (AGGREGATE_RISK_CAP) ──
+    # A per-trade risk recipe (risk_pct) is bounded per TRADE; N concurrent
+    # trades at that recipe would put up to N× the bucket on the line at one
+    # close. Sum qty×|entry−SL| over OPEN rows in the SAME capital bucket
+    # (source of truth = CSV) and enforce an upper bound, mirroring a broker's
+    # portfolio-margin/VaR limit. This guard engages only when the caller
+    # explicitly declares a risk recipe (risk_pct); default-recipe strategies
+    # keep the documented MAX_CONCURRENT position cap as their aggregate bound.
+    # Proposed risk ≈ the nominal risk budget (qty caps can only lower it; the
+    # min-lot over-risk floor is already bounded by MAX_OVER_RISK_FACTOR).
+    if risk_pct and (tf or mode):
+        try:
+            bkey = _bucket_key(tf, mode)
+            _port_cap = (portfolio if portfolio is not None else load_portfolio())
+            bucket_equity = float(_port_cap.get("capital_by_market", {}).get(bkey, 100000) or 0)
+            risk_cap = AGGREGATE_RISK_CAP * max(0, bucket_equity)
+            existing_risk = _aggregate_bucket_risk(tf, mode)
+            if risk_cap <= 0 or existing_risk > risk_cap:
+                return (f"AGGREGATE_RISK_CAP: {bkey} bucket already at risk "
+                        f"Rs {existing_risk:,.0f} (cap Rs {risk_cap:,.0f})")
+            use_risk = risk_pct
+            proposed_risk = max(0, bucket_equity) * use_risk if entry is None or sl is None else None
+            if proposed_risk is None:
+                per_share = abs(entry - sl)
+                budget = max(0, bucket_equity) * use_risk
+                if per_share < 1e-9:
+                    proposed_risk = 0.0
+                else:
+                    proj_qty = int(budget / per_share)
+                    if proj_qty >= 1:
+                        proposed_risk = proj_qty * per_share
+                    elif MIN_LOT_ALLOW_OVER_RISK and per_share <= budget * MAX_OVER_RISK_FACTOR:
+                        proposed_risk = per_share
+                    else:
+                        proposed_risk = 0.0
+            if existing_risk + proposed_risk > risk_cap:
+                return (f"AGGREGATE_RISK_CAP: {bkey} bucket risk Rs "
+                        f"{existing_risk + proposed_risk:,.0f} exceeds cap Rs {risk_cap:,.0f}")
+        except Exception as e:
+            print(f"[Paper] AGGREGATE_RISK_CAP check error: {e}")
 
     # Check duplicate (same ticker, same direction, open)
     for pos in positions:
@@ -1123,19 +1347,8 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     portfolio = load_portfolio()
     open_positions = portfolio.get("open_positions", [])
     
-    # Total active-position cap + duplicate check (single source of truth
-    # shared with bot.py so skipped entries get a persisted reason)
-    skip_reason = check_entry_allowed(ticker, direction, open_positions,
-                                      tf=tf, pattern_rank=pattern_rank,
-                                      mode=mode,
-                                      enforce_market_hours=enforce_market_hours,
-                                      now=now)
-    if skip_reason:
-        print(f"[Paper] {skip_reason}, skip {ticker}")
-        _log_audit_skip(now, mode, ticker, direction, tf, reason, skip_reason)
-        return None
-    
-    # Calculate SL/TP based on direction AND timeframe
+    # ── Compute SL/TP BEFORE the entry gate so the aggregate-risk cap can
+    # estimate the proposed incremental risk exactly (qty x |entry - SL|). ──
     # Use sl_override/tp_override if provided (gap-down strategies set their own)
     is_intraday = (tf in ("INTRADAY_1h", "FADE_1h", "US_FADE_5m", "LONG_BOUNCE_5m", "GAP_DOWN_1m"))
     if is_intraday:
@@ -1146,25 +1359,38 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
         sl_pct = SL_PCT
         tp_pct = TP_PCT
         max_hold = MAX_HOLD_DAYS
-    
-    # Override SL/TP if provided (used by gap-down strategies)
+
     if sl_override is not None:
         sl = round_price(sl_override)
     elif direction == "LONG":
         sl = round_price(entry_price * (1 - sl_pct))
     else:  # SHORT
         sl = round_price(entry_price * (1 + sl_pct))
-    
+
     if tp_override is not None:
         target = round_price(tp_override)
     elif direction == "LONG":
         target = round_price(entry_price * (1 + tp_pct))
     else:  # SHORT
         target = round_price(entry_price * (1 - tp_pct))
-    
+
     # Override max_hold if provided (gap-down: 5 minutes)
     if max_hold_override is not None:
         max_hold = max_hold_override
+
+    # Entry gates: position cap + duplicate + aggregate risk cap (single
+    # source of truth shared with bot.py so skipped entries get a persisted
+    # reason)
+    skip_reason = check_entry_allowed(ticker, direction, open_positions,
+                                      tf=tf, pattern_rank=pattern_rank,
+                                      mode=mode,
+                                      enforce_market_hours=enforce_market_hours,
+                                      now=now,
+                                      entry=entry_price, sl=sl, risk_pct=risk_pct)
+    if skip_reason:
+        print(f"[Paper] {skip_reason}, skip {ticker}")
+        _log_audit_skip(now, mode, ticker, direction, tf, reason, skip_reason)
+        return None
     
     # For GAP_DOWN_1m, max_hold is stored in MINUTES (not hours/days)
     # update_trades() handles this via the TimeFrame check. FADE_1h and
@@ -1225,32 +1451,33 @@ def enter_trade(mode: str, ticker: str, direction: str, entry_price: float,
     
     # Append to CSV (handle TimeFrame column migration for old rows)
     os.makedirs(LOG_DIR, exist_ok=True)
-    prev_hash = LEDGER_CHAIN_SEED
-    df_old = None
-    if os.path.exists(PAPER_FILE):
-        df_old = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
-        # ── Ensure string columns are object dtype (prevent float64 inference) ──
-        str_cols_pt = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors", "Signal_Indicators"]
-        for col in str_cols_pt:
-            if col in df_old.columns:
-                df_old[col] = df_old[col].astype(object)
-        if "TimeFrame" not in df_old.columns:
-            df_old["TimeFrame"] = "SWING_1d"
-        for col in ("Writer_ID", "Row_Hash"):
-            if col not in df_old.columns:
-                df_old[col] = ""
-        if "Row_Seq" not in df_old.columns:
-            df_old["Row_Seq"] = list(range(1, len(df_old) + 1))
-        if len(df_old) and str(df_old.iloc[-1].get("Row_Hash", "")) not in ("", "nan", "None"):
-            prev_hash = str(df_old.iloc[-1]["Row_Hash"])
-    # S2-D lineage stamp (writer / seq / chained hash)
-    df_new = pd.DataFrame([trade])
-    df_new["Writer_ID"] = "paper_trader.enter"
-    df_new["Row_Seq"] = (len(df_old) + 1) if df_old is not None else 1
-    df_new["Row_Hash"] = _chain_hash(prev_hash, df_new.iloc[0])
-    df_new = df_new[COLUMNS]
-    df_comb = pd.concat([df_old, df_new], ignore_index=True) if df_old is not None else df_new
-    df_comb.to_csv(PAPER_FILE, index=False)
+    with _file_lock():
+        prev_hash = LEDGER_CHAIN_SEED
+        df_old = None
+        if os.path.exists(PAPER_FILE):
+            df_old = pd.read_csv(PAPER_FILE, on_bad_lines='warn')
+            # ── Ensure string columns are object dtype (prevent float64 inference) ──
+            str_cols_pt = ["Exit_Price", "Exit_Time", "P&L", "P&L_%", "Status", "Reason", "Date", "Time_IST", "Mode", "Ticker", "Direction", "TimeFrame", "Pattern_Rank", "Expected_WinRate", "Pattern_Factors", "Signal_Indicators"]
+            for col in str_cols_pt:
+                if col in df_old.columns:
+                    df_old[col] = df_old[col].astype(object)
+            if "TimeFrame" not in df_old.columns:
+                df_old["TimeFrame"] = "SWING_1d"
+            for col in ("Writer_ID", "Row_Hash"):
+                if col not in df_old.columns:
+                    df_old[col] = ""
+            if "Row_Seq" not in df_old.columns:
+                df_old["Row_Seq"] = list(range(1, len(df_old) + 1))
+            if len(df_old) and str(df_old.iloc[-1].get("Row_Hash", "")) not in ("", "nan", "None"):
+                prev_hash = str(df_old.iloc[-1]["Row_Hash"])
+        # S2-D lineage stamp (writer / seq / chained hash)
+        df_new = pd.DataFrame([trade])
+        df_new["Writer_ID"] = "paper_trader.enter"
+        df_new["Row_Seq"] = (len(df_old) + 1) if df_old is not None else 1
+        df_new["Row_Hash"] = _chain_hash(prev_hash, df_new.iloc[0])
+        df_new = df_new[COLUMNS]
+        df_comb = pd.concat([df_old, df_new], ignore_index=True) if df_old is not None else df_new
+        _atomic_write_csv(PAPER_FILE, df_comb)
     
     # Update portfolio (market-specific capital remains unchanged at entry)
     portfolio["open_positions"].append(trade)
@@ -1300,7 +1527,7 @@ def _save_strategy_stats(stats: dict):
     _atomic_write_json(STRATEGY_STATS_FILE, stats)
 
 
-def update_strategy_stats(reason: str, pnl: float):
+def update_strategy_stats(reason: str, pnl: float, ticker: str = None, tf: str = None):
     """
     Update win/loss tracking for the pattern that generated this trade.
     Called when a trade is closed.
@@ -1310,6 +1537,14 @@ def update_strategy_stats(reason: str, pnl: float):
       - a LOSS increments it; at CIRCUIT_BREAKER_MAX_CONSEC_LOSSES the
         strategy is auto-paused from new entries until it wins again, the
         cooldown elapses, or resume_strategy(rank) is called.
+
+    Isolation: when ticker+tf are supplied (the updater call sites have the
+    full trade row), tracking AND the pause go under a COMPOSITE key
+    "rank|TF|TICKER" so one losing strategy can never pause a different
+    ticker/timeframe that merely shares the same rank number. The legacy
+    rank-only block is still maintained (without pause state) so existing
+    reports and rank-based resume keep working. Callers without ticker leave
+    exact legacy behaviour (rank-only paused keys) for backward compatibility.
     """
     rank = _extract_rank(reason)
     if rank == 0:
@@ -1317,64 +1552,103 @@ def update_strategy_stats(reason: str, pnl: float):
 
     stats = _load_strategy_stats()
     key = str(rank)
+    composite_key = None
+    if ticker:
+        composite_key = f"{rank}|{str(tf or 'SWING_1d')}|{str(ticker).upper()}"
 
-    if key not in stats:
-        stats[key] = {
-            "rank": rank,
-            "factors": reason[:80],
-            "wins": 0,
-            "losses": 0,
-            "total_pnl": 0.0,
-            "consec_losses": 0,
-            "paused_since": None,
-        }
-    else:
-        stats[key].setdefault("consec_losses", 0)
-        stats[key].setdefault("paused_since", None)
+    def _ensure(block, label):
+        if block not in stats:
+            stats[block] = {
+                "rank": rank,
+                "factors": reason[:80],
+                "wins": 0,
+                "losses": 0,
+                "total_pnl": 0.0,
+                "consec_losses": 0,
+                "paused_since": None,
+            }
+        stats[block].setdefault("consec_losses", 0)
+        stats[block].setdefault("paused_since", None)
+        return stats[block]
 
-    stats[key]["total_pnl"] += pnl
-    if pnl > 0:
-        stats[key]["wins"] += 1
-        # A win resets the losing streak and lifts any active pause
-        stats[key]["consec_losses"] = 0
-        if stats[key].get("paused_since"):
-            stats[key]["paused_since"] = None
-            print(f"[CircuitBreaker] Rank #{rank} resumed on WIN")
-    elif pnl < 0:
-        stats[key]["losses"] += 1
-        stats[key]["consec_losses"] = stats[key].get("consec_losses", 0) + 1
-        if (CIRCUIT_BREAKER_ENABLED
-                and stats[key]["consec_losses"] >= CIRCUIT_BREAKER_MAX_CONSEC_LOSSES
-                and not stats[key].get("paused_since")):
-            stats[key]["paused_since"] = datetime.now(IST).strftime("%Y-%m-%d")
-            print(f"[CircuitBreaker] Rank #{rank} PAUSED after "
-                  f"{stats[key]['consec_losses']} consecutive losses")
-    # pnl == 0 (breakeven/void cleanup) is neither a win nor a loss - streak unchanged
+    _ensure(key, "rank")
+    targets = [stats[key]]
+    active_key = key
+    if composite_key:
+        _ensure(composite_key, "composite")
+        targets.append(stats[composite_key])
+        active_key = composite_key
 
-    # Update the reason/factors in case it was truncated
-    if len(reason) > len(stats[key]["factors"]):
-        stats[key]["factors"] = reason[:80]
+    for block in targets:
+        block["total_pnl"] += pnl
+        if pnl > 0:
+            block["wins"] += 1
+            block["consec_losses"] = 0
+            if block.get("paused_since"):
+                block["paused_since"] = None
+                print(f"[CircuitBreaker] Rank #{rank} resumed on WIN")
+        elif pnl < 0:
+            block["losses"] += 1
+            block["consec_losses"] = block.get("consec_losses", 0) + 1
+            # Each block pauses at its own streak threshold. The legacy
+            # rank block keeps the historical contract (5 losses on the rank
+            # pause ALL strategies sharing it); the composite block adds the
+            # fine-grained (rank|tf|ticker) isolation layer on top.
+            if (CIRCUIT_BREAKER_ENABLED
+                    and block["consec_losses"] >= CIRCUIT_BREAKER_MAX_CONSEC_LOSSES
+                    and not block.get("paused_since")):
+                block["paused_since"] = datetime.now(IST).strftime("%Y-%m-%d")
+                print(f"[CircuitBreaker] Rank #{rank} PAUSED after "
+                      f"{block['consec_losses']} consecutive losses")
+        # pnl == 0 (breakeven/void cleanup) is neither a win nor a loss - streak unchanged
+
+        if len(reason) > len(block["factors"]):
+            block["factors"] = reason[:80]
 
     _save_strategy_stats(stats)
-    total = stats[key]["wins"] + stats[key]["losses"]
-    wr = round(stats[key]["wins"] / total * 100, 1) if total > 0 else 0
-    print(f"[Strategy] Rank #{rank} updated: {stats[key]['wins']}W/{stats[key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
+    total = stats[active_key]["wins"] + stats[active_key]["losses"]
+    wr = round(stats[active_key]["wins"] / total * 100, 1) if total > 0 else 0
+    print(f"[Strategy] Rank #{rank} updated: "
+          f"{stats[active_key]['wins']}W/{stats[active_key]['losses']}L ({wr}%) PnL Rs {pnl:+.0f}")
 
 
-def resume_strategy(rank: int) -> bool:
+def resume_strategy(rank: int, ticker: str = None, tf: str = None) -> bool:
     """Manually resume a paused strategy (clears its consecutive-loss state).
 
-    Returns True if a pause was cleared, False if the rank had no pause.
+    With ticker+tf supplied, clears the composite (rank|tf|ticker) pause for
+    that strategy family only. Otherwise clears the rank-level pause. Without
+    args, resets ALL pause state for the rank (legacy aggregate + composites).
+
+    Returns True if a pause was cleared, False if none existed.
     """
     stats = _load_strategy_stats()
-    key = str(rank)
-    if key in stats and stats[key].get("paused_since"):
-        stats[key]["paused_since"] = None
-        stats[key]["consec_losses"] = 0
+    cleared = False
+
+    if ticker:
+        ck = f"{rank}|{tf or 'SWING_1d'}|{ticker.upper()}"
+        if ck in stats and stats[ck].get("paused_since"):
+            stats[ck]["paused_since"] = None
+            stats[ck]["consec_losses"] = 0
+            cleared = True
+            print(f"[CircuitBreaker] Rank #{rank} {ck} manually resumed")
+    else:
+        # Legacy rank-level pause + any composite keys for this rank
+        key = str(rank)
+        if key in stats and stats[key].get("paused_since"):
+            stats[key]["paused_since"] = None
+            stats[key]["consec_losses"] = 0
+            cleared = True
+        for ck in list(stats.keys()):
+            if ck.startswith(f"{rank}|") and stats[ck].get("paused_since"):
+                stats[ck]["paused_since"] = None
+                stats[ck]["consec_losses"] = 0
+                cleared = True
+        if cleared:
+            print(f"[CircuitBreaker] Rank #{rank} manually resumed")
+
+    if cleared:
         _save_strategy_stats(stats)
-        print(f"[CircuitBreaker] Rank #{rank} manually resumed")
-        return True
-    return False
+    return cleared
 
 
 def _paused_ranks() -> set:
@@ -2240,7 +2514,11 @@ def update_trades(ohlc_data: dict) -> list:
             })
             
             # Update per-strategy win rate EXACTLY ONCE at exit (not at bottom of function)
-            update_strategy_stats(full_reason, round(pnl, 2))
+            # Composite (rank|tf|ticker) key isolates strategy families — a losing
+            # #1SW XLK can never pause a winning #1SW QQQ.
+            update_strategy_stats(full_reason, round(pnl, 2),
+                                  ticker=str(row.get("Ticker", "")),
+                                  tf=str(row.get("TimeFrame", "SWING_1d")))
             
             # ── Send real-time Telegram alert with OHLC telemetry ──
             _send_sl_tp_alert(
@@ -2298,7 +2576,8 @@ def update_trades(ohlc_data: dict) -> list:
     
     if updated:
         _recompute_chain(df, changed_writer="paper_trader.update")
-        df.to_csv(PAPER_FILE, index=False)
+        with _file_lock():
+            _atomic_write_csv(PAPER_FILE, df)
         # ── Rebuild portfolio from CSV (single source of truth) ──
         # Previously the per-market capital/wins/losses were updated incrementally
         # in the loop above, which could drift when bot.py and live_pnl_updater.py
