@@ -10726,5 +10726,37 @@
     "expected_win_rate": 50.43,
     "pattern_factors": "Price>SMA20+RSI<45",
     "reason": "#1ID Price>SMA20+RSI<45 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-17 04:42:09 IST",
+    "mode": "CRYPTO",
+    "ticker": "XRP-USD",
+    "direction": "SHORT",
+    "entry_price": 1.28,
+    "qty": 104702,
+    "sl": 1.3,
+    "target": 1.25,
+    "pattern_rank": 1,
+    "expected_win_rate": 48.15,
+    "pattern_factors": "Price>SMA20+RSI<45",
+    "reason": "#1ID Price>SMA20+RSI<45",
+    "signal_indicators": "{\"2Red\": 1.0, \"Close\": 1.2857, \"EMA20\": 1.290735, \"EMA50\": 1.320373, \"EMA9\": 1.285319, \"High\": 1.2924, \"Low\": 1.2799, \"Open\": 1.2924, \"RSI14\": 44.647916, \"Ret\": -0.004799, \"SMA20\": 1.284855, \"SMA50\": 1.337968, \"Volume\": 8068352.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-17 04:42:09 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"afa975fd79217cbcebf4b115cf3e5ff0792427c665b8bc8d3f8e2bfd1d44404e\"}}"
+  },
+  {
+    "event": "ENTRY",
+    "datetime": "2026-09-17 04:42:09 IST",
+    "mode": "CRYPTO",
+    "ticker": "SOL-USD",
+    "direction": "SHORT",
+    "entry_price": 97.21,
+    "qty": 1269,
+    "sl": 98.86,
+    "target": 94.48,
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50",
+    "signal_indicators": "{\"2Red\": 1.0, \"Close\": 97.400002, \"EMA20\": 97.686447, \"EMA50\": 98.562736, \"EMA9\": 97.713368, \"High\": 98.349998, \"Low\": 97.360001, \"Open\": 98.339996, \"RSI14\": 45.437219, \"Ret\": -0.009256, \"SMA20\": 97.394, \"SMA50\": 98.8962, \"Volume\": 14413824.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-17 04:42:09 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"0aebaa23bf1412fdc59c92ba2b2063628551bafdb2c9aae28e4ef1e054a67378\"}}"
   }
 ]
