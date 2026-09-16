@@ -120,9 +120,9 @@
     "rank": 1,
     "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf Target Hit (live)",
     "wins": 6,
-    "losses": 10,
-    "total_pnl": 1174.1600000000003,
-    "consec_losses": 1,
+    "losses": 11,
+    "total_pnl": -1675.8999999999996,
+    "consec_losses": 2,
     "paused_since": null
   },
   "4": {
@@ -411,6 +411,15 @@
     "losses": 0,
     "total_pnl": 183.99,
     "consec_losses": 0,
+    "paused_since": null
+  },
+  "1|INTRADAY_1h|LINK-USD": {
+    "rank": 1,
+    "factors": "#1ID Price>SMA20+RSI<45 | \ud83c\udfaf SL Hit (live)",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -2850.06,
+    "consec_losses": 1,
     "paused_since": null
   }
 }

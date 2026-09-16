@@ -10708,5 +10708,23 @@
     "pattern_factors": "Price>SMA20+RSI<45",
     "reason": "#1ID Price>SMA20+RSI<45",
     "signal_indicators": "{\"2Red\": 0.0, \"Close\": 10.793, \"EMA20\": 10.825064, \"EMA50\": 11.034457, \"EMA9\": 10.747165, \"High\": 10.93, \"Low\": 10.637, \"Open\": 10.704, \"RSI14\": 43.70867, \"Ret\": 0.009352, \"SMA20\": 10.78955, \"SMA50\": 11.151, \"Volume\": 12185504.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-17 01:08:10 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"cac9acf106b0a6f7d789b27a6b1478a1066c478185e51b24477b80cc9a94ffaa\"}}"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-17 01:54:37 IST",
+    "entry_datetime": "2026-09-17 01:08:10 IST",
+    "mode": "CRYPTO",
+    "ticker": "LINK-USD",
+    "direction": "SHORT",
+    "entry_price": 10.76,
+    "exit_price": 10.98,
+    "qty": 11171,
+    "pnl": -2850.06,
+    "pnl_pct": -2.37,
+    "hold": "46m 27s",
+    "pattern_rank": 1,
+    "expected_win_rate": 50.43,
+    "pattern_factors": "Price>SMA20+RSI<45",
+    "reason": "#1ID Price>SMA20+RSI<45 | \ud83c\udfaf SL Hit (live)"
   }
 ]
