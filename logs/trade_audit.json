@@ -10794,5 +10794,15 @@
     "expected_win_rate": 47.24,
     "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
     "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-17 20:27:58 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA50+EMA20<EMA50+Close<Open",
+    "skip_reason": "Cooldown: SPY LONG INTRADAY_1h closed <120m ago"
   }
 ]
