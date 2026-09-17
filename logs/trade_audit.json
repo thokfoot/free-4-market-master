@@ -10824,5 +10824,15 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price>SMA50+EMA20<EMA50+Close<Open",
     "skip_reason": "Cooldown: SPY LONG INTRADAY_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-17 23:57:31 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA50+EMA20<EMA50+Close<Open",
+    "skip_reason": "Cooldown: SPY LONG INTRADAY_1h closed <120m ago"
   }
 ]
