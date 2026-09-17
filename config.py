@@ -53,6 +53,14 @@ MAX_CONCURRENT = 100            # Total active positions allowed (all TFs/market
 # unrealistic. 0.5 = 50% of the bucket's capital can ever be at risk at once.
 AGGREGATE_RISK_CAP = 0.50
 
+# ===== ASSET-CLASS DIRECTIONAL CONCURRENCY GUARD =====
+# Maximum concurrent open positions in the same market with the same direction.
+# Guards against correlated macro squeezes (e.g. 3 crypto shorts hitting SL simultaneously).
+# Crypto assets are hyper-correlated to BTC/ETH; limit concurrent shorts to 1 and longs to 3.
+MAX_CONCURRENT_PER_MARKET_DIRECTION = {
+    "CRYPTO": {"SHORT": 1, "LONG": 3},
+}
+
 # ===== PRE-REGISTERED AUTO-DISABLE RULES =====
 # Replaces the old ad-hoc manual DISABLED_STRATEGIES (which biased reported
 # WR by removing live losers after the fact). Rules are mechanically applied

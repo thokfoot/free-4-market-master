@@ -1,10 +1,9 @@
 # Free 4-Market Paper Trade Bot — Comprehensive Project Audit & Architecture Summary
 
-> **Document Version:** v5.30+  
-> **Updated Date:** September 16, 2026 (15:15 IST)  
+> **Document Version:** v5.32+  
+> **Updated Date:** September 17, 2026 (08:35 IST)  
 > **Repository:** [thokfoot/free-4-market-master](https://github.com/thokfoot/free-4-market-master)  
 > **Main Branch:** [`main`](https://github.com/thokfoot/free-4-market-master/tree/main)  
-> **Head Commit:** [`cad56b0d`](https://github.com/thokfoot/free-4-market-master/commit/cad56b0d)  
 > **Target Audience:** External AI Reviewer / Quant Auditor / Senior Quantitative Systems Engineer  
 
 ---
@@ -125,7 +124,7 @@ The system operates on an invariant base capital of **₹8,00,000 INR**, segrega
 
 ```
 Total Base Capital: ₹8,00,000 INR
-├── INTRADAY (1h US & Crypto):  ₹2,00,000 Base (Current: ₹2,12,254.91)
+├── INTRADAY (1h US & Crypto):  ₹2,00,000 Base (Current: ₹2,03,734.71)
 ├── US Swing (1d):              ₹1,00,000 Base (Current: ₹1,04,897.94)
 ├── Crypto Swing (1d):          ₹1,00,000 Base (Current: ₹1,05,452.60)
 ├── India Cash (Long-Bounce):   ₹1,00,000 Base (Current: ₹1,00,845.81)
@@ -152,14 +151,14 @@ $$\text{Raw Quantity} = \left\lfloor \frac{\text{Risk Amount}}{\text{Per-Share R
 
 ---
 
-## 5. Live Performance Audit (All-Time Track Record as of Sep 16, 2026)
+## 5. Live Performance Audit (All-Time Track Record as of Sep 17, 2026)
 
 ### High-Level Summary (Rupees Only)
-* **Total Portfolio Capital:** **₹8,23,451.26 INR** (+2.93% net capital growth)
-* **Total Realized Net Profit:** **+₹23,451.26 INR**
-* **Total Executed Trades:** **66** (62 Closed, 4 Currently Open)
-* **Realized Win / Loss Record:** **41 Wins / 21 Losses**
-* **Live Realized Win Rate:** **66.13%**
+* **Total Portfolio Capital:** **₹8,14,931.06 INR** (+1.87% net capital growth)
+* **Total Realized Net Profit:** **+₹14,931.06 INR**
+* **Total Executed Trades:** **70** (65 Closed, 5 Currently Open)
+* **Realized Win / Loss Record:** **41 Wins / 24 Losses**
+* **Live Realized Win Rate:** **63.08%**
 * **Ledger Integrity Status:** **INTEGRITY_OK** (`integrity_check.py`)
 
 ### Breakdown by Market Category
@@ -171,23 +170,26 @@ $$\text{Raw Quantity} = \left\lfloor \frac{\text{Risk Amount}}{\text{Per-Share R
 │ 🇺🇸 US Intraday   │ 15       │ 12       │ 3        │ 80.00%     │ +₹9,146.80  │
 │ 🇺🇸 US Swing      │ 31       │ 18       │ 13       │ 58.06%     │ +₹4,897.94  │
 │ ₿ Crypto Swing   │ 11       │ 8        │ 3        │ 72.73%     │ +₹5,452.60  │
-│ ₿ Crypto ID      │ 3        │ 2        │ 1        │ 66.67%     │ +₹3,108.11  │
+│ ₿ Crypto ID      │ 6        │ 2        │ 4        │ 33.33%     │ -₹5,412.09  │
 │ 🇮🇳 India Bounce  │ 2        │ 1        │ 1        │ 50.00%     │ +₹845.81    │
 ├──────────────────┼──────────┼──────────┼──────────┼────────────┼─────────────┤
-│ TOTAL CLOSED     │ 62       │ 41       │ 21       │ 66.13%     │ +₹23,451.26 │
+│ TOTAL CLOSED     │ 65       │ 41       │ 24       │ 63.08%     │ +₹14,931.06 │
 └──────────────────┴──────────┴──────────┴──────────┴────────────┴─────────────┘
 ```
 
-### Active Open Positions (4 Trades Tracking Live)
+> **Automated Lockout Event (Sep 17):** Strategy Rank `#1` took 3 consecutive crypto intraday short losses (`LINK-USD`, `XRP-USD`, `SOL-USD`) pushing its cumulative loss to **-₹7,346.04** on 19 trades. Under the pre-registered `PREREGISTERED_DISABLE` rule ($n \ge 10, \text{loss} \le -₹3,000$), Rank 1 was **automatically and permanently locked out** without manual intervention.
+
+### Active Open Positions (5 Trades Tracking Live)
 
 | Ticker | Market / TF | Direction | Qty | Entry | CMP | Move % | Unrealized P&L | Stop Loss | Target | Strategy Reason |
 |---|---|---|---|---|---|---|---|---|---|---|
-| **`TRX-USD`** | CRYPTO (1d) | LONG | 10,000 | $0.3393 | $0.3348 | -1.34% | **-₹45.43** | $0.3315 | $0.3518 | `#1SW EMA9>EMA20+Price>SMA50+Range<1%` |
-| **`XLP`** | US (1d) | LONG | 627 | $83.39 | $83.73 | +0.41% | **+₹213.18** | $81.71 | $86.72 | `#4SW EMA20<EMA50+Range<1%` |
-| **`OEF`** | US (1d) | LONG | 137 | $380.39 | $376.32 | -1.07% | **-₹557.59** | $372.74 | $395.56 | `#4SW EMA9>EMA20+Price>SMA20+Range<1%` |
-| **`XLC`** | US (1d) | LONG | 466 | $112.61 | $114.03 | +1.26% | **+₹661.72** | $110.35 | $117.10 | `#3SW Price>EMA9+Range<1%` |
+| **`TRX-USD`** | CRYPTO (1d) | LONG | 10,000 | $0.3393 | $0.3356 | -1.08% | **-₹36.75** | $0.3315 | $0.3518 | `#1SW EMA9>EMA20+Price>SMA50+Range<1%` |
+| **`XLP`** | US (1d) | LONG | 627 | $83.39 | $83.33 | -0.07% | **-₹37.62** | $81.71 | $86.72 | `#4SW EMA20<EMA50+Range<1%` |
+| **`OEF`** | US (1d) | LONG | 137 | $380.39 | $374.83 | -1.46% | **-₹761.72** | $372.74 | $395.56 | `#4SW EMA9>EMA20+Price>SMA20+Range<1%` |
+| **`XLC`** | US (1d) | LONG | 466 | $112.61 | $113.00 | +0.35% | **+₹181.74** | $110.35 | $117.10 | `#3SW Price>EMA9+Range<1%` |
+| **`XLK`** | US (1d) | LONG | 284 | $183.76 | $183.93 | +0.09% | **+₹48.28** | $180.07 | $191.09 | `#28SW Price>SMA50+EMA20>EMA50+2Red` |
 
-* **Total Unrealized P&L:** **+₹271.88 INR**
+* **Total Unrealized P&L:** **-₹606.07 INR**
 
 ---
 

@@ -371,3 +371,38 @@ def test_short_intraday_entry(test_env):
     assert t["Target"] == pytest.approx(220.50, abs=0.01), (
         f"Expected TP ~220.50, got {t['Target']}"
     )
+
+
+# ======================================================================
+# Asset-Class Directional Correlation Guard
+# ======================================================================
+
+def test_correlation_guard_blocks_second_crypto_short(test_env):
+    """Correlation guard allows max 1 concurrent CRYPTO SHORT position."""
+    from paper_trader import check_entry_allowed, enter_trade
+    # First crypto short
+    t1 = enter_trade("CRYPTO", "BTC-USD", "SHORT", 60000.0, "First crypto short",
+                     pattern_rank=5, expected_win_rate=60.0, tf="INTRADAY_1h")
+    assert t1 is not None, "First crypto short must be allowed"
+
+    # Second crypto short must be blocked by correlation guard
+    reason = check_entry_allowed("ETH-USD", "SHORT", tf="INTRADAY_1h")
+    assert reason is not None
+    assert "CORRELATION_GUARD" in reason
+    assert "Max 1 concurrent CRYPTO SHORT" in reason
+
+    # Crypto LONG should still be allowed
+    reason_long = check_entry_allowed("ETH-USD", "LONG", tf="INTRADAY_1h")
+    assert reason_long is None or "CORRELATION_GUARD" not in reason_long
+
+
+def test_correlation_guard_allows_different_markets(test_env):
+    """Crypto short being open does not block US short."""
+    from paper_trader import check_entry_allowed, enter_trade
+    t1 = enter_trade("CRYPTO", "BTC-USD", "SHORT", 60000.0, "Crypto short",
+                     pattern_rank=5, expected_win_rate=60.0, tf="INTRADAY_1h")
+    assert t1 is not None
+
+    # US SHORT is independent market
+    reason_us = check_entry_allowed("QQQ", "SHORT", tf="INTRADAY_1h")
+    assert reason_us is None or "CORRELATION_GUARD" not in reason_us

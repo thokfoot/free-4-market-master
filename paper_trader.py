@@ -25,7 +25,7 @@ from config import (
     CIRCUIT_BREAKER_ENABLED, CIRCUIT_BREAKER_MAX_CONSEC_LOSSES,
     CIRCUIT_BREAKER_COOLDOWN_DAYS,
     MIN_LOT_ALLOW_OVER_RISK, MAX_OVER_RISK_FACTOR,
-    AGGREGATE_RISK_CAP,
+    AGGREGATE_RISK_CAP, MAX_CONCURRENT_PER_MARKET_DIRECTION,
     PREREGISTERED_DISABLE, AUTO_DISABLE_MIN_SAMPLE, AUTO_DISABLE_MAX_LOSS_RUPEES,
     infer_market_mode, entry_market_open,
     FADE_ALLOW_SHORT, FADE_VARIANTS,
@@ -1225,6 +1225,25 @@ def check_entry_allowed(ticker: str, direction: str,
     for pos in positions:
         if pos["Ticker"] == ticker and pos["Direction"] == direction:
             return f"Duplicate {ticker} {direction} already open"
+
+    # ── Asset-Class Directional Correlation Guard ──
+    # Prevents simultaneous overexposure to correlated market-wide squeezes
+    # (e.g. 3 crypto shorts hitting SL simultaneously when crypto rallies).
+    mkt = mode or infer_market_mode(ticker)
+    dir_norm = str(direction or "").strip().upper()
+    if dir_norm and MAX_CONCURRENT_PER_MARKET_DIRECTION:
+        mkt_limits = MAX_CONCURRENT_PER_MARKET_DIRECTION.get(mkt, {})
+        limit = mkt_limits.get(dir_norm)
+        if limit is not None and limit > 0:
+            active_count = 0
+            for pos in positions:
+                pos_mkt = pos.get("Mode") or infer_market_mode(pos.get("Ticker", ""))
+                pos_dir = str(pos.get("Direction", "")).strip().upper()
+                if pos_mkt == mkt and pos_dir == dir_norm:
+                    active_count += 1
+            if active_count >= limit:
+                return (f"CORRELATION_GUARD: Max {limit} concurrent {mkt} {dir_norm} "
+                        f"positions already open ({active_count} active)")
 
     # CSV-level duplicate guard (v5.25): portfolio.json open_positions can be
     # stale in a parallel-run race; paper_trades.csv is the source of truth.
