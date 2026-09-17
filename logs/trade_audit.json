@@ -10834,5 +10834,25 @@
     "tf": "INTRADAY_1h",
     "pattern_reason": "Price>SMA50+EMA20<EMA50+Close<Open",
     "skip_reason": "Cooldown: SPY LONG INTRADAY_1h closed <120m ago"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-18 00:37:45 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+Range<1%",
+    "skip_reason": "Duplicate XLP LONG already open"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-18 00:37:48 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "skip_reason": "Cooldown: SPY LONG INTRADAY_1h closed <120m ago"
   }
 ]

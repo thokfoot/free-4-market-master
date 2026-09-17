@@ -6,8 +6,8 @@
   },
   "SHORT": {},
   "_discovery": {
-    "last": "2026-09-17",
-    "added": 0
+    "last": "2026-09-18",
+    "added": 1
   },
   "_sym_firstbar": {
     "AEROPLANE.NS": "2026-04-02",
@@ -52,7 +52,8 @@
     "SYMBIOTEC.NS": "2026-09-01",
     "ANNU.NS": "2026-09-02",
     "MOMSBELIEF.NS": "2026-09-09",
-    "PERNIASPOP.NS": "2026-09-07"
+    "PERNIASPOP.NS": "2026-09-07",
+    "PRASOLCHEM.NS": "2026-09-16"
   },
   "_sym_cache": {
     "innovacaptab": "INNOVACAP.NS",
