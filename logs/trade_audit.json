@@ -10776,5 +10776,23 @@
     "expected_win_rate": 48.15,
     "pattern_factors": "Price>SMA20+RSI<45",
     "reason": "#1ID Price>SMA20+RSI<45 | \ud83c\udfaf SL Hit (live)"
+  },
+  {
+    "event": "EXIT (Live)",
+    "datetime": "2026-09-17 05:42:32 IST",
+    "entry_datetime": "2026-09-17 04:42:09 IST",
+    "mode": "CRYPTO",
+    "ticker": "SOL-USD",
+    "direction": "SHORT",
+    "entry_price": 97.21,
+    "exit_price": 99.1,
+    "qty": 1269,
+    "pnl": -2765.7,
+    "pnl_pct": -2.24,
+    "hold": "1h 0m",
+    "pattern_rank": 1,
+    "expected_win_rate": 47.24,
+    "pattern_factors": "EMA9>EMA20+Price>SMA20+RSI<50",
+    "reason": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf SL Hit (live)"
   }
 ]
