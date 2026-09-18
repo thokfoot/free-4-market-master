@@ -1,0 +1,63 @@
+{
+  "date": "2026-09-18",
+  "runs": [
+    {
+      "time": "11:04:06 IST",
+      "mode": "GAPDOWN",
+      "tickers_scanned": [],
+      "market_close": {},
+      "patterns_count": 1,
+      "patterns_fired": 1,
+      "fired_patterns": [],
+      "entries": [],
+      "skipped_entries": [
+        {
+          "ticker": "TCS.NS",
+          "direction": "LONG",
+          "close": 2132.10009765625,
+          "rank": 997,
+          "win_rate": 52.0,
+          "reason": "GAP_DOWN_A_ENABLED=False (30d replay -42.2%, paused)"
+        }
+      ],
+      "portfolio": {
+        "capital_by_market": {
+          "INDIAN": 100000.0,
+          "US": 104897.94,
+          "CRYPTO": 105452.6,
+          "INTRADAY": 203734.71000000002,
+          "FADE": 100000.0,
+          "US_FADE": 100000.0,
+          "LONG_BOUNCE": 100845.81,
+          "IPO": 0.0
+        },
+        "total_capital": 814931.06,
+        "open_count": 6,
+        "total_pnl": 14931.060000000001,
+        "closed_count": 65,
+        "wins": 41,
+        "losses": 24
+      },
+      "telegram_status": "Sent",
+      "duration_sec": 21.9
+    }
+  ],
+  "latest_portfolio": {
+    "capital_by_market": {
+      "INDIAN": 100000.0,
+      "US": 104897.94,
+      "CRYPTO": 105452.6,
+      "INTRADAY": 203734.71000000002,
+      "FADE": 100000.0,
+      "US_FADE": 100000.0,
+      "LONG_BOUNCE": 100845.81,
+      "IPO": 0.0
+    },
+    "total_capital": 814931.06,
+    "open_count": 6,
+    "total_pnl": 14931.060000000001,
+    "closed_count": 65,
+    "wins": 41,
+    "losses": 24
+  }
+}
