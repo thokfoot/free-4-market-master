@@ -10948,5 +10948,55 @@
     "expected_win_rate": 63.16,
     "pattern_factors": "Price>SMA50+EMA20<EMA50+Close<Open",
     "reason": "#31ID Price>SMA50+EMA20<EMA50+Close<Open | Expiry 6h"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-19 02:18:19 IST",
+    "mode": "CRYPTO",
+    "ticker": "TRX-USD",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA50+Range<1%",
+    "skip_reason": "AUTO_DISABLE: Rank #1 cumulative \u2264 -3,000 on \u226510 trades (pre-registered rule)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-19 02:18:19 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-19 02:18:19 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-19 02:18:19 IST",
+    "mode": "US",
+    "ticker": "SOXX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+SMA20<SMA50",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-19 02:18:21 IST",
+    "mode": "US",
+    "ticker": "SPY",
+    "direction": "LONG",
+    "tf": "INTRADAY_1h",
+    "pattern_reason": "Price>SMA20+EMA9>EMA20+EMA20<EMA50+Close>Open",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
