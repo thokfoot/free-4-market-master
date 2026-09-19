@@ -1,0 +1,49 @@
+{
+  "generated": "2026-09-19 23:25:37.898924+00:00",
+  "mode": "audit",
+  "window": {
+    "from": "earliest",
+    "to": "2026-09-19 23:25:37.898924+00:00"
+  },
+  "exits_closed": [
+    {
+      "ticker": "XLP",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 83.39,
+      "sl": 81.71,
+      "target": 86.72,
+      "exit_price": 82.79,
+      "exit_reason": "Expiry 5d",
+      "exit_utc": "2026-09-19 00:00:00+00:00",
+      "pnl": -385.58
+    },
+    {
+      "ticker": "OEF",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 380.39,
+      "sl": 372.74,
+      "target": 395.56,
+      "exit_price": 379.99,
+      "exit_reason": "Expiry 5d",
+      "exit_utc": "2026-09-19 00:00:00+00:00",
+      "pnl": -64.95
+    },
+    {
+      "ticker": "XLC",
+      "direction": "LONG",
+      "tf": "SWING_1d",
+      "entry": 112.61,
+      "sl": 110.35,
+      "target": 117.1,
+      "exit_price": 110.8,
+      "exit_reason": "Expiry 5d",
+      "exit_utc": "2026-09-19 00:00:00+00:00",
+      "pnl": -854.46
+    }
+  ],
+  "entry_anomalies": [],
+  "scans_replayed": [],
+  "errors": []
+}

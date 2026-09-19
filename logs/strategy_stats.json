@@ -48,9 +48,9 @@
     "rank": 3,
     "factors": "#3SW Price<SMA50+EMA20<EMA50+Close<Open | SL Hit (intraday)",
     "wins": 10,
-    "losses": 4,
-    "total_pnl": 6047.98,
-    "consec_losses": 0,
+    "losses": 5,
+    "total_pnl": 5193.5199999999995,
+    "consec_losses": 1,
     "paused_since": null
   },
   "5": {
@@ -129,9 +129,9 @@
     "rank": 4,
     "factors": "#4SW EMA9>EMA20+Price>SMA20+Range<1% | Expiry 5d",
     "wins": 6,
-    "losses": 7,
-    "total_pnl": -282.70999999999987,
-    "consec_losses": 0,
+    "losses": 9,
+    "total_pnl": -733.2399999999999,
+    "consec_losses": 2,
     "paused_since": null
   },
   "43": {
