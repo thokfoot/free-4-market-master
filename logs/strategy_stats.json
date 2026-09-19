@@ -120,10 +120,10 @@
     "rank": 1,
     "factors": "#1ID EMA9>EMA20+Price>SMA20+RSI<50 | \ud83c\udfaf Target Hit (live)",
     "wins": 6,
-    "losses": 13,
-    "total_pnl": -7346.04,
-    "consec_losses": 4,
-    "paused_since": null
+    "losses": 14,
+    "total_pnl": -7380.59,
+    "consec_losses": 5,
+    "paused_since": "2026-09-19"
   },
   "4": {
     "rank": 4,
@@ -446,6 +446,15 @@
     "wins": 0,
     "losses": 1,
     "total_pnl": -491.94,
+    "consec_losses": 1,
+    "paused_since": null
+  },
+  "1|SWING_1d|TRX-USD": {
+    "rank": 1,
+    "factors": "#1SW EMA9>EMA20+Price>SMA50+Range<1% | Expiry 5d",
+    "wins": 0,
+    "losses": 1,
+    "total_pnl": -34.55,
     "consec_losses": 1,
     "paused_since": null
   }
