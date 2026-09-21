@@ -11093,5 +11093,35 @@
     "pattern_factors": "Price>EMA9+Range<1%",
     "reason": "#3SW Price>EMA9+Range<1% | Expiry 5d",
     "signal_indicators": "{\"2Green\": 1.0, \"2Red\": 0.0, \"BB_hi\": 113.656097, \"BB_lo\": 110.021903, \"Close\": 112.599998, \"EMA20\": 111.705223, \"EMA200\": 111.692649, \"EMA50\": 111.394685, \"EMA9\": 111.897336, \"High\": 113.040001, \"Low\": 112.309998, \"Open\": 112.339996, \"RSI14\": 53.98306, \"Ret\": 0.009865, \"SMA20\": 111.839, \"SMA50\": 110.8982, \"Volume\": 3979800.0, \"_provenance\": {\"captured_at_ist\": \"2026-09-15 00:18:16 IST\", \"provider\": \"market_data.download\", \"provider_chain\": [\"yfinance\", \"yahoo_chart\", \"nasdaq_or_binance\", \"ohlc_cache\"], \"snapshot_sha256\": \"d624b259f32b23afed94634d2f685958792df81f76287970bd56314d73deee6e\"}, \"high20\": 114.290001, \"high50\": 114.290001, \"low20\": 110.25, \"low50\": 105.254997}"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-21 10:45:16 IST",
+    "mode": "US",
+    "ticker": "XLP",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA20<EMA50+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-21 10:45:16 IST",
+    "mode": "US",
+    "ticker": "OEF",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "EMA9>EMA20+Price>SMA20+Range<1%",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
+  },
+  {
+    "event": "SKIP",
+    "datetime": "2026-09-21 10:45:17 IST",
+    "mode": "US",
+    "ticker": "SOXX",
+    "direction": "LONG",
+    "tf": "SWING_1d",
+    "pattern_reason": "Price>SMA50+SMA20<SMA50",
+    "skip_reason": "MARKET_CLOSED: US not tradable now (US status=CLOSED \u2014 no entries into a closed market)"
   }
 ]
